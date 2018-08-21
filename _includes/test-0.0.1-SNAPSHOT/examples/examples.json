@@ -1,0 +1,19 @@
+﻿{
+    "simple": {
+        "title": "Simple examples",
+        "items": {
+            "hellocon": "Hello, World! (in console)",
+            "hello": "Hello, World! (GUI)",
+            "clickme": "Click Me!",
+            "fib": "Fibonacci numbers",
+            "incdec": "Increment/decrement buttons",
+            "multtable": "Multiplication table"
+        }
+    },
+    "longer": {
+        "title": "Longer examples",
+        "items": {
+            "bikestation": "Bike Station mockup"
+        }
+    }
+}

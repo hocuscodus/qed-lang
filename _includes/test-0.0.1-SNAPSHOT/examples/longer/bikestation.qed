@@ -1,0 +1,572 @@
+// Bike station demo - by Martin Savage (msavage@hocuscodus.com)
+// Here is what QED can do when given some 600 lines of code...
+// Note that this code includes widget definition, forms and business logic
+// Apart from image resources, it is completely stand-alone.
+
+////////////////////////////////////////////////////////////////////////
+// Locales management
+////////////////////////////////////////////////////////////////////////
+
+string[][][] locales = new [
+	new [
+		new ["rentabike", "Rent a Bicycle"],
+		new ["gettimecredit", "Get a Time Credit"],
+		new ["getaccountinfo", "Get Account Information"],
+		new ["languages", "Languages"]
+	],
+	new [
+		new ["rentabike", "Alquilar una bicicleta"],
+		new ["gettimecredit", "Crédito de tiempo"],
+		new ["getaccountinfo", "Informacion sobre la cuenta"],
+		new ["languages", "Idiomas"]
+	],
+	new [
+		new ["rentabike", "Louer un vélo"],
+		new ["gettimecredit", "Crédit de temps"],
+		new ["getaccountinfo", "Information sur le compte"],
+		new ["languages", "Langages"]
+	]
+];
+
+void LocaleFontSize(string key, int fontSize);
+
+LocaleFontSize[][] localeFontSizes = new [
+	new [
+		new LocaleFontSize("rentabike", 45)
+	],
+	new [
+		new LocaleFontSize("rentabike", 35),
+		new LocaleFontSize("getaccountinfo", 25)
+	],
+	new [
+		new LocaleFontSize("rentabike", 45)
+	]
+];
+	
+int language;
+
+string l(string key) {
+	locales[language].size() {
+		if (locales[language][&0][0] == key) {
+			return(locales[language][&0][1]);
+		}
+	}
+}
+
+int fs(string key) {
+	localeFontSizes[language].size() {
+		if (localeFontSizes[language][&0].key == key) {
+			return(localeFontSizes[language][&0].fontSize);
+		}
+	}
+	return(25);
+}
+
+////////////////////////////////////////////////////////////////////////
+// Images loading
+////////////////////////////////////////////////////////////////////////
+
+println("Loading images...");
+
+image background = loadImage("./background2.png");
+image bigButton = loadImage("./cyanlarge.png");
+image largeButton = loadImage("./cyansmall.png");
+image exitButton = loadImage("./exitbutton.png");
+image yesButton = loadImage("./yesbutton.png");
+image noButton = loadImage("./nobutton.png");
+image backButton = loadImage("./backbutton.png");
+image keypadButton = loadImage("./keypadbutton.png");
+image bike = loadImage("./sailing-png.png");
+image card = loadImage("./credit_card2.png");
+
+////////////////////////////////////////////////////////////////////////
+// Widgets code
+////////////////////////////////////////////////////////////////////////
+
+// button visual element
+void Button(string text, int fontSize, int aligny) {
+	int color = 0x50FFFFFF; @out(text) @alignx(50) @aligny(aligny) @textcol(0) @size(fontSize)
+} @out(roundrect(30)) @bgcol(color) @onpress(color = 0x0FFFFFF) @onrelease([(color = 0x50FFFFFF), return()]) @zoomwidth(100) @zoomheight(100)
+
+// button visual element
+void Button2(image img, string text, int fontSize, int aligny, boolean blackText) {
+	boolean pressed = false; @out(pressed ? [roundrect(30), ""] : "") @bgcol(0xD0000000)
+	; @out(text) @alignx(50) @aligny(aligny) @textcol(blackText ? 0 : 0xFFFFFF) @size(fontSize)
+} @out(img) @onpress(pressed = true) @onrelease([(pressed = false), return()]) @alignx(50) @aligny(50)
+
+// button with background bitmap visual element
+void Button3(image img, string markup, int aligny, boolean blackText) {
+	boolean pressed = false; @out(pressed ? [roundrect(30), ""] : "") @bgcol(0xD0000000)
+	; @out("   " + l(markup)) @alignx(0) @aligny(aligny) @textcol(blackText ? 0 : 0xFFFFFF) @size(fs(markup))
+} @out(img) @onpress(pressed = true) @onrelease([(pressed = false), return()]) @alignx(50) @aligny(50)
+
+// animation visual element
+void WaitingAnimation(int millis) {
+	int index;
+
+	int abs(int x) {
+		return(x >= 0 ? x : -x);
+	}
+
+	9 {
+		; @out(rect()) @textwidth(2) @textheight(5) @bgcol(((0xC0 - ((8 - abs(((&0 + index) % 16) - 8)) << 4)/* + 0x40*/) << 24) | 0xFFFFFF)
+	} @adir(1)
+
+	Timer timer = new Timer(millis) -> [++index, timer.reset()];
+} @out(roundrect(70)) @bgcol(0xFF000000)
+
+////////////////////////////////////////////////////////////////////////
+// Screens definition
+////////////////////////////////////////////////////////////////////////
+
+void Screen();
+void ProductType(string name, boolean moreThanOneBike);
+
+void BackgroundScreen(string title) : Screen() {
+	; @out(title) @alignx(50) @aligny(50) @textcol(0) @size(30)
+} @out(rect()) @bgcol(0xC0C0FF) @textwidth(100) @textheight(4)
+
+int SelectProductTypeScreen(ProductType[] products) : BackgroundScreen("Please select pass type") {
+	{
+		; @out("")
+		products.size() {
+			Button type = new Button(products[&0].name, 30, 49) -> return(&0 + 1); @out(type) @zoomwidth(10) @zoomheight(100) @alignx(50)
+		} @adir(2) @cweight(1)
+		{
+			Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(-1); @out(cancel) @alignx(3) @aligny(50)
+		} @out(rect()) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
+	} @cdir(2) @cspace(5) @cweight(1)
+} @out(BackgroundScreen) @cdir(2)
+
+int GetNumBikesScreen(int maxBikes) : BackgroundScreen("How many bikes do you want?") {
+	{
+		; @out("")
+		maxBikes {
+			Button num = new Button("     " + (&0 + 1) + "     ", 50, 49) -> return(&0 + 1);  @aligny(40) @out(num) @zoomwidth(100) @zoomheight(80)
+		} @adir(1) @apack(0) @cweight(1)
+		{
+			Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(-1); @out(cancel) @alignx(3) @aligny(50)
+		} @out(rect()) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
+	} @cdir(2) @cspace(5) @cweight(1)
+} @out(BackgroundScreen) @cdir(2)
+
+void OneButtonScreen(string title, string buttonTitle) : BackgroundScreen(title) {
+	{
+		; @out(BackgroundScreen)
+		{
+			; @out(" ")
+			{
+				Button2 button = new Button2(noButton, buttonTitle, 30, 50, false) -> return(); @out(button) @alignx(50) @aligny(80)
+			} @cdir(2) @cspace(5) @cweight(1)
+			; @out(" ")
+		} @cdir(3)
+	} @cdir(2)
+} @out(background) @textwidth(100) @textheight(30)
+
+int YesNoScreen(string title) : BackgroundScreen(title) {
+	void Warning() {
+		; @out("!") @textcol(0xE2DD18) @alignx(50) @aligny(50) @size(150)
+	} @out(rect()) @bgcol(0xA7A412) @textwidth(20) @textheight(4)
+	Warning warning = new Warning();
+	{
+ 		; @out(rect()) @bgcol(0x80000000) @textwidth(80) @textheight(4)
+	} @out(warning) @cdir(1) @cweight(1)
+	{
+		{
+			; @out("  ")
+			Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(-1); @out(cancel) @alignx(0) @aligny(50)
+			Button2 back = new Button2(backButton, "<", 50, 50, false) -> return(0); @out(back) @alignx(0) @aligny(50)
+			Button2 no = new Button2(noButton, "No", 30, 50, false) -> return(1); @out(no) @alignx(100) @aligny(50) @cweight(1)
+			Button2 yes = new Button2(yesButton, "Yes", 30, 50, false) -> return(2); @out(yes) @aligny(50)
+			; @out("  ")
+		} @cdir(1)
+	} @out(rect()) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
+} @out(BackgroundScreen) @cdir(2) @cpack(3)
+
+int SMSOptionScreen() : YesNoScreen("SMS Message when docking bike?") {
+} -> return(parm()); @out(YesNoScreen)
+
+int AskFeesScreen() : YesNoScreen("Accept fees?") {
+} -> return(parm()); @out(YesNoScreen)
+
+int Age18OrOverScreen() : YesNoScreen("Are you 18 or over?") {
+} -> return(parm()); @out(YesNoScreen)
+
+int TermsAndConditionsScreen() : YesNoScreen("Accept Terms & Conditions?") {
+} -> return(parm()); @out(YesNoScreen)
+
+int NumericScreen(string title, string[] number) : Screen() {
+	{
+		{
+			; @out(number[0] == "" ? title : number[0]) @alignx(50) @aligny(50) @textcol(0xFFFFFF) @size(30)
+		} @out(roundrect(30)) @bgcol(0x000040) @textwidth(70) @zoomheight(2) @alignx(50) @aligny(50)
+	} @out(rect()) @bgcol(0xC0C0FF) @textwidth(100) @textheight(4)
+
+	number[0] = "";
+
+	void handle(string key) {
+		switch(key) {
+			case("C") {
+				number[0] = "";
+			}
+
+			case(" Del ") {
+				number[0] = "";
+			}
+
+			default() {
+				number[0] += key;
+			}
+		}
+
+		return();
+	}
+
+	string[][] keypadStrings = new [new ["7", "8", "9"], new ["4", "5", "6"], new ["1", "2", "3"], new ["C", "0", " Del "]];
+	{
+		; @out("  ")
+		{
+			keypadStrings.size() {
+				keypadStrings[0].size() {
+					Button2 key = new Button2(keypadButton, keypadStrings[&1][&0], 40, 49, false) -> handle(keypadStrings[&1][&0]); @out(key)// /*@textwidth(8) */@zoomwidth(100) @zoomheight(100)
+				} @adir(1) @apack(0) @cspace(5)
+			} @adir(2) @cspace(5)
+			{
+				Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(-1); @out(cancel) @aligny(100)
+				Button2 ok = new Button2(yesButton, "Ok", 30, 50, false) -> return(1); @out(ok) @aligny(100)
+			} @cdir(1)
+		} @cdir(1) @cweight(1)
+		; @out("  ")
+	} @cdir(3)
+} @cdir(2)
+
+int PhoneNumberScreen(string[] number) : NumericScreen("Enter your phone number", number) {
+} -> return(parm()); @out(NumericScreen)
+
+int ZipCodeScreen(string[] number) : NumericScreen("Enter your zip code", number) {
+} -> return(parm()); @out(NumericScreen)
+
+int CivicNumberScreen(string[] number) : NumericScreen("Enter your civic number", number) {
+} -> return(parm()); @out(NumericScreen)
+
+string Exec(string device, string state) {
+	if (state == "on" || state == "off") {
+		println("Powering " + state + " " + device + " in " + (state == "on" ? "2" : "0.5") + " seconds.");
+		new Timer(state == "on" ? 2000 : 500) -> [println(device + " " + state + "."), return("SUCCESS")];
+	}
+	else() {
+		println(device);
+		new Timer(100) -> return("SUCCESS");
+	}
+}
+
+string Listen(string device) {
+	int count = 2;
+
+	println(device + " receiving card in " + count + " seconds.");
+	Timer timer = new Timer(1000) -> --count == 0 ? return("0123456789") : [println(device + " receiving card in " + count + " seconds."), timer.reset()];
+}
+
+string lengthyOp(string title, string device, string state) : BackgroundScreen(title) {
+	{
+		; @out(BackgroundScreen)
+		new Exec(device, state) -> return(parm()); @out("Please wait...") @alignx(50) @aligny(20) @textcol(0xFFFFFF) @size(25) @cweight(1)
+		WaitingAnimation anim = new WaitingAnimation(75) -> 0; @out(anim) @alignx(50) @aligny(50) @cweight(1)// @alignx(225) @aligny(50) @cweight(1)
+		; @out("") @cweight(1)
+	} @cdir(2)
+} @out(background)
+
+string powerUpCardReader() : lengthyOp("Powering up Card reader", "Card Reader", "on") {} -> return(parm()); @out(lengthyOp)
+
+boolean processCreditCard() : lengthyOp("Processing Credit Card", "processCreditCard", "on") {} -> return(true); @out(lengthyOp)
+
+boolean powerOnPrinter() : lengthyOp("Powering on Printer", "Printer", "on") {} -> return(parm() == "SUCCESS"); @out(lengthyOp)
+
+string powerOffPrinter() : lengthyOp("Powering off Printer", "Printer", "off") {} -> return(parm()); @out(lengthyOp)
+
+boolean waitForPurchaseResponse() : lengthyOp("Processing purchase", "processPurchase", "on") {} -> return(true); @out(lengthyOp)
+
+boolean waitForRentalResponse() : lengthyOp("Processing rental", "processRental", "on") {} -> return(true); @out(lengthyOp)
+
+string printReceipt() : lengthyOp("Printing Receipt", "printReceipt", "on") {} -> return(parm()); @out(lengthyOp)
+
+boolean printCode(boolean leavePrinterPowered) {
+	boolean printerPowered = powerOnPrinter();
+	lengthyOp("Printing Code", "printC0de", "on");
+
+	if (!leavePrinterPowered && printerPowered) {
+//		powerOffPrinter();
+		println("Powering off Printer");
+		printerPowered = false;
+	}
+	return(printerPowered);
+}
+
+boolean mustPrintCode(string code) : BackgroundScreen("Here is your code") {
+	{
+		; @out(BackgroundScreen)
+		{
+			{
+				; @out(code) @textcol(0xFFFFFF) @size(70) @alignx(50) @aligny(50)
+			} @out(rect()) @bgcol(0x000040) @textwidth(100) @textheight(7) @aligny(50) @cweight(1)
+			{
+				{
+					; @out("  ")
+					Button2 printButton = new Button2(noButton, "Print", 30, 50, false) -> return(true); @alignx(50) @aligny(50) @out(printButton)
+					Button2 cancel = new Button2(noButton, "Exit", 30, 50, false) -> return(false); @out(cancel) @alignx(100) @aligny(50) @cweight(1)
+					; @out("  ")
+				} @cdir(1)
+			} @out(rect()) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
+		} @cdir(2) @cspace(5) @cweight(1)
+	} @cdir(2)
+} @out(background)
+
+int displayCode(string code, boolean leavePrinterPowered) {
+	if (mustPrintCode(code)) {
+ 		return (1 | (printCode(leavePrinterPowered) ? 2 : 0));
+ 	}
+	else() {
+ 		return (0);
+	}
+}
+
+string waitForCardSwipe() : BackgroundScreen("Please insert your credit card...") {
+	{
+		; @out(BackgroundScreen)
+		{
+			; @out("")
+			{
+				new Listen("Card Reader") -> return(parm());
+				int pos; @out(card) @alignx(50) @viewy(pos)
+				Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(""); @out(cancel) @zoomwidth(10) @zoomheight(100)
+				int wait;
+	
+				Timer timer = new Timer(225) -> [pos = pos <= 250 ? pos + 30 : ++wait % 6 == 0 ? 0 : pos, timer.reset()];
+				new Timer(30000) -> return("");
+			} @cdir(2) @cspace(5) @cweight(1)
+			; @out(" ")
+		} @cdir(3)
+	} @cdir(2)
+} @out(background)
+
+void selectLanguage() {
+	int step = 40;
+	int maxOffset = 160;
+	int posx = maxOffset;
+
+	void LanguagesForm() {
+		void Choices() {
+			string[] languages = new ["English", "Espanol", "Français"];
+
+			languages.size() {
+				Button2 button = new Button2(noButton, languages[&0], 30, 50, true) -> [(language = &0), return()]; @out(button)
+			} @adir(2)
+		} @out(rect()) @bgcol(0xF0F0F0) @textwidth(22) @onrelease(0)
+
+		{
+			Choices choices = new Choices() -> return(); @out(choices) @viewx(posx)
+			; @textwidth(75) @textheight(30) @zoomwidth(100) @zoomheight(100)
+		} @cdir(1)
+	} @out(rect()) @bgcol((posx + 80) << 24) @textwidth(100) @textheight(30) @onrelease(return())
+
+	LanguagesForm form = new LanguagesForm();
+
+	void pullDrawer() {
+		Timer timer = new Timer(25) -> posx - step >= 0 ? [posx -= step, timer.reset()] : [(posx = 0), return()];
+	} @out(form)
+
+	void pushDrawer() {
+		Timer timer = new Timer(25) -> posx + step < maxOffset ? [posx += step, timer.reset()] : [(posx = maxOffset), return()];
+	} @out(form)
+
+	println("Select Language function");
+	pullDrawer();
+	LanguagesForm();
+	pushDrawer();
+	return();
+}
+
+////////////////////////////////////////////////////////////////////////
+// Business Logic
+////////////////////////////////////////////////////////////////////////
+
+void Flow() {
+	Screen[] states = new[new Screen()];
+	int step;
+	int nextStep;
+
+	void doTransit(Screen[] states) {
+		void TransitStates(int index1, int index2) {
+			; @out(states[index1])
+			; @out(states[index2])
+		} @cdir(1)
+
+		int posx = 0;
+		int index1 = step < nextStep ? step : nextStep;
+		int index2 = step < nextStep ? nextStep : step;
+		TransitStates transit1 = new TransitStates(index1, index2); @out(transit1) @textwidth(100) @viewx(step < nextStep ? posx : 800 - posx)
+		Timer timer = new Timer(25) -> posx + 100 < 800 ? [posx += 100, timer.reset()] : [(posx = 800), return()];
+	} @out(background)
+
+	string transit() {
+		doTransit(states);
+		step = nextStep;
+		return("");
+	}
+}
+
+void PurchaseInfo(ProductType[] productTypes) : Flow() {
+	int productType;
+	int numBikes = 1;
+	string[] phoneNumber = new [""];
+	boolean smsNotification = false;
+	string[] zipCode = new [""];
+	string[] civicNumber = new [""];
+	boolean acceptFees = true;
+	boolean age18OrOver = true;
+	boolean tAndCAccepted = true;
+
+	int changeState(int step, int response) {
+		if (response < 0) {
+			step = -1;
+		}
+		else() {
+			if (response > 0) {
+				step++;
+
+				if (step == 1 && !productTypes[productType].moreThanOneBike) {
+					step++;
+				}
+			}
+			else() {
+				step -= step > 0 ? 1 : 0;
+			}
+		}
+
+		return (step);
+	}
+
+	int process() {
+		boolean isOver(int response) {
+			nextStep = changeState(step, response);
+
+			if (nextStep >= 0 && nextStep < states.size()) {
+				transit();
+			}
+
+			return(nextStep < 0 || nextStep >= states.size());
+		}
+
+		states = new [new SelectProductTypeScreen(productTypes) -> [(productType = parm() - 1), isOver(parm()) && return(nextStep)],
+					  new GetNumBikesScreen(4) -> [(numBikes = parm()), isOver(parm()) && return(nextStep)],
+					  new PhoneNumberScreen(phoneNumber) -> isOver(parm()) && return(nextStep),
+					  new SMSOptionScreen() -> [(smsNotification = parm() == 2), isOver(parm()) && return(nextStep)],
+					  new ZipCodeScreen(zipCode) -> isOver(parm()) && return(nextStep),
+					  new CivicNumberScreen(civicNumber) -> isOver(parm()) && return(nextStep),
+					  new AskFeesScreen() -> [(acceptFees = parm() == 2), isOver(parm()) && return(nextStep)],
+					  new Age18OrOverScreen() -> [(age18OrOver = parm() == 2), isOver(parm()) && return(nextStep)],
+					  new TermsAndConditionsScreen() -> [(tAndCAccepted = parm() == 2), isOver(parm()) && return(nextStep)]
+					];
+		; @out(background)
+		; @out(states[nextStep < 0 || nextStep >= states.size() ? 0 : nextStep])
+	}
+} @out(Flow)
+
+void sendPurchaseRequest(PurchaseInfo purchaseInfo) {return();}
+
+void IdentificationInfo() {
+	string track1 = "";
+}
+
+void rentABike() {
+	if (powerUpCardReader() == "SUCCESS") {
+		IdentificationInfo identificationInfo = new IdentificationInfo();
+
+		identificationInfo.track1 = waitForCardSwipe();
+		Exec("Cardreader", "off");
+
+		if (identificationInfo.track1 != "") {
+			println("Processing credit card " + identificationInfo.track1 + ".");
+			processCreditCard();
+			println("Going to Purchase Flow");
+
+			ProductType[] productTypes = new [new ProductType("One hour pass (3$)", true), new ProductType("Three day pass (25$)", false)];
+			PurchaseInfo purchaseInfo = new PurchaseInfo(productTypes);
+
+			if (purchaseInfo.process() >= 0) {
+				println("Product Type: " + productTypes[purchaseInfo.productType].name);
+				println("Number of Bikes: " + purchaseInfo.numBikes);
+				println("Phone Number: " + purchaseInfo.phoneNumber[0]);
+				println("SMS Notification: " + purchaseInfo.smsNotification);
+				println("Zip Code: " + purchaseInfo.zipCode[0]);
+				println("Civic Number: " + purchaseInfo.civicNumber[0]);
+				println("Accept Fees: " + purchaseInfo.acceptFees);
+				println("Age 18 or Over: " + purchaseInfo.age18OrOver);
+				println("Accept Terms & Conditions: " + purchaseInfo.tAndCAccepted);
+
+				sendPurchaseRequest(purchaseInfo);
+
+				if (waitForPurchaseResponse()) {
+					int printerPowered = displayCode("12321", true);
+
+					if (printerPowered == 0) {
+						printerPowered = powerOnPrinter() ? 2 : 0;
+					}
+
+					if ((printerPowered & 2) != 0) {
+						printReceipt();
+						Exec("Printer", "off");
+					}
+
+					OneButtonScreen("Thank you!", "Exit");
+				}
+			}
+		}
+		else() {
+			println("Transaction cancelled");
+		}
+	}
+
+	return();
+}
+
+int entryPoint() {
+	{
+		; @out("") @cweight(1)
+		{
+			{
+				Button3 button0 = new Button3(bigButton, "rentabike", 10, true) -> return(0); @out(button0)
+				; @out(bike) @alignx(50) @aligny(90)
+			}
+			{
+				Button3 button1 = new Button3(largeButton, "gettimecredit", 50, true) -> return(1); @out(button1)
+				Button3 button2 = new Button3(largeButton, "getaccountinfo", 50, true) -> return(2); @out(button2)
+				Button3 button3 = new Button3(largeButton, "languages", 50, true) -> selectLanguage(); @out(button3)
+			} @cdir(2)
+		} @cdir(1)
+		; @out("") @cweight(1)
+	} @cdir(3)
+} @out(background)
+
+*true {
+	int choice = entryPoint();
+
+	println("Choice: " + choice);
+
+	switch(choice) {
+		case(0) {
+			println("Rent A Bike");
+			rentABike();
+		}
+
+		case(1) {
+			OneButtonScreen("Not implemented yet...", "Close");
+			println("Get Time Credit");
+		}
+
+		default() {
+			OneButtonScreen("Not implemented yet...", "Close");
+			println("Default choice");
+		}
+	}
+}

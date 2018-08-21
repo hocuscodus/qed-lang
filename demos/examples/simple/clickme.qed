@@ -1,0 +1,1 @@
+int num = 0; @out("Click Me! (" + num + ")") @onrelease(num++) @size(30)

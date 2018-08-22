@@ -9,6 +9,15 @@
 	overflow: auto;
 }
 
+.little-stdout {
+	width: 400px;
+	height: 32px;
+	font-family: monospace;
+	white-space: pre-wrap;
+	padding: 3px;
+	overflow: auto;
+}
+
 .examples-container {
     max-height: 400px;
 }

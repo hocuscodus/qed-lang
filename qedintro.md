@@ -41,7 +41,7 @@ What is the advantage of sharing a single code for both business logic and GUI a
 
 The business logic is executed first and assigns to integer num the value 17. No return call is found so the business logic halts (keeping all variables active). Then the GUI is built and uses variable num from the business logic (17 is displayed).
 
-A secret here... binding goes both ways:
+And of course... binding goes both ways!
 
     int num; @out("Count: " + num) @onrelease(num++)
 

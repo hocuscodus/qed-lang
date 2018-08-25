@@ -3,7 +3,7 @@ layout: page
 title: Quick tutorial
 permalink: /qedintro/
 ---
-This basic introduction shall ramp you up in minutes with something as strange - at first look, no worries! - as QED.
+This basic introduction shall ramp you up in minutes with something as strange - at first glance, no worries! - as QED.
 
 QED is great at designing complex graphical user interfaces the simple way. But before delving GUI features, here is the QED version of the traditional "Hello, World!" app, a simple one-liner:
 
@@ -33,7 +33,7 @@ That implies GUI attributes can be programmed alongside business logic, as shown
 
     println("Hello, World!"); @out("Hello, World!")
 
-There are really two execution phases here, one for the business logic and one for the GUI. Each phase is executed separately and differently. First, the business logic is executed and "Hello, World!" is printed in the console. Then, since no return() call has been encountered, the business logic halts and the second execution phase begins. The GUI attributes are executed and "Hello, World!" is also displayed as GUI.
+There are really two execution phases here, one for the business logic and one for the GUI. Each phase is executed separately and differently. First, the business logic is executed and "Hello, World!" is printed at the console. Then, since no return() call has been encountered, the business logic halts and the second execution phase begins. The GUI attributes are executed and "Hello, World!" is also displayed as GUI.
 
 What is the advantage of sharing a single code for both business logic and GUI attributes? Binding both worlds is made very easy. Consider the following example:
 
@@ -45,17 +45,17 @@ And of course... binding goes both ways!
 
     int num; @out("Count: " + num) @onrelease(num++)
 
-The business logic of this example declares an integer variable num initialized to 0, then halts (no return call encountered). Then the GUI displays "Count: 0". When the user clicks on the GUI display, the @onrelease (mouse release) attribute value gets executed and variable num is increased. Then, the GUI application is run again, now displaying "Count: 1". At each trapped event such as mouse release, the GUI gets rebuilt to reflect variable changes.
+The business logic of this example declares an integer variable num initialized to 0, then halts (no return call encountered). Then the GUI displays "Count: 0". When the user clicks on the GUI display, the @onrelease (mouse release) attribute value gets executed and variable num is increased. Then, the GUI execution phase is run again, now displaying "Count: 1". At each trapped event such as mouse release, the GUI gets rebuilt to reflect variable changes.
 
 Mixing variables from business logic to various GUI attributes and encapsulating them into functions allows building complex logic with few lines.
 
-The following describes a function that renders a simple button. It accepts one parameter, text, which is displayed in the button. Its logic consists of one int variable col that holds the button RGB color, light grey. When Button() is called, since return is not part of the business logic, the function halts after declaring col and generates a GUI. The GUI displays the text padded with spaces. The background of the padded text comprises a rectangle having color col (light grey for now).
+The following describes a function that renders a simple button. It accepts one parameter, text, which is displayed in the button. Its logic consists of one int variable col that holds the button RGB color, light gray. When Button() is called, since return is not part of the business logic, the function halts after declaring col and generates a GUI. The GUI displays the text padded with spaces. The background of the padded text comprises a rectangle having color col (light gray for now).
 
     void Button(string text) {
         int col = 0xC0C0C0; @out("  " + text + "  ")
     } @out(rect()) @bgcol(col) @onpress(col = 0x808080) @onrelease([col = 0xC0C0C0, return()])
 
-When pressed, the @onpress attribute expression is executed and col changes to medium grey. A GUI refresh is performed then, making the button look pressed. Upon release, the col variable returns to light grey (to look released) and only then, the function returns to the caller.
+When pressed, the @onpress attribute expression is executed and col changes to medium gray. A GUI refresh is performed then, making the button look pressed. Upon release, the col variable returns to light gray (to look released) and only then, the function returns to the caller.
 
 Direct execution of the last example does nothing, because we declared a function without calling it. Let’s do so.
 
@@ -72,7 +72,7 @@ Direct execution of the last example does nothing, because we declared a functio
 
 As you see, a function call is used to display a form, as simple as the form can be (a single small button here). Between each Button() call, the application waits for the user to click the form button to exit the form. The last return exits the entire program.
 
-Now, let’s try something very new. The QED langage has no defined keyword to declare types or classes. Functions are types too! By preceding the function call with the new operator, a function is called as an object that can then be used by the caller. Objects can be fields in QED if they appear in @out attributes. So a QED function may not only be used as a form but also as a field.
+Now, let’s try something very new. The QED language has no defined keyword to declare types or classes. Functions are types too! By preceding the function call with the new operator, a function is called as an object that can then be used by the caller. Objects can be fields in QED if they appear in @out attributes. So a QED function may not only be used as a form but also as a field.
 
     void Button(string text) {
         int col = 0xC0C0C0; @out("  " + text + "  ")

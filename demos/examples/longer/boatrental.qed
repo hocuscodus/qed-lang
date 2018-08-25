@@ -19,9 +19,9 @@ string[][][] locales = new [
 		new ["languages", "Languages"]
 	],
 	new [
-		new ["rentaboat", "Alquilar un barco"],
+		new ["rentaboat", "Alquilar un bote"],
 		new ["gettimecredit", "Crédito de tiempo"],
-		new ["getaccountinfo", "Informacion sobre la cuenta"],
+		new ["getaccountinfo", "Información de la cuenta"],
 		new ["languages", "Idiomas"]
 	],
 	new [
@@ -46,7 +46,7 @@ LocaleFontSize[][] localeFontSizes = new [
 		new LocaleFontSize("rentaboat", 40)
 	]
 ];
-	
+
 int language;
 
 string l(string key) {
@@ -292,7 +292,7 @@ string waitForCardSwipe() : BackgroundScreen("Please insert your credit card..."
 				int pos; @out(card) @alignx(50) @viewy(pos)
 				Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(""); @out(cancel) @zoomwidth(10) @zoomheight(100)
 				int wait;
-	
+
 				Timer timer = new Timer(225) -> [pos = pos <= 250 ? pos + 30 : ++wait % 6 == 0 ? 0 : pos, timer.reset()];
 				new Timer(30000) -> return("timeout");
 			} @cdir(2) @cspace(5) @cweight(1)
@@ -308,7 +308,7 @@ void selectLanguage() {
 
 	void LanguagesForm() {
 		void Choices() {
-			string[] languages = new ["English", "Espanol", "Français"];
+			string[] languages = new ["English", "Español", "Français"];
 
 			languages.size() {
 				Button2 button = new Button2(noButton, languages[&0], 30, 50, true) -> [(language = &0), return()]; @out(button)

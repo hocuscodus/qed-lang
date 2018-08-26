@@ -3,7 +3,7 @@ layout: page
 title: Quick tutorial
 permalink: /qedintro/
 ---
-This basic introduction shall ramp you up in minutes with something as strange - at first glance, no worries! - as QED.
+This basic introduction shall ramp you up in minutes with something as strange (at first glance, no worries!) as QED.
 
 QED is great at designing complex graphical user interfaces the simple way. But before delving GUI features, here is the QED version of the traditional "Hello, World!" app, a simple one-liner:
 
@@ -70,7 +70,7 @@ Direct execution of the last example does nothing, because we declared a functio
     Button("Quit");
     return(0);
 
-As you see, a function call is used to display a form, as simple as the form can be (a single small button here). Between each Button() call, the application waits for the user to click the form button to exit the form. The last return exits the entire program.
+As you see, a function call is used to display a form, as simple as the form can be (a single small button here). Within each Button() call, the application waits for the user to click the form button to exit the form. The last return exits the entire program.
 
 Now, let’s try something very new. The QED language has no defined keyword to declare types or classes. Functions are types too! By preceding the function call with the new operator, a function is called as an object that can then be used by the caller. Objects can be fields in QED if they appear in @out attributes. So a QED function may not only be used as a form but also as a field.
 
@@ -84,6 +84,6 @@ Now, let’s try something very new. The QED language has no defined keyword to 
         Button quit = new Button("Quit") -> return(0); @out(quit)
     } @cdir(2)
 
-When called as an object, the Button function executes its business logic (the int col line) and returns itself immediately to the caller (no halting of any sort here) as an object with data members text and col. The caller may do whatever it wants with the object. If the caller business logic completes without returning, the caller GUI is generated. The caller GUI may include created objects in its @out attributes (e.g. @out(button1)). Then the button is displayed as a field. In the previous example, three Button fields are created and displayed vertically using @cdir(2) (1 means horizontal and 2 means vertical - meaningful constants will be defined later). When clicked, the Button @onrelease expression is executed and Button.return() is called. The return() behavior is different when its function is invoked as an object. It sends an event to the caller object, trapped by the -> event operator at its right (if any). What is at the right of the event operator gets executed upon event and the GUI is refreshed.
+When invoked as an object instead of a call, the execution phases processing rules change. The Button function executes its business logic (the int col line) like before but then returns itself immediately to the caller (no halting of any sort here) as a Button object with data members text and col. The caller may do whatever it wants with the object. If the caller business logic completes without returning, the caller GUI is generated. The caller GUI may include created objects (Button instances) in its @out attributes (e.g. @out(button1)). Then each object is displayed as a field. In the previous example, three Button fields are created and displayed vertically using @cdir(2) (1 means horizontal and 2 means vertical - more meaningful constants will be defined later). When clicked, the Button @onrelease expression is executed and Button.return() is called. The return() behavior is also different when its function is invoked as an object. It now sends an event to the caller object, trapped by the -> event operator at its right (if any). What is at the right of the event operator gets executed upon event triggering and the GUI is refreshed.
 
 From now on, you should be able to have a better understanding of the examples here. If you want to go further into exploring QED, there is a [video describing the philosophical roots](https://www.youtube.com/watch?v=a2OhmxXQbwo) of the language but beware though, it is not for everybody. I did it because some people may think I am insane, in order to prove them right! In any case, this documentation will expand quite a lot and will cover the complete subject over time.

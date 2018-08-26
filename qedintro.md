@@ -9,7 +9,7 @@ QED is great at designing complex graphical user interfaces the simple way. But 
 
     println("Hello, World!");
 
-The string Hello, World! is output to the console through the println call business logic, nothing new here.
+The string "Hello, World!" is output to the console through the println call business logic, nothing new here.
 
 Now, take a deep breath as you are about to enter the forbidden zone. When coming back, you may not be the same…
 
@@ -17,7 +17,7 @@ Ok then, let’s get in! Did I just say that QED was great at programming GUIs? 
 
     ; @out("Hello, World!")
 
-The @out GUI attribute (each GUI attribute starts with @) reserves an area to hold the Hello, World! string and displays it in the reserved area.
+The @out GUI attribute (each GUI attribute starts with @) reserves an area to hold the "Hello, World!" string and displays it in the reserved area.
 
 So the QED language supports both business logic calls (println) and GUI attributes (@out). But how do they cope together?
 
@@ -72,7 +72,7 @@ Direct execution of the last example does nothing, because we declared a functio
 
 As you see, a function call is used to display a form, as simple as the form can be (a single small button here). Within each Button() call, the application waits for the user to click the form button to exit the form. The last return exits the entire program.
 
-Now, let’s try something very new. The QED language has no defined keyword to declare types or classes. Functions are types too! By preceding the function call with the new operator, a function is called as an object that can then be used by the caller. Objects can be fields in QED if they appear in @out attributes. So a QED function may not only be used as a form but also as a field.
+Now, let’s try something very new. The QED language has no defined keyword to declare types or classes. Functions are types too! By preceding the function call with the "new" operator, a function is called as an object that can then be used by the caller. Objects can be fields in QED if they appear in @out attributes. So a QED function may not only be used as a form but also as a field.
 
     void Button(string text) {
         int col = 0xC0C0C0; @out("  " + text + "  ")

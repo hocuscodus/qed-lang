@@ -9,6 +9,10 @@
 	overflow: auto;
 }
 
+#code {
+	font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+
 .little-stdout {
 	width: 400px;
 	height: 32px;

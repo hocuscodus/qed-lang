@@ -86,4 +86,19 @@ Now, let’s try something very new. The QED language has no defined keyword to 
 
 When invoked as an object instead of a call, the execution phases processing rules change. The Button function executes its business logic (the int col line) like before but then returns itself immediately to the caller (no halting of any sort here) as a Button object with data members text and col. The caller may do whatever it wants with the object. If the caller business logic completes without returning, the caller GUI is generated. The caller GUI may include created objects (Button instances) in its @out attributes (e.g. @out(button1)). Then each object is displayed as a field. In the previous example, three Button fields are created and displayed vertically using @cdir(2) (1 means horizontal and 2 means vertical - more meaningful constants will be defined later). When clicked, the Button @onrelease expression is executed and Button.return() is called. The return() behavior is also different when its function is invoked as an object. It now sends an event to the caller object, trapped by the -> event operator at its right (if any). What is at the right of the event operator gets executed upon event triggering and the GUI is refreshed.
 
+Using fields, more complex forms can finally be coded within functions.
+
+    void Button(string text) {
+        int col = 0xC0C0C0; @out("  " + text + "  ")
+    } @out(rect()) @bgcol(col) @onpress(col = 0x808080) @onrelease([col = 0xC0C0C0, return()])
+
+    void complexForm(string field1, string field2) {
+        Button button1 = new Button(field1) -> println(field1 + " clicked"); @out(button1)
+        Button button2 = new Button(field2) -> println(field2 + " clicked"); @out(button2)
+        Button quit = new Button("Quit") -> return(); @out(quit)
+    } @cdir(2) @bgcol(0x0000FF)
+
+    complexForm("Yes", "No");
+    return(0);
+
 From now on, you should be able to have a better understanding of the examples here. If you want to go further into exploring QED, there is a [video describing the philosophical roots](https://www.youtube.com/watch?v=a2OhmxXQbwo) of the language but beware though, it is not for everybody. I did it because some people may think I am insane, in order to prove them right! In any case, this documentation will expand quite a lot and will cover the complete subject over time.

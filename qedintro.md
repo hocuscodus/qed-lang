@@ -101,4 +101,4 @@ Using fields, more complex forms can finally be coded within functions.
     complexForm("Yes", "No");
     return(0);
 
-From now on, you should be able to have a better understanding of the examples here. If you want to go further into exploring QED, there is a [video describing the philosophical roots](https://www.youtube.com/watch?v=a2OhmxXQbwo) of the language but beware though, it is not for everybody. I did it because some people may think I am insane, in order to prove them right! In any case, this documentation will expand quite a lot and will cover the complete subject over time.
+From now on, you should be able to have a better understanding of the [examples](/demos) here (the Boat rental kiosk has many sophisticated forms and animation). If you want to go further into exploring QED, there is a [video describing the philosophical roots](https://www.youtube.com/watch?v=a2OhmxXQbwo) of the language but beware though, it is not for everybody. I did it because some people may think I am insane, in order to prove them right! In any case, this documentation will expand quite a lot and will cover the complete subject over time.

@@ -3,8 +3,8 @@
  *
  * Here is what QED can do when given some 500 lines of code...
  * Note that this code includes widget definition, forms and business logic
- * Apart from image resources (and credit card/printer mockup), it is
- * completely stand-alone and fully functional.
+ * Apart from image resources (and some functionality/credit card/printer
+ * mockup), it is completely stand-alone and fully functional.
  */
 
 ////////////////////////////////////////////////////////////////////////
@@ -14,19 +14,19 @@
 string[][][] locales = new [
 	new [
 		new ["rentaboat", "Rent a boat"],
-		new ["gettimecredit", "Get a Time Credit"],
+		new ["gettimecredit", "Weather forecasts"],
 		new ["getaccountinfo", "Get Account Information"],
 		new ["languages", "Languages"]
 	],
 	new [
 		new ["rentaboat", "Alquilar un bote"],
-		new ["gettimecredit", "Crédito de tiempo"],
+		new ["gettimecredit", "Pronostico del tiempo"],
 		new ["getaccountinfo", "Información de la cuenta"],
 		new ["languages", "Idiomas"]
 	],
 	new [
 		new ["rentaboat", "Louer un bateau"],
-		new ["gettimecredit", "Crédit de temps"],
+		new ["gettimecredit", "Prévisions météo"],
 		new ["getaccountinfo", "Information sur le compte"],
 		new ["languages", "Langages"]
 	]
@@ -115,7 +115,7 @@ void WaitingAnimation(int millis) {
 	}
 
 	9 {
-		; @out(rect()) @textwidth(2) @textheight(5) @bgcol(((0xC0 - ((8 - abs(((&0 + index) % 16) - 8)) << 4)/* + 0x40*/) << 24) | 0xFFFFFF)
+		; @out(rect()) @textwidth(2) @textheight(5) @bgcol(((0xC0 - ((8 - abs(((&0 + index) % 16) - 8)) << 4)) << 24) | 0xFFFFFF)
 	} @adir(1)
 
 	Timer timer = new Timer(millis) -> [++index, timer.reset()];
@@ -222,7 +222,7 @@ int NumericScreen(string title, string[] number) : Screen() {
 		{
 			keypadStrings.size() {
 				keypadStrings[0].size() {
-					Button2 key = new Button2(keypadButton, keypadStrings[&1][&0], 40, 49, false) -> handle(keypadStrings[&1][&0]); @out(key)// /*@textwidth(8) */@zoomwidth(100) @zoomheight(100)
+					Button2 key = new Button2(keypadButton, keypadStrings[&1][&0], 40, 49, false) -> handle(keypadStrings[&1][&0]); @out(key)
 				} @adir(1) @aspace(5) @apack(0) @cspace(5)
 			} @adir(2) @aspace(5) @cspace(5)
 			{
@@ -265,7 +265,7 @@ string lengthyOp(string title, string device, string state) : BackgroundScreen(t
 	{
 		; @out(BackgroundScreen)
 		new Exec(device, state) -> return(parm()); @out("Please wait...") @alignx(50) @aligny(20) @textcol(0xFFFFFF) @size(25) @cweight(1)
-		WaitingAnimation anim = new WaitingAnimation(75) -> 0; @out(anim) @alignx(50) @aligny(50) @cweight(1)// @alignx(225) @aligny(50) @cweight(1)
+		WaitingAnimation anim = new WaitingAnimation(75) -> 0; @out(anim) @alignx(50) @aligny(50) @cweight(1)
 		; @out("") @cweight(1)
 	} @cdir(2)
 } @out(background)
@@ -483,7 +483,7 @@ int entryPoint() {
 		}
 
 		case(1) {
-			println("Get Time Credit");
+			println("Weather forecasts");
 			OneButtonScreen("Not implemented yet...", "Close");
 		}
 

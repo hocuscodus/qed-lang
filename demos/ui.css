@@ -9,6 +9,11 @@
 	overflow: auto;
 }
 
+#code {
+	font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+	font-size: 90%
+}
+
 .examples-container {
     max-height: 400px;
 }

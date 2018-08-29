@@ -8,7 +8,7 @@ int count = 0;
     {
         Button decButton = new Button("-") -> count--; @out(decButton)
         {
-        	; @out(count) @size(60) @alignx(50) @textcol(0x80000000)
+					; @out(count) @size(60) @alignx(50) @textcol(0x80000000)
         } @textwidth(3) @size(60)
         Button incButton = new Button("+") -> count++; @out(incButton)
     } @cdir(1)

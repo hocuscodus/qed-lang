@@ -14,7 +14,7 @@ In any case though, I would like to release QED somewhere in Q1 2019.
 
 My name is Martin Savage. My background story is pretty common. I grew up in [Sainte-Marthe-sur-le-Lac](https://en.wikipedia.org/wiki/Sainte-Marthe-sur-le-Lac,_Quebec) where I had a very happy childhood. Then I went to school where I learned to read, write and count.
 
-I started programming as a young teen and as far as I recall, have done personal research on programming and GUI encoding ever since.
+I started programming as a young teen and as far as I recall, have done personal research on programming and GUI concepts ever since.
 
 QED is the culmination of this research. I started developing it in 2015.
 

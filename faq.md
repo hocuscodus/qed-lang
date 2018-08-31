@@ -22,4 +22,4 @@ I have a lovely wife, two great kids and an artist stepdaughter.
 
 # Are you working full-time on QED?
 
-No. Although QED is my professional labor of love, I can't afford working full time on it. So I have a daily job but off-hours, I work as much as I can on QED and am open to options (like Donate), based upon the feedback and level of interest from people. Another reason I published this website is to find contributors helping me finish the coding so we can offer a great product to developers.
+No. Although QED is a labor of love, I can't afford working full time on it. So I have a daily job but off-hours, I work as much as I can on QED and am open to options (like Donate), based upon the feedback and level of interest from people. Another reason I published this website is to find contributors helping me finish the coding so we can offer a great product to developers.

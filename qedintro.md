@@ -72,7 +72,7 @@ Direct execution of the last example does nothing, because we declared a functio
 
 As you see, a function call is used to display a form, as simple as the form can be (a single small button here). Within each Button() call, the application waits for the user to click the form button to exit the form. The last return exits the entire program.
 
-Now, let’s try something very new. The QED language has no defined keyword to declare types or classes. Functions are types too! By preceding the function call with the "new" operator, a function is called as an object that can then be used by the caller. Objects can be fields in QED if they appear in @out attributes. So a QED function may not only be used as a form but also as a field.
+Now, let’s try something very new. The QED language has no defined keyword to declare types or classes. Functions are types too! By preceding the function call with the "new" operator, a function is invoked as an object that can then be used by the caller. Objects can be fields in QED if they appear in @out attributes. So a QED function may not only be used as a form but also as a field.
 
     void Button(string text) {
         int col = 0xC0C0C0; @out("  " + text + "  ")
@@ -96,7 +96,7 @@ Using fields, more complex forms can finally be coded within functions.
         Button button1 = new Button(field1) -> println(field1 + " clicked"); @out(button1)
         Button button2 = new Button(field2) -> println(field2 + " clicked"); @out(button2)
         Button quit = new Button("Quit") -> return(); @out(quit)
-    } @cdir(2) @bgcol(0x0000FF)
+    } @cdir(2)
 
     complexForm("Yes", "No");
     return(0);

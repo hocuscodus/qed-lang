@@ -20,7 +20,7 @@ string[][][] locales = new [
 	],
 	new [
 		new ["rentaboat", "Alquilar un bote"],
-		new ["gettimecredit", "Pronostico del tiempo"],
+		new ["gettimecredit", "Pronóstico del tiempo"],
 		new ["getaccountinfo", "Información de la cuenta"],
 		new ["languages", "Idiomas"]
 	],

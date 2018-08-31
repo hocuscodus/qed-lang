@@ -12,7 +12,7 @@ In any case though, I would like to release QED somewhere in Q1 2019.
 
 # Who are you?
 
-My name is Martin Savage. My background story is pretty common. I grew up in [Sainte-Marthe-sur-le-Lac](https://en.wikipedia.org/wiki/Sainte-Marthe-sur-le-Lac,_Quebec) where I had a very happy childhood. Then I went to school (up to B.Sc. [Université de Sherbrooke](https://www.usherbrooke.ca/about/)) where I learned to read, write and count.
+My name is Martin Savage. My background story is pretty common. I grew up in [Sainte-Marthe-sur-le-Lac](https://en.wikipedia.org/wiki/Sainte-Marthe-sur-le-Lac,_Quebec) where I had a very happy childhood. Then I went to school where I learned to read, write and count.
 
 I started programming as a young teen and as far as I recall, have done personal research on programming ever since.
 

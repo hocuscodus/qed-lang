@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: home
 ---
 Welcome to the QED programming language. I hope you will enjoy discovering it.
 

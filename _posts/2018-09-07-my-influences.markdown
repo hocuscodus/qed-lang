@@ -12,7 +12,7 @@ However, QED is object-oriented, so it borrows from C++ some features like multi
 
 From Java, QED retains and extends the WORA paradigm. QED runs on its own VM like Java. This VM runs in both native and web modes, which allows QED application to run seamlessly in both environments.
 
-BASIC? At first glance, it's like inviting Maleficient with the three fairies Java, Seeplusplus and See! But what is QED first and foremost? A simple language, for beginners and experts, with built-in graphics primitives and animation facilities, using subroutines (functions) to implement sequential tasks and screens. This is QED in essence, but without BASIC quirks and shortcomings, and fulfilling today and tomorrow's requirements.
+BASIC? At first glance, it's like inviting Maleficient with the three fairies (Java, Seeplusplus and See) to the party! But what is QED first and foremost? A simple language, for beginners and experts, with built-in graphics primitives and animation facilities, using subroutines (functions) to implement sequential tasks and screens. This is QED in essence, but without BASIC quirks and shortcomings, and fulfilling today and tomorrow's requirements.
 
 I would tend to say QED "brings back the fun of programming", but this has been said so many times before from other language designers that I just can't follow them. Besides, QED is oriented towards the future, not the past. I am more inclined to say that QED is a language for today's budding programmers (experts are welcome too!) who want to develop great looking real-world applications. I see QED as a modern-day BASIC replacement.
 

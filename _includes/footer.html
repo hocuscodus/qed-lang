@@ -14,11 +14,11 @@
         <ul class="contact-list">
           <li class="p-name">
             {%- if site.author -%}
-            Copyright&copy;
+            &copy;
             {%- if firstPostYear == lastPostYear -%}
               {{ firstPostYear }} {{ site.author | escape }}
             {%- else -%}
-              {{ firstPostYear }}&ndash;{{ lastPostYear }} {{ site.author | escape }}
+              {{ firstPostYear }}&ndash;c{{ lastPostYear }} {{ site.author | escape }}
             {%- endif -%}
             {%- else -%}
             &nbsp; {{ site.title | escape }}

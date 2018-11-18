@@ -4,7 +4,7 @@ title:  "On callback hell"
 date:   2018-11-09 09:10:47 -0400
 categories: QED update
 ---
-I am planning to write an article in the coming months about callback hell, where I will propose a new approach which is imho much better (even than JS promises/async/await).
+I am planning to write an article in the coming months about [callback hell](http://callbackhell.com), where I will propose a new approach which is imho much better (even than JS promises/async/await).
 
 Suffice it to say for now there are tangible benefits about functions that are of dual synchronous/asynchronous nature depending on how they are invoked. In QED, the following lines do exactly as expected:
 

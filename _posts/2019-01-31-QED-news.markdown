@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "QED news"
+date:   2018-11-09 09:10:47 -0400
+categories: QED update
+---
+Patience pays off. I finally managed to build, for the business logic part, the Java code generator translating QED code. There were complex hurdles to take into account, so it was really a hard task to tackle.
+
+I am still very eager to publish my article on [callback hell](http://callbackhell.com), which evolved today as a presentation of a novel coroutine implementation. What holds me from doing so now is I also want to include a bunch of online examples on my website to show that it really works.
+
+I am not implying [my current demos](https://qed-lang.org/demos) are bad. On the contrary, I sincerely think they're really good. They demonstrate sophisticated UIs using a few lines of simple code. If other solutions that reach the same level of brevity and elegance exist, they must be very few. I have no idea. Anyway, I am quite proud of the current demos.
+
+However, I can't stop at this point. The demos so far are running on a proof-of-concept QED version rather than the real product. For instance, they already use the new coroutine model in big part but not fully and they cannot cope well with mainstream languages. There is no doc, no tooling as of today... Therefore I must continue developing the real thing. I have to generate UI Java code as well to complete the end-to-end Java product. I also have to implement the JS code generator to prepare a bunch of new demos on the Web. Then I will focus on docs, which include my aforementioned article (and others to follow), as well as the full product doc. Good tooling is well underway.
+
+So the whole thing is coming along, slowly but surely. The more I see it for real, the more I can't wait to present it. Some extra patience is required I guess.

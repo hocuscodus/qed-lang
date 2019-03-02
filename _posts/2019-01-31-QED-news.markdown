@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "QED news"
-date:   2018-11-09 09:10:47 -0400
+date:   2019-01-31 09:10:47 -0400
 categories: QED update
 ---
 Patience pays off. I finally managed to build, for the business logic part, the Java code generator translating QED code. There were complex hurdles to take into account, so it was really a hard task to tackle.

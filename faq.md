@@ -8,7 +8,7 @@ permalink: /about/
 
 Not now. I have to finish parts of QED in order to be used by the community. I also want to confirm design decisions to ensure they are right. This is one reason this website has been published: to allow people to try QED and provide feedback, by telling what they like now and what they would like to have in the future.
 
-In any case though, I would like to release QED somewhere in Q1 2019.
+In any case though, I would like to release QED (source code/binaries, right tooling and full documentation) somewhere in Q3 2019.
 
 # Who are you?
 

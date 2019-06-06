@@ -109,11 +109,11 @@ void WaitingAnimation(int millis) {
 	}
 
 	9 {
-		; @out(rect()) @textwidth(1) @textheight(5) @bgcol(((0xC0 - ((8 - abs(((&0 + index) % 16) - 8)) << 4)/* + 0x40*/) << 24) | 0xFFFFFF)
+		; @out(rect()) @textwidth(2) @textheight(5) @bgcol(((0xC0 - ((8 - abs(((&0 + index) % 16) - 8)) << 4)/* + 0x40*/) << 24) | 0xFFFFFF)
 	} @adir(1)
 
 	Timer timer = new Timer(millis) -> [++index, timer.reset()];
-}// @out("") @textwidth(36) @textheight(16)
+} @out(roundrect(70)) @bgcol(0xFF000000)
 
 ////////////////////////////////////////////////////////////////////////
 // Screens definition
@@ -122,7 +122,7 @@ void WaitingAnimation(int millis) {
 void Screen();
 void ProductType(string name, boolean moreThanOneBike);
 
-int BackgroundScreen(string title) : Screen() {
+void BackgroundScreen(string title) : Screen() {
 	; @out(title) @alignx(50) @aligny(50) @textcol(0) @size(30)
 } @out(rect()) @bgcol(0xC0C0FF) @textwidth(100) @textheight(4)
 
@@ -131,10 +131,10 @@ int SelectProductTypeScreen(ProductType[] products) : BackgroundScreen("Please s
 		; @out("")
 		products.size() {
 			Button type = new Button(products[&0].name, 30, 49) -> return(&0 + 1); @out(type) @zoomwidth(10) @zoomheight(100) @alignx(50)
-		} @adir(2) @cweight(1)
+		} @adir(2) @aspace(5) @cweight(1)
 		{
 			Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(-1); @out(cancel) @alignx(3) @aligny(50)
-		} @out([rect(), ""]) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
+		} @out(rect()) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
 	} @cdir(2) @cspace(5) @cweight(1)
 } @out(BackgroundScreen) @cdir(2)
 
@@ -143,10 +143,10 @@ int GetNumBikesScreen(int maxBikes) : BackgroundScreen("How many bikes do you wa
 		; @out("")
 		maxBikes {
 			Button num = new Button("     " + (&0 + 1) + "     ", 50, 49) -> return(&0 + 1);  @aligny(40) @out(num) @zoomwidth(100) @zoomheight(80)
-		} @adir(1) @apack(0) @cweight(1)
+		} @adir(1) @aspace(5) @apack(0) @cweight(1)
 		{
 			Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(-1); @out(cancel) @alignx(3) @aligny(50)
-		} @out([rect(), ""]) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
+		} @out(rect()) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
 	} @cdir(2) @cspace(5) @cweight(1)
 } @out(BackgroundScreen) @cdir(2)
 
@@ -166,10 +166,10 @@ void OneButtonScreen(string title, string buttonTitle) : BackgroundScreen(title)
 int YesNoScreen(string title) : BackgroundScreen(title) {
 	void Warning() {
 		; @out("!") @textcol(0xE2DD18) @alignx(50) @aligny(50) @size(150)
-	} @out([rect(), ""]) @bgcol(0xA7A412) @textwidth(20) @textheight(4)
+	} @out(rect()) @bgcol(0xA7A412) @textwidth(20) @textheight(4)
 	Warning warning = new Warning();
 	{
- 		; @out([rect(), ""]) @bgcol(0x80000000) @textwidth(80) @textheight(4)
+ 		; @out(rect()) @bgcol(0x80000000) @textwidth(80) @textheight(4)
 	} @out(warning) @cdir(1) @cweight(1)
 	{
 		{
@@ -180,7 +180,7 @@ int YesNoScreen(string title) : BackgroundScreen(title) {
 			Button2 yes = new Button2(yesButton, "Yes", 30, 50, false) -> return(2); @out(yes) @aligny(50)
 			; @out("  ")
 		} @cdir(1)
-	} @out([rect(), ""]) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
+	} @out(rect()) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
 } @out(BackgroundScreen) @cdir(2) @cpack(3)
 
 int SMSOptionScreen() : YesNoScreen("SMS Message when docking bike?") {
@@ -229,8 +229,8 @@ int NumericScreen(string title, string[] number) : Screen() {
 			keypadStrings.size() {
 				keypadStrings[0].size() {
 					Button2 key = new Button2(keypadButton, keypadStrings[&1][&0], 40, 49, false) -> handle(keypadStrings[&1][&0]); @out(key)// /*@textwidth(8) */@zoomwidth(100) @zoomheight(100)
-				} @adir(1) @apack(0) @cspace(5)
-			} @adir(2) @cspace(5)
+				} @adir(1) @aspace(5) @apack(0) @cspace(5)
+			} @adir(2) @aspace(5) @cspace(5)
 			{
 				Button2 cancel = new Button2(exitButton, "Exit", 30, 50, false) -> return(-1); @out(cancel) @aligny(100)
 				Button2 ok = new Button2(yesButton, "Ok", 30, 50, false) -> return(1); @out(ok) @aligny(100)
@@ -271,7 +271,7 @@ string lengthyOp(string title, string device, string state) : BackgroundScreen(t
 	{
 		; @out(BackgroundScreen)
 		new Exec(device, state) -> return(parm()); @out("Please wait...") @alignx(50) @aligny(20) @textcol(0xFFFFFF) @size(25) @cweight(1)
-		WaitingAnimation anim = new WaitingAnimation(75) -> 0; @out(anim) @alignx(225) @aligny(50) @cweight(1)
+		WaitingAnimation anim = new WaitingAnimation(75) -> 0; @out(anim) @alignx(50) @aligny(50) @cweight(1)// @alignx(225) @aligny(50) @cweight(1)
 		; @out("") @cweight(1)
 	} @cdir(2)
 } @out(background)
@@ -308,7 +308,7 @@ boolean mustPrintCode(string code) : BackgroundScreen("Here is your code") {
 		{
 			{
 				; @out(code) @textcol(0xFFFFFF) @size(70) @alignx(50) @aligny(50)
-			} @out([rect(), ""]) @bgcol(0x000040) @textwidth(100) @textheight(7) @aligny(50) @cweight(1)
+			} @out(rect()) @bgcol(0x000040) @textwidth(100) @textheight(7) @aligny(50) @cweight(1)
 			{
 				{
 					; @out("  ")
@@ -316,7 +316,7 @@ boolean mustPrintCode(string code) : BackgroundScreen("Here is your code") {
 					Button2 cancel = new Button2(noButton, "Exit", 30, 50, false) -> return(false); @out(cancel) @alignx(100) @aligny(50) @cweight(1)
 					; @out("  ")
 				} @cdir(1)
-			} @out([rect(), ""]) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
+			} @out(rect()) @bgcol(0xF0F0F0) @textwidth(100) @textheight(7)
 		} @cdir(2) @cspace(5) @cweight(1)
 	} @cdir(2)
 } @out(background)
@@ -360,14 +360,14 @@ void selectLanguage() {
 
 			languages.size() {
 				Button2 button = new Button2(noButton, languages[&0], 30, 50, true) -> [(language = &0), return()]; @out(button)
-			} @adir(2)
-		} @out(rect()) @bgcol(0xF0F0F0) @textwidth(22)
+			} @adir(2) @aspace(5)
+		} @out(rect()) @bgcol(0xF0F0F0) @textwidth(22) @onrelease(0)
 
 		{
 			Choices choices = new Choices() -> return(); @out(choices) @viewx(posx)
-			; @out("") @bgcol((posx + 80) << 24) @textwidth(75) @textheight(30) @zoomwidth(100) @zoomheight(100) @onrelease(return())
+			; @textwidth(75) @textheight(30) @zoomwidth(100) @zoomheight(100)
 		} @cdir(1)
-	} @out(rect()) @bgcol((posx + 80) << 24) @textwidth(100) @textheight(30)
+	} @out(rect()) @bgcol((posx + 80) << 24) @textwidth(100) @textheight(30) @onrelease(return())
 
 	LanguagesForm form = new LanguagesForm();
 
@@ -415,7 +415,7 @@ void Flow() {
 	}
 }
 
-void PurchaseInfo(ProductType[] productTypes, boolean askForPhone, boolean askForSMS, boolean askForZipCode, boolean askForCivicNumber, boolean askForFees) : Flow() {
+void PurchaseInfo(ProductType[] productTypes) : Flow() {
 	int productType;
 	int numBikes = 1;
 	string[] phoneNumber = new [""];
@@ -435,26 +435,6 @@ void PurchaseInfo(ProductType[] productTypes, boolean askForPhone, boolean askFo
 				step++;
 
 				if (step == 1 && !productTypes[productType].moreThanOneBike) {
-					step++;
-				}
-	
-				if (step == 2 && !askForPhone) {
-					step++;
-				}
-	
-				if (step == 3 && !askForSMS) {
-					step++;
-				}
-	
-				if (step == 3 && !askForZipCode) {
-					step++;
-				}
-	
-				if (step == 4 && !askForCivicNumber) {
-					step++;
-				}
-	
-				if (step == 5 && !askForFees) {
 					step++;
 				}
 			}
@@ -492,53 +472,7 @@ void PurchaseInfo(ProductType[] productTypes, boolean askForPhone, boolean askFo
 	}
 } @out(Flow)
 
-void RentalInfo(boolean askForAge, boolean askForTAndC) : Flow() {
-	boolean age18OrOver = true;
-	boolean tAndCAccepted = true;
-
-	int changeState(int step, int response) {
-		if (response < 0) {
-			step = -1;
-		}
-		else() {
-			if (response > 0) {
-				step++;
-
-				if (step == 1 && !askForTAndC) {
-					step++;
-				}
-			}
-			else() {
-				step -= step > 0 ? 1 : 0;
-			}
-		}
-
-		return (step);
-	}
-
-	int process() {
-		boolean isOver(int response) {
-			nextStep = changeState(step, response);
-
-			if (nextStep >= 0 && nextStep < states.size()) {
-				transit();
-			}
-
-			return(nextStep < 0 || nextStep >= states.size());
-		}
-
-		states = new [new Age18OrOverScreen() -> [(age18OrOver = parm() == 2), isOver(parm()) && return(nextStep)],
-					  new TermsAndConditionsScreen() -> [(tAndCAccepted = parm() == 2), isOver(parm()) && return(nextStep)]
-					];
-		; @out(background)
-		; @out(states[nextStep < 0 || nextStep >= states.size() ? 0 : nextStep])
-	}
-}
-
 void sendPurchaseRequest(PurchaseInfo purchaseInfo) {return();}
-void sendRentalRequest(RentalInfo rentalInfo) {return();}
-
-string userInSession;		// Temporary variable for demo purpose
 
 void IdentificationInfo() {
 	string track1 = "";
@@ -554,58 +488,37 @@ void rentABike() {
 		if (identificationInfo.track1 != "") {
 			println("Processing credit card " + identificationInfo.track1 + ".");
 			processCreditCard();
+			println("Going to Purchase Flow");
 
-			if (userInSession != identificationInfo.track1) {
-				println("Going to Purchase Flow");
+			ProductType[] productTypes = new [new ProductType("One hour pass (3$)", true), new ProductType("Three day pass (25$)", false)];
+			PurchaseInfo purchaseInfo = new PurchaseInfo(productTypes);
 
-				ProductType[] productTypes = new [new ProductType("One hour pass (3$)", true), new ProductType("Three day pass (25$)", false)];
-				PurchaseInfo purchaseInfo = new PurchaseInfo(productTypes, true, true, true, true, true);
+			if (purchaseInfo.process() >= 0) {
+				println("Product Type: " + productTypes[purchaseInfo.productType].name);
+				println("Number of Bikes: " + purchaseInfo.numBikes);
+				println("Phone Number: " + purchaseInfo.phoneNumber[0]);
+				println("SMS Notification: " + purchaseInfo.smsNotification);
+				println("Zip Code: " + purchaseInfo.zipCode[0]);
+				println("Civic Number: " + purchaseInfo.civicNumber[0]);
+				println("Accept Fees: " + purchaseInfo.acceptFees);
+				println("Age 18 or Over: " + purchaseInfo.age18OrOver);
+				println("Accept Terms & Conditions: " + purchaseInfo.tAndCAccepted);
 
-				if (purchaseInfo.process() >= 0) {
-					println("Product Type: " + productTypes[purchaseInfo.productType].name);
-					println("Number of Bikes: " + purchaseInfo.numBikes);
-					println("Phone Number: " + purchaseInfo.phoneNumber[0]);
-					println("SMS Notification: " + purchaseInfo.smsNotification);
-					println("Zip Code: " + purchaseInfo.zipCode[0]);
-					println("Civic Number: " + purchaseInfo.civicNumber[0]);
-					println("Accept Fees: " + purchaseInfo.acceptFees);
-					println("Age 18 or Over: " + purchaseInfo.age18OrOver);
-					println("Accept Terms & Conditions: " + purchaseInfo.tAndCAccepted);
+				sendPurchaseRequest(purchaseInfo);
 
-					sendPurchaseRequest(purchaseInfo);
+				if (waitForPurchaseResponse()) {
+					int printerPowered = displayCode("12321", true);
 
-					if (waitForPurchaseResponse()) {
-						int printerPowered = displayCode("12321", true);
-
-						if (printerPowered == 0) {
-							printerPowered = powerOnPrinter() ? 2 : 0;
-						}
-
-						if ((printerPowered & 2) != 0) {
-							printReceipt();
-							Exec("Printer", "off");
-						}
-
-						OneButtonScreen("Thank you!", "Exit");
-						userInSession = identificationInfo.track1;
+					if (printerPowered == 0) {
+						printerPowered = powerOnPrinter() ? 2 : 0;
 					}
-				}
-			}
-			else() {
-				println("Going to Rental Flow");
 
-				RentalInfo rentalInfo = new RentalInfo(true, true);
-
-				if (rentalInfo.process() == 2) {
-					println("Age 18 or Over: " + rentalInfo.age18OrOver);
-					println("Accept Terms & Conditions: " + rentalInfo.tAndCAccepted);
-
-					sendRentalRequest(rentalInfo);
-
-					if (waitForRentalResponse()) {
-						displayCode("32123", false);
-						OneButtonScreen("Thank you!", "Exit");
+					if ((printerPowered & 2) != 0) {
+						printReceipt();
+						Exec("Printer", "off");
 					}
+
+					OneButtonScreen("Thank you!", "Exit");
 				}
 			}
 		}
@@ -635,7 +548,7 @@ int entryPoint() {
 	} @cdir(3)
 } @out(background)
 
-*true {
+while(true) {
 	int choice = entryPoint();
 
 	println("Choice: " + choice);
@@ -647,10 +560,12 @@ int entryPoint() {
 		}
 
 		case(1) {
+			OneButtonScreen("Not implemented yet...", "Close");
 			println("Get Time Credit");
 		}
 
 		default() {
+			OneButtonScreen("Not implemented yet...", "Close");
 			println("Default choice");
 		}
 	}

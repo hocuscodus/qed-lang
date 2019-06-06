@@ -1,0 +1,33 @@
+int num = 0; // shared resource between Counter and Printer functions
+
+void Counter(CoList coList) { // producer
+	int x = 0;
+
+	while(coList.yield() && ++x <= 100) {
+		num = x;
+	}
+
+	num = -1;
+	coList.yield(); // final yield to printer
+}
+
+void Printer(CoList coList) { // consumer
+	while(coList.yield() && num != -1) {
+		println(num);
+	}
+
+	println("Ending Printer");
+	coList.yield(); // final yield to colist.process
+}
+
+CoList coList = new CoList();
+
+new Counter(coList);
+new Printer(coList);
+
+while(num != -1) {
+	coList.process();
+}
+
+println("Ending program");
+return(0);

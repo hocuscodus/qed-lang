@@ -9,20 +9,6 @@
 	overflow: auto;
 }
 
-#code {
-	font-family:Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
-	font-size: 75%
-}
-
-.little-stdout {
-	width: 400px;
-	height: 32px;
-	font-family: monospace;
-	white-space: pre-wrap;
-	padding: 3px;
-	overflow: auto;
-}
-
 .examples-container {
     max-height: 400px;
 }

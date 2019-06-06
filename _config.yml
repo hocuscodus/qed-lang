@@ -17,7 +17,7 @@ title: The QED programming language
 author: Martin Savage
 email: qedlang@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  QED: parallel GUI/BL code, unparallel power.
+  QED: parallel source code, unparallel power.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 #twitter_username: qedlang

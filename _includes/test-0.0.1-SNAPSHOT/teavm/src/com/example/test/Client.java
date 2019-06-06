@@ -1,6 +1,5 @@
 package com.example.test;
 
-import java.io.ByteArrayOutputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -27,7 +26,6 @@ import org.teavm.jso.dom.html.TextRectangle;
 import org.teavm.jso.json.JSON;
 
 import com.hocuscodus.qed.lang.Call;
-import com.hocuscodus.qed.lang.Declaration.FunctionDeclaration;
 import com.hocuscodus.qed.lang.Event.MouseEvent;
 import com.hocuscodus.qed.lang.Obj;
 import com.hocuscodus.qed.lang.ProcessReturnHandler;
@@ -44,6 +42,7 @@ public class Client extends QEDProcess {
     private static Client process;
     private int width;
     private int height;
+    private int color;
 
     private Client(int width, int height) {
         this.width = width;
@@ -98,12 +97,12 @@ public class Client extends QEDProcess {
 	public int getavgcharheight(int fontSize) {
 		int currentSize = getFontSize();
 		String font = setFontSize(fontSize);
-		int oldSize = fontSize != -1 ? currentSize : fontSize;
+		int oldSize = fontSize != -1 ? fontSize : currentSize;
 
 		int size = 16 * oldSize / currentSize;
 
 		resetFontSize(font);
-		return size * 15 / 10;
+		return size;// * 15 / 10;
 	}
 
 	@Override
@@ -232,8 +231,6 @@ public class Client extends QEDProcess {
 	}
 
 	public void setclippingarea(int[] pos, int[] size) {
-		graphics.restore();
-		graphics.save();
 		graphics.beginPath();
 		graphics.moveTo(pos[0], pos[1]);
 		graphics.lineTo(pos[0], pos[1] + size[1]);
@@ -244,10 +241,14 @@ public class Client extends QEDProcess {
 	}
 
 	public void setColor(int col) {
-		int alpha = 0xFF ^ ((col >>> 24) & 0xFF);
+		color = col;
 
-		graphics.setGlobalAlpha(((double) alpha) / 255); 
-		graphics.setFillStyle("rgb(" + ((col >>> 16) & 0xFF) + ", " + ((col >>> 8) & 0xFF) + ", " + (col & 0xFF) + ")");
+		if (col != -1) {
+			int alpha = 0xFF ^ ((col >>> 24) & 0xFF);
+
+			graphics.setGlobalAlpha(((double) alpha) / 255); 
+			graphics.setFillStyle("rgb(" + ((col >>> 16) & 0xFF) + ", " + ((col >>> 8) & 0xFF) + ", " + (col & 0xFF) + ")");
+		}
 	}
 
 	public void fillRectangle(int[] pos, int[] size) {
@@ -268,6 +269,7 @@ public class Client extends QEDProcess {
 		graphics.lineTo(pos[0] + arc[0], pos[1]);
 		graphics.arcTo(pos[0], pos[1], pos[0], pos[1] + arc[1], arc[1]);
 		graphics.fill();
+		graphics.clip();
 	}
 
 	public void fillOval(int[] pos, int[] size) {
@@ -352,9 +354,13 @@ public class Client extends QEDProcess {
 			graphics.setFont(font);
 	}
 
-	public void drawText(String string, int[] pos, int fontSize) {
+	public void drawText(String string, int[] pos, int[] size, int[] unitpos, int fontSize, int textcol) {
 		String font = setFontSize(fontSize);
 
+		if (color != -1)
+			graphics.fillRect(pos[0], pos[1], size[0], size[1]);
+
+		setColor(textcol != -1 ? textcol : 0);
 		graphics.fillText(string, pos[0], pos[1] + (fontSize != -1 ? fontSize : getFontSize())/*graphics.getTextBaseline()*/);
 		resetFontSize(font);
 //		Font font = graphics.getFont();
@@ -371,8 +377,13 @@ public class Client extends QEDProcess {
 //			graphics.setFont(font);
 	}
 
-	public void drawImage(Object image, int[] pos) {
-		graphics.drawImage((HTMLImageElement) image, pos[0], pos[1]);
+	public void drawImage(Object image, int[] pos, int[] unitpos) {
+		HTMLImageElement trueImage = (HTMLImageElement) image;
+
+		saveContext();
+		setclippingarea(pos, new int[] {trueImage.getWidth(), trueImage.getHeight()});
+		graphics.drawImage(trueImage, unitpos[0], unitpos[1]);
+		restoreContext();
 	}
 
 	public void print(String string) {
@@ -574,7 +585,6 @@ public interface FrameStdoutCommand extends FrameCommand {
 				if (process != null)
 					process.removeAllElements();
 
-				graphics.restore();
 				graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 				clearStdOut();
 				process = new Client(0, 0);

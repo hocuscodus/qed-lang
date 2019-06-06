@@ -13,7 +13,9 @@
     "longer": {
         "title": "Longer examples",
         "items": {
-            "boatrental": "Boat rental kiosk mockup"
+            "colist": "Small coroutine demonstration",
+            "boatrental": "Boat rental kiosk mockup",
+            "bouncing": "Bouncing Balls"
         }
     }
 }

@@ -29,7 +29,7 @@ boolean CounterWidget(int count, int min) {
   } @out(rect()) @textwidth(2) @size(40) @bgcol(disabled ? 0x80000000 : color) @onpress(!disabled && (color = 0xA0000000)) @onrelease(!disabled && [(color = 0xE0000000), return()])
 
   {
-    Button decButton = new Button("-", count == min) -> [count > min && count--, decButton.disabled = count == min, return(false)]; @out(decButton)
+    Button decButton = new Button("-", count == min) -> [count > min && [count--, decButton.disabled = count == min, return(false)]]; @out(decButton)
     {
       ; @out(count) @size(60) @alignx(50) @textcol(0x80000000)
     } @textwidth(3) @size(60)
@@ -51,7 +51,7 @@ Ball addNewBall(CoList coList) {
                      new [getdelta(rnd1), getdelta(rnd2)], (int) (rnd1 * 0x1000000)));
 }
 
-void DisplayBalls(Ball[] balls) {
+void BallDisplay(Ball[] balls) {
   balls.size() {
     ; @out(balls[&0]);
   }
@@ -61,8 +61,11 @@ void DisplayBalls(Ball[] balls) {
   int count = 0;                 @out("Bouncing") @size(130) @textcol(0x50FFFFFF) @alignx(50) @aligny(10)
   CoList coList = new CoList();  @out("Balls!!") @size(160) @textcol(0x30FFFFFF) @alignx(50) @aligny(70)
   Ball[] balls = new [addNewBall(coList), addNewBall(coList), addNewBall(coList)];
-  DisplayBalls display = new DisplayBalls(balls); @out(display)
-  CounterWidget counter = new CounterWidget(balls.size(), 0) -> [parm() ? balls.add(addNewBall(coList)) : balls.remove(balls.size() - 1), display = new DisplayBalls(balls), true];
+  BallDisplay ballDisplay = new BallDisplay(balls);
+                                 @out(ballDisplay)
+  CounterWidget counter = new CounterWidget(balls.size(), 0) ->
+      [parm() ? balls.add(addNewBall(coList)) : [coList.remove(counter.count), balls.remove(counter.count)],
+       ballDisplay = new BallDisplay(balls)];
                                  @out(counter) @alignx(95) @aligny(95)
-  Timer timer = new Timer(15) -> [coList.process(), timer.reset()];
+  Timer timer = new Timer(15) -> [timer.reset(), coList.process()];
 }     @out(" ") @textwidth(100) @textheight(30) @bgcol(0x404040)

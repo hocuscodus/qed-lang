@@ -1,7 +1,7 @@
 // Bouncing balls demo - by Martin Savage
 
 // our ball sprite, as a coroutine
-void Ball(CoList coList, int[] pos, int[] delta, int color) {
+void Ball(CoList coList, int[] pos, int[] delta, int color, int size) {
   void move(int index) {
     pos[index] += delta[index];
 
@@ -16,7 +16,7 @@ void Ball(CoList coList, int[] pos, int[] delta, int color) {
   while(coList.yield()) {
     move(0);
     move(1);
-  } @out("") @textwidth(3) @size(25)
+  } @out("") @textwidth(3) @size(size)
 } @out(oval()) @bgcol(color) @alignx(pos[0]) @aligny(pos[1])
 
 
@@ -35,19 +35,19 @@ boolean CounterWidget(int count, int min) {
 } @out(roundrect(30)) @bgcol(0xFFFFFF)
 
 
-int getDelta(double n) {
-  int nx = ((int) (n * 10000)) % 6;
-
-  return(nx - (nx < 3 ? 3 : 2));
-}
-
-
 Ball addNewBall(CoList coList) {
-	double rnd1 = rand();
-	double rnd2 = rand();
+  int getDelta(double n) {
+    int nx = ((int) (n * 10000)) % 6;
 
-    return (new Ball(coList, new [(int) (rnd1 * 101), (int) (rnd2 * 101)],
-                     new [getDelta(rnd1), getDelta(rnd2)], (int) (rnd1 * 0x1000000)));
+    return(nx - (nx < 3 ? 3 : 2));
+  }
+
+  double rnd1 = rand();
+  double rnd2 = rand();
+
+  return (new Ball(coList, new [(int) (rnd1 * 101), (int) (rnd2 * 101)],
+                   new [getDelta(rnd1), getDelta(rnd2)], (int) (rand() * 0x1000000),
+                   ((int) (rand() * 25)) + 15));
 }
 
 

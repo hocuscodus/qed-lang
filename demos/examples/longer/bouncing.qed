@@ -1,6 +1,8 @@
 // Bouncing balls demo - by Martin Savage
 
-// our ball sprite, as a coroutine
+/**
+ * our ball sprite, as a coroutine
+ */
 void Ball(CoList coList, int[] pos, int[] delta, int color, int size) {
   void move(int index) {
     pos[index] += delta[index];
@@ -19,7 +21,46 @@ void Ball(CoList coList, int[] pos, int[] delta, int color, int size) {
   } @out("") @textwidth(3) @size(size)
 } @out(oval()) @bgcol(color) @alignx(pos[0]) @aligny(pos[1])
 
+/**
+ * create new random ball and add it to coroutine list for moving
+ */
+Ball newBall(CoList coList) {
+  int rnd(int limit) {return ((int) (rand() * limit));}
+  int getDelta() {int n = rnd(6); return(n - (n < 3 ? 3 : 2));}
 
+  return (new Ball(coList, new [rnd(101), rnd(101)], new [getDelta(), getDelta()],
+                   rnd(0x1000000), rnd(25) + 15));
+}
+
+/**
+ * UI element that shows the balls to display (must be recreated when adding/deleting balls)
+ */
+void BallDisplay(Ball[] balls) {
+  balls.size() {
+    ; @out(balls[&0]);
+  }
+}
+
+/**
+ * add new ball and return new display including newly created ball
+ */
+BallDisplay addBall(Ball[] balls, CoList coList) {
+  balls.add(newBall(coList));
+  return(new BallDisplay(balls));
+}
+
+/**
+ * remove ball at specified index and return new display without deleted ball
+ */
+BallDisplay removeBall(Ball[] balls, CoList coList, int index) {
+  coList.remove(index);
+  balls.remove(index); // comment out this line for a funny "freeze" effect!
+  return(new BallDisplay(balls));
+}
+
+/**
+ * counter widget displayed in the bottom right corner, to change ball count
+ */
 boolean CounterWidget(int count, int min) {
   void Button(string text, boolean disabled) {
     int color = 0xE0000000; @size(40) @out(text) @alignx(50) @aligny(50) @textcol(0x90000000)
@@ -34,51 +75,19 @@ boolean CounterWidget(int count, int min) {
   } @cdir(1)
 } @out(roundrect(30)) @bgcol(0xFFFFFF)
 
-
-Ball addNewBall(CoList coList) {
-  int getDelta(double n) {
-    int nx = ((int) (n * 10000)) % 6;
-
-    return(nx - (nx < 3 ? 3 : 2));
-  }
-
-  double rnd1 = rand();
-  double rnd2 = rand();
-
-  return (new Ball(coList, new [(int) (rnd1 * 101), (int) (rnd2 * 101)],
-                   new [getDelta(rnd1), getDelta(rnd2)], (int) (rand() * 0x1000000),
-                   ((int) (rand() * 25)) + 15));
-}
-
-
-void BallDisplay(Ball[] balls) {
-  balls.size() {
-    ; @out(balls[&0]);
-  }
-}
-
-
-BallDisplay refreshBallArray(boolean addFlag, Ball[] balls, CoList coList, int index) {
-  if (addFlag) {
-    balls.add(addNewBall(coList));
-  }
-  else() {
-    coList.remove(index);
-    balls.remove(index); // comment out this line for a funny "freeze" effect!
-  }
-
-  return(new BallDisplay(balls));
-}
-
-
+/**
+ * main
+ */
 {
-  int count = 0;                 @out("Bouncing") @size(130) @textcol(0x50FFFFFF) @alignx(50) @aligny(10)
-  CoList coList = new CoList();  @out("Balls!!") @size(160) @textcol(0x30FFFFFF) @alignx(50) @aligny(70)
-  Ball[] balls = new [addNewBall(coList), addNewBall(coList), addNewBall(coList)];
+  CoList coList = new CoList();
+  Ball[] balls = new [newBall(coList), newBall(coList), newBall(coList)];
   BallDisplay ballDisplay = new BallDisplay(balls);
-                                 @out(ballDisplay)
   CounterWidget counter = new CounterWidget(balls.size(), 0) ->
-      [ballDisplay = refreshBallArray(parm(), balls, coList, counter.count)];
-                                 @out(counter) @alignx(95) @aligny(95)
-  Timer timer = new Timer(15) -> [timer.reset(), coList.process()];
-}     @out(" ") @textwidth(100) @textheight(30) @bgcol(0x404040)
+      [ballDisplay = parm() ? addBall(balls, coList) : removeBall(balls, coList, counter.count)];
+  Timer timer = new Timer(15) -> [coList.process(), timer.reset()];
+
+  ; @out("Bouncing") @size(130) @textcol(0x50FFFFFF) @alignx(50) @aligny(10)
+  ; @out("Balls!!") @size(160) @textcol(0x30FFFFFF) @alignx(50) @aligny(70)
+  ; @out(ballDisplay)
+  ; @out(counter) @alignx(95) @aligny(95)
+} @out(" ") @textwidth(100) @textheight(30) @bgcol(0x404040)

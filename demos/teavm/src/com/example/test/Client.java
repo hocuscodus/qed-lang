@@ -546,18 +546,18 @@ public interface FrameStdoutCommand extends FrameCommand {
     }
 
     private static void loadExample(String category, String item) {
-//        HTMLDocument document = HTMLDocument.current();
-//        HTMLElement progressElement = document.getElementById("examples-content-progress");
-//        progressElement.getStyle().setProperty("display", "block");
+        HTMLDocument document = HTMLDocument.current();
+        HTMLElement progressElement = document.getElementById("examples-content-progress");
+        progressElement.getStyle().setProperty("display", "block");
 
         XMLHttpRequest xhr = XMLHttpRequest.create();
         xhr.open("get", examplesBaseUrl + "/" + category + "/" + item + ".qed");
         xhr.onComplete(() -> {
             String code = xhr.getResponseText();
             Client.code.setValue(code);
-//            hideExamples();
-//            progressElement.getStyle().setProperty("display", "none");
-//    		canvas.setWidth(canvas.getWidth());
+            hideExamples();
+            progressElement.getStyle().setProperty("display", "none");
+    		canvas.setWidth(canvas.getWidth());
         });
         xhr.send();
     }

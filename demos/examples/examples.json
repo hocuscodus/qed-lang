@@ -6,7 +6,7 @@
             "hello": "Hello, World! (GUI)",
             "clickme": "Click Me!",
             "fib": "Fibonacci numbers",
-            "incdec": "Increment/decrement buttons",
+            "incdec": "Increment-decrement buttons",
             "multtable": "Multiplication table"
         }
     },

@@ -472,9 +472,37 @@ public interface FrameStdoutCommand extends FrameCommand {
     	return null;
     }
 
+    private static String encodeString(String str) {
+    	StringBuffer buf = new StringBuffer();
+
+    	for (int index = 0; index < str.length(); index++)
+    		buf.append(str.charAt(index) == ' ' ? '+' : str.charAt(index));
+
+    	return buf.toString();
+    }
+
+    private static String decodeString(String str) {
+    	StringBuffer buf = new StringBuffer();
+
+    	for (int index = 0; index < str.length(); index++)
+    		buf.append(str.charAt(index) == '+' ? ' ' : str.charAt(index));
+
+    	return buf.toString();
+    }
+
     private static void initExamples() {
         HTMLDocument document = HTMLDocument.current();
         String url = getURL(document);
+        int parmIndex = url.indexOf('?');
+    	String parmString = parmIndex != -1 ? url.substring(parmIndex + 1) : null;
+    	String[] parms = parmString != null ? parmString.split("&") : null;
+
+        if (parms != null) {
+        	String title = getParm(parms, "title");
+
+        	if (title != null)
+        		setTitle("Demo - " + decodeString(title));
+        }
 
         examplesButton.listenClick(event -> showExamples());
 
@@ -487,11 +515,8 @@ public interface FrameStdoutCommand extends FrameCommand {
             loadExamples(JSON.parse(request.getResponseText()).cast());
             renderExamples();
             examplesButton.setDisabled(false);
-            int parmIndex = url.indexOf('?');
 
-            if (parmIndex != -1) {
-            	String parmString = url.substring(parmIndex + 1);
-            	String[] parms = parmString.split("&");
+            if (parms != null) {
             	String category = getParm(parms, "category");
             	String name = getParm(parms, "name");
 
@@ -546,18 +571,18 @@ public interface FrameStdoutCommand extends FrameCommand {
     }
 
     private static void loadExample(String category, String item) {
-        HTMLDocument document = HTMLDocument.current();
-        HTMLElement progressElement = document.getElementById("examples-content-progress");
-        progressElement.getStyle().setProperty("display", "block");
+//        HTMLDocument document = HTMLDocument.current();
+//        HTMLElement progressElement = document.getElementById("examples-content-progress");
+//        progressElement.getStyle().setProperty("display", "block");
 
         XMLHttpRequest xhr = XMLHttpRequest.create();
         xhr.open("get", examplesBaseUrl + "/" + category + "/" + item + ".qed");
         xhr.onComplete(() -> {
             String code = xhr.getResponseText();
             Client.code.setValue(code);
-            hideExamples();
-            progressElement.getStyle().setProperty("display", "none");
-    		canvas.setWidth(canvas.getWidth());
+//            hideExamples();
+//            progressElement.getStyle().setProperty("display", "none");
+//    		canvas.setWidth(canvas.getWidth());
         });
         xhr.send();
     }
@@ -570,6 +595,9 @@ public interface FrameStdoutCommand extends FrameCommand {
 
     @JSBody(params = "url", script = "window.location.href = url;")
     private static native void goToURL(String url);
+
+    @JSBody(params = "title", script = "window.document.title = title;")
+    private static native void setTitle(String title);
 
     private static void showExamples() {
         HTMLDocument document = HTMLDocument.current();

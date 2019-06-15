@@ -1,0 +1,26 @@
+int count = 0;
+boolean test;
+
+void FBWord(CoList coList, string word, int mod) {
+  while (coList.yield()) {
+    if (count / mod * mod == count) {
+      test = true;
+      print(word);
+    }
+  }
+}
+
+CoList coList = new CoList();
+new FBWord(coList, "Fizz", 3);
+new FBWord(coList, "Buzz", 5);
+
+while (++count <= 100) {
+  test = false;
+  coList.process();
+  !test {
+    print(count);
+  }
+  println("");
+}
+
+return(0);

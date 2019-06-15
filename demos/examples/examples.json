@@ -7,8 +7,7 @@
             "clickme": "Click Me!",
             "fib": "Fibonacci numbers",
             "incdec": "Increment-decrement buttons",
-            "multtable": "Multiplication table",
-            "fizzbuzz": "Fizz-Buzz using coroutines"
+            "multtable": "Multiplication table"
         }
     },
     "longer": {

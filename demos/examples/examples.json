@@ -7,13 +7,14 @@
             "clickme": "Click Me!",
             "fib": "Fibonacci numbers",
             "incdec": "Increment-decrement buttons",
-            "multtable": "Multiplication table"
+            "multtable": "Multiplication table",
+            "fizzbuzz": "FizzBuzz with coroutines"
         }
     },
     "longer": {
         "title": "Longer examples",
         "items": {
-            "colist": "Small coroutine demonstration",
+            "colist": "Producer-Consumer coroutines",
             "boatrental": "Boat rental kiosk mockup",
             "bouncing": "Bouncing Balls"
         }

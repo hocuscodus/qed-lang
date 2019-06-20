@@ -17,9 +17,7 @@ new FBWord(coList, "Buzz", 5);
 while (++count <= 100) {
   test = false;
   coList.process();
-  !test {
-    print(count);
-  }
+  !test {print(count);}
   println("");
 }
 

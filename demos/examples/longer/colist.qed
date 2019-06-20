@@ -8,7 +8,7 @@ void Counter(CoList coList) { // producer
 	}
 
 	num = -1;
-	coList.yield(); // final yield to printer
+	coList.yield(); // final yield to Printer object
 }
 
 void Printer(CoList coList) { // consumer
@@ -17,7 +17,7 @@ void Printer(CoList coList) { // consumer
 	}
 
 	println("Ending Printer");
-	coList.yield(); // final yield to colist.process
+	coList.yield(); // final yield to CoList.process()
 }
 
 CoList coList = new CoList();

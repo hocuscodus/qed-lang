@@ -473,7 +473,7 @@ int entryPoint() {
 	} @cdir(3)
 } @out(background)
 
-*true {
+while (true) {
 	int choice = entryPoint();
 
 	switch(choice) {

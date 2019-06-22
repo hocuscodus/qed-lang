@@ -18,7 +18,7 @@
             {%- if firstPostYear == lastPostYear -%}
               {{ firstPostYear }} {{ site.author | escape }}
             {%- else -%}
-              {{ firstPostYear }}&ndash;c{{ lastPostYear }} {{ site.author | escape }}
+              {{ firstPostYear }}&ndash;{{ lastPostYear }} {{ site.author | escape }}
             {%- endif -%}
             {%- else -%}
             &nbsp; {{ site.title | escape }}

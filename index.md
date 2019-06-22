@@ -7,6 +7,6 @@ QED is a next-generation programming language that shines in designing complex g
 
 QED runs in both native and web environments, without changing a single line of code.
 
-You may take a look at the [examples](/demos) or, if you want to know how it works, the [quick tutorial](/qedintro).
+You may take a look at the [examples](/demos) or, if you want to have a glimpse on how it works, the [quick tutorial](/qedintro).
 
 This site is still early-stage, so check it out often to get more examples, documentation, product download and good news!

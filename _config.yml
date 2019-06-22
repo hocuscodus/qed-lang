@@ -19,8 +19,9 @@ email: qedlang@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   QED: parallel source code, unparallel power.
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-#twitter_username: qedlang
+url: "https://qed-lang.org" # the base hostname & protocol for your site, e.g. http://example.com
+twitter_username: qedlang
+reddit_username: "r/qedlang"
 #github_username:  jekyll
 
 # Build settings

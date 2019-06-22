@@ -1,0 +1,396 @@
+---
+layout: post
+title:  "A 'new', seamless concurrency model (coroutines included)"
+date:   2019-06-22 07:10:47 -0400
+author: "Martin Savage"
+categories: Article
+---
+
+![](/balls2.png)
+
+Throughout my programming life, I always vowed to never, ever implement concurrency mechanisms. I mean, the mere thought of such mechanisms had always disgusted me. Too complex, too cumbersome, too many corner cases.
+
+While designing the QED programming language, I was keen on making it great for UI development and simpler programming concepts as a whole but never considered implementing concurrency. Sure, I knew it has always been an important topic, but it was too distracting from my primary goals and I had no expertise on its various implementation flavors anyway. So I bluntly ignored concurrency in QED design. I told myself if it were becoming in demand later on, I may ponder over it with no clue of what to do and develop some patchy hack. The idea of handling threads and al on top of my core concepts was too much a burden.
+
+When I started to showcase QED last August, I opened myself to subjects tantalizing the programming language community. Reading about [callback hell](http://callbackhell.com/), or [what color is your function](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/), sparked my imagination. I realized my programming language, without any thread-related feature, was so close to solving cooperative multitasking elegantly. This is where I finally learned the word coroutine (go ahead, mock me!) and inspected some implementations. Then it happened. The skies opened up, heavenly lights burned into my eyes and a choir of angels began chanting. After this epiphany moment, I urged myself to develop this new concurrency and coroutine vision for QED.
+
+This article is a bit long, although filled with easily digestible code samples instead of dry text, in order to keep reading light. You may want to check out the conclusions in advance with these two online QED programs. The first one is a classic [producer/consumer coroutines scenario](/demos/?category=longer&name=colist&title=Sample+1) (inspired from [Simon Tatham's "Coroutines in C" paper](https://www.chiark.greenend.org.uk/~sgtatham/coroutines.html)). The second example is more elaborate and present [bouncing balls animated with coroutines](/demos/?category=longer&name=bouncing&title=Sample+2). The user may add and remove balls on the fly, anytime.
+
+These examples are fun to watch and by looking at their source code, you may intuitively guess how they work. The greatest reward though, in my opinion, is to truly comprehend the underlying concurrency principles lurking in the dark, and allowing such a simple coroutine implementation. So let's start our journey...
+
+## With or without 'new'
+
+The actual concurrency and coroutine implementations are heavily based on a concept called type/function equivalence, which will be explained now using code written in QED. QED source code syntax is very close to C/Java syntax so I won't spend time detailing it as it should be intuitive for most readers.
+
+QED has its own VM (as of today), but for the sake of clarity, let's suppose for this article that the QED compiler generates Java code instead. The following QED function:
+
+    int Adder(int a, int b) { // A noun as function name? Will tell why later on...
+      return(a + b);
+    }
+
+would usually translate to a similar Java method (having the same source code). The QED call:
+
+    println(Adder(2, 3));
+    <further lines of code...>
+
+would usually translate to the following Java code:
+
+    System.out.println(Adder(2, 3));
+    <further lines of translated code...>
+
+This is fast, straightforward, efficient... but not the Java code the QED compiler would generate. Please forgive in advance QED's lack of optimization but let's remember Donald Knuth himself warned us that "premature optimization is the root of all evil". I intend to present a further article on QED optimization but let's no longer digress. The QED translation of the Adder function to Java would be:
+
+    public interface AdderCallback {
+      public void run(Adder obj, int parm);
+    }
+
+    public class Adder {
+      public int a;
+      public int b;
+      public AdderCallback callback;
+
+      public Adder(int a, int b, AdderCallback callback) {
+        this.a = a;
+        this.b = b;
+        this.callback = callback;
+      }
+
+      public Adder exec() {
+        if (callback != null)
+          callback.run(this, a + b);
+
+        return this;
+      }
+    }
+
+The QED "println(Adder(2, 3));\< further lines... \>" code seen above would really translate to:
+
+    new Adder(2, 3, new AdderCallback() {
+      public void run(Obj obj, int parm) {
+        System.out.println(parm);
+        <further lines of translated code...>
+      }
+    }).exec();
+
+That will work too but some of you would immediately ask "So what?". First, this verbose Java code is generated by the QED compiler so you should not care about it as long as it delivers. More seriously, that translation now enables the following QED code:
+
+    Adder adder = new Adder(2, 3); // this is the reason for having used a noun
+    println(adder.a + adder.b);
+
+Adder can now be used as an object instantiation type, using the 'new' keyword, as well as a function to call (without 'new' before). This is what I dubbed the **type/function equivalence (TFE)**. The translated Java code for the above would be:
+
+    Adder adder = new Adder(2, 3, null).exec();
+    System.out.println(adder.a + adder.b);
+
+For those who may ask, when invoked as an object using 'new', the Adder actual addition result can still be trapped by the QED '->' operator followed by a handler expression, after the new declaration. The handler expression has complete access to its associated QED object through the obj() system function and to the return code with the parm() system function. The QED code:
+
+    Adder adder = new Adder(2, 3) -> println(obj().a + " + " + obj().b + " = " + parm());
+
+would generate the Java code:
+
+    Adder adder = new Adder(2, 3, new AdderCallback() {
+      public void run(Obj obj, int parm) {
+        System.out.println(obj.a + " + " + obj.b + " = " + parm);
+      }
+    }).exec();
+
+Therefore, any QED function that you define can be invoked as an object (using 'new') or as a call (without 'new'). As an added bonus, as classes can be nested in Java, QED functions can also be nested. Inner functions have complete access to outer functions environment.
+
+Perhaps the greatest feature of TFE though is the unlocking of basic concurrency. Let's see how it does...
+
+## Taming callback hell to rule them all
+
+The TFE principle is not limited to user-defined QED functions. It extends to **asynchronous system functions (ASF)** too! These system functions are of asynchronous nature: task scheduling, web queries, file retrieval...
+
+A basic example is the void Timer(int millis) ASF. Its Java implementation is as follows:
+
+    public interface TimerCallback {
+      public void run(Timer obj);
+    }
+
+    public class Timer {
+      public int millis;
+      public TimerCallback callback;
+
+      public Timer(int millis, TimerCallback callback) {
+        this.millis = millis;
+        this.callback = callback;
+      }
+
+      public Timer exec() {
+        // qedScheduler is an internal variable...
+        qedScheduler.schedule(millis, new Runnable() {
+          public void run() {
+            if (callback != null)
+              callback.run(this);
+          }
+        });
+
+        return this;
+      }
+    }
+
+So, TFE equally applies to all ASFs like Timer. ASFs are invoked either as calls or as objects!
+
+Writing a Timer call in QED
+
+    println("Start timer");
+    Timer (3000);
+    println("Counted 3 seconds");
+
+generates the following Java code:
+
+    System.out.println("Start timer");
+    new Timer(3000, new TimerCallback() {
+      public void run(Obj obj) {
+        System.out.println("Counted 3 seconds");
+      }
+    }).exec();
+
+The same console output can be achieved by invoking a Timer object in QED:
+
+    new Timer (3000) -> println("Counted 3 seconds");
+    println("Start timer");
+
+Its Java implementation shows that "Start Timer" is printed before "Counted 3 seconds" (the output would be similar to the one above if println("Start timer") was the first line):
+
+    new Timer (3000, new TimerCallback() {
+      public void run(Obj obj, int parm) {
+        System.out.println("Counted 3 seconds");
+      }
+    }).exec();
+    System.out.println("Start timer");
+
+Thus, for all ASFs like Timer, using them as calls makes them sequential.
+
+    Timer(1000);
+    println("After 1 second");
+    Timer(1000);
+    println("After 2 seconds");
+
+If you want them to run parallel, you may simply write:
+
+    new Timer(1000) -> println("After 1 second");
+    new Timer(2000) -> println("After 2 seconds");
+
+Again, both codes generate the same console output.
+
+When ASFs are used sequentially as calls, please not assume they become magically synchronous and blocking. This is really not the case as we'll soon realize. The sequential QED code
+
+    Timer(1000);
+    Timer(2000);
+    println("Waited 3 seconds");
+
+is translated to Java this way:
+
+    new Timer(1000, new TimerCallback() {
+      public void run(Obj obj) {
+        new Timer(2000, new TimerCallback() {
+          public void run(Obj obj) {
+            System.out.println("Waited 3 seconds");
+          }
+        }).exec();
+      }
+    }).exec();
+
+You know what? Callback hell... is good. It's just like fire. Running wild, it is an inferno. But when cavemen tamed fire, they used it to their benefit and conquered the world.
+
+This is a nifty way to solve callback hell: to not deny its existence or utility but encapsulate it within the compiling process, drifting it in the generated code you don't care about instead of the QED source code! No need in QED for extra async, await, promises... mechanisms that would still clutter the code. Just use the good old 'new' or not. Seamless solution... But wait, there's more!
+
+## Unleashing concurrency
+
+Of course, user-defined functions and ASFs do not live in separate worlds. They freely mix together. What to expect from using both? Consider the following function:
+
+    // user-defined function
+    void HelloBye() {
+      println("Hello");
+      Timer(1000);  // async system function
+      println("Bye");
+      return();
+    }
+
+A HelloBye call:
+
+    HelloBye();
+    println("Done");
+
+prints the expected ouput:
+
+    Hello
+    Bye  <after a second>
+    Done
+
+However, instantiating a HelloBye instance
+
+    new HelloBye();
+    println("Done");
+
+outputs this:
+
+    Hello
+    Done
+    Bye  <after a second>
+
+Guess what? We just implemented concurrent programming. Due to the Timer call in HelloBye, the HelloBye function and its caller code executed concurrently.
+
+To understand why this works, we will refer again to the generated Java code. The HelloBye generated code would be:
+
+    public interface HelloByeCallback {
+      public void run(HelloBye obj);
+    }
+
+    public class HelloBye {
+      public HelloByeCallback callback;
+
+      public HelloBye(HelloByeCallback callback) {
+        this.callback = callback;
+      }
+
+      public HelloBye exec() {
+        System.out.println("Hello");
+        new Timer(1000, new TimerCallback() {
+          public void run(Timer obj) {
+            System.out.println("Bye");
+            if (callback != null)
+              callback.run(this);
+          }
+        }).exec();
+        return this;
+      }
+    }
+
+The HelloBye call code would be this:
+
+    new HelloBye(new HelloByeCallback() {
+      public void run(HelloBye obj) {
+        System.out.println("Done");
+      }
+    }).exec();
+
+It executes as expected because the printing of "Done" is performed in the callback, executed at completion of HelloBye. The HelloBye object code would be this:
+
+    new HelloBye(null).exec();
+    System.out.println("Done");
+
+This time, it is easy to see that the HelloBye exec function starts the timer but then returns immediately, allowing "Done" to be printed right after "Hello". The Timer ASF is sequential within HelloBye ("Bye" is always printed a second after "Hello") but is parallel with respect to the caller code execution ("Done" is printed a second before "Bye").
+
+This opens up a whole new concurrent world, achieved with just our existing tools, without a separate threading implementation (and new language keywords to digest). You can use ASFs in conjunction with while. The QED "while" logic would translate as Java code acting like a while loop but handling callback hell correctly. This is used to implement a longer concurrent process:
+
+    int count = 0;
+
+    void RepeatWord(String word) {
+      while(count < 100) {
+        Timer(2);
+        println(word);
+      }
+    }
+
+    new RepeatWord("ping");
+    new RepeatWord("pong");
+
+    println("Printing 100 pings and pongs");
+    while (++count <= 100) {
+      Timer(2);
+    }
+    println("Done");
+    return(0);
+
+This code defines two RepeatWord objects, both suspending their initialization upon the Timer(2) line. Then, the console prints "Printing 100 pings and pongs", 100 pairs of "ping" and "pong" (by resuming Repeat word initialization) lines and finally, "Done".
+
+Concurrency was implemented but not properly. The use of Timer here has serious drawbacks. We must set the same while count < 100 condition in two spots, we wait 2 milliseconds within each print line and on some implementations, there could be race conditions that would print two or more consecutive "ping" or "pong" strings.
+
+We need a better mechanism to better achieve this task.
+
+## Coroutines: the missing link
+
+We covered a lot of ground to get to this point, so it's payback time! Coroutines are just perfect to solve all problems encountered in the above RepeatWord code. No need for dedicated QED keywords to implement them. A single CoList ASF with a handful of methods will do.
+
+    void CoList() {
+      boolean yield(); // always returns true, practical when looping
+      boolean process(); // returns true as well
+      void remove(int index);
+    }
+
+With coroutines, the RepeatWord example is much simpler, faster and clearer:
+
+    void RepeatWord(CoList coList, String word) {
+      while(coList.yield()) {
+        println(word);
+      }
+    }
+
+    int count = 0;
+    CoList coList = new CoList();
+    new RepeatWord(coList, "ping");
+    new RepeatWord(coList, "pong");
+
+    println("Printing 100 pings and pongs");
+    while (++count <= 100) {
+      coList.process();
+    }
+    println("Done");
+    return(0);
+
+The internal CoList implementation (ASF plus yield, process and remove members) would resemble this Java code:
+
+    public class CoList {
+      int index;
+      CoCallback processCallback = null; // CoCallback is an internal structure...
+      List<CoCallback> yieldCallbacks = new ArrayList<CoCallback>();
+
+      public CoList exec() {return this;}
+
+      public void yield(CoCallback callback) {
+        if (processCallback == null)  // called outside of process() call
+          yieldCallbacks.add(callback);
+        else
+          if (index < yieldCallbacks.size()) { // within list
+            CoCallback oldCallback = yieldCallbacks.get(index);
+
+            yieldCallbacks.set(index++, callback);
+            oldCallback.onCoCallback(true);
+          }
+          else { // list has complete, return from process()
+            CoCallback callback = processCallback;
+
+            index = 0;
+            processCallback = null;
+            callback.onCoCallback(true);
+          }
+      }
+
+      public void process(CoCallback processCallback) {
+        this.processCallback = processCallback;
+        yield(null); // resume all callbacks listed in yieldCallbacks
+      }
+
+      public void remove(int index, Callback callback) {
+        if (processCallback == null) {  // called outside of process() call
+          yieldCallbacks.remove(index);
+          callback.onCallbackReturn();
+        }
+        else
+          throw new IllegalCallException();
+      }
+    }
+
+The CoList function is used this way:
+1. declare a new CoList variable (CoList coList = new CoList();)
+
+2. add new QED functions instances (new Foo(coList, ...);). The QED functions must have access to the coList variable (for instance, as a parameter).
+
+3. within added QED function instances, you must call the yield method of your CoList variable (void Foo(CoList coList, ...) {... coList.yield() ...}). The first yield call will be add its callback in the CoList variable internal callback list and suspend the new QED function instance execution.
+
+4. when all QED function instances are entered, call process() to resume all yield calls sequentially in the CoList variable callback list until their next call to yield(). The process() call will return when all callbacks in the list are processed.
+
+5. you may call process() anytime to repeat coroutine processes.
+
+6. you may remove any yield call (by their index), but it must not be done within a process() call.
+
+Let's now refer to the code examples mentioned in the introductory part. The [producer/consumer coroutines scenario](https://qed-lang.org/demos/?category=longer&name=colist&title=Sample+1) declares a new CoList instance and adds a new Counter (producer) and Printer (consumer) objects. Each object execution is suspended upon a CoList.yield call. Upon each CoList.process() call, the objects resume from CoList.yield until the next yield call. When resuming, CoList.yield always returns true, which is practical to save one line on a while(true) {...} construct. Upon resuming, the producer will generate a new number and store it in num, until it reaches 10 (num will be -1 after). The consumer will print num, unless num is -1. Each CoList.process() is within a while loop that ensures num is not -1. When num is -1, the program ends gracefully.
+
+Since the QED programming language already includes an elaborate UI engine that enables all sorts of animations and GUI programming (that may be the subject of forthcoming articles), and since coroutines are natural allies for developing sprites and characters in games, I implemented a simple [bouncing balls demo](https://qed-lang.org/demos/?category=longer&name=bouncing&title=Sample+2) that uses coroutines within Ball objects for animation. This example demonstrates that in between two CoList.process() calls, you may add elements to and remove elements from the CoList internal list. This way, a CoList instance may handle a variable number of coroutines (down to 0). A funny test is to comment out the line "balls.remove(index);" in the removeBall method. A ball removed from the user will no longer disappear from the screen but its associated coroutine will still be removed from the CoList object, so it won't move anymore. The ball will suddenly freeze on the screen forever.
+
+## Conclusion
+
+I hope such an approach may help simplifying and democratizing the use of concurrency and especially coroutines, which deserve much more attention from developers. In the process, I also learned the valuable lesson about never saying never in life!

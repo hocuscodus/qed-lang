@@ -3,7 +3,7 @@ layout: page
 title: Quick tutorial
 permalink: /qedintro/
 ---
-This basic introduction shall ramp you up in minutes with something as strange (at first glance, no worries!) as QED.
+This basic introduction shall introduce you with something as strange (at first glance, no worries!) as QED.
 
 QED is great at designing complex graphical user interfaces the simple way. But before delving GUI features, here is the QED version of the traditional "Hello, World!" app, a simple one-liner:
 
@@ -39,13 +39,13 @@ What is the advantage of sharing a single code for both business logic and GUI a
 
     int num = 17; @out(num)
 
-The business logic is executed first and assigns to integer num the value 17. No return call is found so the business logic halts (keeping all variables active). Then the GUI is built and uses variable num from the business logic (17 is displayed).
+The business logic is executed first and assigns to integer num the value 17. No return call is found in next lines so the business logic is suspended (keeping all variables active). Then the GUI is built and uses variable num from the business logic (17 is displayed).
 
 And of course... binding goes both ways!
 
     int num; @out("Count: " + num) @onrelease(num++)
 
-The business logic of this example declares an integer variable num initialized to 0, then halts (no return call encountered). Then the GUI displays "Count: 0". When the user clicks on the GUI display, the @onrelease (mouse release) attribute value gets executed and variable num is increased. Then, the GUI execution phase is run again, now displaying "Count: 1". At each trapped event such as mouse release, the GUI gets rebuilt to reflect variable changes.
+The business logic of this example declares an integer variable num initialized to 0, then halts (no return call encountered afterwards). Then the GUI displays "Count: 0". When the user clicks on the GUI display, the @onrelease (mouse release) attribute value gets executed and variable num is increased. Then, the GUI execution phase is run again, now displaying "Count: 1". At each trapped event such as mouse release, the GUI gets rebuilt to reflect variable changes.
 
 Mixing variables from business logic to various GUI attributes and encapsulating them into functions allows building complex logic with few lines.
 
@@ -101,4 +101,8 @@ Using fields, more complex forms can finally be coded within functions.
     complexForm("Yes", "No");
     return(0);
 
-From now on, you should be able to have a better understanding of the [examples](/demos) here (the Boat rental kiosk has many sophisticated forms and animation). If you want to go further into exploring QED, there is a [video describing the philosophical roots](https://www.youtube.com/watch?v=a2OhmxXQbwo) of the language but beware though, it is not for everybody. I did it because some people may think I am insane, in order to prove them right! In any case, this documentation will expand quite a lot and will cover the complete subject over time.
+This is just a glimpse of what QED can do, but from now on, you may have a better understanding of the [examples](/demos) here (the Boat rental kiosk has many sophisticated forms and animation).
+
+QED cruelly lacks full documentation at this stage but I am striving to provide more complete notes as soon as I can. I will regularly post articles on this website about how QED works internally (there is already one about concurrent programming).
+
+In the meantime, if you want to go further into exploring QED, you may check out my [philosophico-esoterical video](https://www.youtube.com/watch?v=a2OhmxXQbwo) describing effectively much about the language syntax and use but beware though, it is not for everybody. I did it because some people may think I am insane, in order to prove them right! In any case, this documentation will expand quite a lot and will cover the complete subject over time.

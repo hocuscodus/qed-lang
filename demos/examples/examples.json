@@ -15,7 +15,6 @@
         "title": "Longer examples",
         "items": {
             "colist": "Producer-Consumer coroutines",
-            "boatrental": "Boat rental kiosk mockup",
             "bouncing": "Bouncing Balls"
         }
     }

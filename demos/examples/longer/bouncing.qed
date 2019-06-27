@@ -67,11 +67,11 @@ boolean CounterWidget(int count, int min) {
   } @out(rect()) @textwidth(2) @size(40) @bgcol(disabled ? 0x80000000 : color) @onpress(!disabled && (color = 0xA0000000)) @onrelease(!disabled && [(color = 0xE0000000), return()])
 
   {
-    Button decButton = new Button("-", count == min) -> [count > min && [count--, decButton.disabled = count == min, return(false)]]; @out(decButton)
+    Button decButton = new Button("-", count == min) -> {if (count > min) {_obj.disabled = --count == min; return(false);}}; @out(decButton)
     {
       ; @out(count) @size(60) @alignx(50) @textcol(0x80000000)
     } @out("") @textwidth(3) @size(60)
-    Button incButton = new Button("+", false) -> [decButton.disabled = false, count++, return(true)]; @out(incButton)
+    Button incButton = new Button("+", false) -> {decButton.disabled = false; count++; return(true);}; @out(incButton)
   } @cdir(1)
 } @out(roundrect(30)) @bgcol(0xFFFFFF)
 
@@ -83,8 +83,9 @@ boolean CounterWidget(int count, int min) {
   Ball[] balls = new [newBall(coList), newBall(coList), newBall(coList)];
   BallDisplay ballDisplay = new BallDisplay(balls);
   CounterWidget counter = new CounterWidget(balls.size(), 0) ->
-      [ballDisplay = parm() ? addBall(balls, coList) : removeBall(balls, coList, counter.count)];
-  Timer timer = new Timer(15) -> [coList.process(), timer.reset()];
+      {ballDisplay = _ret ? addBall(balls, coList) : removeBall(balls, coList, _obj.count);};
+
+  new Timer(30) -> {coList.process(); _obj.reset();};
 
   ; @out("Bouncing") @size(130) @textcol(0x50FFFFFF) @alignx(50) @aligny(10)
   ; @out("Balls!!") @size(160) @textcol(0x30FFFFFF) @alignx(50) @aligny(70)

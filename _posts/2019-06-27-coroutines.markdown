@@ -22,7 +22,7 @@ These examples are fun to watch and by looking at their source code, you may int
 
 The actual concurrency and coroutine implementations are heavily based on a concept called type/function equivalence, which will be explained now using code written in QED. QED source code syntax is very close to C/Java syntax so I won't spend time detailing it as it should be intuitive for most readers.
 
-QED has its own VM (as of today), but for the sake of clarity, let's pretend for this article that the QED compiler generates Java code instead of bytecode. The following QED function
+QED has its own VM (as of today), but for the sake of clarity, let's pretend in this article that the QED compiler generates Java code instead of bytecode. The following QED function
 
 ```
 int Adder(int a, int b) { // A noun as function name? Will tell why later on...
@@ -461,4 +461,4 @@ Since the QED programming language already includes an elaborate UI engine that 
 
 ## Conclusion
 
-I hope such an approach may help simplifying and democratizing the use of concurrency and especially coroutines, which deserve much more attention from developers. In the process, I also learned the valuable lesson about never saying never in life!
+I hope such an approach may help simplifying and democratizing the use of concurrency and especially coroutines, which deserve much more attention from developers. In the process, I also learned the valuable lesson to never say never in life!

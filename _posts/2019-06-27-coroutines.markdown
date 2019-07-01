@@ -365,8 +365,9 @@ We covered a lot of ground to get to this point, so it's payback time! Coroutine
 
 ```
 void CoList() {
-  boolean yield(); // always returns true, practical when looping
-  boolean process(); // returns true as well
+  boolean yield();   // always returns true, practical when looping
+  void end();        // yields and ends coroutine, never returns
+  boolean process(); // returns true if yield list non-empty, false otherwise
   void remove(int index);
 }
 ```
@@ -393,7 +394,7 @@ println("Done");
 return(0);
 ```
 
-The internal CoList implementation (ASF plus yield, process and remove members) would resemble this Java code:
+The internal CoList implementation (ASF plus yield, end, process and remove members) would resemble this Java code:
 
 ```java
 public interface CoCallback {
@@ -401,7 +402,7 @@ public interface CoCallback {
 }
 
 public class CoList {
-  private int index;
+  private int index = 0;
   private CoCallback processCallback = null;
   private List<CoCallback> yieldCallbacks = new ArrayList<CoCallback>();
 
@@ -410,25 +411,28 @@ public class CoList {
   public void yield(CoCallback callback) {
     if (processCallback == null)  // called outside of process() call
       yieldCallbacks.add(callback);
-    else
-      if (index < yieldCallbacks.size()) { // within list
-        CoCallback oldCallback = yieldCallbacks.get(index);
+    else {
+      yieldCallbacks.set(index++, callback);
+      doNext();
+    }
+  }
 
-        yieldCallbacks.set(index++, callback);
-        oldCallback.onCoCallback(true);
-      }
-      else { // list has complete, return from process()
-        CoCallback pCallback = processCallback;
-
-        index = 0;
-        processCallback = null;
-        pCallback.onCoCallback(true);
-      }
+  public void end(CoCallback callback) {
+    if (processCallback == null)  // called outside of process() call
+      throw new IllegalStateException("CoList.end cannot be called outside CoList.process call.");
+    else {
+      yieldCallbacks.remove(index);
+      doNext();
+    }
   }
 
   public void process(CoCallback processCallback) {
-    this.processCallback = processCallback;
-    yield(null); // resume all callbacks listed in yieldCallbacks
+    if (this.processCallback == null) {
+      this.processCallback = processCallback;
+      doNext();
+    }
+    else
+      throw new IllegalStateException("CoList.process cannot be called within another CoList.process execution.");
   }
 
   public void remove(int index, CoCallback callback) {
@@ -439,6 +443,20 @@ public class CoList {
     else
       throw new IllegalStateException("CoList.remove cannot be called within CoList.process call.");
   }
+
+  private void doNext() {}
+      if (index < yieldCallbacks.size()) { // still within list?
+        yieldCallbacks.get(index).onCoCallback(true);
+      }
+      else { // list has complete, return from process()
+        CoCallback pCallback = processCallback;
+
+        index = 0;
+        processCallback = null;
+        pCallback.onCoCallback(yieldCallbacks.size() != 0);
+      }
+    }
+  }
 }
 ```
 
@@ -447,13 +465,92 @@ The CoList function is used this way:
 
 2. add new object instances (new Foo(coList, ...);). The QED objects must have access to the coList variable (for instance, as a parameter).
 
-3. within added object instances code, you must call the yield method of your CoList variable (void Foo(CoList coList, ...) {... coList.yield() ...}). The first yield call will be add its callback in the CoList variable callback list and suspend the new QED function instance execution.
+3. within added object instances code, you must call the yield (or end if already done) method of your CoList variable (void Foo(CoList coList, ...) {... coList.yield() ...}). The first yield call will be add its callback in the CoList variable callback list and suspend the new QED function instance execution.
 
-4. when all QED function instances are entered, call CoList.process() to resume all yield calls sequentially in the CoList variable callback list until their next call to yield(). The process() call will return when all callbacks in the list are processed.
+4. when all QED function instances are entered, call CoList.process() to resume all yield calls sequentially in the CoList variable callback list until their next call to yield(), or end() to remove the coroutine from the list. The process() call will return when all callbacks in the list are processed.
 
 5. you may call process() anytime to repeat coroutine processes.
 
-6. you may remove any yield call (by their index), but it must not be done within a process() call (an exception will be raised if so).
+6. you may call CoList.remove(int index) any yield call by their index, but it must not be done within a process() call (an exception will be raised if so).
+
+Using these basic rules, usually cumbersome processes like fork-join models are now a breeze to implement (without any fork or join keyword, of course).
+
+```
+int count = 1;
+
+void CoFoo(CoList coList, string name, int limit) { // coroutine to fork
+  while (coList.yield() && count <= limit) {
+    print(name);
+  }
+
+  coList.end();
+}
+
+CoList coList = new CoList();
+new CoFoo(coList, "A", 3);      // fork task A
+new CoFoo(coList, "B", 6);      // fork task B
+new CoFoo(coList, "C", 2);      // fork task C
+
+while (coList.process()) {
+  count++;
+  println("");
+}
+
+println("All done!");   // implicit join at while loop exit
+```
+
+will effectively print
+
+```
+ABC
+ABC
+AB
+B
+B
+B
+All done!
+```
+
+Coroutines may return values as well. If we want all values to be returned before resuming processing, just move the CoList.end() call into handler functions.
+
+```
+int count = 1;
+
+int CoFoo(CoList coList, string name, int limit) {
+  while (coList.yield() && count <= limit) {
+    print(name);
+  }
+
+  return(limit); // return call instead of end (moved in handler)
+}
+
+int aCount;
+int bCount;
+int cCount;
+CoList co = new CoList();
+new CoFoo(co, "A", 5) -> {aCount = _ret; co.end();}; // CoList.end() at handler function
+new CoFoo(co, "B", 3) -> {bCount = _ret; co.end();};
+new CoFoo(co, "C", 6) -> {cCount = _ret; co.end();};
+
+while (co.process()) {
+  count++;
+  println("");
+}
+
+println("Tasks A, B and C executed " + aCount + ", " + bCount + " and " + cCount + " times respectively.");
+```
+
+will print the expected output
+
+```
+ABC
+ABC
+ABC
+AC
+AC
+C
+Tasks A, B and C executed 5, 3 and 6 times respectively.
+```
 
 Let's now refer to the code examples mentioned in the introductory part. The [producer/consumer coroutines scenario](https://qed-lang.org/demos/?category=longer&name=colist&title=Sample+1) declares a new CoList instance and adds a new Counter (producer) object and Printer (consumer) object. Each object execution is suspended upon a CoList.yield call. Upon each CoList.process() call, the objects resume from CoList.yield until the next yield call. When resuming, CoList.yield always returns true, which is practical to save one line on a 'while(true) {...}' construct. Upon resuming, the producer will generate a new number and store it in num, until it reaches 10 (num will be -1 after). The consumer will print num, unless num is -1. Each CoList.process() is within a while loop that ensures num is not -1. When num is -1, the program ends gracefully.
 

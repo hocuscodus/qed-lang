@@ -8,9 +8,7 @@ categories: Article
 
 ![](/balls2.png)
 
-Throughout my professional life as a software developer, I always vowed to never, ever implement concurrency mechanisms. I mean, the mere thought of such mechanisms had always disgusted me. Too complex, too cumbersome, too many corner cases.
-
-While designing [the QED programming language](https://qed-lang.org), I was keen on making it great for UI development and simpler programming concepts but never considered implementing concurrency. Sure, I knew it has always been an important topic, but it was too distracting from my primary goals and I had no expertise on its various implementation flavors. So I bluntly ignored concurrency in QED design. I told myself if it were becoming in demand someday, I may ponder over it with no clue of what to do and develop some patchy hack. The idea of handling threads and al on top of my core concepts was too much a burden.
+Throughout my professional life as a software developer, I always vowed to never, ever implement concurrency mechanisms. I mean, the mere thought of such mechanisms had always haunted me. Too complex, too cumbersome, too many corner cases. This was the reason for, while designing [the QED programming language](https://qed-lang.org), I bluntly ignored concurrency in the design. The idea of handling threads and company on top of my core concepts was too much a burden.
 
 When I started to showcase QED last August, I opened myself to subjects tantalizing the programming language community. Reading about [callback hell](http://callbackhell.com/), or [what color is your function](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/) sparked my imagination. I realized my programming language, without any thread-related feature, was so close to solving cooperative multitasking elegantly. This is where I finally learned the word coroutine (go ahead, mock me!) and inspected some implementations. Then it happened. The skies opened up, heavenly lights burned into my eyes and a choir of angels began chanting. After this epiphany moment, I urged myself to develop this new concurrency and coroutine vision for QED.
 

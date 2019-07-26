@@ -474,10 +474,10 @@ The CoList function is used this way:
 Using these basic rules, usually cumbersome processes like fork-join models are now a breeze to implement (without any fork or join keyword, of course).
 
 ```
-int count = 1;
-
 void CoFoo(CoList coList, string name, int limit) { // coroutine to fork
-  while (coList.yield() && count <= limit) {
+  int count = 0;
+
+  while (coList.yield() && count++ < limit) {
     print(name);
   }
 
@@ -490,7 +490,6 @@ new CoFoo(coList, "B", 6);      // fork task B
 new CoFoo(coList, "C", 2);      // fork task C
 
 while (coList.process()) {
-  count++;
   println("");
 }
 
@@ -512,10 +511,10 @@ All done!
 Coroutines may return values as well. If we want all values to be returned before resuming processing, just move the CoList.end() call into handler functions.
 
 ```
-int count = 1;
-
 int CoFoo(CoList coList, string name, int limit) {
-  while (coList.yield() && count <= limit) {
+  int count = 0;
+
+  while (coList.yield() && count++ < limit) {
     print(name);
   }
 
@@ -531,7 +530,6 @@ new CoFoo(co, "B", 3) -> {bCount = _ret; co.end();};
 new CoFoo(co, "C", 6) -> {cCount = _ret; co.end();};
 
 while (co.process()) {
-  count++;
   println("");
 }
 

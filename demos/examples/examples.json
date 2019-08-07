@@ -15,7 +15,8 @@
         "title": "Longer examples",
         "items": {
             "colist": "Producer-Consumer coroutines",
-            "bouncing": "Bouncing Balls"
+            "bouncing": "Bouncing Balls",
+            "boatrental": "Boat Rental"
         }
     }
 }

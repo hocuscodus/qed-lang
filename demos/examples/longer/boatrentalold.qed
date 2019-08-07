@@ -196,39 +196,20 @@ int NumericScreen(string title, string[] number) : Screen() {
 		} @out(roundrect(30)) @bgcol(0x000040) @textwidth(70) @zoomheight(2) @alignx(50) @aligny(50)
 	} @out(rect()) @bgcol(0xC0C0FF) @textwidth(100) @textheight(4)
 
-	int size = 0;
-
 	number[0] = "";
 
 	void handle(string key) {
-		void copy(int size) {
-			string oldNumber = number[0];
-			string newNumber = "";
-
-			println("Removing from " + oldNumber);
-			size {
-				println(oldNumber[&0]);
-				newNumber += oldNumber[&0];
-			}
-			number[0] = newNumber;
-			return();
-		}
-
 		switch(key) {
 			case("C") {
 				number[0] = "";
-				size = 0;
 			}
 
 			case(" Del ") {
-				if (size != 0) {
-					copy(--size);
-				}
+				number[0] = "";
 			}
 
 			default() {
 				number[0] += key;
-				size++;
 			}
 		}
 
@@ -283,7 +264,7 @@ string Listen(string device) {
 string lengthyOp(string title, string device, string state) : BackgroundScreen(title) {
 	{
 		; @out(BackgroundScreen)
-		new Exec(device, state) -> {return(_ret);}; @out("Please wait...") @alignx(50) @aligny(20) @textcol(0xFFFFFF) @size(25) @cweight(1)
+		new Exec(device, state) -> {return(parm());}; @out("Please wait...") @alignx(50) @aligny(20) @textcol(0xFFFFFF) @size(25) @cweight(1)
 		WaitingAnimation anim = new WaitingAnimation(75) -> {0;}; @out(anim) @alignx(50) @aligny(50) @cweight(1)
 		; @out("") @cweight(1)
 	} @cdir(2)
@@ -343,29 +324,11 @@ void selectLanguage() {
 	LanguagesForm form = new LanguagesForm();
 
 	void pullDrawer() {
-		new Timer(25) -> {
-			if (posx - step >= 0) {
-				posx -= step;
-				_obj.reset();
-			}
-			else() {
-				posx = 0;
-				return();
-			}
-		};
+		new Timer(25) -> {if (posx - step >= 0) {posx -= step; _obj.reset();} else() {posx = 0; return();}};
 	} @out(form)
 
 	void pushDrawer() {
-		new Timer(25) -> {
-			if (posx + step < maxOffset) {
-				posx += step;
-				_obj.reset();
-			}
-			else() {
-				posx = maxOffset;
-				return();
-			}
-		};
+		new Timer(25) -> {if (posx + step < maxOffset) {posx += step; _obj.reset();} else() {posx = maxOffset; return();}};
 	} @out(form)
 
 	println("Select Language function");

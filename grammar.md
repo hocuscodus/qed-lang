@@ -1,24 +1,24 @@
 ---
 layout: default
-title: 
+title:
 permalink: /grammar/
 ---
 QED Reference
 
-Appendix A - QED EBNF grammar v0.5.0
+Appendix A - QED EBNF grammar
 
     qed_module : package? import* statement_list;
 
     package : 'package' name ';';
 
-    import : 'import' name '.*'? ';';
-
     name : ID ('.' ID)*;
+
+    import : 'import' name '.*'? ';';
 
     statement_list : (statement attribute*)*;
 
     statement :
-      declaration parameters (';' | block) ('->' expression ';')? |
+      declaration parameters (';' | block) ('->' block)? |
       declaration ';' |
       declaration '=' (while_expression terminator | block_expression) |
       while_expression? terminator;
@@ -37,12 +37,6 @@ Appendix A - QED EBNF grammar v0.5.0
 
     superclasses : function_call (',' function_call)*;
 
-    function_call : ID '(' argument_list? ')';
-
-    argument_list : any_expression (',' any_expression)*;
-
-    any_expression : expression | block_expression;
-
     block : '{' statement_list '}';
 
     while_expression : 'while'? expression;
@@ -51,57 +45,63 @@ Appendix A - QED EBNF grammar v0.5.0
 
     block_expression : 'new'? block;
 
-    attribute : '@' ID ('(' any_expression? ')')?;
-
-    primary :
-      literal |
-      '(' any_expression ')' |
-      (primary '.')? 'new'? function_call ('->' block)? |
-      field_access;
-
-    literal ::=
-      INTEGER_LITERAL |
-      FLOATING_POINT_LITERAL
-      BOOLEAN_LITERAL |
-      CHARACTER_LITERAL |
-      STRING_LITERAL;
-
-    field_access : (primary '.')? ID ('[' any_expression ']')*;
-
-    postfix_expression : primary ('++' | '--')*;
-
-    cast_expression : '(' (expression | array_type) ')' unary_expression_not_plus_minus;
-
-    unary_expression_not_plus_minus : ('~' | '!')* unary_expression | cast_expression | postfix_expression;
-
-    unary_expression : ('++' | '--' | '+' | '-')* unary_expression_not_plus_minus;
-
-    multiplicative_expression : unary_expression (('*' | '/' | '%') unary_expression)*;
-
-    additive_expression : multiplicative_expression (('+' | '-') multiplicative_expression)*;
-
-    shift_expression : additive_expression (('<<' | '>>' | '>>>') additive_expression)*;
-
-    relational_expression : shift_expression (('<' | '>' | '<=' | '>=') shift_expression)*;
-
-    equality_expression : relational_expression (('==' | '!=') relational_expression)*;
-
-    and_expression : equality_expression ('&' equality_expression)*;
-
-    exclusive_or_expression : and_expression ('^' and_expression)*;
-
-    inclusive_or_expression : exclusive_or_expression ('|' exclusive_or_expression)*;
-
-    conditional_and_expression : inclusive_or_expression ('&&' inclusive_or_expression)*;
-
-    conditional_or_expression : conditional_and_expression ('||' conditional_and_expression)*;
-
-    conditional_expression : conditional_or_expression ('?' expression ':' conditional_expression)?;
+    expression : assignment_expression;
 
     assignment_expression :
       field_access ('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '>>=' | '<<=' | '>>>=' | '&=' | '|=' | '^=') conditional_expression;
 
-    expression : assignment_expression;
+    conditional_expression : conditional_or_expression ('?' expression ':' conditional_expression)?;
+
+    conditional_or_expression : conditional_and_expression ('||' conditional_and_expression)*;
+
+    conditional_and_expression : inclusive_or_expression ('&&' inclusive_or_expression)*;
+
+    inclusive_or_expression : exclusive_or_expression ('|' exclusive_or_expression)*;
+
+    exclusive_or_expression : and_expression ('^' and_expression)*;
+
+    and_expression : equality_expression ('&' equality_expression)*;
+
+    equality_expression : relational_expression (('==' | '!=') relational_expression)*;
+
+    relational_expression : shift_expression (('<' | '>' | '<=' | '>=') shift_expression)*;
+
+    shift_expression : additive_expression (('<<' | '>>' | '>>>') additive_expression)*;
+
+    additive_expression : multiplicative_expression (('+' | '-') multiplicative_expression)*;
+
+    multiplicative_expression : unary_expression (('*' | '/' | '%') unary_expression)*;
+
+    unary_expression : ('++' | '--' | '+' | '-')* unary_expression_not_plus_minus;
+
+    unary_expression_not_plus_minus : ('~' | '!')* unary_expression | cast_expression | postfix_expression;
+
+    cast_expression : '(' (expression | array_type) ')' unary_expression_not_plus_minus;
+
+    postfix_expression : primary ('++' | '--')*;
+
+    primary :
+      '(' any_expression ')' |
+      field_access |
+      (primary '.')? 'new'? function_call ('->' block)? |
+      literal;
+
+    any_expression : expression | block_expression;
+
+    field_access : (primary '.')? ID ('[' any_expression ']')*;
+
+    function_access : ID '(' argument_list? ')';
+
+    argument_list : any_expression (',' any_expression)*;
+
+    literal ::=
+      INTEGER |
+      FLOAT |
+      BOOLEAN |
+      CHARACTER |
+      STRING;
+
+    attribute : '@' ID ('(' any_expression? ')')?;
 
     ID : (A..Z | a..z | '_')) (A..Z | a..z | '_' | '-'))*;
     INTEGER : '-'? (0..9* | '0x' (0..9 | A..F | a..f)+);

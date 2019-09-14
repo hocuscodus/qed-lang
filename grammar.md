@@ -7,107 +7,106 @@ QED Reference
 
 Appendix A - QED EBNF grammar
 
-    qed_module : package? import* statement_list;
+```
+qed_module : package? import* statement_list;
 
-    package : 'package' name ';';
+package : 'package' name ';';
 
-    name : ID ('.' ID)*;
+name : ID ('.' ID)*;
 
-    import : 'import' name '.*'? ';';
+import : 'import' name '.*'? ';';
 
-    statement_list : (statement attribute*)*;
+statement_list : (statement attribute*)*;
 
-    statement :
-      declaration parameters (';' | block) ('->' block)? |
-      declaration ';' |
-      declaration '=' (while_expression terminator | block_expression) |
-      while_expression? terminator;
+statement :
+  declaration parameters (';' | block) ('->' block)* |
+  declaration ';' |
+  declaration '=' (while_expression terminator | block_expression) |
+  while_expression? terminator;
 
-    declaration : type ID;
+declaration : type ID;
 
-    type : basic_type | array_type;
+type : basic_type | array_type;
 
-    basic_type : name;
+basic_type : name;
 
-    array_type : name ('[' ']')+;
+array_type : name ('[' ']')+;
 
-    parameters : '(' parameter_list? ')' (':' superclasses)?;
+parameters : '(' parameter_list? ')' (':' superclasses)?;
 
-    parameter_list : declaration (',' declaration)*;
+parameter_list : declaration (',' declaration)*;
 
-    superclasses : function_call (',' function_call)*;
+superclasses : reference (',' reference)*;
 
-    block : '{' statement_list '}';
+block : '{' statement_list '}';
 
-    while_expression : 'while'? expression;
+while_expression : 'while'? simple_expression;
 
-    terminator : ';' | block_expression;
+terminator : ';' | block_expression;
 
-    block_expression : 'new'? block;
+block_expression : 'new'? block;
 
-    expression : assignment_expression;
+simple_expression : assignment_expression;
 
-    assignment_expression :
-      field_access ('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '>>=' | '<<=' | '>>>=' | '&=' | '|=' | '^=') conditional_expression;
+assignment_expression :
+  reference
+  ('=' | '*=' | '/=' | '%=' | '+=' | '-=' | '>>=' | '<<=' | '>>>=' | '&=' | '|=' | '^=')
+  conditional_expression;
 
-    conditional_expression : conditional_or_expression ('?' expression ':' conditional_expression)?;
+conditional_expression : conditional_or_expression ('?' expression ':' expression)?;
 
-    conditional_or_expression : conditional_and_expression ('||' conditional_and_expression)*;
+conditional_or_expression : conditional_and_expression ('||' conditional_and_expression)*;
 
-    conditional_and_expression : inclusive_or_expression ('&&' inclusive_or_expression)*;
+conditional_and_expression : inclusive_or_expression ('&&' inclusive_or_expression)*;
 
-    inclusive_or_expression : exclusive_or_expression ('|' exclusive_or_expression)*;
+inclusive_or_expression : exclusive_or_expression ('|' exclusive_or_expression)*;
 
-    exclusive_or_expression : and_expression ('^' and_expression)*;
+exclusive_or_expression : and_expression ('^' and_expression)*;
 
-    and_expression : equality_expression ('&' equality_expression)*;
+and_expression : equality_expression ('&' equality_expression)*;
 
-    equality_expression : relational_expression (('==' | '!=') relational_expression)*;
+equality_expression : relational_expression (('==' | '!=') relational_expression)*;
 
-    relational_expression : shift_expression (('<' | '>' | '<=' | '>=') shift_expression)*;
+relational_expression : shift_expression (('<' | '>' | '<=' | '>=') shift_expression)*;
 
-    shift_expression : additive_expression (('<<' | '>>' | '>>>') additive_expression)*;
+shift_expression : additive_expression (('<<' | '>>' | '>>>') additive_expression)*;
 
-    additive_expression : multiplicative_expression (('+' | '-') multiplicative_expression)*;
+additive_expression : multiplicative_expression (('+' | '-') multiplicative_expression)*;
 
-    multiplicative_expression : unary_expression (('*' | '/' | '%') unary_expression)*;
+multiplicative_expression : unary_expression (('*' | '/' | '%') unary_expression)*;
 
-    unary_expression : ('++' | '--' | '+' | '-')* unary_expression_not_plus_minus;
+unary_expression :
+  ('++' | '--' | '+' | '-')* unary_expression_not_plus_minus |
+  '&' INTEGER;
 
-    unary_expression_not_plus_minus : ('~' | '!')* unary_expression | cast_expression | postfix_expression;
+unary_expression_not_plus_minus :
+  ('~' | '!')* unary_expression |
+  cast_expression |
+  postfix_expression;
 
-    cast_expression : '(' (expression | array_type) ')' unary_expression_not_plus_minus;
+cast_expression : '(' (simple_expression | array_type) ')' unary_expression_not_plus_minus;
 
-    postfix_expression : primary ('++' | '--')*;
+postfix_expression : primary ('++' | '--')*;
 
-    primary :
-      '(' any_expression ')' |
-      field_access |
-      (primary '.')? 'new'? function_call ('->' block)? |
-      literal;
+primary : '(' expression ')' | reference | literal;
 
-    any_expression : expression | block_expression;
+reference :
+  (primary '.')? 'new'? ID ('(' argument_list? ')')? ('[' expression ']')* ('->' block)?;
 
-    field_access : (primary '.')? ID ('[' any_expression ']')*;
+argument_list : expression (',' expression)*;
 
-    function_access : ID '(' argument_list? ')';
+literal ::= INTEGER | FLOAT | BOOLEAN | CHARACTER | STRING;
 
-    argument_list : any_expression (',' any_expression)*;
+expression : simple_expression | block_expression;
 
-    literal ::=
-      INTEGER |
-      FLOAT |
-      BOOLEAN |
-      CHARACTER |
-      STRING;
+attribute : '@' ID '(' expression? ')';
 
-    attribute : '@' ID ('(' any_expression? ')')?;
-
-    ID : (A..Z | a..z | '_')) (A..Z | a..z | '_' | '-'))*;
-    INTEGER : '-'? (0..9* | '0x' (0..9 | A..F | a..f)+);
-    FLOAT : '-'? 0..9* ('.' 0..9*)+;
-    BOOLEAN : 'true' | 'false';
-    CHARACTER : "'" . "'";
-    STRING : '"' .* '"';
-    COMMENT : '/*' -> '*/' | '//' -> '\n';
-    WS : ' ';
+ID : (A..Z | a..z | '_')) (A..Z | a..z | '_' | '-'))*;
+INTEGER : '-'? (0..9* | '0x' (0..9 | A..F | a..f)+);
+FLOAT : '-'? 0..9* ('.' 0..9*)+;
+BOOLEAN : 'true' | 'false';
+CHARACTER : "'" . "'";
+STRING : '"' .* '"';
+COMMENT : '/*' -> '*/' | '//' -> '\n';
+WS : ' ';
+```

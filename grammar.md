@@ -3,11 +3,11 @@ layout: default
 title:
 permalink: /grammar/
 ---
-QED Reference
+# QED Reference
 
-Appendix A - QED EBNF grammar
+# Appendix A - QED EBNF grammar
 
-```
+```none
 qed_module : package? import* statement_list;
 
 package : 'package' name ';';

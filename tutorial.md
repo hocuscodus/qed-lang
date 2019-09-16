@@ -1,39 +1,59 @@
 ---
 layout: default
-title: 
+title:
 permalink: /tutorial/
 ---
-QED Tutorial Part 1 - On Code
+# QED Tutorial Part 1 - On Code
 
-This tutorial will first detail each of these categories, in order to build QED program logic. Then, a second part will tell about GUI attributes, which allows sophisticated GUI building on top of QED program logic.
+This tutorial details how to build QED program logic. Then, a second part will tell about GUI attributes, which allows sophisticated GUI building on top of this logic.
 
-A QED program, simply put, is a batch of statements. That's basic but vague so, to formally define it, we will gradually unveil the QED grammar (in ANTLR form) and explain it as we go.
+## Ok, what is a QED program?
 
-qed_module      : statement_list
-statement_list  : statement*
+A QED program (or module) is, simply put, a batch of statements (along with optional package declaration and list of imports). We will skip package and import definitions in this tutorial as they behave like in mainstream languages.
 
-The key to understanding QED is the statement definition. QED offers various sorts of statements but all QED statements are made of these three optional components:
+```none
+package <namespace>; // optional
 
-    statement -> [declaration] [expression] [block_expression]
+import <namespaceX>; // optional
 
-To compose your QED statements, you would pick selected components and stack them. The only requirement is to keep the ordering as defined in the above list. For instance, you cannot add declaration after the expression.
+<statement1>
+<statement2>
+...
+<statementN>
+```
 
-Fortunately, the QED grammar enforces ordering and carves out the right syntax for various component mixes. QED statements are thus divided into five categories: expressions, block expressions, flow statements, variables and functions.
+That's basic but vague so, to formally define it, we will gradually unveil the not-so-many QED types of statement.
 
-Expressions
+## Fine, what is a QED statement then?
 
-    statement   : expression? terminator
-    terminator  : ';'
+Although QED offers various sorts of statements, all of them stem from three optional components:
 
-Most QED statements are made of expressions only. You may refer to various expressions defined in the complete QED grammar at the end of this tutorial but suffice it to say that they are very close to expressions in other languages (in both operators and precedence). Like in many languages also, they end with a semicolon and an empty expression is allowed.
+**statement -> [declaration] [simple expression] [block expression]**
+
+To compose your QED statements, you would pick selected components and stack them. The QED grammar enforces ordering (as defined in the above list) and carves out the right syntax for various component mixes. QED statements are thus divided into five categories: simple expressions, block expressions, flow statements, variables and functions.
+
+## Let's start with simple expressions only... what are they?
+
+**statement -> ~~[declaration]~~ [simple expression] ~~[block expression]~~**
+
+Most QED statements are made of simple expressions only. You may refer to various expressions defined in the complete QED grammar but suffice it to say they are very close to expressions in other languages (in both operators and precedence). Like in many languages also, they end with a semicolon. The empty expression is allowed.
 
     println("Hello, World!");
     a = b * 2 + 5;
+    ;
 
-Expressions (and block expressions) can be divided in two categories: those who return nothing (void expressions)
+## Looks simple! What's next?
+
+Not so fast! In a list of statements that form a QED module, non-void simple expressions (and also block expressions) are used to initialize a QED object.
+
+## What do you mean?
+
+To each list of statements is associated a QED aggregate type.
+
+Before diving in, QED separate expressions in two categories: those who return nothing (void expressions)
 
     println("This is a string");
-    a = 4; // assigment ops in QED returns void
+    a = 4; // assigment ops in QED return void so you cannot do a = b = c;
 
 and those who return something (non-void expressions).
 
@@ -42,7 +62,9 @@ and those who return something (non-void expressions).
     5 + b * 2
     fib(10);
 
-Before evaluating a list of statements, QED allocates a chunk of memory for non-void expression values. This chunk of memory is considered a QED object. When evaluating non-void expressions, return values are stored in the associated object.
+For any statement list, the QED compiler identifies the statements that have simple or block expressions in the second category (not returning void). For these statements, it reserves a field in memory that will hold its return value. The resulting set of fields is the QED object.
+
+At runtime, a QED object is allocated before running the list of statements. Then, each statement is evaluated as usual. However, the return values of non-void expressions are stored in the QED object, initializing it.
 
 | "John";<br>println("Hello");<br>4 + 3 * 2 - 1; | sdfadfasd  |
 |------------------------------------------------------|---|
@@ -51,11 +73,39 @@ Before evaluating a list of statements, QED allocates a chunk of memory for non-
     println("Hello");
     4 + 3 * 2 - 1;
 
-Expressions not returning a void type are valid in QED because QED stores their results in memory. In the above samples, QED would define an internal object comprising a string ("John") and an integer (provided that b and c are integers). We will soon see how to access and use this object.
+So expressions not returning a void type are valid in QED because they do have a side effect: QED stores their results in the object. In the above samples, QED would define an internal object comprising a string ("John") and an integer (9). We will soon see the purpose of QED objects but in the meantime...
 
-Block expressions
+## Now with block expressions...
 
-Block expression is also an expression, that is, it is evaluated and returns something. However, they are orthogonal (separate) to classic expressions as there cannot be block expressions within classic expressions. So a statement may end with a semicolon but also a block expression.
+**statement -> ~~[declaration]~~ ~~[simple expression]~~ [block expression]**
+
+A block expression is also an expression, that is, it is evaluated and returns something. However, it is different from a simple expressions as it, just like a QED module, is a list of statements, but delimited by braces. A block expression defines a new QED type inferred from its non-void expressions.
+
+```
+{
+  <statement1>
+  <statement2>
+  ...
+  <statementN>
+}
+```
+
+Block expressions have the peculiarity to be preceded by an optional 'new' keyword. The presence or absence of 'new' determines the return type of the block expression. If new is not present, the return value is the object last value (which could be void). If new is present, the return value is the object itself.
+
+```
+"Start";
+new {
+  6;
+  println("hello");
+  9 * 2;
+  {
+    8;
+    12;
+  }
+}
+```
+
+to simple expressions. So a statement may end with a semicolon but also a block expression.
 
     terminator        : ';' | block_expression
     block_expression  : 'new'? block

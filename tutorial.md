@@ -66,13 +66,15 @@ For any statement list, the QED compiler identifies the statements that have sim
 
 At runtime, a QED object is allocated before executing the list of statements. Then, each statement is evaluated as usual. However, the return values of non-void expressions are stored in the QED object, initializing it.
 
-    "John";
-    println("Hello");
-    4 + 3 * 2 - 1;
+![](/schema1.png)
 
 So expressions not returning a void type are valid in QED because they do have a side effect: QED stores their results in the associated composite object. In the above samples, the QED object comprises a string ("John") and an integer (9). We will soon see the purpose of QED objects but in the meantime...
 
-## Now with block expressions...
+## Why store the non-void expression values?
+
+Good question. Allow me to answer a bit later but here is a clue: it has something to do with flows.
+
+## Sure. Now with block expressions?
 
 **statement -> ~~[declaration]~~ ~~[simple expression]~~ [block expression]**
 
@@ -91,11 +93,11 @@ As opposed to statements with simple expressions, statements with block expressi
 
 ## But what is the return value? The last statement value?
 
-Yes... an no. It depends on the 'new' keyword presence or absence.
+Yes... and no. It depends on the `new` keyword presence or absence.
 
-Block expressions have the peculiarity to be preceded by an optional 'new' keyword. The presence or absence of 'new' determines the return value of the block expression.
+Block expressions have the peculiarity to be preceded by an optional `new` keyword. The presence or absence of `new` determines the return value of the block expression.
 
-If 'new' is not present, the return value is the last statement value (which could be void for a void last statement or if there is no statement in the block). When the last statement value is returned, the object generated from the block expression execution is no longer needed and is thus freed.
+If `new` is not present, the return value is the last statement value (which could be void for a void last statement or if there is no statement in the block). When the last statement value is returned, the object generated from the block expression execution is no longer needed and is thus freed.
 
 However, if new is present, the return value is the object itself. There is no special treatment for the last value of the block and the whole object is kept in memory.
 
@@ -151,7 +153,7 @@ else {
 
 ## How about loops with this system? Is there a for(;;) system function?
 
-## Ok... but this only works for loops having a predefined size... how do you do while loops?
+## Ok... but this only works for loops having a predefined size... how do you do `while` loops?
 
 ## What about simple expressions that are neither conditional nor integer? What do they do about the block expression?
 
@@ -179,7 +181,7 @@ Let's continue with functions.
 
 **statement -> [declaration] ~~[simple expression]~~ [block expression]**
 
-statement   : expression 'new'? '{' statement_list '}'
+statement   : expression `new`? '{' statement_list '}'
 
 statement         : while_expression? terminator
 while_expression  : 'while'? expression

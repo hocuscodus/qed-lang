@@ -72,7 +72,7 @@ So expressions not returning a void type are valid in QED because they do have a
 
 ## Why store the non-void expression values?
 
-Good question. Allow me to answer a bit later but here is a clue: it has something to do with flows.
+Good question. Allow me to answer a bit later but here is a clue: it has something to do with flows. And arrays too...
 
 ## Sure. Now with block expressions?
 
@@ -99,20 +99,11 @@ Block expressions have the peculiarity to be preceded by an optional `new` keywo
 
 If `new` is not present, the return value is the last statement value (which could be void for a void last statement or if there is no statement in the block). When the last statement value is returned, the object generated from the block expression execution is no longer needed and is thus freed.
 
-However, if new is present, the return value is the object itself. There is no special treatment for the last value of the block and the whole object is kept in memory.
+However, if `new` is present, the return value is the object itself. There is no special treatment for the last value of the block and the whole object is kept in memory.
 
-```
-"Start";
-new {
-  6;
-  println("hello");
-  9 * 2;
-  {
-    8;
-    12;
-  }
-}
-```
+![](/schema2.png)
+
+In this example, three QED objects are created. The main object includes "Start" and a child QED object, because the associated block expression is declared with `new`. The child object includes 6, 18 and 12. The 12 comes from a third QED object, which block expression is declared without `new`. This third object was containing 8 and 12 but because `new` was not present, the third object returns its last value (12) in the second object and frees itself.
 
 ## I'm ok with expressions, both simple and block... I see the remaining statements are flows, variables and functions. Let's start with flows!
 

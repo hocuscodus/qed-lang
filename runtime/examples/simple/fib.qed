@@ -1,0 +1,29 @@
+/*
+ * Simple example to show that QED code, without GUI attributes, really looks like
+ * C or Java (except for loops maybe). It is still highly readable.
+ */
+
+int fib(int n) {
+	if (n < 2) {		// "if()" is a function here, not a keyword
+		return(n);
+	}
+	else() {		// "else()" is a function too!
+		int v1 = 1;
+		int v2 = 1;
+		int value = 1;
+
+		n - 2 {		// An integer prior to braces is a loop count
+			value = v1 + v2;
+			v1= v2;
+			v2= value;
+		}
+
+		return(value);	// You guessed it... return() is a function as well
+	}
+}
+
+20 {				// Another loop count. &0 is the zero-based index
+	println("fib(" + &0 + ") = " + fib(&0));
+}
+
+return(0);			// The return() here exits the program

@@ -1,7 +1,11 @@
 package com.example.test;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -48,6 +52,8 @@ public class Client extends QEDProcess {
     private Client(int width, int height) {
         this.width = width;
         this.height = height;
+        System.setOut(new PrintStream(new WebStream()));
+        System.setErr(new PrintStream(new WebStream()));
     }
 
 	public Reader getReader(String fileName) {
@@ -472,9 +478,37 @@ public interface FrameStdoutCommand extends FrameCommand {
     	return null;
     }
 
+    private static String encodeString(String str) {
+    	StringBuffer buf = new StringBuffer();
+
+    	for (int index = 0; index < str.length(); index++)
+    		buf.append(str.charAt(index) == ' ' ? '+' : str.charAt(index));
+
+    	return buf.toString();
+    }
+
+    private static String decodeString(String str) {
+    	StringBuffer buf = new StringBuffer();
+
+    	for (int index = 0; index < str.length(); index++)
+    		buf.append(str.charAt(index) == '+' ? ' ' : str.charAt(index));
+
+    	return buf.toString();
+    }
+
     private static void initExamples() {
         HTMLDocument document = HTMLDocument.current();
         String url = getURL(document);
+        int parmIndex = url.indexOf('?');
+    	String parmString = parmIndex != -1 ? url.substring(parmIndex + 1) : null;
+    	String[] parms = parmString != null ? parmString.split("&") : null;
+
+        if (parms != null) {
+        	String title = getParm(parms, "title");
+
+        	if (title != null)
+        		setTitle("Demo - " + decodeString(title));
+        }
 
         examplesButton.listenClick(event -> showExamples());
 
@@ -487,11 +521,8 @@ public interface FrameStdoutCommand extends FrameCommand {
             loadExamples(JSON.parse(request.getResponseText()).cast());
             renderExamples();
             examplesButton.setDisabled(false);
-            int parmIndex = url.indexOf('?');
 
-            if (parmIndex != -1) {
-            	String parmString = url.substring(parmIndex + 1);
-            	String[] parms = parmString.split("&");
+            if (parms != null) {
             	String category = getParm(parms, "category");
             	String name = getParm(parms, "name");
 
@@ -527,13 +558,13 @@ public interface FrameStdoutCommand extends FrameCommand {
                 HTMLElement itemElement = document.createElement("div");
                 itemElement.appendChild(document.createElement("span").withText(entry.getValue()));
                 itemElement.setClassName("example-item");
-                itemElement.listenClick(event -> loadPage(categoryEntry.getKey(), entry.getKey()));
+                itemElement.listenClick(event -> loadPage(categoryEntry.getKey(), entry.getKey(), entry.getValue()));
                 container.appendChild(itemElement);
             }
         }
     }
 
-    private static void loadPage(String category, String item) {
+    private static void loadPage(String category, String item, String title) {
     	String url = getURL(HTMLDocument.current());
         int parmIndex = url.indexOf('?');
 
@@ -542,6 +573,7 @@ public interface FrameStdoutCommand extends FrameCommand {
 
         url += "?category=" + category;
     	url += "&name=" + item;
+    	url += "&title=" + encodeString(title);
     	goToURL(url);
     }
 
@@ -571,6 +603,9 @@ public interface FrameStdoutCommand extends FrameCommand {
     @JSBody(params = "url", script = "window.location.href = url;")
     private static native void goToURL(String url);
 
+    @JSBody(params = "title", script = "window.document.title = title;")
+    private static native void setTitle(String title);
+
     private static void showExamples() {
         HTMLDocument document = HTMLDocument.current();
         examplesDialog.getStyle().setProperty("display", "block");
@@ -585,6 +620,62 @@ public interface FrameStdoutCommand extends FrameCommand {
         examplesBackdrop.delete();
         examplesBackdrop = null;
     }
+
+	public class WebStream extends OutputStream {
+		@Override
+		public void write(int b) throws IOException {
+        	if (b == '\n')
+        		println("");
+        	else
+        		print(new String(new byte[] {(byte) b}));
+		}
+
+	    public void write(byte b[], int off, int len) throws IOException {
+	        if (b == null) {
+	            throw new NullPointerException();
+	        } else if ((off < 0) || (off > b.length) || (len < 0) ||
+	                   ((off + len) > b.length) || ((off + len) < 0)) {
+	            throw new IndexOutOfBoundsException();
+	        } else if (len == 0) {
+	            return;
+	        }
+
+	        int end = off + len;
+
+	        for (int i = off ; i < end; i++) {
+	        	if (b[i] == '\n') {
+	        		println(new String(Arrays.copyOfRange(b, off, i)));
+	        		off = i + 1;
+	        	}
+	        }
+    		print(new String(Arrays.copyOfRange(b, off, end)));
+	    }
+	}
+
+	public static void runExample() {
+		if (process != null)
+			process.removeAllElements();
+
+		graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+		clearStdOut();
+		process = new Client(0, 0);
+
+		try {
+			process.run(new String[] {"test"}, new ProcessReturnHandler() {
+				public void onPause(QEDProcess process, Call call) {
+//					process.println("Paused...");
+				}
+
+				public void onHalt(QEDProcess process, Call call) {
+				}
+
+				public void onReturn(QEDProcess process, Call call, Object value) {
+					super.onReturn(process, call, value);
+				}
+			});
+		} catch(Exception e) {
+		}
+	}
 
 	public static void main(final String argv[]) {
 	    examplesButton = HTMLDocument.current().getElementById("select").cast();
@@ -621,29 +712,11 @@ public interface FrameStdoutCommand extends FrameCommand {
         HTMLDocument.current().getElementById("run").addEventListener("click", new EventListener() {
 			@Override
 			public void handleEvent(Event evt) {
-				if (process != null)
-					process.removeAllElements();
-
-				graphics.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-				clearStdOut();
-				process = new Client(0, 0);
-
-				try {
-					process.run(new String[] {"test"}, new ProcessReturnHandler() {
-						public void onPause(QEDProcess process, Call call) {
-//							process.println("Paused...");
-						}
-
-						public void onHalt(QEDProcess process, Call call) {
-						}
-
-						public void onReturn(QEDProcess process, Call call, Object value) {
-							super.onReturn(process, call, value);
-						}
-					});
-				} catch(Exception e) {
-				}
+				runExample();
 			}
         });
+
+        if (code.getValue().trim().length() != 0)
+        	runExample();
 	}
 }

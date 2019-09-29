@@ -4,4 +4,4 @@ title:
 permalink: /qeded/
 ---
 
-{% include qeded/index.html %}
+{% include test-0.0.2-SNAPSHOT/index.html %}

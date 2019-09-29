@@ -1,0 +1,10 @@
+@CHARSET "ISO-8859-1";
+
+.stdout {
+	width: 500px;
+	height: 200px;
+	font-family: monospace;
+	white-space: pre-wrap;
+	padding: 3px;
+	overflow: auto;
+}

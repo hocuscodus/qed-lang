@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "A first contribution to QED"
+date:   2019-10-09 22:10:47 -0400
+author: "Martin Savage"
+categories: Article
+---
+
+I am very happy to report that QED reached a major milestone for a nascent language: a first contribution! Mike Parr, who has a wealth of experience in various programming languages, seized QED's potential and created the first QED editor! It runs stand-alone (no need to be online like in QED demo page), in Windows, allowing users to try QED or write simple programs and see the result on their default browser, using an offline page. I wish I had a worthy QED tutorial to bundle up with the editor but that will come up later (but it does exist as a work in progress). In the meantime, [you can download the qeded editor on his website](http://mikeparr.info/qed.html) and browse the other cool languages that piqued his interest.
+
+Thanks Mike!
+
+

@@ -1,0 +1,9 @@
+// Greeter - by Martin Savage
+{
+  string str;
+  {
+    ; @out(str) @editable(true) @textwidth(12) @bgcol(0xaaafff) @size(20)
+    ; @out("")
+  } @out("First Name: ") @size(20) @cdir(1)
+  ; @out(str != "" ? "Hello " + str + "!": "") @size(60) @fgcol(0xC00000)
+} @cdir(2) @cpack(3)

@@ -1,0 +1,84 @@
+string name = "";
+
+void askName() {
+  int col = 0xcccccc;
+  {
+    ; @out(name) @editable(true) @textwidth(12) @bgcol(0xaaafff) @size(60)
+    ; @out("")
+  } @out("Prenom: ") @size(60) @cdir(1)
+  ; @out("") @size(100)
+  ; @out("Ok") @alignx(50) @size(60) @bgcol(col) @onpress(col = 0x888888) @onrelease(return())
+} @cdir(2) @cpack(3)
+
+void pres(string str1, string str2) {
+  int col = 0xcccccc;
+  ; @out(str1) @size(120)
+  ; @out(str2) @size(120)
+  ; @out("Ok") @alignx(50) @size(60) @bgcol(col) @onpress(col = 0x888888) @onrelease(return())
+} @cdir(2)
+
+void code(string str); @out(str) @size(200)
+
+boolean ask(int a, int b, int time) {
+  int c = 0;
+  int col = 0xdddfff;
+  boolean good = false;
+  int seconds = time;
+
+  boolean wait(boolean val) {
+    good = val;
+    time += good ? -1 : 1;
+    col = good ? 0x33ff33 : 0xff3333;
+    c = a * b;
+    Timer((105 - time) == 100 ? 3000 : good ? 500 : 1500);
+    return(val);
+  }
+
+  {
+    ; @out(a) @size(60)
+    ; @out(" x ") @size(60)
+    ; @out(b) @size(60)
+    ; @out(" = ") @size(60)
+    ; @out(c) @size(60) @oninput(a * b == c ? return (wait(true)) : 0) @textwidth(4) @bgcol(col)
+  } @cdir(1)
+
+  Timer timer = new Timer(1000) -> {
+    if (!good) {
+      if (--seconds == 0) {
+        return (wait(false));
+      } else() {
+        _obj.reset();
+      }
+    }
+  }; @out("Temps: " + seconds) @size(40)
+  ; @out("Score: " + (105 - time) + "/100") @size(40)
+	time > 7 ? 10 : 0 {
+	  {
+	    time > 7 ? 10 : 0 {
+	      {
+	        ; @out((&1 + 1) * (&0 + 1)) @size(16) @bgcol(0xDDDDDD)
+	      } @out(&0 + 1) @cdir(1) @bgcol(0x0000FF) @textcol(0xFFFFFF) @size(14)
+	    } @adir(2) @apack(0)
+	  } @out(&0 + 1) @cdir(2) @bgcol(0x0000FF) @textcol(0xFFFFFF) @size(14)
+	} @adir(1) @apack(0)
+} @cdir(2)
+
+void nextSlide() {
+  Timer(1000); @out("Suivante...") @size(120)
+  return();
+}
+
+int time = 10;
+
+askName();
+pres("Bonjour " + name + "!", "Bonne chance!");
+
+while ((105 - time) != 100) {
+  time += ask((int) (rand() * 8 + 2), (int) (rand() * 8 + 2), time) ? -1 : 1;
+  (105 - time) != 100 ? nextSlide() : 0;
+}
+
+pres("Bravo " + name + "!", "Voici le code:");
+code("BABYSHARK");
+
+return (0);

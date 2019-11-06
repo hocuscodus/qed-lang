@@ -1,0 +1,158 @@
+string name = "";
+int mode;
+int buffer = 5;
+int range = 20;
+int score = 0;
+
+void Button(string text, int fontSize) {
+	int color = 0xcccc33; @out("  " + text + "  ") @textcol(0xffffff) @alignx(50) @textcol(0) @size(fontSize)
+} @out(roundrect(30)) @bgcol(color) @onpress(color = 0x999900) @onrelease([(color = 0xcccc33), return()]) @zoomwidth(100) @zoomheight(100)
+
+void askName() {
+  {
+    ; @out(name) @editable(true) @textwidth(12) @bgcol(0xaaafff) @size(60)
+    ; @out("")
+  } @out("Prénom: ") @size(60) @cdir(1)
+  ; @out("") @size(50)
+  Button ok = new Button("Entrer", 60) -> {return();}; @out(ok) @alignx(50)
+} @cdir(2) @cpack(3)
+
+void pres(string str1, string str2, string label) {
+  ; @out(str1) @size(120)
+  ; @out(str2) @size(120)
+  Button ok = new Button(label, 60) -> {return();}; @out(ok) @alignx(50)
+} @cdir(2)
+
+int selectMode(string[] modes) {
+  ; @out("Niveau?") @size(70) @alignx(50)
+  modes.size() {
+    Button button = new Button(modes[&0], 50) -> {return(&0);}; @out(button)
+  } @adir(2) @aspace(20)
+} @cdir(2)
+
+void code(string str); @out(str) @size(200)
+
+boolean ask(int a, int b) {{
+  int c = 0;
+  int col = 0xdddfff;
+  boolean good = false;
+  int seconds = range - score;
+  boolean done = false;
+
+  seconds *= seconds;
+  seconds /= range;
+  seconds += buffer;
+
+  if (mode == 1) {
+    a += b;
+  }
+
+  if (mode >= 3) {
+    a *= b;
+  }
+
+  b = mode != 4 ? b : 0;
+
+  boolean wait(boolean val) {
+    done = true;
+    good = val;
+    score += good ? 1 : score == 0 ? 0 : -1;
+    col = good ? 0x33ff33 : 0xff3333;
+    c = a * b;
+    Timer(score == range ? 2000 : good ? 500 : 1500);
+    return(val);
+  }
+
+  string getFirst() {
+    string[] firsts = new ["+", "-", "x", "÷", "="];
+
+    return(firsts[mode]);
+  }
+
+  string getSecond() {
+    return(mode == 4 ? "x" : "=");
+  }
+
+  boolean isRight() {
+    boolean right = false;
+
+    switch(mode) {
+      case(0) {
+        right = a + b == c;
+      }
+
+      case(1) {
+        right = a - b == c;
+      }
+
+      case(2) {
+        right = a * b == c;
+      }
+
+      default() {
+        right = a == b * c;
+      }
+    }
+
+    return(right);
+  }
+  {
+    ; @out(a) @size(60)
+    ; @out(" " + getFirst() + " ") @size(60)
+    ; @out(b) @editable(mode == 4 && !done) @oninput(isRight() ? return (wait(true)) : 0) @size(60) @textwidth(mode == 4 ? 3 : 1) @bgcol(mode == 4 ? col : -1)
+    ; @out(" " + getSecond() + " ") @size(60)
+    ; @out(c) @size(60) @editable(!done) @oninput(isRight() ? return (wait(true)) : 0) @textwidth(3) @bgcol(col)
+  } @cdir(1)
+
+  Timer timer = new Timer(1000) -> {
+    if (!good) {
+      if (--seconds == 0) {
+        return (wait(false));
+      } else() {
+        _obj.reset();
+      }
+    }
+  }; @out("Décompte: " + seconds) @size(40)
+  ; @out("Pointage: " + score + "/" + range) @size(40)
+	score <= range / 2 ? 10 : 0 {
+	  {
+	    score <= range / 2 ? 10 : 0 {
+	      {
+	        ; @out(mode < 2 ? (&1 + 1) + (&0 + 1) + " ": (&1 + 1) * (&0 + 1)) @size(20) @bgcol(0xDDDDDD)
+	      } @out(&0 + 1) @cdir(1) @bgcol(0x0000FF) @textcol(0xFFFFFF) @size(18)
+	    } @adir(2) @apack(0)
+	  } @out(&0 + 1) @cdir(2) @bgcol(0x0000FF) @textcol(0xFFFFFF) @size(18)
+	} @adir(1) @apack(0)
+} @cdir(2) @cpack(3)
+} @out(rect()) @bgcol(score == range ? col : 0xffffff)
+
+void nextSlide(string str) {
+  Timer(1000); @out(str) @size(120)
+  return();
+}
+
+string getCode() {
+  string[] codes = new ["BALLON5", "ECOLE8", "LION3", "SABRE7", "HYPER9"];
+
+  return(codes[mode]);
+}
+
+string[] modes = new ["Additions", "Soustractions", "Multiplications", "Divisions", "Ultime"];
+
+nextSlide("TABLAM!");
+askName();
+if (name == "") {
+  name = "à toi";
+}
+mode = selectMode(modes);
+pres("Bonjour " + name + "!", "Bonne chance!", "Jouer");
+
+while (score < range) {
+  ask((int) (rand() * 8 + 2), (int) (rand() * 8 + 2)) ? -1 : 1;
+  score < range ? nextSlide("Suivante...") : 0;
+}
+
+pres("Bravo " + name + "!", "Voici le code...", "Oui!!");
+code(getCode());
+
+return (0);

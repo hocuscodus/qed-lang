@@ -156,14 +156,21 @@ string[] modes = new ["Additions", "Soustractions", "Multiplications", "Division
 
 name = "à toi";
 pres("FortMathe", "", "Démarrer");
-mode = selectMode(modes);
 
-while (score < range) {
-  ask((int) (rand() * 8 + 2), (int) (rand() * 8 + 2)) ? -1 : 1;
-  score < range ? nextSlide("Suivante...") : 0;
+boolean jeu() {
+  score = 0;
+  mode = selectMode(modes);
+
+  while (score < range) {
+    ask((int) (rand() * 8 + 2), (int) (rand() * 8 + 2)) ? -1 : 1;
+    score < range ? nextSlide("Suivante...") : 0;
+  }
+
+  pres("Félicitations!", "Voici le code...", "Oui!!");
+  pres(getCode(), "", "Rejouer");
+  return (true);
 }
 
-pres("Félicitations!", "Voici le code...", "Oui!!");
-code(getCode());
+while (jeu());
 
 return (0);

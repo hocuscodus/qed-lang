@@ -19,7 +19,7 @@ void askName() {
 
 void pres(string str1, string str2, string label) {
   ; @out(str1) @size(120)
-  ; @out(str2) @size(120)
+  ; @out(str2) @size(str2 == "" ? 10 : 120)
   Button ok = new Button(label, 60) -> {return();}; @out(ok) @alignx(50)
 } @cdir(2)
 
@@ -52,13 +52,50 @@ boolean ask(int a, int b) {{
   }
 
   b = mode != 4 ? b : 0;
+  new Timer(0) -> {nextfocus();};
+
+  int getRight() {
+    int right = 0;
+
+    switch(mode) {
+      case(0) {
+        right = a + b;
+      }
+
+      case(1) {
+        right = a - b;
+      }
+
+      case(2) {
+        right = a * b;
+      }
+
+      case(3) {
+        right = a / b;
+      }
+
+      default() {
+        right = b * c;
+      }
+    }
+
+    return(right);
+  }
+
+  boolean isRight() {
+    return (mode == 4 ? a == getRight() : c == getRight());
+  }
 
   boolean wait(boolean val) {
     done = true;
     good = val;
     score += good ? 1 : score == 0 ? 0 : -1;
     col = good ? 0x33ff33 : 0xff3333;
-    c = a * b;
+
+    if (mode != 4) {
+      c = getRight();
+    }
+
     Timer(score == range ? 2000 : good ? 500 : 1500);
     return(val);
   }
@@ -73,35 +110,12 @@ boolean ask(int a, int b) {{
     return(mode == 4 ? "x" : "=");
   }
 
-  boolean isRight() {
-    boolean right = false;
-
-    switch(mode) {
-      case(0) {
-        right = a + b == c;
-      }
-
-      case(1) {
-        right = a - b == c;
-      }
-
-      case(2) {
-        right = a * b == c;
-      }
-
-      default() {
-        right = a == b * c;
-      }
-    }
-
-    return(right);
-  }
   {
     ; @out(a) @size(60)
     ; @out(" " + getFirst() + " ") @size(60)
-    ; @out(b) @editable(mode == 4 && !done) @oninput(isRight() ? return (wait(true)) : 0) @size(60) @textwidth(mode == 4 ? 3 : 1) @bgcol(mode == 4 ? col : -1)
+    ; @out(b) @onempty(0) @onchar(_a0 >= (char) (mode != 4 ? 48 : 50) && _a0 < (char) 58) @editable(mode == 4 && !done) @oninput(isRight() ? return(wait(true)) : b != 0 && [nextfocus(), true]) @size(60) @textwidth(mode == 4 ? 3 : 1) @bgcol(mode == 4 ? col : -1)
     ; @out(" " + getSecond() + " ") @size(60)
-    ; @out(c) @size(60) @editable(!done) @oninput(isRight() ? return (wait(true)) : 0) @textwidth(3) @bgcol(col)
+    ; @out(c) @onempty(0) @onchar(_a0 >= (char) (mode != 4 ? 48 : 50) && _a0 < (char) 58 && c < (mode == 0 || mode == 2 ? 10 : 1)) @size(60) @editable(!done) @oninput(isRight() ? return(wait(true)) : mode == 4 && c == 0 && [prevfocus(), true]) @textwidth(3) @bgcol(col)
   } @cdir(1)
 
   Timer timer = new Timer(1000) -> {
@@ -114,6 +128,7 @@ boolean ask(int a, int b) {{
     }
   }; @out("Décompte: " + seconds) @size(40)
   ; @out("Pointage: " + score + "/" + range) @size(40)
+  ; @out("Aide-mémoire:") @size(30) @alignx(50) @textcol(0x0000FF)
 	score <= range / 2 ? 10 : 0 {
 	  {
 	    score <= range / 2 ? 10 : 0 {
@@ -139,20 +154,16 @@ string getCode() {
 
 string[] modes = new ["Additions", "Soustractions", "Multiplications", "Divisions", "Ultime"];
 
-nextSlide("TABLAM!");
-askName();
-if (name == "") {
-  name = "à toi";
-}
+name = "à toi";
+pres("FortMathe", "", "Démarrer");
 mode = selectMode(modes);
-pres("Bonjour " + name + "!", "Bonne chance!", "Jouer");
 
 while (score < range) {
   ask((int) (rand() * 8 + 2), (int) (rand() * 8 + 2)) ? -1 : 1;
   score < range ? nextSlide("Suivante...") : 0;
 }
 
-pres("Bravo " + name + "!", "Voici le code...", "Oui!!");
+pres("Félicitations!", "Voici le code...", "Oui!!");
 code(getCode());
 
 return (0);

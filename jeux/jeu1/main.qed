@@ -1,4 +1,3 @@
-string name = "";
 int mode;
 int buffer = 5;
 int range = 20;
@@ -7,15 +6,6 @@ int score = 0;
 void Button(string text, int fontSize) {
 	int color = 0xcccc33; @out("  " + text + "  ") @textcol(0xffffff) @alignx(50) @textcol(0) @size(fontSize)
 } @out(roundrect(30)) @bgcol(color) @onpress(color = 0x999900) @onrelease([(color = 0xcccc33), return()]) @zoomwidth(100) @zoomheight(100)
-
-void askName() {
-  {
-    ; @out(name) @editable(true) @textwidth(12) @bgcol(0xaaafff) @size(60)
-    ; @out("")
-  } @out("Prénom: ") @size(60) @cdir(1)
-  ; @out("") @size(50)
-  Button ok = new Button("Entrer", 60) -> {return();}; @out(ok) @alignx(50)
-} @cdir(2) @cpack(3)
 
 void pres(string str1, string str2, string label) {
   ; @out(str1) @size(120)
@@ -29,8 +19,6 @@ int selectMode(string[] modes) {
     Button button = new Button(modes[&0], 50) -> {return(&0);}; @out(button)
   } @adir(2) @aspace(20)
 } @cdir(2)
-
-void code(string str); @out(str) @size(200)
 
 boolean ask(int a, int b) {{
   int c = 0;
@@ -128,7 +116,7 @@ boolean ask(int a, int b) {{
     }
   }; @out("Décompte: " + seconds) @size(40)
   ; @out("Pointage: " + score + "/" + range) @size(40)
-  ; @out("Aide-mémoire:") @size(30) @alignx(50) @textcol(0x0000FF)
+  ; @out(score <= range / 2 ? "Aide-mémoire:" : "") @size(30) @alignx(50) @textcol(0x0000FF)
 	score <= range / 2 ? 10 : 0 {
 	  {
 	    score <= range / 2 ? 10 : 0 {
@@ -146,16 +134,10 @@ void nextSlide(string str) {
   return();
 }
 
-string getCode() {
-  string[] codes = new ["BALLON5", "ECOLE8", "LION3", "SABRE7", "HYPER9"];
-
-  return(codes[mode]);
-}
-
 string[] modes = new ["Additions", "Soustractions", "Multiplications", "Divisions", "Ultime"];
+string[] codes = new ["BALLON5", "ECOLE8", "LION3", "SABRE7", "HYPER9"];
 
-name = "à toi";
-pres("FortMathe", "", "Démarrer");
+pres("FortMath", "", "Démarrer");
 
 boolean jeu() {
   score = 0;
@@ -167,10 +149,8 @@ boolean jeu() {
   }
 
   pres("Félicitations!", "Voici le code...", "Oui!!");
-  pres(getCode(), "", "Rejouer");
+  pres(codes[mode], "", "Rejouer");
   return (true);
 }
 
 while (jeu());
-
-return (0);

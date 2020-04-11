@@ -144,7 +144,7 @@ boolean jeu() {
   mode = selectMode(modes);
 
   while (score < range) {
-    ask((int) (rand() * 8 + 2), (int) (rand() * 8 + 2)) ? -1 : 1;
+    ask((int) (rand() * 8 + 2), (int) (rand() * 8 + 2));
     score < range ? nextSlide("Suivante...") : 0;
   }
 

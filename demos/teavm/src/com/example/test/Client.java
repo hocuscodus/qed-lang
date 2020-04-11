@@ -1,5 +1,6 @@
 package com.example.test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -20,6 +21,7 @@ import org.teavm.jso.ajax.XMLHttpRequest;
 import org.teavm.jso.canvas.CanvasRenderingContext2D;
 import org.teavm.jso.dom.events.Event;
 import org.teavm.jso.dom.events.EventListener;
+import org.teavm.jso.dom.events.KeyboardEvent;
 import org.teavm.jso.dom.html.HTMLButtonElement;
 import org.teavm.jso.dom.html.HTMLCanvasElement;
 import org.teavm.jso.dom.html.HTMLDocument;
@@ -29,13 +31,22 @@ import org.teavm.jso.dom.html.HTMLInputElement;
 import org.teavm.jso.dom.html.TextRectangle;
 import org.teavm.jso.json.JSON;
 
+import com.hocuscodus.java_cup_runtime.ComplexSymbolFactory;
+import com.hocuscodus.java_cup_runtime.Symbol;
+import com.hocuscodus.java_cup_runtime.ComplexSymbolFactory.ComplexSymbol;
+import com.hocuscodus.java_cup_runtime.ComplexSymbolFactory.Location;
 import com.hocuscodus.qed.lang.Call;
+import com.hocuscodus.qed.lang.Context;
+import com.hocuscodus.qed.lang.Declaration.FunctionDeclaration;
 import com.hocuscodus.qed.lang.Event.MouseEvent;
 import com.hocuscodus.qed.lang.Obj;
 import com.hocuscodus.qed.lang.ProcessReturnHandler;
+import com.hocuscodus.qed.lang.QEDParser;
 import com.hocuscodus.qed.lang.QEDProcess;
+import com.hocuscodus.qed.lang.Scanner;
 import com.hocuscodus.qed.node.ContentNode;
 import com.hocuscodus.qed.node.Node;
+import com.hocuscodus.qed.node.LayoutNode.LayoutContextSet;
 
 @SuppressWarnings("serial")
 public class Client extends QEDProcess {
@@ -91,6 +102,37 @@ public class Client extends QEDProcess {
 	public void uninit() {
 		Node.log3("Refresh called on windows");
 		repaintNow();
+	}
+
+	public FunctionDeclaration parseQED(String fileName, ByteArrayOutputStream out) throws Exception {
+		Reader reader = getReader(fileName);
+		ComplexSymbolFactory csf = reader != null ? new ComplexSymbolFactory() : null;
+		Scanner scanner = csf != null ? new Scanner(reader, csf) : null;
+		QEDParser p = scanner != null ? new QEDParser(scanner, csf) {
+			  public void report_error(String message, Object info) {
+				  if (info instanceof ComplexSymbol) {
+				  ComplexSymbol cs = (ComplexSymbol)info;
+				  Location loc = cs.getLeft();
+				  println("Error at line " + loc.getLine() + ", offset " + loc.getColumn() + ": " + message);
+				  }
+				  else
+					  println(message);
+				errorCount++;
+			  }
+		} : null;
+
+		if (p != null) {
+			p.context = new Context(this, out);
+			Symbol s = p.parse();
+			FunctionDeclaration fn = null;
+
+			if (p.errorCount == 0 && s != null && s.value != null && s.value instanceof FunctionDeclaration)
+				fn = (FunctionDeclaration) s.value;
+
+			return fn;
+		}
+		else
+			return null;
 	}
 
 	@Override
@@ -361,14 +403,32 @@ public class Client extends QEDProcess {
 			graphics.setFont(font);
 	}
 
-	public void drawText(String string, int[] pos, int[] size, int[] unitpos, int fontSize, int textcol) {
+	public void drawText(String string, int[] pos, int[] size, int[] unitpos, int fontSize, int textcol, int cursor, int sel) {
 		String font = setFontSize(fontSize);
 
-		if (color != -1)
+		if (color != -1) {
+			setColor(color);
 			graphics.fillRect(pos[0], pos[1], size[0], size[1]);
+		}
 
 		setColor(textcol != -1 ? textcol : 0);
 		graphics.fillText(string, pos[0], pos[1] + (fontSize != -1 ? fontSize : getFontSize())/*graphics.getTextBaseline()*/);
+
+		if (cursor != -1) {
+			int start = gettextsize(string.substring(0, cursor), fontSize);
+
+			if (sel != 0) {
+				int width = gettextsize(string.substring(0, cursor + sel), fontSize) - start;
+
+				graphics.fillRect(pos[0] + start, pos[1], width, size[1]);
+				setColor(/*color != -1 ? color : */((textcol != -1 ? textcol : 0) ^ 0xFFFFFF));
+				graphics.fillText(string.substring(cursor, cursor + sel), pos[0] + start, pos[1] + (fontSize != -1 ? fontSize : getFontSize())/*graphics.getTextBaseline()*/);
+			}
+			else
+				graphics.fillRect(pos[0] + start, pos[1], 2, size[1]);
+		}
+
+		setColor(0xffffff);
 		resetFontSize(font);
 //		Font font = graphics.getFont();
 //		int oldSize = fontSize != -1 ? fontSize : font.getSize();
@@ -678,13 +738,16 @@ public interface FrameStdoutCommand extends FrameCommand {
 	}
 
 	public static void main(final String argv[]) {
-	    examplesButton = HTMLDocument.current().getElementById("select").cast();
-	    examplesDialog = HTMLDocument.current().getElementById("examples");
         canvas = HTMLDocument.current().getElementById("canvas").cast();
         graphics = canvas.getContext("2d").cast();
         code = HTMLDocument.current().getElementById("code").cast();
         stdoutElement = HTMLDocument.current().getElementById("stdout");
-        initExamples();
+	    examplesDialog = HTMLDocument.current().getElementById("examples");
+
+	    if (examplesDialog != null) {
+		    examplesButton = HTMLDocument.current().getElementById("select").cast();
+	        initExamples();
+	    }
 
         EventListener mouseEventListener = new EventListener() {
 			@Override
@@ -708,13 +771,49 @@ public interface FrameStdoutCommand extends FrameCommand {
 
         canvas.addEventListener("mousedown", mouseEventListener);
         canvas.addEventListener("mouseup", mouseEventListener);
-
-        HTMLDocument.current().getElementById("run").addEventListener("click", new EventListener() {
+        canvas.addEventListener("keydown", new EventListener<KeyboardEvent>() {
 			@Override
-			public void handleEvent(Event evt) {
-				runExample();
+			public void handleEvent(KeyboardEvent evt) {
+				String chr = evt.getKey();
+				char ch = 0;
+
+				evt.preventDefault();
+
+				switch(chr) {
+				case "Delete":
+					ch = 127;
+					break;
+
+				case "Backspace":
+					ch = 8;
+					break;
+
+				case "Shift":
+				case "Enter":
+					break;
+
+				default:
+					ch = chr.charAt(0);
+					break;
+				}
+
+				process.println("Key: " + chr + " " + ch);
+				if (ch != 0 && LayoutContextSet.focus.enterChar(ch)) {
+					process.refresh();
+					LayoutContextSet.focus.executeEvent(new com.hocuscodus.qed.lang.Event.KeyEvent(ch), ContentNode.MODIFoninput);
+				}
 			}
-        });
+	    });
+
+        HTMLElement runButton = HTMLDocument.current().getElementById("run");
+
+        if (runButton != null)
+        	runButton.addEventListener("click", new EventListener() {
+        		@Override
+        		public void handleEvent(Event evt) {
+        			runExample();
+        		}
+        	});
 
         if (code.getValue().trim().length() != 0)
         	runExample();

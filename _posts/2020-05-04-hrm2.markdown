@@ -1,0 +1,15 @@
+---
+layout: post
+title:  "An article on QED's core principle: type/function equivalence"
+date:   2020-05-04 05:10:47 -0400
+author: "Martin Savage"
+categories: QED Update
+---
+
+I had the great pleasure of writing a first article on QED in a publication called Human Readable Magazine, a kind of New Yorker for coders.
+
+So as the subject I chose QED's core principle: type/function equivalence. The article explains what it is, the rationale behind using it and a few extra features it allows.
+
+Space being limited, more extra features are coming up in a second article to be published soon.
+
+[Click here to read it...](https://humanreadablemag.com/issues/2/articles/dr-function-and-mr-type#).

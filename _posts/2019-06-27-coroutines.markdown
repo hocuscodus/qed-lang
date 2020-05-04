@@ -112,7 +112,7 @@ Adder adder = new Adder(2, 3, new AdderCallback() {
 }).exec();
 ```
 
-Therefore, any QED function that you define can be invoked as an object (using 'new') or as a call (without 'new'). As an added bonus, as classes can be nested in Java, QED functions can also be nested. Inner functions have complete access to outer functions environment.
+Therefore, any QED function that you define can be invoked as an object (using 'new') or as a call (without 'new'). As an added bonus, as classes can be nested in Java, QED functions can also be nested. Inner functions have complete access to outer functions environment. (EDIT: to delve more into type/function equivalence, [follow this link!](https://humanreadablemag.com/issues/2/articles/dr-function-and-mr-type#))
 
 Perhaps the greatest feature of TFE is the unlocking of basic concurrency. Let's see how it does...
 

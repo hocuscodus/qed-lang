@@ -14,13 +14,11 @@ As of now, there is no release date planned yet. Please follow Twitter (qedlang)
 
 # Where is the source code? Is it open-source?
 
-The source code is private now, but when QED is as the MVP stage or whenever I rallly a network of contributors, I shall release it on github. And yes, it will be open-source.
+The source code is private now, but when QED is as the MVP stage or whenever I rally a network of contributors, I shall release it on github. And yes, it will be open-source.
 
 # Who are you?
 
-My name is Martin Savage. My background story is pretty common. I grew up in [Sainte-Marthe-sur-le-Lac](https://en.wikipedia.org/wiki/Sainte-Marthe-sur-le-Lac,_Quebec) where I had a very happy childhood. Then I went to school where I learned to read, write and count.
-
-I started programming as a young teen and as far as I recall, have done personal research on programming and GUI concepts ever since.
+My name is Martin Savage. I started programming as a young teen and as far as I recall, have done personal research on programming and GUI concepts ever since.
 
 QED is the culmination of this research. I started developing it in 2015.
 

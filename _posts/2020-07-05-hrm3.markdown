@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "Another article on QED + some news"
+date:   2020-07-05 05:10:47 -0400
+author: "Martin Savage"
+categories: QED Update
+---
+
+I wrote [a second article for Human Readable Magazine](https://humanreadablemag.com/issues/3/articles/a-return-for-all-seasons), this time on the processing of the 'return' statement in a type/function equivalence context. Understanding the logic behind 'return' is also mandatory to understand the graphics stuff driving QED.
+
+As of today, I am still working on the next release of QED, which shall hopefully be available within two months. The toughest challenges are now behind me I think. It further simplifies the proof of concept announced here. There are some minimal syntactic changes, which are for the better but there is a great cleanup on the internal GUI algorithms and semantics. I shall then open source the entire code and provide much more in-depth documentation for developers to fully understand its usage. Also, more demos (such as TodoMVC in QED) will be available.
+
+There will be some surprises as well :-).

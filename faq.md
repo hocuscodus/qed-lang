@@ -22,8 +22,8 @@ My name is Martin Savage. I started programming as a young teen and as far as I 
 
 QED is the culmination of this research. I started developing it in 2015.
 
-I have a lovely wife, two great kids and an artist stepdaughter.
-
 # Are you working full-time on QED?
+
+Update: for the next few months, yes! I got laid out due to Covid-19. But will have to find another job and provide this usual answer:
 
 No. Although QED is a labor of love, I can't afford working full time on it. So I have a daily job but off-hours, I work as much as I can on QED and am open to options (like a Donate option or even Patreon), based upon the feedback and level of interest from people (just let me know! :-) ). Another reason I published this website is to find contributors helping me finish the coding so we can offer a great product to developers.

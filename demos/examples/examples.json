@@ -5,7 +5,6 @@
             "hellocon": "Hello, World! (in console)",
             "hello": "Hello, World! (GUI)",
             "clickme": "Click Me!",
-            "fib": "Fibonacci numbers",
             "incdec": "Increment-decrement buttons",
             "multtable": "Multiplication table",
             "fizzbuzz": "FizzBuzz with coroutines"

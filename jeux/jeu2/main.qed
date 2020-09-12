@@ -1,0 +1,15 @@
+import lib.lib.stdlib;
+
+fun Button(String text) {var color = 0xE0000000;{
+	; @size(35) @out(text) @textwidth(40) @alignx(50) @aligny(50) @zoomheight(100) @textcol(0x90000000)
+} @out(rect()) @bgcol(color) @onpress(color = 0xB0000000) @onrelease([(color = 0xE0000000), return()])
+}
+var count = 0;
+
+{
+    {
+        var decButton = new Button("-") -> --count; @out(decButton)
+       	; @out(count) @textwidth(100) @size(50) @alignx(50) @aligny(50) @textcol(0x80000000)
+        var incButton = new Button("+") -> ++count; @out(incButton)
+    } @cdir(1)
+} @out(oval()) @textheight(75) @bgcol((count >= 0 ? 0x00FF00 : 0) | (count <= 0 ? 0xFF0000 : 0))

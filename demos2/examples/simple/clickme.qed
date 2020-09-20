@@ -1,0 +1,7 @@
+var num = 0;
+
+<
+  out: "Click Me! (" + num + ")";
+  onrelease: num++;
+  fontSize: 30 + num * 3;
+>

@@ -1,0 +1,61 @@
+<!--<!DOCTYPE html>-->
+<!--<html>-->
+  <head>
+    <title>Main page</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <script type="text/javascript" charset="utf-8" src="teavm/runtime.js"></script>
+    <script type="text/javascript" charset="utf-8" src="teavm/classes.js"></script>
+<!--    <script type="text/javascript" charset="utf-8" src="lib/codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror.css">
+	<script type="text/javascript" src="codemirror-clike.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="codemirror.min.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="ui.css">
+  <body onload="main()">
+    <!-- TODO: add HTML content -->
+    <div id="qed-sandbox">
+      <div class="result-container" id="result-container">
+      </div>
+      <canvas id="canvas" tabindex="1" width="0" height="0" class="playable-canvas"></canvas>
+      <div class="playable-button">
+        <input id="select" type="button" value="Examples" />
+        <input id="run" type="button" value="Run" />
+      </div>
+      <textarea id="code" cols="120" rows="20" class="playable-code"></textarea>
+      <div class="stdout-container">
+        <div id="stdout" class="stdout"></div>
+<!--      <span class="panel-label">console</span>-->
+      </div>
+    </div>
+<!--    <div class="content">
+      <div class="editor-container">
+        <textarea cols="120" rows="20" id="source-code"></textarea>
+        <span class="panel-label">java</span>
+      </div>
+    </div>-->
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="examples">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="cancel-example-selection">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Code examples</h4>
+          </div>
+          <div class="modal-body examples-container">
+            <div id="examples-content" class="examples-content">
+            </div>
+            <div id="examples-content-progress" class="loading">
+              Loading... Please wait.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+<!--</html>-->

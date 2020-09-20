@@ -1,0 +1,20 @@
+﻿{
+    "simple": {
+        "title": "Simple examples",
+        "items": {
+            "clickme": "Click Me!",
+            "incdec": "Increment-decrement buttons",
+            "multtable": "Multiplication table",
+            "fizzbuzz": "FizzBuzz with coroutines",
+            "colist": "Producer-Consumer coroutines"
+        }
+    },
+    "longer": {
+        "title": "Longer examples",
+        "items": {
+            "todomvc": "TodoMVC (the front-end benchmark)",
+            "bouncing": "Bouncing Balls",
+            "boatrental": "Boat Rental"
+        }
+    }
+}

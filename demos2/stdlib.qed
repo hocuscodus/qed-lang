@@ -1,0 +1,41 @@
+fun Object() {
+  fun int getNumDim();
+  fun String toString();
+}
+
+fun bool();
+fun byte();
+fun int();
+fun float();
+fun String();
+
+fun bool if(bool cond);
+fun bool else();
+fun Object switch(Object obj);
+fun bool case(Object obj);
+fun bool default();
+
+fun println(Object obj);
+fun print(Object obj);
+
+fun Timer(int timeout) {
+  var _timerObj = 0;
+
+  fun reset();
+}
+
+fun CoList() {
+  var _coListObj = 0;
+
+  fun end();
+  fun bool remove(int index);
+  fun bool yield();
+  fun bool process();
+}
+
+val HORZ = 1;
+val VERT = 2;
+val OBLIQUE = HORZ | VERT;
+
+fun rect();
+fun oval();

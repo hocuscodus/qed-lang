@@ -1,0 +1,94 @@
+// Bouncing balls demo - by Martin Savage
+
+/**
+ * our ball sprite, as a coroutine
+ */
+void Ball(CoList coList, int[] pos, int[] delta, int color, int size) {
+  void move(int index) {
+    pos[index] += delta[index];
+
+    if (delta[index] > 0 ? pos[index] >= 100 : pos[index] < 0) {
+      pos[index] = delta[index] > 0 ? 200 - pos[index] : -pos[index];
+      delta[index] = -delta[index];
+    }
+
+    return();
+  }
+
+  while(coList.yield()) {
+    move(0);
+    move(1);
+  } @out("") @textwidth(3) @size(size)
+} @out(oval()) @bgcol(color) @alignx(pos[0]) @aligny(pos[1])
+
+/**
+ * create new random ball and add it to coroutine list for moving
+ */
+Ball newBall(CoList coList) {
+  int rnd(int limit) {return ((int) (rand() * limit));}
+  int getDelta() {int n = rnd(6); return(n - (n < 3 ? 3 : 2));}
+
+  return (new Ball(coList, new [rnd(101), rnd(101)], new [getDelta(), getDelta()],
+                   rnd(0x1000000), rnd(25) + 15));
+}
+
+/**
+ * UI element that shows the balls to display (must be recreated when adding/deleting balls)
+ */
+void BallDisplay(Ball[] balls) {
+  balls.size() {
+    ; @out(balls[&0]);
+  }
+}
+
+/**
+ * add new ball and return new display including newly created ball
+ */
+BallDisplay addBall(Ball[] balls, CoList coList) {
+  balls.add(newBall(coList));
+  return(new BallDisplay(balls));
+}
+
+/**
+ * remove ball at specified index and return new display without deleted ball
+ */
+BallDisplay removeBall(Ball[] balls, CoList coList, int index) {
+  coList.remove(index);
+  balls.remove(index); // comment out this line for a funny "freeze" effect!
+  return(new BallDisplay(balls));
+}
+
+/**
+ * counter widget displayed in the bottom right corner, to change ball count
+ */
+boolean CounterWidget(int count, int min) {
+  void Button(string text, boolean disabled) {
+    int color = 0xE0000000; @size(40) @out(text) @alignx(50) @aligny(50) @textcol(0x90000000)
+  } @out(rect()) @textwidth(2) @size(40) @bgcol(disabled ? 0x80000000 : color) @onpress(!disabled && (color = 0xA0000000)) @onrelease(!disabled && [(color = 0xE0000000), return()])
+
+  {
+    Button decButton = new Button("-", count == min) -> {if (count > min) {_obj.disabled = --count == min; return(false);}}; @out(decButton)
+    {
+      ; @out(count) @size(60) @alignx(50) @textcol(0x80000000)
+    } @out("") @textwidth(3) @size(60)
+    Button incButton = new Button("+", false) -> {decButton.disabled = false; count++; return(true);}; @out(incButton)
+  } @cdir(1)
+} @out(roundrect(30)) @bgcol(0xFFFFFF)
+
+/**
+ * main
+ */
+{
+  CoList coList = new CoList();
+  Ball[] balls = new [newBall(coList), newBall(coList), newBall(coList)];
+  BallDisplay ballDisplay = new BallDisplay(balls);
+  CounterWidget counter = new CounterWidget(balls.size(), 0) ->
+      {ballDisplay = _ret ? addBall(balls, coList) : removeBall(balls, coList, _obj.count);};
+
+  new Timer(30) -> {coList.process(); _obj.reset();};
+
+  ; @out("Bouncing") @size(130) @textcol(0x50FFFFFF) @alignx(50) @aligny(10)
+  ; @out("Balls!!") @size(160) @textcol(0x30FFFFFF) @alignx(50) @aligny(70)
+  ; @out(ballDisplay)
+  ; @out(counter) @alignx(95) @aligny(95)
+} @out(" ") @textwidth(100) @textheight(30) @bgcol(0x404040)

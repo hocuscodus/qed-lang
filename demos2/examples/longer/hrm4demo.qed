@@ -1,0 +1,36 @@
+/*
+ * Recursive Counter demo - for Human Readable Magazine issue 4
+ *
+ * by Martin Savage
+ */ 
+
+// Button widget
+void Button(string text) {
+    int backgroundColor = 0x00FF00; @out("  " + text + "     ")
+} @out(roundrect(10)) @bgcol(backgroundColor)
+  @onpress(backgroundColor = 0x00CF00)
+  @onrelease([(backgroundColor = 0x00FF00), return()])
+
+
+int getNum(int backgroundColor) {
+    int randomSubColor() {
+        return(((int) (rand() * 0x1000000)) | (0xF0 << (8 * (int) (rand() * 3))));
+    }
+
+    int numClicks = 0;
+    Button incButton = new Button("Add") -> {numClicks++;};
+    Button newButton = new Button("New") -> {numClicks += getNum(randomSubColor());};
+    Button closeButton = new Button("Close") -> {return(numClicks);};
+
+    // UI
+    {
+        ; @out("Clicks: " + numClicks)
+        {
+            ; @out(incButton)
+            ; @out(newButton)
+            ; @out(closeButton)
+        } @cdir(1)
+    } @cdir(2)
+} @out("") @bgcol(backgroundColor)
+
+println("Final count: " + getNum(0xFFFFFF));

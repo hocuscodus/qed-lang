@@ -1,5 +1,3 @@
-import lib.lib.stdlib;
-
 {
   fun Button(String text) {
     var color = 0xE0000000;
@@ -11,7 +9,7 @@ import lib.lib.stdlib;
          return();
        }>
 
-  var count = 0;
+  var count = 4;
 
   {
     var decButton = new Button("-") -> --count;

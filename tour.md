@@ -10,6 +10,23 @@ The goal of this tour is to show how basic procedural programming can naturally 
 
 This tour assumes you have a working knowledge of procedural programming, in order to keep it brief and to focus on the key differentiators from other languages.
 
+In short, QED does *not* define:
+
+- Flow control keywords (if, for, switch, return...) burned into grammar
+- Type definition syntax (struct, class, typedef, constructors, fields...)
+- Separate variable and constant declaration logic
+- Asynchronous syntax (async, await, suspend, go...)
+- Separate GUI SDK to GUI platforms
+
+Yet it can emulate all these and still do more than most languages, with this smaller set of concepts.
+
+- Internal stores
+- New operators `->`, `while` and whitespace
+- Flow control *functions*
+- UI blocks `<...>` in the code
+
+Here you will get a taste of QED's expressive power.
+
 There are lots of niceties to cover, so without further ado, let’s begin our journey!
 
 ## The main divergence: the store
@@ -22,22 +39,22 @@ c = a + b;     // ok, mutation of var c
 a * c - b;     // no effect, can be flagged as warning/error
 ```
 
-A statement may or may not return a value. Statements returning nothing will be referred to as void statements. For non-void statements, most languages automatically dismiss their return values upon finishing their execution; they are never considered.
+Any statement may or may not return a value. Statements returning nothing will be referred to as void statements here. For non-void statements, most languages automatically dismiss their return values upon finishing their execution; they are never considered.
 
-In QED, the return value of non-void statements is saved in a storage area in memory called the store. For instance, in the following block of statements:
+In QED, the return value of non-void statements is saved in a memory area called the store. For instance, in the following block of statements:
 
 ```
 "John Doe";
-println("Hi"); // void statement, no value in store here
+println("Hi"); // void statement, no value is stored here
 6 + 9 * 2;
-a = 6;         // assignments are also void statements
+a = 53;        // assignments are also void statements
 new Point();
 ```
 
-The execution of this code will generate the store `["John Doe", 24, <Point object>]`. Assignments such as `a = 6` sets the variable a with the value 6 but have no return value per se. Thus the following statements is illegal in QED.
+The execution of this code will generate the store `["John Doe", 24, <Point object>]`. Assignments such as `a = 53` sets the variable `a` with the value 53 but the assignment operation has no return value per se. Thus the following statements are illegal in QED.
 
 ```
-a = b = 6 + 9 * 2; // should be b = 6 + 2 * 2; a = b;
+a = b = 6 + 9 * 2; // should be b = 6 + 9 * 2; a = b;
 b += 4 + (a = 6);  // should be a = 6; b += 4 + a;
 ```
 
@@ -58,11 +75,11 @@ println("and the cube is " + value + ".");
 
 This code does what you expect. The store will first be `[3, 9]`, then `[3, 27]` after `value *= num;` execution. By tagging the store elements with `num` and `value`, you can refer to them or mutate them. Not all store values need to be tagged though, as we will see.
 
-The type of variables and constants is inferred based on their initialization value.
+The type of variables and constants is inferred based on their initialization value. After initialization, a variable or constant type can never change.
 
 ## Blocks
 
-Blocks in QED are surrounded with well-known delimiters. There are four types of delimiters. We will see three of them here. The fourth type (angle brackets '<' and '>'), used to define the user interface, will be studied at a later time.
+Blocks in QED are surrounded with well-known delimiters. There are four types of delimiters. We will see three of them here. The fourth block type (angle brackets `<...>`), used to define the user interface, will be studied at a later time.
 
 The following three blocks of code perform the very same execution:
 
@@ -107,7 +124,7 @@ println("The factorial of " + a + " is " + (
         fact *= count;
 
     fact
-);
+));
 ```
 
 (You may have remarked that delimiters `;` and `,` can be used interchangeably in all kinds of blocks - and the block last statement does not need one, so it's up to you to determine which syntax is more readable.)
@@ -118,7 +135,7 @@ Of course, the most frequent use of parenthesized blocks is the special case wit
 val a = 3 * (5 + 2);
 ```
 
-Blocks defined with square brackets `[]` return the store itself viewed as an array (`[3, 6]` in our previous example). The array type is inferred based on the initial content (`int[]` in this case). The most popular use case for square brackets is to define an array of elements with the same type.
+Blocks defined with square brackets `[]` return the store itself viewed as an array (`[3, 6]` in our previous example). The array type is inferred based on the initial content (`int[]` in this case). The most popular use case for square brackets is to define an explicit array of elements with the same type.
 
 ```
 val array = ["Batman", "Robin", "Alfred"]; // String[] type 
@@ -128,7 +145,7 @@ println("Second name: " + array[1]); // array indexes are 0-based
 
 The square bracket block keeps the store in memory since it returned it as an array. Previous blocks, `{...}` returning void and `(...)` returning the last statement value do not need the store upon return, which is thus dismissed when done.
 
-There is a variant of the curly brace blocks with that does not return void and that keeps its store, like square bracket blocks. If a curly brace block is prefixed by the operator `new`, an anonymously typed object consisting of the store content is returned. The variables/constants defined in the block become fields.
+There is a variant of the curly brace blocks that does not return void and that keeps its store, like square bracket blocks. If a curly brace block is prefixed by the operator `new`, an anonymously typed object consisting of the store content is returned. The variables/constants defined in the block become fields.
 
 ```
 val obj = new {
@@ -139,7 +156,7 @@ val obj = new {
 println("The double of " + obj.a + " is " + obj.b);
 ```
 
-Thus, with the new store feature and the various kinds of blocks, we can already segment logic (with `{...}`), define calls or change operator precedence (with `(...)`), define arrays (with `[...]`) and objects (with `new {...}`). Stores combined with block types can do a lot.
+Thus, with the new store feature and the various kinds of blocks, we can already segment logic (with `{...}`), define calls or change operator precedence (with `(...)`) and define explicit arrays (with `[...]`) as well as objects (with `new {...}`). Stores combined with block types can do a lot.
 
 ## Functions and types
 
@@ -158,11 +175,11 @@ A function tag takes this form:
 ```
 Non-void function:
 
-'fun' <return_type> <name>'('<parms...>')' (';' | <expression> ';' | <block>)
+'fun' <return_type> <name>'('<parms...>')' (';' | <exp> ';' | {...})
 
 Void function:
 
-'fun' <name>'('<parms...>')' (';' | <expression> ';' | <block>)
+'fun' <name>'('<parms...>')' (';' | <exp> ';' | {...}>)
 ```
 
 A function can of course take a block as body, using any block delimiter seen above.
@@ -175,9 +192,9 @@ fun int factorial(int n) (
         fact *= n;
 
     fact
-)
+);
 
-println("The factorial of 5 is " + factorial(5);
+println("The factorial of 5 is " + factorial(5));
 ```
 
 You can also use curly brace blocks, even if by themselves they do not return any value. The trick to return a value inside curly brace blocks is to use the `return` function, which stops function execution and resumes the caller execution with the return value sent as argument.
@@ -196,7 +213,7 @@ fun int factorial(int n) {
 println("The factorial of 5 is " + factorial(5);
 ```
 
-For void functions, you can use `return` without the return value argument to exit the function and resume the caller's execution. If a QED function is called without argument, parentheses are not required.
+For void functions, you can use `return` without the return value argument to exit the function and resume the caller's execution. For any QED function called without argument, parentheses are not required.
 
 ```
 fun printResult(String result) {
@@ -256,7 +273,7 @@ println(adder.a + " + " + adder.b + " = " + c);
 
 Both calls to `Adder` generate the same store `[5, 7]` and the three printed lines are exactly the same: `5 + 7 = 12`. 
 
-In QED, a very important feature is that functions can be nested. Nested functions have full access to the parent environment.
+In QED, a very important feature is that functions can be nested. Nested functions are fully aware of their parent environment.
 
 ```
 fun Person(int name, int age) {
@@ -279,13 +296,51 @@ p.setPhone("1-555-455-9383");
 p.print;
 ```
 
+## Implicit arrays
+
+The arrays we've encountered so far were explicit. All elements were defined at creation time.
+
+```
+val array = ["Batman", "Robin", "Alfred"]; // String[] type 
+```
+
+For very long arrays, this is not convenient.
+
+There is another way in QED to define arrays implicitly, with a new, special, whitespace operator. The whitespace operator allows expressions to be chained using whitespaces in between and is terminated with a separator (or a curly brace block).
+
+```
+<exp1> <exp2> ... (<expN> ';' | {...})
+```
+
+The last expression (or block) is the body of the implicit array. All previous expressions are dimensions.
+
+For instance, if I want to define an array of 5 integers having value 4 implicitly and change the middle value to 6 (`[4, 4, 6, 4, 4]`), the following would work.
+
+```
+var array = 5 4;
+
+array[2] = 6;
+```
+
+This implicit array syntax really looks natural when the body is an object.
+
+```
+var array = 10 new Person("", 0);
+
+array[1].age = 60;
+array[1].setPhone("1-555-455-9383");
+```
+
 ## Flow control
 
-two operators: while and black hole
+We have seen that `return` is a QED standard library function, not a grammar keyword. In fact, there is no grammar keyword dedicated to flow control in QED.
+
+An alternate mechanism is used for flow control. It comprises the store, 
+implicit arrays, standard library functions and a last novel operator.
+
+## User interface
 
 ## Asynchronous operations and coroutines
 
 
-
-## User interface
 

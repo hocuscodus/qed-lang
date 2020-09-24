@@ -7,14 +7,14 @@ const RESOURCES = {
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/fonts/MaterialIcons-Regular.otf": "a68d2a28c526b3b070aefca4bac93d25",
 "assets/images/qedLogo.png": "0359a4d4fe4c6d62f9aec0a374bb1b44",
-"assets/NOTICES": "61be919378c075a7feb9fc755b705a3c",
+"assets/NOTICES": "ad19eca833c01a0ce6ce9edd98c9c39e",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "b14fcf3ee94e3ace300b192e9e7c8c5d",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
-"index.html": "7234fdbe6547adfaea35cc401076fbec",
-"/": "7234fdbe6547adfaea35cc401076fbec",
-"main.dart.js": "17828ed0aa23df2f236ace0ee64bd322",
+"index.html": "15f64cfe73205bd067d123d685734530",
+"/": "15f64cfe73205bd067d123d685734530",
+"main.dart.js": "e72457cb08e9eab78cb85e5158f5a743",
 "manifest.json": "a294d6afc0a085722a5fc5f263a1baaf"
 };
 

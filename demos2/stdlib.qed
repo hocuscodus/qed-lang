@@ -15,6 +15,9 @@ fun Object switch(Object obj);
 fun bool case(Object obj);
 fun bool default();
 
+fun int strlen(String str);
+fun setFocus(String id);
+fun bool hasFocus(String id);
 fun println(Object obj);
 fun print(Object obj);
 
@@ -37,5 +40,12 @@ val HORZ = 1;
 val VERT = 2;
 val OBLIQUE = HORZ | VERT;
 
+val NORMAL = 0;
+val BOLD = 1;
+val ITALIC = 2;
+val UNDERLINE = 4;
+val STRIKETHROUGH = 8;
+
 fun rect();
 fun oval();
+fun roundRect(int radius);

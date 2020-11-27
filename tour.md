@@ -4,7 +4,7 @@ title:
 permalink: /tour/
 ---
 
-Welcome to this QED language tour. QED is designed to make nice GUI applications simply but before doing so, you must take a peek under the hood to really see how it works. Hence this guide...
+Welcome to this QED language tour. QED is designed to make nice GUI applications simply but before doing so, you must take a peek under the hood to see how it really works. Hence this guide...
 
 The goal of this tour is to show how basic procedural programming can naturally evolve to encompass event-based GUI development. To achieve this, we will play with simple expressions - existing in most mainstream languages - to gradually venture into a new - but easy! - take on programming.
 
@@ -12,7 +12,7 @@ This tour assumes you have a working knowledge of procedural programming, in ord
 
 In short, QED does *not* define:
 
-- Flow control keywords (if, for, switch, return...) burned into grammar
+- Flow control keywords (if, for, switch, return...) burnt into grammar
 - Type definition syntax (struct, class, typedef, constructors, fields...)
 - Separate variable and constant declaration logic
 - Asynchronous syntax (async, await, suspend, go...)
@@ -39,7 +39,7 @@ c = a + b;     // ok, mutation of var c
 a * c - b;     // no effect, can be flagged as warning/error
 ```
 
-Any statement may or may not return a value. Statements returning nothing will be referred to as void statements here. For non-void statements, most languages automatically dismiss their return values upon finishing their execution; they are never considered.
+Any statement may or may not return a value. From now on, statements returning nothing will be referred to as void statements here. For non-void statements, most languages automatically dismiss their return values upon finishing their execution; they are never considered.
 
 In QED, the return value of non-void statements is saved in a memory area called the store. For instance, in the following block of statements:
 

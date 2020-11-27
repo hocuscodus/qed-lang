@@ -1,0 +1,159 @@
+// TodoMVC port to QED (from http://todomvc.com/)
+// By Martin Savage
+
+fun TodoMVCComponent() {
+  val ACTIVE = 1;
+  val COMPLETED = 2;
+  val ALL = ACTIVE | COMPLETED;
+
+  fun Item(String description) // Item type
+    var state = ACTIVE;
+
+  var newItemText = "";
+  var items = 0 new Item("");
+  var filter = ALL;
+  var hoveredItemIndex = -1;
+  var deleteItemColor = 0xCC9A9A;
+  var hoveredClearComplete = false;
+  var filterComponent = new FilterComponent -> setFilter(_ret);
+  var displayComponent = new DisplayComponent; <->
+  var uncheckedMark = <out: "◯"; color: 0x40E0E0E0; fontSize: 28;>;
+  var checkedMark = {
+    <out: "✓"; color: 0x5DC2AF; align: [50, 40]; fontSize: 21;>
+  } <- out: "◯"; color: 0xC05DC2AF; fontSize: 28;>
+
+  fun addItem() {
+    if(newItemText != "") {
+      items.add(new Item(newItemText));
+      newItemText = "";
+      displayComponent = new DisplayComponent;
+    }
+
+    setFocus("newItem");
+    return;
+  }
+
+  fun removeItem(int index)
+    (items.remove(index); displayComponent = new DisplayComponent);
+
+  fun setFilter(int newFilter)
+    (filter = newFilter; displayComponent = new DisplayComponent);
+
+  fun setAllAtState(int state)
+    (t::items t.state = state; displayComponent = new DisplayComponent);
+
+  fun toggleItemState(Item item)
+    (item.state = ALL - item.state; displayComponent = new DisplayComponent);
+
+  fun clearCompletedItems() (
+    var newItems = 0 new Item("");
+
+    i::items.size {
+      if(items[i].state != COMPLETED)
+        newItems.add(items[i]);
+    }
+
+    items = newItems;
+    displayComponent = new DisplayComponent
+  );
+
+  fun DisplayComponent() { // UI
+    var numActiveItems = 0;
+    var count = 0;
+
+    {{ // header and list
+      < out: rect(); fill: 0xFFFFFF; labelDir: VERT;>
+      < out: rect(); fill: 0xFFFFFF; labelDir: OBLIQUE;>
+      <out: newItemText == "" ? "What needs to be done?" : "";
+       onrelease: setFocus("newItem");
+       color: 0xC0C0C0; style: ITALIC; size: [450, -29]; pos: [0, 14]; fontSize: 21; labelDir: VERT;>
+
+      <out: newItemText; in: newItemText;
+       id: "newItem";
+       onenter: addItem();
+       color: 0; size: [450, -29]; pos: [0, 14]; fontSize: 21; labelDir: VERT;>
+
+      <out: items.size != 0 ? "﹀" : "";
+       color: numActiveItems == 0 ? 0 : 0xC0C0C0;
+       onrelease: items.size != 0 ? setAllAtState(numActiveItems == 0 ? ACTIVE : COMPLETED) : setFocus("newItem");
+       labelDir: OBLIQUE; style: BOLD; fontSize: 21; size:[50, -29]; align: [30, 50];>
+
+      t::items {
+        var ndx = count++;
+
+        numActiveItems += t.state == ACTIVE ? 1 : 0;
+
+        if((t.state & filter) != 0) { // list item if filtered
+           < out: rect(); fill: 0xFFFFFF; dep: t;>
+           < out: rect(); fill: 0xFFFFFF; dep: t; labelDir: HORZ;>
+          <out: t.description;
+           in: t.description;
+           id: "item";
+           style: t.state == COMPLETED ? STRIKETHROUGH : NORMAL;
+           color: t.state == COMPLETED ? 0xC0C0C0 : 0;
+           onHoverIn: hoveredItemIndex = ndx;
+           onHoverOut: hoveredItemIndex = -1;
+           onrelease: setFocus("item");
+//           onDoubleClick: setFocus("item");
+           size: [450, -29]; align: [-1, 50]; fontSize: 21;>
+
+          <out: !hasFocus(t.description) && hoveredItemIndex == ndx ? "✖" : "";
+           onrelease: removeItem(ndx);
+           color: deleteItemColor;
+           onHoverIn: deleteItemColor = 0xAF5B5E;
+           onHoverOut: deleteItemColor = 0xCC9A9A;
+           fontSize: 18; align: [100, 50];>
+
+          <out: t.state == COMPLETED ? checkedMark : uncheckedMark;
+           onrelease: toggleItemState(t);
+           align:[30, 50]; labelDir: HORZ;>
+        }
+      } <- arrayDir: 2; arraySpace: 1; paneSpace: 2;>
+    }} <- childrenDir: HORZ;>
+
+    if(items.size != 0) { // footer
+           < out: rect(); fill: 0xFFFFFF;>
+      <out: numActiveItems + " item" + (numActiveItems > 1 ? "s" : "") + " left";
+       fontSize: 12; color: 0x808080; align: [3, 50]; size: [-1, -25];>
+
+      <out: filterComponent; align: 50;>
+
+      if(numActiveItems < items.size) {
+        <out: "Clear completed";
+         onHoverIn: hoveredClearComplete = true;
+         onHoverOut: hoveredClearComplete = false;
+         style: hoveredClearComplete ? UNDERLINE : NORMAL;
+         onrelease: clearCompletedItems();
+         fontSize: 12; color: 0x808080; align: [97, 50];>
+      }
+    }
+  } <- size: [500, -3]; pos: 1; childrenDir: VERT; childrenSpace: 3; out: rect(); color: 0xC0C0C0;>
+
+  fun int FilterComponent() {
+    val SELS = ["All", "Active", "Completed"];
+    var hoveredIndex = -1;
+
+    i::SELS.size {
+      <out: SELS[i];
+       onrelease: return((i + 2) % 3 + 1);
+       fontSize: 12; color: 0x808080; size: [-12, -8]; pos: [5, 4];>
+
+      <out: hoveredIndex == i ? roundRect(3) : "";
+       onHoverIn: hoveredIndex = i;
+       onHoverOut: hoveredIndex = -1;
+       color: 0xF7EAEA;>
+
+      <out: filter == (i + 2) % 3 + 1 ? roundRect(3) : ""; color: 0xEFD5D5;>
+    } <- arrayDir: HORZ; arraySpace: 10;>
+  }
+}
+
+{
+  <out: "todos"; fontSize: 85; align: 50; color: 0xEAD7D7;>
+  new TodoMVCComponent; <->
+  <out: "Double-click to edit a todo"; color: 0xC0C0C0; fontSize: 9; align: [50, 100]; size: [-1, 60];>
+  <out: "Written by Martin Savage"; color: 0xC0C0C0; fontSize: 9; align: [50, 100]; size: [-1, 20];>
+  <out: "Part of TodoMVC"; color: 0xC0C0C0; fontSize: 9; align: [50, 100]; size: [-1, 20];>
+} <- childrenDir: VERT;>
+
+//new Timer(1) -> setFocus("newItem");

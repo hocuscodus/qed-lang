@@ -1,26 +1,5 @@
-<!doctype html>
-<html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>The QED programming language | QED: parallel source code, unparallel power.</title>
-<meta name="generator" content="Jekyll v4.3.2" />
-<meta property="og:title" content="The QED programming language" />
-<meta name="author" content="Martin Savage" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="QED: parallel source code, unparallel power." />
-<meta property="og:description" content="QED: parallel source code, unparallel power." />
-<link rel="canonical" href="https://qed-lang.org/qed2023/" />
-<meta property="og:url" content="https://qed-lang.org/qed2023/" />
-<meta property="og:site_name" content="The QED programming language" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="The QED programming language" />
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Martin Savage"},"description":"QED: parallel source code, unparallel power.","headline":"The QED programming language","name":"The QED programming language","url":"https://qed-lang.org/qed2023/"}</script>
-<!-- End Jekyll SEO tag -->
-    <style>
+<body>
+  <style>
       .emscripten { padding-right: 0; margin-left: auto; margin-right: auto; display: block; }
       textarea.emscripten { font-family: monospace; width: 80%; }
       div.emscripten { text-align: center; }
@@ -62,13 +41,20 @@
 
     </style>
     <script src="codemirror/lib/codemirror.js"></script>
-    <link href="codemirror/lib/codemirror.css" rel="stylesheet"></link>
+    <link href="codemirror/lib/codemirror.css" rel="stylesheet">
     <script src="codemirror/mode/xml/xml.js"></script>
     <script src="codemirror/addon/edit/closebrackets.js"></script>
-    <link href="codemirror/theme/dracula.css" rel="stylesheet"></link>
-  </head>
-  <body>
-    <textarea id="editor">
+    <link href="codemirror/theme/dracula.css" rel="stylesheet">
+    <div class="emscripten">
+      <input type="button" value="Run" onclick="Module.ccall('runSource', null, ['string'], [editor.getValue()])">
+    </div>
+    
+    <hr/>
+    <div class="emscripten_border">
+      <canvas id="canvas" tabindex="1" width="200" height="100" class="emscripten"></canvas>
+    </div>
+    <hr/>
+    <textarea id="editor" rows="20">
 void Button(String text) {
   float shade = 20%
 
@@ -99,6 +85,7 @@ var incButton = new Button("+") -> count++
         lineNumbers: true,
         autoCloseBrackets: true
       });
+      editor.setSize(800, 600);
     </script>
     <hr/>
     <figure style="overflow:visible;" id="spinner"><div class="spinner"></div><center style="margin-top:0.5em"><strong>emscripten</strong></center></figure>
@@ -106,15 +93,6 @@ var incButton = new Button("+") -> count++
     <div class="emscripten">
       <progress value="0" max="100" id="progress" hidden=1></progress>  
     </div>
-    <div class="emscripten_border">
-      <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
-    </div>
-    <hr/>
-    <div class="emscripten">
-      <input type="button" value="Run" onclick="Module.ccall('runSource', null, ['string'], [editor.getValue()])">
-    </div>
-    
-    <hr/>
     <textarea class="emscripten" id="output" rows="8"></textarea>
     <hr>
     <script type='text/javascript'>
@@ -193,4 +171,3 @@ var incButton = new Button("+") -> count++
     <script async type="text/javascript" src="qed.js">
     </script>
   </body>
-</html>

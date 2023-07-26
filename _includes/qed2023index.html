@@ -45,8 +45,15 @@
     <script src="codemirror/mode/xml/xml.js"></script>
     <script src="codemirror/addon/edit/closebrackets.js"></script>
     <link href="codemirror/theme/dracula.css" rel="stylesheet">
+    <script>
+      function runQED() {
+        let codeStr = Module['runSource'](editor.getValue());
+        let js = new Function(codeStr);
+        js();
+      }
+      </script>      
     <div class="emscripten">
-      <input type="button" value="Run" onclick="Module.ccall('runSource', null, ['string'], [editor.getValue()])">
+      <input type="button" value="Run" onclick="runQED()">
     </div>
     
     <hr/>
@@ -55,29 +62,23 @@
     </div>
     <hr/>
     <textarea id="editor" rows="20">
-void Button(String text) {
-  float shade = 20%
+// BUSINESS LOGIC
+int counter = 0;
+bool stopped = false;
 
-  <out: rect; opacity: shade; size: 35
-    onPress: shade = 35%
-    onRelease: {shade = 20%; return()}>
-  <out: text; opacity: 60%; align: 50%; fontSize: 40;>
-}
+// The Timer(100) call waits (e.g. enters in the global event loop)
+// for 100 milliseconds but before waiting, it refreshes the UI
+// (described at the bottom). When back from waiting, it always
+// returns true (making it convenient to embed under while loops)
+while (!stopped && Timer(100))
+  counter++;
 
-int count = 0
-var decButton = new Button("-") -> count--
-var incButton = new Button("+") -> count++
-
-<out: oval; color: count > 0 ? COLOR_GREEN : count < 0 ? COLOR_RED : COLOR_YELLOW;
-  <_ color: COLOR_BLACK;
-    <out: decButton;>
-    <size: 80;
-      <out: count; opacity: 70%; align: 50%; fontSize: 50;>
-    >
-    <out: incButton;>
-  >
->
-    </textarea>
+// USER INTERFACE (refreshed upon entering the event loop)
+// Displays counter with font size 60, and when the latter
+// is pressed, sets the 'stopped' variable to true (which
+// will make the while loop above exit.
+<out: counter; fontSize: 60; onPress: stopped = true;>
+</textarea>
     <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
         mode: "xml",

@@ -70,7 +70,7 @@ bool stopped = false;
 // for 100 milliseconds but before waiting, it refreshes the UI
 // (described at the bottom). When back from waiting, it always
 // returns true (making it convenient to embed under while loops)
-while (!stopped && Timer(100))
+while (Timer(100) && !stopped)
   counter++;
 
 // USER INTERFACE (refreshed upon entering the event loop)

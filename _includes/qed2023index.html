@@ -63,15 +63,15 @@
     <hr/>
     <textarea id="editor" rows="20">
 // BUSINESS LOGIC
-int counter = 0;
-bool stopped = false;
+int counter = 0
+bool stopped = false
 
 // The Timer(100) call waits (e.g. enters in the global event loop)
 // for 100 milliseconds but before waiting, it refreshes the UI
 // (described at the bottom). When back from waiting, it always
 // returns true (making it convenient to embed under while loops)
 while (Timer(100) && !stopped)
-  counter++;
+  counter++
 
 // USER INTERFACE (refreshed upon entering the event loop)
 // Displays counter with font size 60, and when the latter

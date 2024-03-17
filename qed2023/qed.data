@@ -1,0 +1,425 @@
+void voidHandler_() {}
+void anyHandler_(var value) {}
+void intHandler_(int value) {}
+void floatHandler_(float value) {}
+void boolHandler_(bool value) {}
+void stringHandler_(String value) {}
+var WIDTH = 1;
+var HEIGHT = 2;
+var OBLIQUE = 3;
+int COLOR_RED = 0xFF0000;
+int COLOR_GREEN = 0x00FF00;
+int COLOR_YELLOW = 0xFFFF00;
+int COLOR_BLUE = 0x0000FF;
+int COLOR_BLACK = 0x000000;
+
+bool Yield(var obj) {
+/$obj.yieldHandler = (function() {
+    _HandlerFn_(true);
+  })$/
+}
+void process(var obj) {
+/$if (obj instanceof Array) {
+    let size = obj.size();
+
+    for (let index = 0; index < size; index++)
+      process(obj[index]);
+  }
+  else
+    obj.yieldHandler()$/
+}
+void println(String str) {
+/$console.log(str)$/
+}
+void post_(voidHandler_ _HandlerFn_) {
+/$if (postHandler != null)
+    console.log("postHandler not null");
+
+  postHandler = _HandlerFn_$/
+}
+void executeEvents_() {
+/$while (postHandler != null) {
+    const fn = postHandler;
+  
+    postHandler = null;
+    fn();
+  }
+
+  _refresh()$/
+}
+int max(int a, int b) {
+/$return a > b ? a : b$/
+}
+float rand() {
+/$return Math.random()$/
+}
+int trunc(float n) {
+/$return Math.trunc(n)$/
+}
+float clock() {}
+void saveContext() {
+/$ctx.save()$/
+}
+void restoreContext() {
+/$ctx.restore()$/
+}
+void oval(int pos, int size) {
+/$ctx.fillStyle = toColor(getAttribute(10));
+  ctx.globalAlpha = "" + getAttribute(11);
+  ctx.beginPath();
+  ctx.ellipse((pos >> 16) + (size >> 17), (pos & 65535) + ((size & 65535) >> 1), size >> 17, (size & 65535) >> 1, 0, 0, 2*Math.PI);
+  ctx.fill();
+//  ctx.clip()$/
+}
+void rect(int pos, int size) {
+/$ctx.fillStyle = toColor(getAttribute(10));
+  ctx.globalAlpha = "" + getAttribute(11);
+  ctx.beginPath();
+  ctx.fillRect((pos >> 16), (pos & 65535), size >> 16, size & 65535)$/
+}
+void pushAttribute(int index, int value) {
+/$if (attributeStacks[index] == undefined)
+    attributeStacks[index] = [];
+
+  attributeStacks[index].push(value)$/
+}
+void pushAttribute(int index, float value) {
+/$pushAttribute(index, value)$/
+}
+void popAttribute(int index) {
+/$attributeStacks[index].pop()$/
+}
+int getTextSize(String text) {
+/$ctx.font = getAttribute(4) + "px Arial";
+
+  const textSize = ctx.measureText(text);
+  const height = textSize.fontBoundingBoxAscent + textSize.fontBoundingBoxDescent;
+  return (textSize.width << 16) | height$/
+}
+void displayText(String text, int pos, int size) {
+/$let pos1 = [(pos >> 16), (pos & 0xFFFF)];
+  let size1 = [(size >> 16), (size & 0xFFFF)];
+  ctx.font = getAttribute(4) + "px Arial";
+  ctx.fillStyle = toColor(getAttribute(10));
+  ctx.globalAlpha = getAttribute(11);
+  ctx.textBaseline = "top";
+  ctx.fillText(text, pos1[0], pos1[1])$/
+}
+
+bool Timer(int timeoutMillis) {
+/$setTimeout(function() {
+    _HandlerFn_(true);
+    _refresh();
+  }, timeoutMillis)$/
+
+  void reset() {}
+}
+void Time(voidHandler_ Func) {
+/$console.time("Time");
+  new Func(() => {
+    console.timeEnd("Time");
+    _HandlerFn_();
+  });$/
+}
+void time(voidHandler_ func) {
+/$  console.time("time");
+  func();
+  console.timeEnd("time");$/
+}
+bool Animation() {
+/$requestAnimationFrame((millis) => {
+  _HandlerFn_(true);
+  _refresh();
+});$/
+}
+
+void QEDBaseArray_() {
+  int size() {return 0;}
+  void insert(int[] pos, int[] size) {}
+  void Insert(int[] pos, int[] size) {}
+  void Push() {}
+  void pop() {}
+  var get(int[] pos) {}
+  void set(int[] pos, var value) {}
+  var get(int index) {}
+  void set(int index, var value) {}
+  void UI_() {
+    void Layout_() {
+      var size = 0
+      void paint(int pos0, int pos1, int size0, int size1) {}
+      void onEvent(var event, int pos0, int pos1, int size0, int size1) {}
+    }
+  }
+  UI_ *ui_;
+  void setUI_() {
+    ui_ = new UI_()
+  }
+}
+/$Object.setPrototypeOf(QEDBaseArray_.prototype, Array.prototype)$/
+
+var InitFn(int[] pos) {}
+
+var SQEDArray(int[] limits, InitFn Init) {
+  /$this.dims = new Array(this.limits.length).fill(0)$/
+  Insert(/$new Array(this.limits.length).fill(0)$/ as int[], limits)
+  return /$SQEDArray$this$/
+
+  int size() {
+    int s = 1
+
+    for (int index = /$this.dims.length - 1$/; index >= 0; index--)
+      s *= /$this.dims[index]$/
+
+    return s
+  }
+
+  void insert(int[] pos, int[] size) {
+  }
+
+  void Insert(int[] pos, int[] size) {
+    int[] newSize = /$[...this.size$]$/
+
+    for (int index = /$SQEDArray$this.dims.length - 1$/; index >= 0; index--)
+      newSize[index] += /$SQEDArray$this.dims[index]$/ as int;
+
+    InsertLevel(/$SQEDArray$this$/, /$SQEDArray$this.dims$/, pos, size, newSize, /$new Array(this.size$.length).fill(0)$/, 0)
+    /$SQEDArray$this.dims$/ = newSize
+    return
+  }
+
+  void InsertLevel(var array, var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
+    if (level < /$SQEDArray$this.dims.length - 1$/) {
+      for (/$pp[level] = 0$/; /$pp[level] < pos[level]$/; /$pp[level]++$/)
+        InsertLevel(/$array[pp[level]]$/, dims, pos, size, newSize, pp, level + 1)
+
+      if (size[level] != 0)
+        for (/$pp[level] = dims[level] - 1$/; /$pp[level] >= pos[level]$/; /$pp[level]--$/)
+          /$array[pp[level] + InsertLevel$this.size$[level]] = array[pp[level]]$/
+
+      for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + InsertLevel$this.size$[level]$/; /$pp[level]++$/) {
+        /$array[pp[level]] = []$/
+        InsertLevel(/$array[pp[level]]$/, /$new Array(InsertLevel$this.size$.length).fill(0)$/, /$new Array(InsertLevel$this.size$.length).fill(0)$/ as int[], newSize, newSize, pp, level + 1)
+      }
+
+      for (/$pp[level] = pos[level] + InsertLevel$this.size$[level]$/; /$pp[level] < newSize[level]$/; /$pp[level]++$/)
+        InsertLevel(/$array[pp[level]]$/, dims, pos, size, newSize, pp, level + 1)
+    }
+    else {
+      if (size[level] != 0)
+        for (/$pp[level] = dims[level] - 1$/; /$pp[level] >= pos[level]$/; /$pp[level]--$/)
+          /$array[pp[level] + InsertLevel$this.size$[level]] = array[pp[level]]$/
+
+      for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + InsertLevel$this.size$[level]$/; /$pp[level]++$/)
+        /$array[pp[level]]$/ = Init(pp as int[]) as var
+    }
+    return;
+  }
+/*
+  void Push() {
+    let pos = new Array(SQEDArray$this.dims.length).fill(0);
+    let size = new Array(SQEDArray$this.dims.length).fill(0);
+
+    pos[0] = SQEDArray$this.dims[0];
+    size[0] = 1;
+    Insert(pos, size);
+    return;
+  }
+
+  void pop() {
+    let pos = new Array(SQEDArray$this.dims.length).fill(0);
+    let size = new Array(SQEDArray$this.dims.length).fill(0);
+
+    pos[0] = SQEDArray$this.dims[0] - 1;
+    size[0] = 1;
+    remove(pos, size);
+    return;
+  }*/
+}
+/$Object.setPrototypeOf(SQEDArray.prototype, Array.prototype)$/
+
+void VInitFn(int[] pos) {}
+
+var VSQEDArray(int[] limits, VInitFn Init) {
+  /$this.dims = new Array(this.limits.length).fill(0)$/
+  Insert(/$new Array(this.limits.length).fill(0)$/ as int[], limits)
+  return /$VSQEDArray$this$/
+
+  int size() {
+    int s = 1
+
+    for (int index = /$this.dims.length - 1$/; index >= 0; index--)
+      s *= /$this.dims[index]$/
+
+    return s
+  }
+
+  void insert(int[] pos, int[] size) {
+  }
+
+  void Insert(int[] pos, int[] size) {
+    int[] newSize = /$[...this.size$]$/
+
+    for (int index = /$VSQEDArray$this.dims.length - 1$/; index >= 0; index--)
+      newSize[index] += /$VSQEDArray$this.dims[index]$/ as int;
+
+    InsertLevel(/$VSQEDArray$this.dims$/, pos, size, newSize, /$new Array(this.size$.length).fill(0)$/, 0)
+    /$VSQEDArray$this.dims$/ = newSize
+    return
+  }
+
+  void InsertLevel(var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
+    if (level < /$VSQEDArray$this.dims.length - 1$/) {
+      for (/$pp[level] = 0$/; /$pp[level] < pos[level]$/; /$pp[level]++$/)
+        InsertLevel(dims, pos, size, newSize, pp, level + 1)
+
+      for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + InsertLevel$this.size$[level]$/; /$pp[level]++$/) {
+        /$array[pp[level]] = []$/
+        InsertLevel(/$new Array(InsertLevel$this.size$.length).fill(0)$/, /$new Array(InsertLevel$this.size$.length).fill(0)$/ as int[], newSize, newSize, pp, level + 1)
+      }
+
+      for (/$pp[level] = pos[level] + InsertLevel$this.size$[level]$/; /$pp[level] < newSize[level]$/; /$pp[level]++$/)
+        InsertLevel(dims, pos, size, newSize, pp, level + 1)
+    }
+    else
+      for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + InsertLevel$this.size$[level]$/; /$pp[level]++$/)
+        Init(pp as int[])
+
+    return;
+  }
+}
+
+var sInitFn(int[] pos) {}
+void Qui_(var array, int[] dims) {}
+
+void QEDArray(int[] limits, sInitFn init, Qui_ Ui_) {
+  /$this.dims = new Array(this.limits.length).fill(0)$/
+  insert(/$new Array(this.limits.length).fill(0)$/ as int[], limits)
+
+  int size() {
+    int s = 1
+
+    for (int index = /$this.dims.length - 1$/; index >= 0; index--)
+      s *= /$this.dims[index]$/
+
+    return s
+  }
+
+  void insert(int[] pos, int[] size) {
+    int[] newSize = /$[...size$]$/
+
+    for (int index = /$QEDArray$this.dims.length - 1$/; index >= 0; index--)
+      newSize[index] += /$QEDArray$this.dims[index]$/ as int;
+
+    insertLevel(/$QEDArray$this$/, /$QEDArray$this.dims$/, pos, size, newSize, /$new Array(size$.length).fill(0)$/, 0)
+    /$QEDArray$this.dims$/ = newSize
+    return
+  }
+
+  void insertLevel(var array, var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
+    if (level < /$QEDArray$this.dims.length - 1$/) {
+      for (/$pp[level] = 0$/; /$pp[level] < pos[level]$/; /$pp[level]++$/)
+        insertLevel(/$array[pp[level]]$/, dims, pos, size, newSize, pp, level + 1)
+
+      if (size[level] != 0)
+        for (/$pp[level] = dims[level] - 1$/; /$pp[level] >= pos[level]$/; /$pp[level]--$/)
+          /$array[pp[level] + size$[level]] = array[pp[level]]$/
+
+      for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + size$[level]$/; /$pp[level]++$/) {
+        /$array[pp[level]] = []$/
+        insertLevel(/$array[pp[level]]$/, /$new Array(size$.length).fill(0)$/, /$new Array(size$.length).fill(0)$/ as int[], newSize, newSize, pp, level + 1)
+      }
+
+      for (/$pp[level] = pos[level] + size$[level]$/; /$pp[level] < newSize[level]$/; /$pp[level]++$/)
+        insertLevel(/$array[pp[level]]$/, dims, pos, size, newSize, pp, level + 1)
+    }
+    else {
+      if (size[level] != 0)
+        for (/$pp[level] = dims[level] - 1$/; /$pp[level] >= pos[level]$/; /$pp[level]--$/)
+          /$array[pp[level] + size$[level]] = array[pp[level]]$/
+
+      for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + size$[level]$/; /$pp[level]++$/)
+        /$array[pp[level]]$/ = init(pp as int[]) as var
+    }
+    return;
+  }
+/*
+  void Push() {
+    let pos = new Array(QEDArray$this.dims.length).fill(0);
+    let size = new Array(QEDArray$this.dims.length).fill(0);
+
+    pos[0] = QEDArray$this.dims[0];
+    size[0] = 1;
+    Insert(pos, size);
+    return;
+  }
+
+  void pop() {
+    let pos = new Array(QEDArray$this.dims.length).fill(0);
+    let size = new Array(QEDArray$this.dims.length).fill(0);
+
+    pos[0] = QEDArray$this.dims[0] - 1;
+    size[0] = 1;
+    remove(pos, size);
+    return;
+  }*/
+  Qui_ *ui_
+
+  void setUI_() {
+    ui_ = new Ui_(/$QEDArray$this$/, /$QEDArray$this.dims$/ as int[]);
+  }
+}
+
+QEDArray *qedArray(int[] limits, sInitFn init, Qui_ Ui_) {
+  return new QEDArray(limits, init, Ui_);
+}
+/$Object.setPrototypeOf(QEDArray.prototype, Array.prototype)$/
+
+void vInitFn(int[] pos) {}
+
+void VQEDArray(int[] limits, vInitFn init) {
+  /$this.dims = new Array(this.limits.length).fill(0)$/
+  insert(/$new Array(this.limits.length).fill(0)$/ as int[], limits)
+
+  int size() {
+    int s = 1
+
+    for (int index = /$this.dims.length - 1$/; index >= 0; index--)
+      s *= /$this.dims[index]$/
+
+    return s
+  }
+
+  void insert(int[] pos, int[] size) {
+    int[] newSize = /$[...size$]$/
+
+    for (int index = /$VQEDArray$this.dims.length - 1$/; index >= 0; index--)
+      newSize[index] += /$VQEDArray$this.dims[index]$/ as int;
+
+    insertLevel(/$VQEDArray$this.dims$/, pos, size, newSize, /$new Array(size$.length).fill(0)$/, 0)
+    /$VQEDArray$this.dims$/ = newSize
+    return
+  }
+
+  void insertLevel(var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
+    if (level < /$VQEDArray$this.dims.length - 1$/) {
+      for (/$pp[level] = 0$/; /$pp[level] < pos[level]$/; /$pp[level]++$/)
+        insertLevel(dims, pos, size, newSize, pp, level + 1)
+
+      for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + size$[level]$/; /$pp[level]++$/)
+        insertLevel(/$new Array(size$.length).fill(0)$/, /$new Array(size$.length).fill(0)$/ as int[], newSize, newSize, pp, level + 1)
+
+      for (/$pp[level] = pos[level] + size$[level]$/; /$pp[level] < newSize[level]$/; /$pp[level]++$/)
+        insertLevel(dims, pos, size, newSize, pp, level + 1)
+    }
+    else
+      for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + size$[level]$/; /$pp[level]++$/)
+        init(pp as int[])
+
+    return;
+  }
+}
+
+VQEDArray *vqedArray(int[] limits, vInitFn init) {
+  return new VQEDArray(limits, init);
+}
+

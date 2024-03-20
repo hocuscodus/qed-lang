@@ -47,9 +47,11 @@
     <link href="codemirror/theme/dracula.css" rel="stylesheet">
     <script>
       function runQED() {
-        let codeStr = Module['runSource'](editor.getValue());
-        let js = new Function(codeStr);
-        js();
+        let codeStr = Module.ccall('runSource', null, ['string'], [editor.value]);
+        let str = UTF8ToString(codeStr);
+        let js = new Function(str);
+        let obj = new Object();
+        js.apply(obj);
       }
       </script>      
     <div class="emscripten">

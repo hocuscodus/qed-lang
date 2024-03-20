@@ -81,7 +81,7 @@ while (Timer(100) && !stopped)
       });
       editor.setSize(800, 600);
       function runQED() {
-        let codeStr = Module.ccall('runSource', null, ['string'], [editor.value]);
+        let codeStr = Module.ccall('runSource', null, ['string'], [editor.getValue()]);
         let str = UTF8ToString(codeStr);
         let js = new Function(str);
         let obj = new Object();

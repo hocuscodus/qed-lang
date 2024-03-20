@@ -51,26 +51,42 @@
     
     <hr/>
     <div class="emscripten_border">
-      <canvas id="canvas" tabindex="1" width="200" height="100" class="emscripten"></canvas>
+      <canvas id="canvas" tabindex="1" width="800" height="480" class="emscripten"></canvas>
     </div>
     <hr/>
     <textarea id="editor" rows="20">
-// BUSINESS LOGIC
-int counter = 0
-bool stopped = false
+void Ball() {
+  void Vector(float pos, float delta) {
+    void move() {
+      pos += delta
 
-// The Timer(100) call waits (e.g. enters in the global event loop)
-// for 100 milliseconds but before waiting, it refreshes the UI
-// (described at the bottom). When back from waiting, it always
-// returns true (making it convenient to embed under while loops)
-while (Timer(100) && !stopped)
-  counter++
+      if (pos > 1 || pos < 0) {
+        pos = delta > 0 ? 2 - pos : -pos
+        delta = -delta
+      }
+    }
+  }
 
-// USER INTERFACE (refreshed upon entering the event loop)
-// Displays counter with font size 60, and when the latter
-// is pressed, sets the 'stopped' variable to true (which
-// will make the while loop above exit.
-<out: counter; fontSize: 60; onPress: stopped = true;>
+  int color = trunc(rand() * 0xFFFFFF)
+  int size = rand() * 35 + 35
+  Vector*[] vectors = 2 new Vector(rand(), ((rand() * 1%) + 0.025%) * (rand() > 0.5 ? 1 : -1))
+
+  while (Yield(/$Ball$this$/)) {
+    vectors[0].move();
+    vectors[1].move();
+  }
+
+  <out: oval; color: color; size: size; align: [vectors[0].pos, vectors[1].pos];>
+}
+
+Ball*[] balls = 300 new Ball()
+while (Animation())
+  process(balls);
+
+<out:rect; size:[800, 480]; color: 0;>
+<out:"Bouncing"; size:130; color: 0x50FFFFFF; align: [50%, 10%];>
+<out:"Balls!!"; size:160; color: 0x30FFFFFF; align: [50%, 70%];>
+<out:balls;>
 </textarea>
     <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {

@@ -45,15 +45,6 @@
     <script src="codemirror/mode/xml/xml.js"></script>
     <script src="codemirror/addon/edit/closebrackets.js"></script>
     <link href="codemirror/theme/dracula.css" rel="stylesheet">
-    <script>
-      function runQED() {
-        let codeStr = Module.ccall('runSource', null, ['string'], [editor.value]);
-        let str = UTF8ToString(codeStr);
-        let js = new Function(str);
-        let obj = new Object();
-        js.apply(obj);
-      }
-      </script>      
     <div class="emscripten">
       <input type="button" value="Run" onclick="runQED()">
     </div>
@@ -89,6 +80,13 @@ while (Timer(100) && !stopped)
         autoCloseBrackets: true
       });
       editor.setSize(800, 600);
+      function runQED() {
+        let codeStr = Module.ccall('runSource', null, ['string'], [editor.value]);
+        let str = UTF8ToString(codeStr);
+        let js = new Function(str);
+        let obj = new Object();
+        js.apply(obj);
+      }
     </script>
     <hr/>
     <figure style="overflow:visible;" id="spinner"><div class="spinner"></div><center style="margin-top:0.5em"><strong>emscripten</strong></center></figure>

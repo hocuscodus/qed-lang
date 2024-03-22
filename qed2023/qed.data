@@ -84,7 +84,7 @@ void pushAttribute(int index, int value) {
   attributeStacks[index].push(value)$/
 }
 void pushAttribute(int index, float value) {
-/$pushAttribute(index, value)$/
+/$this.pushAttribute(index, value)$/
 }
 void popAttribute(int index) {
 /$attributeStacks[index].pop()$/

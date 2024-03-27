@@ -79,15 +79,41 @@ void Ball() {
   <out: oval; color: color; size: size; align: [vectors[0].pos, vectors[1].pos];>
 }
 
-Ball*[] balls = 300 new Ball()
+Ball*[] balls = 30 new Ball()
+
+void CounterWidget() {
+  void Button(String text) {
+    float shade = 20%
+
+    <out: rect; opacity: shade; size: [40, 90]; onPress: shade = 35%; onRelease: {shade = 20%; return}>
+    <out: text; opacity: 60%; align: 50%; fontSize: 40;>
+  }
+
+  Button *incButton = new Button("+") -> balls++
+  Button *decButton = new Button("-") -> if (balls.size() > 0) balls--
+
+  <out: roundRect; color: 0xFFFFFF; opacity: 80%;
+    <_ color: COLOR_BLACK;
+      <out: decButton;>
+      <size: [120, 90];
+        <out: balls.size(); opacity: 50%; align: 50%; fontSize: 60;>
+      >
+      <out: incButton;>
+    >
+  >
+}
+
+CounterWidget *counter = new CounterWidget()
+
 while (Animation())
   process(balls);
 
-<out:rect; size:[800, 480]; color: 0;>
-<out:"Bouncing"; size:130; color: 0x50FFFFFF; align: [50%, 10%];>
-<out:"Balls!!"; size:160; color: 0x30FFFFFF; align: [50%, 70%];>
+<out:rect; size:[800, 480]; color: 0x404040;>
+<out:"Bouncing"; fontSize:130; color: 0xFFFFFF; opacity: 9/16; align: [50%, 10%];>
+<out:"Balls!!"; fontSize:160; color: 0xFFFFFF; opacity: 3/4; align: [50%, 70%];>
 <out:balls;>
-</textarea>
+<out:counter; align: 95%;>
+            </textarea>
     <script>
       var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
         mode: "xml",

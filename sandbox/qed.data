@@ -2,7 +2,7 @@ var blocking__Call
 /$var canvas = document.getElementById("canvas");
 let postHandler = null;
 let attributeStacks = [];
-const ctx = canvas.getContext("2d");
+let ctx = canvas.getContext("2d");
 function toColor(color) {return "#" + color.toString(16).padStart(6, '0');}
 const pointerSupported = !!window.PointerEvent
 canvas.addEventListener(pointerSupported ? "pointerdown" : "mouseDown", function(ev) {
@@ -126,18 +126,34 @@ void post_(voidHandler_ handler) {
 
   postHandler = handler$/
 }
-int refreshCount = 1;
+int refreshCount = 1
+bool autoResize = true
+bool autoInit = false
 void _refresh(var obj, int x, int y, int width, int height) {
 /$let level = _refreshModels(obj);
 //  console.log("" + refreshCount++ + "- Refresh Level: " + level);
 
   if (level) {
     ctx.globalAlpha = 1.0;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (level >= 2)
+    if (level >= 2) {
       obj.qedModel.windows = _refreshViews(obj);
+      width = obj.qedModel.windows[0].size[0]
+      height = obj.qedModel.windows[0].size[1]
+    }
 
+    if (!Main_$this.autoInit) {
+      Main_$this.autoResize = canvas.width == 0 && canvas.height == 0;
+      Main_$this.autoInit = true;
+    }
+
+    if (Main_$this.autoResize && (canvas.width != width || canvas.height != height)) {
+      canvas.width = width;
+      canvas.height = height;
+      ctx = canvas.getContext("2d");
+    }
+
+    ctx.clearRect(0, 0, width, height);
     obj.qedModel.windows[0].paint(x, y, width, height);
   }$/
 }

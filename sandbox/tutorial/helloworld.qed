@@ -1,0 +1,2 @@
+println("Hello, Console World!")
+<out:"Hello, GUI World!";>

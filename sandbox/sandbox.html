@@ -37,12 +37,20 @@
         height: calc(100% - var(--gui-percent));
         resize: none;
       }
-      div.sample-code canvas {
+      div.sample-code .canvas-location {
         position: absolute;
         top: 0;
         right: 0;
-        max-width: calc(100% - var(--code-percent));
-        max-height: var(--gui-percent);
+        width: calc(100% - var(--code-percent));
+        height: var(--gui-percent);
+        touch-action:none;
+      }
+      div.sample-code .canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        max-width: 100%;
+        max-height: 100%;
       }
       div.sample-code .run-button {
         position: absolute;
@@ -97,7 +105,9 @@
   <body>
     <div class="sample-code" height: 100%>
       <textarea class="editor" id="editor"></textarea>
-      <canvas id="canvas" width="800" height="480" style="touch-action:none""></canvas>
+      <div class="canvas-location">
+        <canvas id="canvas" class="canvas" width="0px" height="0px"></canvas>
+      </div>
       <textarea class="output" id="output" rows="8"></textarea>
       <input type="button" class="run-button" value="Run" onclick="runQED()">
       <div class="initjs" id="initjs">
@@ -108,18 +118,20 @@
         </div>
       </div>
     <script type='text/javascript'>
-      var editor = document.getElementById("editor");
+      var editor = document.getElementById('editor');
       var outputElement = document.getElementById('output');
       var initjsElement = document.getElementById('initjs');
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
+      var canvas = document.getElementById('canvas');
       const params = new URLSearchParams(document.location.search);
       const filename = params.get("file");
       const codePercent = params.get("code");
       const guiPercent = params.get("gui");
       const autoRun = params.get("run");
       const root = document.querySelector(':root');
+      const consoleLog = window.console.log;
 
       if (codePercent)
         root.style.setProperty('--code-percent', codePercent + '%');
@@ -138,14 +150,21 @@
           .catch((e) => console.error(e));
       function runQED() {
         if (outputElement) outputElement.value = ''; // clear browser cache
+        if (canvas) {
+          canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+          canvas.width = canvas.height = 0;
+        }
 
         let codeStr = Module.ccall('runSource', null, ['string'], [editor.value]);
 //        Module['runSource'](editor.value);
         let str = UTF8ToString(codeStr);
         let js = new Function(str);
         let obj = new Object();
+        const oldConsoleLog = window.console.log;
 
+        window.console.log = Module['print'];
         js.apply(obj);
+        window.console.log = oldConsoleLog;
       }
       function logFn(text) {
         if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
@@ -154,7 +173,7 @@
         //text = text.replace(/</g, "&lt;");
         //text = text.replace(/>/g, "&gt;");
         //text = text.replace('\n', '<br>', 'g');
-        console.log(text);
+        consoleLog(text);
         if (outputElement) {
           outputElement.value += text + "\n";
           outputElement.scrollTop = outputElement.scrollHeight; // focus on bottom

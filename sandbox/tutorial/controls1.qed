@@ -7,3 +7,5 @@ while (++i <= 2)
 
       println("Value(" + i + ", " + j + ") = " + k)
     }
+    else
+      println("Skipping value(" + i + ", " + j + ")")

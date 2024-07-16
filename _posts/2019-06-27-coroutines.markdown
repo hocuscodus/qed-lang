@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "A 'new', seamless concurrency model (coroutines included)"
 date:   2019-06-27 07:10:47 -0400
 author: "Martin Savage"

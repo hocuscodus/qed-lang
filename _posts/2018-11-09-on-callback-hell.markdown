@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "On callback hell"
 date:   2018-11-09 09:10:47 -0400
 categories: QED update

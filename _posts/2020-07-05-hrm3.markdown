@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Another article on QED + some news"
 date:   2020-07-05 05:10:47 -0400
 author: "Martin Savage"

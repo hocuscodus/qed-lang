@@ -1,5 +1,6 @@
 ---
 layout: home
+author_profile: true
 ---
 Welcome to the QED programming language. I hope you will enjoy discovering it.
 

@@ -3,6 +3,10 @@ title:  "A 'new', seamless concurrency model (coroutines included)"
 date:   2019-06-27 07:10:47 -0400
 author: "Martin Savage"
 categories: Article
+toc: true
+toc_label: "Concurrency in QED"
+toc_icon: "fa-bath"  # corresponding Font Awesome icon name (without fa prefix)
+toc_sticky: true
 ---
 
 ![](/balls2.png)

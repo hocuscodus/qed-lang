@@ -19,7 +19,7 @@ locale                   : "en-US"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
 title                    : "The QED Programming Language"
 title_separator          : "-"
-subtitle                 : "You might like it!" # site tagline that appears below site title in masthead
+subtitle                 : "You might like it actually!" # site tagline that appears below site title in masthead
 name                     : "Martin Savage"
 description              : "QED empowers web app dev."
 url                      : "https://qed-lang.org" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
@@ -310,6 +310,12 @@ compress_html:
     envs: development
 
 
+collections:
+  tutorial:
+    output: true
+    permalink: /:collection/:path/
+
+
 # Defaults
 defaults:
   # _posts
@@ -323,4 +329,16 @@ defaults:
       comments: # true
       share: true
       related: true
-      show_date: true
+      show_date: true  # _posts
+  # _tutorial
+  - scope:
+      path: ""
+      type: tutorial
+    values:
+      layout: single
+      sidebar:
+        nav: "tutorial"
+      toc: true
+      toc_label: "Basics"
+      toc_icon: "fa-bath"  # corresponding Font Awesome icon name (without fa prefix)
+      toc_sticky: true

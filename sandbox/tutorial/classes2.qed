@@ -1,0 +1,7 @@
+int MyClass(int a) {
+  Timer(1)
+  return 2 * a
+}
+
+new MyClass(6) -> println("d6 = " + _ret)
+println("d5 = " + MyClass(5))

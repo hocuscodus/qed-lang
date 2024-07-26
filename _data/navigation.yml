@@ -8,8 +8,6 @@ main:
     url: /demos/
   - title: "FAQ"
     url: /faq/
-  - title: "Documentation"
-    url: /qedintro/
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
@@ -25,27 +23,41 @@ tutorial:
     children:
       - title: "Hello, World!"
         url: /tutorial/hello-world/
-      - title: "Installation"
-        url: /docs/installation/
-      - title: "Upgrading"
-        url: /docs/upgrading/
+      - title: "Statements"
+        url: /tutorial/statements/
+      - title: "Variables"
+        url: /tutorial/variables/
+      - title: "Control Blocks"
+        url: /tutorial/control/
+      - title: "Functions"
+        url: /tutorial/functions/
+      - title: "Explicit Arrays"
+        url: /tutorial/explicit-arrays/
 
-  - title: Customization
+  - title: QED CLASSES
+    url: /tutorial/classes/
     children:
-      - title: "Configuration"
-        url: /docs/configuration/
-      - title: "Navigation"
-        url: /docs/navigation/
-      - title: "UI Text"
-        url: /docs/ui-text/
-      - title: "Authors"
-        url: /docs/authors/
-      - title: "Layouts"
-        url: /docs/layouts/
+      - title: "Objects"
+        url: /tutorial/objects/
+      - title: "Class calls"
+        url: /tutorial/calls/
+      - title: "Event Handlers"
+        url: /tutorial/event-handlers/
 
-  - title: Content
+  - title: OTHER NOVELTIES
+    url: /tutorial/novelties/
     children:
-      - title: "Working with Posts"
+      - title: "Concurrency"
+        url: /tutorial/concurrency/
+      - title: "Implicit Arrays"
+        url: /tutorial/implicit-arrays/
+      - title: "Coroutines"
+        url: /tutorial/coroutines/
+
+  - title: QED UI ENCODING
+    url: /tutorial/qed-ui/
+    children:
+      - title: "Elements and Tags"
         url: /docs/posts/
       - title: "Working with Pages"
         url: /docs/pages/
@@ -55,10 +67,3 @@ tutorial:
         url: /docs/helpers/
       - title: "Utility Classes"
         url: /docs/utility-classes/
-
-  - title: Extras
-    children:
-      - title: "Stylesheets"
-        url: /docs/stylesheets/
-      - title: "JavaScript"
-        url: /docs/javascript/

@@ -338,7 +338,7 @@ defaults:
       layout: single
       sidebar:
         nav: "tutorial"
-      toc: true
-      toc_label: "Basics"
-      toc_icon: "fa-bath"  # corresponding Font Awesome icon name (without fa prefix)
-      toc_sticky: true
+#      toc: true
+#      toc_label: "Basics"
+#      toc_icon: "fa-bath"  # corresponding Font Awesome icon name (without fa prefix)
+#      toc_sticky: true

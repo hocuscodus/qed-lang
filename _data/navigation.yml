@@ -39,6 +39,10 @@ tutorial:
     children:
       - title: "Objects"
         url: /tutorial/objects/
+      - title: "Interfaces"
+        url: /tutorial/interfaces/
+      - title: "Private Members"
+        url: /tutorial/private-members/
       - title: "Class calls"
         url: /tutorial/calls/
       - title: "Event Handlers"
@@ -57,13 +61,7 @@ tutorial:
   - title: QED UI ENCODING
     url: /tutorial/qed-ui/
     children:
-      - title: "Elements and Tags"
-        url: /docs/posts/
-      - title: "Working with Pages"
-        url: /docs/pages/
-      - title: "Working with Collections"
-        url: /docs/collections/
-      - title: "Helpers"
-        url: /docs/helpers/
-      - title: "Utility Classes"
-        url: /docs/utility-classes/
+      - title: "Elements"
+        url: /tutorial/elements/
+      - title: "Tags"
+        url: /tutorial/tags/

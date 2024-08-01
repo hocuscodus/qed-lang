@@ -1,7 +1,25 @@
-int MyClass(int a) {
-  Timer(1)
-  return 2 * a
+void Animal() {
+  String play() {}
 }
 
-new MyClass(6) -> println("d6 = " + _ret)
-println("d5 = " + MyClass(5))
+void Dog() {
+  String play() {
+    return "woof"
+  }
+}
+
+void Cat() {
+  String play() {
+    return "meow"
+  }
+}
+
+Animal createAnimal(Animal *AnimalClass) {
+  return new AnimalClass()
+}
+
+Animal dog = createAnimal(Dog)
+Animal cat = createAnimal(Cat)
+
+println("The dog says " + dog.play())
+println("The cat says " + cat.play())

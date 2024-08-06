@@ -8,3 +8,4 @@ permalink: /tutorial/qed-basics/
 Before detailing what makes QED different from other languages, let's first show the similarities to  get ready for the GUI and other novelties with a firm ground. The QED syntax borrows heavily from the C syntax. Skip this section if you feel confident to dive straight into the new stuff; you may come back here anytime for specific details.
 
 The goal of this tutorial is to give you a good feel of what QED really is.
+{: .notice--success}

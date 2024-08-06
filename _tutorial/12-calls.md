@@ -3,14 +3,24 @@ title: "Class Calls"
 permalink: /tutorial/calls/
 ---
 
-On the other hand, since classes are declared as functions, they could be used as function calls as well. Just invoke them without the new operator.
+Ok, we're at that point now and here is what makes QED drift away from most other languages. Apart from instantiating objects, there is a ***second*** use case for QED classes. Since classes are declared as functions, they could be used as function calls as well by invoking them without the new operator.
 
-{% include sandboxframe.html qedsrc="classes10.qed" gui="0" height="230px" %}
+{% include sandboxframe.html qedsrc="calls1.qed" gui="0" height="200px" %}
 
-So classes can act like functions for calls but the internal process is different. What happens under the hood is, a temporary object is created and executed. Upon the first return call, the temporary object is dismissed and the call ends, providing the return value (if non void).
+I can hear some of you asking "Why?" as functions handle calls already. Well, class calls are implemented differently and, above all, *do have unique advantages*, as we'll realize soon.
+{: .notice--info}
 
-If return() is never called during the object execution, the application simply hangs. While this may look as a curse, it truly is a blessing in disguise, as we'll see later.
+So classes can act like functions for calls but the internal process is different. What happens under the hood is, a temporary internal object is created and executed. Upon the first return call, its execution ends and the return value (if non void) is returned to the caller, which resumes its own execution with it.
 
-Classes can be invoked both ways in the same code.
+A corollary of this rule, and a key difference between function and class calls is, if return() is never called during the object execution, the application simply hangs.
 
-There is a problem here though. When used as an instance, the return value is lost.
+{% include sandboxframe.html qedsrc="calls2.qed" gui="0" height="330px" %}
+
+While this may first look as a fundamental flaw, it truly is a blessing in disguise, as we'll see soon.
+{: .notice--warning}
+
+Tbe novelty here is not class calls by themselves, functions do it well. It's more than classes now have a dual nature and can be invoked both ways in the same code. That brings another caveat, which is how object instantiation deal with return values now present in classes?
+
+{% include sandboxframe.html qedsrc="calls3.qed" gui="0" height="200px" %}
+
+The return value is lost for the object version. Let's solve it right away...

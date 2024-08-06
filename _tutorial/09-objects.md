@@ -3,7 +3,9 @@ title: "Object Instantiation"
 permalink: /tutorial/objects/
 ---
 
-The first, well-known use of a class is to instantiate objects and call methods (nested plain functions with lowercase first letter), using the `new` and `.` operators we know well!
+Classes are of course used to instantiate objects comprising fields and methods.
+
+The well-known `new` operator is used in QED to instantiate objects. The equally popular `.` operator allows access to fields and methods.
 
 {% include sandboxframe.html qedsrc="classes1.qed" gui="0" height="230px" %}
 

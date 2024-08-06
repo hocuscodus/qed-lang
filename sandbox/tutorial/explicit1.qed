@@ -1,0 +1,4 @@
+String[] names = ["John", "Jane", "Charlie"]
+
+for (int i = 0; i < names.size(); i++)
+  println(names[i])

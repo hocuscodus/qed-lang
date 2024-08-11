@@ -3,10 +3,10 @@ title: "Novelties"
 permalink: /tutorial/novelties/
 ---
 
-why a return type? we will see later
+So QED classes have been designed to be be invoked as types (with the `new` operator, and `->` to handle return events if need be) or as calls (without `new`). In the previous examples though, we've seen classes that are either designed as pure object (with no `return` call to generate events) or calls (with one `return` call done and pointless calling it with `new` to keep the object).
 
-Classes, just like functions, can then be nested and the outer environment of a class is closed.
-
-So with classes, you can instantiate objects and do calls. In real life though, classes are used for object instantiations or calls, not both. These scenarios are not completely separate though. In some cases, classes are used both ways equally. Let's see what these mysterious classes are.
+Yet, QED classes were designed this way, because *there are* uses cases where classes fit perfectly being invoked both ways!
 
 (Venn diagram)
+
+We'll take the time to discover these mysterious classes through the rest of this tutorial. 

@@ -29,4 +29,5 @@ Never forget to call `return` in your wrapper classes else invoking them as call
 
 You can use your class as a call to if you want a synchronous process.
 
-You can embed it into any number of wrapper classes as calls. The sync/async rules still apply.
+You can embed your own wrapper into any number of enclosing wrapper classes as calls. The sync/async rules will still apply.
+{: .notice--info}

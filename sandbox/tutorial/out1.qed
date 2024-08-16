@@ -1,0 +1,7 @@
+// Main QED script, usually contains
+// business logic, then UI elements
+
+// No business logic here...
+
+// Only one UI element
+<out:"This string is displayed!";>

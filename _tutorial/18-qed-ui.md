@@ -3,10 +3,8 @@ title: "QED UI"
 permalink: /tutorial/qed-ui/
 ---
 
-QED classes, with dual nature classes acting as both function and object type, have the required functionality to incorporate UI encodings. When you think of it, a form and a component (UI element or embedded container) are the two faces of the same medal. When a class is instantiated, it becomes a component of a form, in parallel with the other form components. When the same class is called, it becomes a synchronous form that must be dismissed to resume processing.
+One more thing on QED classes: they can be visible and interactive. In other words, they may implement their own user interface if desired. Used together, they can implement a whole GUI app.
 
-Button code as a component and as a form.
+QED classes, with dual nature classes acting as both function and object type, having a return type, using it to generate events, have the required functionality to incorporate UI encodings.
 
-{% include sandboxframe.html qedsrc="taco.qed" code="50" gui="80" height="500px" %}
-
-Of course, forms will be more complex than single buttons and will contain more elements. I just wanted here to outline that forms are class calls whereas components are class instantiations.
+This section explains how to code a UI in QED classes, using a different, better adapted syntax, more akin to markup languages such as HTML.

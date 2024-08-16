@@ -1,12 +1,45 @@
 ---
-title: "Elements"
+title: "Elements and Tags"
 permalink: /tutorial/elements/
 ---
 
-QED classes, with dual nature classes acting as both function and object type, have the required functionality to incorporate UI encodings. When you think of it, a form and a component (UI element or embedded container) are the two faces of the same medal. When a class is instantiated, it becomes a component of a form, in parallel with the other form components. When the same class is called, it becomes a synchronous form that must be dismissed to resume processing.
+Before diving into live examples, let's define the syntax first.
 
-Button code as a component and as a form.
+You can define a user interface at the end of the QED application script.
 
-{% include sandboxframe.html qedsrc="taco.qed" code="50" gui="80" height="500px" %}
+```
+// Main QED script
 
-Of course, forms will be more complex than single buttons and will contain more elements. I just wanted here to outline that forms are class calls whereas components are class instantiations.
+... classes, functions and business logic script...
+
+// User interface
+<tag: expr; tag: expr;>
+<tag: expr;
+  // child UI elements defined after all tags
+  <tag: expr;>
+  <tag: expr; tag: expr;>
+>
+<tag: expr;>
+```
+
+So after the QED program, there is a list of 0 to n UI elements. A UI element is a list of tag/expression value pairs, delimited by angle brackets (`<>`). Each tag/expression value pair consists of a tag identifier, followed by a colon (`:`) character, then an expression value associated to the tag, ending with a semicolon separator (`;`).
+
+```
+tagName: expressionValue;
+```
+Each UI element may also contain child UI elements, defined as a list located after the tag/expression value pairs and before the parent element closing angle bracket. So a UI element is the following, enclosed under angle brackets.
+```
+<tag-value-pair-list child-UI-element-list>
+```
+Both lists may contain 0 element.
+
+There are also extra direction symbols in UI element definition that we'll see later.
+{: .notice--info}
+
+## When is the UI generated at runtime?
+
+As already specified, the QED script is run. When completed, it processes any queued event. When done, it enters the event loop to process incoming events.
+
+The one thing that was not told yet is the UI is generated, from the UI elements, between having processed queued events and entering the event loop. This way, incoming UI events can be processed.
+
+Whenever the application is about to re-enter the event loop after processing UI events, the UI is regenerated to reflect the potential changes.

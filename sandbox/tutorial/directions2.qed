@@ -1,0 +1,5 @@
+<| out: rect; color: 0xffff00;
+  <out: "First"; color: 0xff0000;>
+  <out: "Second"; color: 0x00ff00;>
+  <out: "Third"; color: 0x0000ff;>
+>

@@ -61,7 +61,27 @@ tutorial:
   - title: QED UI ENCODING
     url: /tutorial/qed-ui/
     children:
-      - title: "Elements"
+      - title: "Elements and Tags"
         url: /tutorial/elements/
-      - title: "Tags"
-        url: /tutorial/tags/
+      - title: "The \"out\" tag"
+        url: /tutorial/out-tag/
+      - title: "The \"size\" tag"
+        url: /tutorial/size-tag/
+      - title: "Directions"
+        url: /tutorial/directions/
+      - title: "Clipping"
+        url: /tutorial/clipping/
+      - title: "Alignment"
+        url: /tutorial/alignment/
+      - title: "Position"
+        url: /tutorial/position/
+      - title: "Empty space management"
+        url: /tutorial/empty-space/
+      - title: "Expansion"
+        url: /tutorial/expansion/
+      - title: "Components and Forms"
+        url: /tutorial/forms/
+      - title: "Tag scoping"
+        url: /tutorial/tag-scoping/
+      - title: "Native components"
+        url: /tutorial/native-components/

@@ -3,9 +3,17 @@ title: "QED Basics"
 permalink: /tutorial/qed-basics/
 ---
 
-***TL;DR The QED syntax is mostly inspired by C, except for the GUI part which looks more like a markup language (without tags). Here we focus on code syntax.***
+This section describes the basic syntax of the QED language to the encode business logic.
 
-Before detailing what makes QED different from other languages, let's first show the similarities to  get ready for the GUI and other novelties with a firm ground. The QED syntax borrows heavily from the C syntax. Skip this section if you feel confident to dive straight into the new stuff; you may come back here anytime for specific details.
+{% capture notice-1 %}
+If you really want to jump straight to the gist of QED, you may very well skip this section. Just bear in mind that QED syntax is mostly inspired by C. You may come back to this section anytime for specific details.
+* If possible, you should start with [QED classes](/tutorial/classes), which are used in different scenarios compared to most mainstream languages and are a solid foundation to the UI.
+* If you can't wait to explore the UI stuff now, go [here](/tutorial/qed-ui). You should understand most of it but may want to further study QED classes afterwards to gain a more solid background.
+{% endcapture %}
+
+<div class="notice">{{ notice-1 | markdownify }}</div>
+
+Before detailing what makes QED different from other languages, let's first show the similarities to get ready for the GUI and other novelties with a firm ground. The QED syntax borrows heavily from the C syntax.
 
 The goal of this tutorial is to give you a good feel of what QED really is.
 {: .notice--success}

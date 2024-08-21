@@ -1,0 +1,3 @@
+<out: roundRect; color: 0xff8080;
+ radius: 8; size: [50, 50];>
+<out:"Text now independent";>

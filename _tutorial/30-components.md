@@ -1,7 +1,11 @@
 ---
-title: "Components and Forms"
-permalink: /tutorial/components-forms/
+title: "Components"
+permalink: /tutorial/components/
 ---
+
+Ok, we just defined a button with UI elements. This is a start for a UI. Building a complex UI would be boilerplate to copy this code over and over.
+
+You may doubt there is an easier way to avoid boilerplate code. As a matter of fact, it is very simple. Just embed your script into a class. Then, you may create multiple instances and show them using `out`.
 
 Before diving into live examples, let's define the syntax first.
 

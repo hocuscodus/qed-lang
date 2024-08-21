@@ -34,7 +34,7 @@ tutorial:
       - title: "Explicit Arrays"
         url: /tutorial/explicit-arrays/
 
-  - title: QED CLASSES
+  - title: CLASSES
     url: /tutorial/classes/
     children:
       - title: "Objects"
@@ -48,8 +48,8 @@ tutorial:
       - title: "Event Handlers"
         url: /tutorial/event-handlers/
 
-  - title: OTHER NOVELTIES
-    url: /tutorial/novelties/
+  - title: FEATURES
+    url: /tutorial/features/
     children:
       - title: "Concurrency"
         url: /tutorial/concurrency/
@@ -58,7 +58,7 @@ tutorial:
       - title: "Coroutines"
         url: /tutorial/coroutines/
 
-  - title: QED UI ENCODING
+  - title: UI BASICS
     url: /tutorial/qed-ui/
     children:
       - title: "Elements and Tags"
@@ -71,6 +71,10 @@ tutorial:
         url: /tutorial/directions/
       - title: "Clipping"
         url: /tutorial/clipping/
+
+  - title: "MANAGING EMPTY SPACE"
+    url: /tutorial/empty-space/
+    children:
       - title: "Alignment"
         url: /tutorial/alignment/
       - title: "Position"
@@ -79,9 +83,15 @@ tutorial:
         url: /tutorial/empty-space/
       - title: "Expansion"
         url: /tutorial/expansion/
-      - title: "Components and Forms"
+
+  - title: "BUILDING GUI APPS"
+    url: /tutorial/gui-apps/
+    children:
+      - title: "UI events"
+        url: /tutorial/ui-events/
+      - title: "Components"
+        url: /tutorial/components/
+      - title: "Forms"
         url: /tutorial/forms/
-      - title: "Tag scoping"
-        url: /tutorial/tag-scoping/
       - title: "Native components"
         url: /tutorial/native-components/

@@ -19,7 +19,7 @@ A corollary of this rule, and a key difference between function and class calls 
 While this may first look as a fundamental flaw, it truly is a blessing in disguise, as we'll see soon.
 {: .notice--warning}
 
-The novelty here is not class calls by themselves, functions do it well. It's more than classes now have a dual nature and can be invoked both ways in the same code. That brings another caveat, which is how object instantiation deal with return values now present in classes?
+The novelty here is not class calls by themselves, functions do it well. It's more than classes now have a dual nature and can be invoked both ways in the same code. That brings another caveat, which is how class instantiation deal with return values now present in classes?
 
 {% include sandboxframe.html qedsrc="calls3.qed" gui="0" height="200px" %}
 

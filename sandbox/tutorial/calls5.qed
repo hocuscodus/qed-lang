@@ -2,6 +2,6 @@ int Double(int a) {
   return 2 * a
 }
 
-// Invoke Double both ways (call and object instantiation)
+// Invoke Double both ways (call and instantiation)
 new Double(7) -> println("double of 7 = " + _ret)
 println("double of 6 = " + Double(6))

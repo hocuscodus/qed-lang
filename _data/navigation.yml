@@ -80,7 +80,7 @@ tutorial:
       - title: "Position"
         url: /tutorial/position/
       - title: "Empty space management"
-        url: /tutorial/empty-space/
+        url: /tutorial/empty-space2/
       - title: "Expansion"
         url: /tutorial/expansion/
 
@@ -93,5 +93,6 @@ tutorial:
         url: /tutorial/components/
       - title: "Forms"
         url: /tutorial/forms/
-      - title: "Native components"
-        url: /tutorial/native-components/
+
+  - title: "WHAT'S NEXT"
+    url: /tutorial/whats-next/

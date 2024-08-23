@@ -3,7 +3,7 @@ title: "Event Handlers"
 permalink: /tutorial/event-handlers/
 ---
 
-To handle return statements in object instantiation, the `->` operator can be used to link a class instance with a handler expression (or block). In the handler, the internal `_ret` parameter holds the return value and is always defined using the right type (taken from the class declaration type).
+To handle return statements in class instantiation, the `->` operator can be used to link a class instance with a handler expression (or block). In the handler, the internal `_ret` parameter holds the return value and is always defined using the right type (taken from the class declaration type).
 
 {% include sandboxframe.html qedsrc="calls4.qed" gui="0" height="200px" %}
 

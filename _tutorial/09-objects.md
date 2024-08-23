@@ -1,5 +1,5 @@
 ---
-title: "Object Instantiation"
+title: "Class instantiation"
 permalink: /tutorial/objects/
 ---
 

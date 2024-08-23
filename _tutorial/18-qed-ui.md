@@ -1,11 +1,12 @@
 ---
-title: "QED UI"
+title: "UI basics"
 permalink: /tutorial/qed-ui/
 ---
 
+Starting with this section, we'll explain how to code a UI in QED.
 
-One more thing on QED classes: they can be visible and interactive. In other words, they may implement their own user interface if desired. Used together, they can implement a whole GUI app.
+QED has a built-in mechanism that greatly facilitates the encoding of user interfaces. To achieve such power, besides the C-like syntax used for business logic, QED implements a different but simple, complementary syntax for UI encoding.
 
-QED classes, with dual nature classes acting as both function and object type, having a return type, using it to generate events, have the required functionality to incorporate UI encodings.
+This alternative syntax, better adapted for UI design, is more akin to markup languages such as HTML so while it is different, it won't sound like an alien dialect. In fact, it will rather look familiar in many aspects. It works hand in hand with the business logic syntax and the internal event handling system to truly enhance the GUI development process.
 
-This section explains how to code a UI in QED classes, using a different, better adapted syntax, more akin to markup languages such as HTML.
+This section first and foremost describes the new syntax.

@@ -38,17 +38,17 @@ There are also extra direction symbols in UI element definition that we'll see l
 
 ## When is the UI generated at runtime?
 
-As already specified, when the QED script has finished executing, any queued event is processed. When done, the application enters the event loop to process incoming events:
+The following steps were what was already specified when a QED application is executed:
 
-* script is run
+* business logic is run
 * pending events are processed
-* event loop is entered to process future events
+* event loop is entered to process future system events
 
-The one thing that kept secret until now is the UI is generated, from the UI elements, right in between having processed queued events and entering the event loop. This way, incoming UI events can be processed:
+The one thing that was kept secret until now is the UI (if any) is generated, from the UI elements, right in between having processed queued events and entering the event loop. So here is the *real* process:
 
-* script is run
+* business logic is run
 * pending events are processed
-* ***New! If UI elements are defined, UI is generated***
-* event loop is entered to process future events
+* ***New!* If UI elements are defined, UI is generated**
+* event loop is entered to process future system **and UI** events
 
 Whenever the application is about to re-enter the event loop after processing events (UI-based or others), the UI is regenerated to reflect the potential changes.

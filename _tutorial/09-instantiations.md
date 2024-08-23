@@ -1,9 +1,9 @@
 ---
 title: "Class instantiation"
-permalink: /tutorial/objects/
+permalink: /tutorial/instantiations/
 ---
 
-Classes are of course used to instantiate objects comprising fields and methods.
+Classes are of course used to instantiate new objects comprising fields and methods.
 
 The well-known `new` operator is used in QED to instantiate objects. The equally popular `.` operator allows access to fields and methods.
 

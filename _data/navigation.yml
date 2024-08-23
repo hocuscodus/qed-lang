@@ -37,8 +37,8 @@ tutorial:
   - title: CLASSES
     url: /tutorial/classes/
     children:
-      - title: "Objects"
-        url: /tutorial/objects/
+      - title: "Class instantiations"
+        url: /tutorial/instantiations/
       - title: "Interfaces"
         url: /tutorial/interfaces/
       - title: "Private Members"

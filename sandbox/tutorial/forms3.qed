@@ -1,0 +1,35 @@
+void Dialog(int index) {
+  var yesButton = new TextButton("Yes") ->
+    Dialog(index + 1)
+  var noButton = new TextButton("No") -> return
+
+  <| out: roundRect; color: 0xD0D0D0; radius: 10;
+    <out: rect; color: 0x0090C0;
+      <|
+        <size: 10;>
+        <out: "Dialog " + index; color: 0xFFFFFF;
+         align: 50%;>
+        <size: 10;>
+      >
+    >
+    <\
+      <size: 10;>
+      <| color: 0x000000;
+        <size: [200, 10];>
+        <out: "Another dialog?"; fontSize: 14;
+         align: 50%;>
+        <size: 20;>
+        <_ align: 100%;
+          <out: yesButton; color: 0x40C040;>
+          <size: 10;>
+          <out: noButton; color: 0xC04040;>
+        >
+      >
+      <size: 10;>
+    >
+  >
+}
+
+var dlg = new Dialog(1)
+
+<out: dlg;>

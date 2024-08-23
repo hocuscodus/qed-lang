@@ -3,55 +3,41 @@ title: "Components"
 permalink: /tutorial/components/
 ---
 
-Ok, we just defined a button with UI elements. This is a start for a UI. Building a complex UI would be boilerplate to copy this code over and over.
+Ok, we just defined a button component with UI elements. Let's put it back here as a refresher.
 
-You may doubt there is an easier way to avoid boilerplate code. As a matter of fact, it is very simple. Just embed your script into a class. Then, you may create multiple instances and show them using `out`.
+{% include sandboxframe.html qedsrc="ui-events4.qed" code="70" gui="50" height="250px" %}
 
-Before diving into live examples, let's define the syntax first.
+This is a good start for a very simple UI but building a complex one would generate a lot of boilerplate code if we write all components on the same script.
 
-You can define a user interface at the end of a class.
+You may doubt there is an easier way to avoid boilerplate code. As a matter of fact, it is very simple. Just wrap your script into a class. Then, in the main script, you may create multiple instances and show them using `out`.
 
-```
-type ClassName(type parm1, type parm2, ...) {
-  ...class code...
+{% include sandboxframe.html qedsrc="components1.qed" code="70" gui="50" height="400px" %}
 
-  // User interface just before class closing brace
-  <tag: expr; tag: expr;>
-  <tag: expr;
-    // child UI elements defined after all tags
-    <tag: expr;>
-    <tag: expr; tag: expr;>
-  >
-  <tag: expr;>
-}
-```
-
-So right before the class closing brace `}`, there is a list of 0 to n UI elements. A UI element is a list of tag/expression value pairs, delimited by angle brackets (`<>`). Each tag/expression value pair consists of a tag identifier, followed by a colon (`:`) character, then an expression value associated to the tag, ending with a semicolon separator (`;`).
-
-```
-tagName: expressionValue;
-```
-Each UI element may also contain child UI elements, defined as a list located after the tag/expression value pairs and before the parent element closing angle bracket. So a UI element is the following, enclosed under angle brackets.
-```
-<tag-value-pair-list child-UI-element-list>
-```
-Both lists may contain 0 element.
-
-There is an extra orientation operator in UI element definition that we'll see later.
+Therefore, in QED, a UI component is an instantiation of a class having UI elements.
 {: .notice--info}
 
-Also any QED application having a user interface must have a main set of UI elements at the end of the main QED script.
+Yes, the `out` tag does accept UI components too and renders them according to their UI elements.
+{: .notice--success}
 
-```
-// main QED script
+This is cool but when you define a UI in a class, you may want more flexibility to avoid creating similar instances like we just did.
 
-... classes, functions and business logic...
+You can use class features for that. In the case of a button:
 
-// Main user interface
-... UI elements...
-```
+* the text can become a class parameter so the button no longer displays a hardcoded string
+* when released, instead of printing "Clicked", we can simply call `return`, so an event handler at instance creation will process a clicked button the way it wants to
 
-The main user interface tags will establish links to the class inner user interfaces.
+Using this, you really have a button component that can be used in a variety of situations.
 
-In the next pages, the examples will apply on the main script UI, not the UIs in classes, to learn how UI elements work. Bear in mind though that the class UIs exist and follow the same rules. They will be key to defining components and forms, which will be presented after detailing UI elements.
-{: .notice--warning}
+{% include sandboxframe.html qedsrc="components2.qed" code="70" gui="50" height="450px" %}
+
+So with classes, you can define many components. QED has a set of native basic components (buttons, ...) to simplify development but nothing holds you to tailor your own the way you want using classes.
+
+Let's use the native TextButton class to avoir ourselves defining a button. The code will be much simpler.
+
+{% include sandboxframe.html qedsrc="components3.qed" code="70" gui="50" height="200px" %}
+
+That said, a single form is often not enough for a complete app. Other forms such as dialog boxes or other windows are necessary in most cases. Let's see how we can do it...
+
+If you have read the whole tutorial up to this page, you may have guessed already!
+{: .notice--info}
+

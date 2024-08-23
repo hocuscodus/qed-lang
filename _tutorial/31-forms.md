@@ -3,51 +3,27 @@ title: "Forms"
 permalink: /tutorial/forms/
 ---
 
-Before diving into live examples, let's define the syntax first.
+Remember class calls?
 
-You can define a user interface at the end of a class.
+Whereas class instantiation creates asynchronous objects (which UI components are part of), class calls are synchronous... just like forms and dialog boxes.
 
-```
-type ClassName(type parm1, type parm2, ...) {
-  ...class code...
+Any UI class (a class with UI elements) can be a component or a form depending on the way we invoke it. We used class instantiation to create components. We can use class calls to create forms.
 
-  // User interface just before class closing brace
-  <tag: expr; tag: expr;>
-  <tag: expr;
-    // child UI elements defined after all tags
-    <tag: expr;>
-    <tag: expr; tag: expr;>
-  >
-  <tag: expr;>
-}
-```
+Let's try it using two simple buttons (one for a component and one for a dialog box) as a first example.
 
-So right before the class closing brace `}`, there is a list of 0 to n UI elements. A UI element is a list of tag/expression value pairs, delimited by angle brackets (`<>`). Each tag/expression value pair consists of a tag identifier, followed by a colon (`:`) character, then an expression value associated to the tag, ending with a semicolon separator (`;`).
+{% include sandboxframe.html qedsrc="forms1.qed" code="70" gui="30" height="200px" %}
 
-```
-tagName: expressionValue;
-```
-Each UI element may also contain child UI elements, defined as a list located after the tag/expression value pairs and before the parent element closing angle bracket. So a UI element is the following, enclosed under angle brackets.
-```
-<tag-value-pair-list child-UI-element-list>
-```
-Both lists may contain 0 element.
-
-There is an extra orientation operator in UI element definition that we'll see later.
+The QED UI event system only applies to the latest dialog (class call) shown. Therefore, it is not possible to generate a UI event to parent calls. Clicking on the `Component` button while the `Dialog` button is displayed won't have any effect.
 {: .notice--info}
 
-Also any QED application having a user interface must have a main set of UI elements at the end of the main QED script.
+Therefore, in QED, a UI form is a call to a class having UI elements.
+{: .notice--info}
 
-```
-// main QED script
+So this is another startling practical use of the instantiation/call duality of QED classes: creating components and forms using one single class concept.
 
-... classes, functions and business logic...
+We can try with a more practical, down-to-earth example, a yes/no dialog. We'll do a recursive stack of dialogs to show that theoretically, any number of dialog boxes are possible.
 
-// Main user interface
-... UI elements...
-```
+{% include sandboxframe.html qedsrc="forms2.qed" code="70" gui="100" height="400px" %}
 
-The main user interface tags will establish links to the class inner user interfaces.
+{% include sandboxframe.html qedsrc="forms3.qed" code="70" gui="100" height="400px" %}
 
-In the next pages, the examples will apply on the main script UI, not the UIs in classes, to learn how UI elements work. Bear in mind though that the class UIs exist and follow the same rules. They will be key to defining components and forms, which will be presented after detailing UI elements.
-{: .notice--warning}

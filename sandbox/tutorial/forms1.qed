@@ -1,0 +1,6 @@
+// The TextButton class is called with "new" for
+// a component, and without "new" for a dislog
+var component = new TextButton("Component") ->
+  println(TextButton("Dialog"))
+
+<out: component;>

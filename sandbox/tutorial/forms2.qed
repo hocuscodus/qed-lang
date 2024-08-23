@@ -1,0 +1,18 @@
+int numDialog = 1
+
+bool Dialog() {
+  var yesButton = new TextButton("Yes") -> return true
+  var noButton = new TextButton("Yes") -> return false
+
+  <| out: roundRect; color: 0x808080; radius: 10;
+    <out: "Dialog " + numDialog;>
+    <size: 20;>
+    <_
+      <out: yesButton;>
+      <size: 100;>
+      <out: noButton;>
+    >
+  >
+}
+
+while (Dialog()) {}

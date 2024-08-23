@@ -26,7 +26,7 @@ The oblique direction looks odd at first sight.
 
 {% include sandboxframe.html qedsrc="directions3.qed" code="50" gui="100" height="200px" %}
 
-In a few cases though, it can be useful. For instance, to create a 25x25px top-left and a 25x25px bottom-right margin.
+In a few cases though, it can be useful. For instance, to create 25x25px top-left and 25x25px bottom-right margins.
 
 {% include sandboxframe.html qedsrc="directions4.qed" code="65" gui="100" height="200px" %}
 

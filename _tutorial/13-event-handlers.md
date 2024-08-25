@@ -10,7 +10,7 @@ To handle return statements in class instantiation, the `->` operator can be use
 If the class return type is `void`, `_ret` is undefined. Referring to it generates a compiler error.
 {: .notice--info}
 
-You may have remarked that the instance line is displayed after the `Done with both!` printout. This is expected. When the application has run its code, it does not end right after. It rather enters an **event loop** to retrieve and execute incoming events. The `->` operator generates an event when `return` is called in an object code. The event is handled when the event loop starts, at the end of the code.
+You may have remarked that the instance line `double of 7 = 14` is displayed *after* the `Done with both!` printout, even if it is before in the source code. This is expected. When the application has run its code, it does not end right after. It rather enters an **event loop** to retrieve and execute incoming events. The `->` operator generates an event when `return` is called in an object code. The event is handled when the event loop starts, at the end of the code.
 
 So with class return types used with class instantiation and `->`, QED introduces the notion of an event when calling `return`. The `return` here really acts like a hypothetical `{PostMessage(_ret); return;}` code block that ends its execution right after posting the message, which will be handled by an event loop.
 

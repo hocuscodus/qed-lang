@@ -1,18 +1,30 @@
-int numDialog = 1
-
-bool Dialog() {
+bool Dialog(String title, String question) {
   var yesButton = new TextButton("Yes") -> return true
-  var noButton = new TextButton("Yes") -> return false
+  var noButton = new TextButton("No") -> return false
 
-  <| out: roundRect; color: 0x808080; radius: 10;
-    <out: "Dialog " + numDialog;>
-    <size: 20;>
-    <_
-      <out: yesButton;>
-      <size: 100;>
-      <out: noButton;>
+  <| out: roundRect; color: 0xD0D0D0; radius: 10;
+    <out: rect; color: 0x0090C0;
+      <|
+        <size: 10;>
+        <out: title; color: 0xFFFFFF;
+         align: 50%;>
+        <size: 5;>
+      >
+    >
+    <\ color: 0x000000; fontSize: 17;
+      <size: [30, 20];>
+      <out: question; align: 50%; >
+      <size: 30;>
+    >
+    <_ align: 100%; pos: -10; radius: 5;
+      <out: yesButton; color: 0x40C040;>
+      <size: 10;>
+      <out: noButton; color: 0xC04040;>
     >
   >
 }
 
-while (Dialog()) {}
+if (Dialog("Quit application", "Do you want to quit?"))
+  println("Cool, bye!")
+else
+  println("Well, sorry, quitting anyway...")

@@ -129,6 +129,7 @@ void post_(voidHandler_ handler) {
 int refreshCount = 1
 bool autoResize = true
 bool autoInit = false
+Window_[] windows;
 void _refresh(var obj, int x, int y, int width, int height) {
 /$let level = _refreshModels(obj);
 //  console.log("" + refreshCount++ + "- Refresh Level: " + level);
@@ -137,9 +138,9 @@ void _refresh(var obj, int x, int y, int width, int height) {
     ctx.globalAlpha = 1.0;
 
     if (level >= 2) {
-      obj.qedModel.windows = _refreshViews(obj);
-      width = obj.qedModel.windows[0].size[0]
-      height = obj.qedModel.windows[0].size[1]
+      Main_$this.windows = _refreshViews(obj);
+      width = Main_$this.windows[0].size[0]
+      height = Main_$this.windows[0].size[1]
     }
 
     if (!Main_$this.autoInit) {
@@ -154,7 +155,7 @@ void _refresh(var obj, int x, int y, int width, int height) {
     }
 
     ctx.clearRect(0, 0, width, height);
-    obj.qedModel.windows[0].paint(x, y, width, height);
+    Main_$this.windows[0].paint(x, y, width, height);
   }$/
 }
 int _refreshModels(var obj) {
@@ -166,7 +167,7 @@ int _refreshModels(var obj) {
   return level$/
 }
 int[] getBounds(String[] path, int[] index) {
-/$return Main_$this.qedModel.windows.size() ? Main_$this.qedModel.windows[0].getBoundsRect(path, index, 0, 0, Main_$this.qedModel.windows[0].size[0], Main_$this.qedModel.windows[0].size[1], 0, 0) : []$/
+/$return Main_$this.windows.size() ? Main_$this.windows[0].getBoundsRect(path, index, 0, 0, Main_$this.windows[0].size[0], Main_$this.windows[0].size[1], 0, 0) : []$/
 }
 void executeEvents_() {
 /$while (postHandler != null)
@@ -1413,7 +1414,7 @@ void onGlobalEvent(int event, int[] location) {
   }
   else {
     potentialFocus = new QEDFocus_(/$null$/, [location[0], location[1], 0, 0]);
-    /$Main_$this.qedModel.windows[0].onEvent(event, location, [Main_$this.qedModel.windows[0].size[0], Main_$this.qedModel.windows[0].size[1]])$/
+    /$Main_$this.windows[0].onEvent(event, location, [Main_$this.windows[0].size[0], Main_$this.windows[0].size[1]])$/
   }
 
   if (/$postHandler$/)

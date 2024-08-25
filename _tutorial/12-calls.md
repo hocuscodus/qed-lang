@@ -14,7 +14,7 @@ So classes can act like functions for calls but the internal process is differen
 
 A corollary of this rule, and a key difference between function and class calls is, if `return` is never called during the object execution, the application simply hangs.
 
-{% include sandboxframe.html qedsrc="calls2.qed" gui="0" height="330px" %}
+{% include sandboxframe.html qedsrc="calls2.qed" gui="0" height="350px" %}
 
 While this may first look as a fundamental flaw, it truly is a blessing in disguise, as we'll see later.
 {: .notice--warning}

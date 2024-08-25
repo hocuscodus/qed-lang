@@ -21,9 +21,11 @@ Therefore, in QED, a UI form is a call to a class having UI elements.
 
 So this is another startling practical use of the instantiation/call duality of QED classes: creating components and forms using one single class concept.
 
-We can try with a more practical, down-to-earth example, a yes/no dialog. We'll do a recursive stack of dialogs to show that theoretically, any number of dialog boxes are possible.
+We can try with a more practical, down-to-earth example, a yes/no dialog. The common use case of a yes/no popup is within an if-else condition.
 
-{% include sandboxframe.html qedsrc="forms2.qed" code="70" gui="100" height="400px" %}
+{% include sandboxframe.html qedsrc="forms2.qed" code="70" gui="50" height="505px" %}
 
-{% include sandboxframe.html qedsrc="forms3.qed" code="70" gui="100" height="400px" %}
+Any number of overlapping dialog boxes is possible.
+
+{% include sandboxframe.html qedsrc="forms3.qed" code="70" gui="100" height="520px" %}
 

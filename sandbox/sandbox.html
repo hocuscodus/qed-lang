@@ -164,7 +164,10 @@
 
         window.console.log = Module['print'];
         js.apply(obj);
-        window.console.log = oldConsoleLog;
+        obj.start_([], function(_ret) {
+          window.console.log("Demo exited with code " + _ret);
+          window.console.log = oldConsoleLog;
+        });
       }
       function logFn(text) {
         if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');

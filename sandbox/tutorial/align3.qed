@@ -1,0 +1,8 @@
+// Moving ball
+<|
+  <out: "My painting!"; align: 50%;>
+  <
+    <out: rect; color: 0x00C0FF; size: [250, 350];>
+    <out: oval; color: 0x007000;>
+  >
+>

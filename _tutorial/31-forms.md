@@ -27,5 +27,5 @@ We can try with a more practical, down-to-earth example, a yes/no dialog. The co
 
 Any number of overlapping dialog boxes is possible.
 
-{% include sandboxframe.html qedsrc="forms3.qed" code="70" gui="100" height="520px" %}
+{% include sandboxframe.html qedsrc="forms3.qed" code="70" gui="90" height="540px" %}
 

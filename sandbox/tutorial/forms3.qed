@@ -1,11 +1,11 @@
-int dialogCount = 1
+int popupCount = 1
 
-void Dialog(String title, String question) {
+void Popup(String title, String question, int col) {
   var yesButton = new TextButton("Yes") ->
-    Dialog("Dialog " + dialogCount++, "Another dialog?")
+    Popup("Popup " + popupCount++, "One more popup?", (int) (rand() * 0xFFFFFF))
   var noButton = new TextButton("No") -> return
 
-  <| out: roundRect; color: 0xD0D0D0; radius: 10;
+  <| out: roundRect; color: col | 0x808080; radius: 10;
     <out: rect; color: 0x0090C0;
       <|
         <size: 10;>
@@ -27,4 +27,5 @@ void Dialog(String title, String question) {
   >
 }
 
-Dialog("Dialog " + dialogCount++, "Another dialog?")
+Popup("Popup " + popupCount++, "Another popup?", (int) (rand() * 0xFFFFFF))
+return 0 // Exit app with code 0

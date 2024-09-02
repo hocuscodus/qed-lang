@@ -1,5 +1,30 @@
-var blocking__Call
-/$var canvas = document.getElementById("canvas");
+/$class QEDObject {
+  blocking__Call = null;
+
+  _refreshModels() {
+    let level = this.refresh_Model_ ? this.refresh_Model_() : 0;
+
+    if (this.blocking__Call)
+      level = Math.max(level, this.blocking__Call._refreshModels())
+
+    return level
+  }
+}
+class QEDBasicArray extends Array {
+  constructor() {
+    super();
+  }
+
+  _refreshModels = function() {
+    let level = 0;
+
+    for (let index = 0; index < this.length; index++)
+      level = Math.max(level, this[index]._refreshModels());
+
+    return level;
+  }
+}
+var canvas = document.getElementById("canvas");
 let postHandler = null;
 let attributeStacks = [];
 let ctx = canvas.getContext("2d");
@@ -44,28 +69,11 @@ canvas.onselectstart = function () { return false; }$/
     }
 }
 }$/
-/$function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
-function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct.bind(); } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }$/
 
 /$function _bindHandler(obj, handler) {
   obj._HandlerFn_ = handler;
   return obj;
 }$/
-
 pushAttribute(5, 20)
 pushAttribute(6, 0.0)
 pushAttribute(12, 0)
@@ -130,18 +138,24 @@ int refreshCount = 1
 bool autoResize = true
 bool autoInit = false
 Window_[] windows;
+var MainObj;
 void _refresh(var obj, int x, int y, int width, int height) {
-/$let level = _refreshModels(obj);
+/$let level = obj._refreshModels();
 //  console.log("" + refreshCount++ + "- Refresh Level: " + level);
 
-  if (level) {
+//  if (level) {
     ctx.globalAlpha = 1.0;
 
-    if (level >= 2) {
+//    if (level >= 2) {
       Main_$this.windows = _refreshViews(obj);
-      width = Main_$this.windows[0].size[0]
-      height = Main_$this.windows[0].size[1]
-    }
+
+      if (Main_$this.windows.length) {
+        width = Main_$this.windows[0].size[0];
+        height = Main_$this.windows[0].size[1];
+      }
+      else
+        width = height = 0;
+//    }
 
     if (!Main_$this.autoInit) {
       Main_$this.autoResize = canvas.width == 0 && canvas.height == 0;
@@ -154,20 +168,15 @@ void _refresh(var obj, int x, int y, int width, int height) {
       ctx = canvas.getContext("2d");
     }
 
-    ctx.clearRect(0, 0, width, height);
-    Main_$this.windows[0].paint(x, y, width, height);
-  }$/
-}
-int _refreshModels(var obj) {
-/$let level = obj.refresh_Model_ ? obj.refresh_Model_() : 0;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  if (obj.blocking__Call)
-    level = Main_$this.max(level, _refreshModels(obj.blocking__Call))
-
-  return level$/
+    if (Main_$this.windows.length)
+      Main_$this.windows[0].paint(x, y, width, height);
+//  }
+$/
 }
 int[] getBounds(String[] path, int[] index) {
-/$return Main_$this.windows.size() ? Main_$this.windows[0].getBoundsRect(path, index, 0, 0, Main_$this.windows[0].size[0], Main_$this.windows[0].size[1], 0, 0) : []$/
+/$return Main_$this.windows.length ? Main_$this.windows[0].getBoundsRect(path, index, 0, 0, Main_$this.windows[0].size[0], Main_$this.windows[0].size[1], 0, 0) : []$/
 }
 void executeEvents_() {
 /$while (postHandler != null)
@@ -186,7 +195,7 @@ void executeEvents_() {
       handler();
     }
 
-  _refresh(Main_$this, 0, 0, canvas.width, canvas.height)$/
+  _refresh(this.MainObj, 0, 0, canvas.width, canvas.height)$/
 }
 bool qedEqual(var value1, var value2) {
   bool equal = value1 == value2
@@ -375,7 +384,7 @@ void GenericButton(ButtonContent *ContentFn) {
 }
 
 String LinkButton(String text) {
-  var button = new GenericButton((void L_(bool[] pressed) {
+  var button = new GenericButton((void L(bool[] pressed) {
     <out: text; opacity: pressed[0] ? 35% : 100%;>
   })) -> return text
 
@@ -384,7 +393,7 @@ String LinkButton(String text) {
 
 void RectButton(VoidHandler_ *ContentFn) {
   VoidHandler_ content = new ContentFn()
-  var button = new GenericButton((void L_(bool[] pressed) {
+  var button = new GenericButton((void L(bool[] pressed) {
     <out: roundRect;
       <out: rect; opacity: pressed[0] ? 35% : 0%; color: COLOR_BLACK;>
       <out: content;>
@@ -395,7 +404,7 @@ void RectButton(VoidHandler_ *ContentFn) {
 }
 
 String TextButton(String text) {
-  var button = new RectButton((void L_() {
+  var button = new RectButton((void L() {
     <\
       <size: ((int) getAttribute(5)) * 0.2; expand: 100%;>
       <out: text; color: COLOR_WHITE; align: 50%;>
@@ -423,7 +432,6 @@ void QEDBaseArray_() {
   int refresh_Model_() {
   }
 }
-/$Object.setPrototypeOf(this.QEDBaseArray_.prototype, Array.prototype)$/
 
 var InitFn(int[] pos) {}
 
@@ -539,7 +547,6 @@ var SQEDArray(int[] limits, InitFn *Init) {
     return
   }
 }
-/$Object.setPrototypeOf(this.SQEDArray.prototype, Array.prototype)$/
 
 void VInitFn(int[] pos) {}
 
@@ -709,17 +716,7 @@ var QEDArray(int[] limits, sInitFn *init, int[] dirs, Qui_ *Ui_) {
     remove(pos, size)
     return
   }
-
-  int refresh_Model_() {
-    int level = 0;
-
-    for (int index = 0; index < size(); index++)
-      level = max(level, /$_refreshModels(QEDArray$this[index])$/)
-
-    /$return level$/
-  }
 }
-/$Object.setPrototypeOf(this.QEDArray.prototype, Array.prototype)$/
 
 void vInitFn(int[] pos) {}
 
@@ -769,66 +766,18 @@ void VQEDArray(int[] limits, vInitFn *init) {
 VQEDArray vqedArray(int[] limits, vInitFn *init) {
   return new VQEDArray(limits, init);
 }
-/*
-void QEDExplicitArray(Qui_ *Ui_) {
-  /$for (var i = 0; i < arguments.length; ++i)
-    this[i] = arguments[i]$/
 
-  int getNumDirs() {return 1;}
-  int[] getDirs(int childDir) {return [childDir & 1, (childDir & 2) ? 1 : 0];}
-  int size() {return /$this.length$/;}
-  int refresh_Model_() {
-    int level = 0;
-
-    for (int index = 0; index < size(); index++)
-      level = max(level, _refreshModels(/$QEDBaseArray_$this[index]$/)
-
-    return level
+/$this.QEDExplicitArray = class QEDExplicitArray extends QEDBasicArray {
+  constructor(...args) {
+    super();
+    for (const arg of args)
+      this.push(arg);
   }
-}
-/$Object.setPrototypeOf(this.QEDExplicitArray.prototype, Array.prototype)$/*/
-/$this.QEDExplicitArray = /*#__PURE__*/function(_Array) {
-  _inherits(QEDExplicitArray, _Array);
-  var _super = _createSuper(QEDExplicitArray);
-  function QEDExplicitArray() {
-    var _this;
-    _classCallCheck(this, QEDExplicitArray);
-    _this = _super.call(this);
-    for (var i = 0; i < arguments.length; ++i) _this[i] = arguments[i];
-    return _this;
-  }
-  _createClass(QEDExplicitArray, [{
-    key: "getNumDirs",
-    value: function getNumDirs() {
-      return (1);
-    }
-  }]);
-  _createClass(QEDExplicitArray, [{
-    key: "getDirs",
-    value: function getDirs(childDir) {
-      return [childDir & 1, (childDir & 2) ? 1 : 0];
-      return (this.length);
-    }
-  }]);
-  _createClass(QEDExplicitArray, [{
-    key: "size",
-    value: function size() {
-      return (this.length);
-    }
-  }]);
-  _createClass(QEDExplicitArray, [{
-    key: "refresh_Model_",
-    value: function refresh_Model_() {
-      let level = 0;
 
-      for (let index = 0; index < this.length; index++)
-        level = Math.max(level, _refreshModels(this[index]));
-
-      return level;
-    }
-  }]);
-  return QEDExplicitArray;
-}( /*#__PURE__*/_wrapNativeSuper(Array))$/
+  getNumDirs() {return 1;}
+  getDirs(childDir) {return [childDir & 1, (childDir & 2) ? 1 : 0];}
+  size() {return this.length;}
+}$/
 
 var resizeView(var unit) {}
 int[] getViewSize(var viewObj) {}
@@ -967,6 +916,10 @@ void Directive_(int direction, int outNumDim, int outType, Attr_[] atts, Directi
   Attr_[] outAttr = []
   int viewIndex = 0
   bool childrenViewFlag = false
+  // 0 - no change
+  // 1 - to repant
+  // 2 - to resize
+  // 3 - to recreate
   int changeLevel = 0
 
   for (int ndx = 0; ndx < atts.size(); ndx++) {
@@ -1009,7 +962,7 @@ void Directive_(int direction, int outNumDim, int outType, Attr_[] atts, Directi
     Attr_ att = atts[index]
 
     if (!qedEqual(value, att.value)) {
-      changeLevel = max(changeLevel, att.code > 11 ? 1 : att.code > 3 ? 2 : 3)
+      changeLevel = max(changeLevel, att.code > 11/*ATTRIBUTE_HERITABLE*/ ? 1 : att.code > 3/*ATTRIBUTE_AREA_HERITABLE*/ ? 2 : 3)
       atts[index].value = value
     }
   }
@@ -1027,7 +980,7 @@ void Directive_(int direction, int outNumDim, int outType, Attr_[] atts, Directi
   }
 
   void refreshSubModel() {
-    changeLevel = max(changeLevel, /$_refreshModels(Directive_$this.outAttr[0].value)$/)
+    changeLevel = max(changeLevel, /$Directive_$this.outAttr[0].value._refreshModels()$/)
   }
 }
 
@@ -1414,7 +1367,8 @@ void onGlobalEvent(int event, int[] location) {
   }
   else {
     potentialFocus = new QEDFocus_(/$null$/, [location[0], location[1], 0, 0]);
-    /$Main_$this.windows[0].onEvent(event, location, [Main_$this.windows[0].size[0], Main_$this.windows[0].size[1]])$/
+    /$if (Main_$this.windows.length)
+      Main_$this.windows[0].onEvent(event, location, [Main_$this.windows[0].size[0], Main_$this.windows[0].size[1]])$/
   }
 
   if (/$postHandler$/)
@@ -1481,4 +1435,14 @@ Window_[] _refreshViews(var obj) {
   Window_[] dialog = /$obj.blocking__Call$/ ? _refreshViews(/$obj.blocking__Call$/) : []
 
   return /$obj.qedModel$/ ? [new Window_(/$obj.qedModel$/, dialog)] : dialog
+}
+
+void start_(var[] args, intHandler_ returnFn) {
+  /$this.MainObj = _bindHandler(new this.Main(args), (function Lambda_(_ret) {
+    this.MainObj = null;
+
+    if (returnFn)
+      returnFn(_ret);
+  }))$/
+  executeEvents_()
 }

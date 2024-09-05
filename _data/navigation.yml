@@ -75,13 +75,13 @@ tutorial:
   - title: "MANAGING EMPTY SPACE"
     url: /tutorial/empty-space/
     children:
-      - title: "Alignment"
+      - title: "The \"align\" tag"
         url: /tutorial/alignment/
-      - title: "Position"
+      - title: "The \"pos\" tag"
         url: /tutorial/position/
       - title: "Empty space management"
         url: /tutorial/empty-space2/
-      - title: "Expansion"
+      - title: "The \"expand\" tag"
         url: /tutorial/expansion/
 
   - title: "BUILDING GUI APPS"

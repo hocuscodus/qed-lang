@@ -1,0 +1,9 @@
+// Try this demo as is (alignment fully applies),
+// then with the next line as "<_" (vertical alignment
+// only), "<|" (horizontal alignment only) and "<\"
+// (no alignment applies)
+<
+  <out: rect; color: 0xFF0000; size: 60;>
+  <out: rect; color: 0x00FF00; size: 40; align: 50%;>
+  <out: rect; color: 0x0000FF; size: 20; align: 100%;>
+>

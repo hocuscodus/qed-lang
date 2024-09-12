@@ -14,6 +14,8 @@ Most of the times though, you want to specify the size of drawing elements in pi
 
 {% include sandboxframe.html qedsrc="size2.qed" code="60" gui="100" height="200px" %}
 
+## Clipping
+
 It often happens that you want a square as the size of an element. In this case, you may shorten the explicit array notation by using a single number. In this example, a 100x100 oval (a circle in fact) is shown.
 
 {% include sandboxframe.html qedsrc="size3.qed" code="60" gui="100" height="200px" %}

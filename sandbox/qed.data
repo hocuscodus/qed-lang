@@ -74,11 +74,30 @@ canvas.onselectstart = function () { return false; }$/
   obj._HandlerFn_ = handler;
   return obj;
 }$/
-pushAttribute(5, 20)
-pushAttribute(6, 0.0)
-pushAttribute(12, 0)
-pushAttribute(13, 1.0)
-pushAttribute(14, 3.0)
+int QED_TAG_OUT = 0
+int QED_TAG_SIZE = 1
+int QED_TAG_TAG = 2
+int QED_TAG_AREA_HERITABLE = 3
+int QED_TAG_ZOOM = 4
+int QED_TAG_FONTSIZE = 5
+int QED_TAG_SPACING = 6
+int QED_TAG_AREA_END = 7
+int QED_TAG_ALIGN = 8
+int QED_TAG_EXPAND = 9
+int QED_TAG_POS = 10
+int QED_TAG_WEIGHT = 11
+int QED_TAG_HERITABLE = 12
+int QED_TAG_COLOR = 13
+int QED_TAG_OPACITY = 14
+int QED_TAG_RADIUS = 15
+int QED_TAG_ROTATION = 16
+int QED_TAG_END = 17
+
+pushAttribute(QED_TAG_FONTSIZE, 20)
+pushAttribute(QED_TAG_SPACING, 0.0)
+pushAttribute(QED_TAG_COLOR, 0)
+pushAttribute(QED_TAG_OPACITY, 1.0)
+pushAttribute(QED_TAG_RADIUS, 3.0)
 
 void voidHandler_() {}
 void VoidHandler_() {<out: "";>}
@@ -171,12 +190,12 @@ void _refresh(var obj, int x, int y, int width, int height) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (Main_$this.windows.length)
-      Main_$this.windows[0].paint(x, y, width, height);
+      Main_$this.windows[0].paint(x, y, canvas.width, canvas.height);
 //  }
 $/
 }
 int[] getBounds(String[] path, int[] index) {
-/$return Main_$this.windows.length ? Main_$this.windows[0].getBoundsRect(path, index, 0, 0, Main_$this.windows[0].size[0], Main_$this.windows[0].size[1], 0, 0) : []$/
+/$return Main_$this.windows.length ? Main_$this.windows[0].getBoundsRect(path, index, 0, 0, canvas.width, canvas.height, 0, 0) : []$/
 }
 void executeEvents_() {
 /$while (postHandler != null)
@@ -238,23 +257,23 @@ void rotate(int x, int y, int width, int height, float angle) {
 }
 void drawFn(int x, int y, int width, int height) {}
 void oval(int x, int y, int width, int height) {
-/$ctx.fillStyle = toColor(Main_$this.getAttribute(12));
-  ctx.globalAlpha = "" + Main_$this.getAttribute(13);
+/$ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+  ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
   ctx.beginPath();
   ctx.ellipse(x + width / 2, y + height / 2, width / 2, height / 2, 0, 0, 2*Math.PI);
   ctx.fill()$/
 }
 void rect(int x, int y, int width, int height) {
-/$ctx.fillStyle = toColor(Main_$this.getAttribute(12));
-  ctx.globalAlpha = "" + Main_$this.getAttribute(13);
+/$ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+  ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
   ctx.beginPath();
   ctx.rect(x, y, width, height);
   ctx.fill()$/
 }
 void roundRect(int x, int y, int width, int height) {
-/$ctx.fillStyle = toColor(Main_$this.getAttribute(12));
-  ctx.globalAlpha = "" + Main_$this.getAttribute(13);
-  let radius = Main_$this.getAttribute(14);/*
+/$ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+  ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
+  let radius = Main_$this.getAttribute(Main_$this.QED_TAG_RADIUS);/*
   let radiusy = Math.min(radius, height / 2);
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -297,16 +316,16 @@ void popAttribute(int index) {
 /$attributeStacks[index].pop()$/
 }
 int[] getTextSize(String text) {
-/$ctx.font = Main_$this.getAttribute(5) + "px Arial";
+/$ctx.font = Main_$this.getAttribute(Main_$this.QED_TAG_FONTSIZE) + "px Arial";
 
   const textSize = ctx.measureText(text);
   const height = textSize.fontBoundingBoxAscent + textSize.fontBoundingBoxDescent;
   return [textSize.width, height]$/
 }
 void displayText(String text, int x, int y, int width, int height) {
-/$ctx.font = Main_$this.getAttribute(5) + "px Arial";
-  ctx.fillStyle = toColor(Main_$this.getAttribute(12));
-  ctx.globalAlpha = Main_$this.getAttribute(13);
+/$ctx.font = Main_$this.getAttribute(Main_$this.QED_TAG_FONTSIZE) + "px Arial";
+  ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+  ctx.globalAlpha = Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
   ctx.textBaseline = "top";
   ctx.fillText(text, x, y)$/
 }
@@ -338,37 +357,12 @@ void time(voidHandler_ *func) {
   console.timeEnd("time")$/
 }
 int Animation() {
-/$requestAnimationFrame((millis) => {
-  if (Animation$this._HandlerFn_) {
-    Animation$this._HandlerFn_(millis);
-    Main_$this.executeEvents_();
-  }
-})$/
-}
-void Sprite() {
-  int limit
-  int startTime = -1
-
-  int Animate() {
-    int millis = Animation()
-
-    if (startTime == -1)
-      startTime = millis
-
-    return millis - startTime
-  }
-
-  void setLimit(int l) {
-    limit = l
-  }
-
-  int Move() {
-/$  this.blocking__Call = new Sprite$this.Animate((function Lambda_(_ret) {
-      Move$this.blocking__Call = null;
-      Main_$this.post_(Move$this, Main_$this.min(_ret / Sprite$this.limit, 1));
-    }))$/
-//    return min(Animate() / limit, 1)
-  }
+/$requestAnimationFrame((timeStampMs) => {
+    if (Animation$this._HandlerFn_) {
+      Animation$this._HandlerFn_(timeStampMs);
+      Main_$this.executeEvents_();
+    }
+  })$/
 }
 
 void ButtonContent(bool[] pressed) {<out:"";>}
@@ -377,7 +371,7 @@ void GenericButton(ButtonContent *ContentFn) {
   bool[] pressed = [false]
   ButtonContent content = new ContentFn(pressed)
 
-  <out: content
+  <out: content; expand: 100%;
    onPress: {pressed[0] = true; _captureFocus();}
    onRelease: {pressed[0] = false; _releaseFocus(); return}
   >
@@ -388,31 +382,31 @@ String LinkButton(String text) {
     <out: text; opacity: pressed[0] ? 35% : 100%;>
   })) -> return text
 
-  <out: button;>
+  <out: button; expand: 100%;>
 }
 
 void RectButton(VoidHandler_ *ContentFn) {
   VoidHandler_ content = new ContentFn()
   var button = new GenericButton((void L(bool[] pressed) {
-    <out: roundRect;
+    <out: roundRect; expand: 100%;
       <out: rect; opacity: pressed[0] ? 35% : 0%; color: COLOR_BLACK;>
-      <out: content;>
+      <out: content; expand: 100%;>
     >
   })) -> return
 
-  <out: button;>
+  <out: button; expand: 100%;>
 }
 
 String TextButton(String text) {
   var button = new RectButton((void L() {
-    <\
-      <size: ((int) getAttribute(5)) * 0.2; expand: 100%;>
-      <out: text; color: COLOR_WHITE; align: 50%;>
-      <size: ((int) getAttribute(5)) * 0.2; expand: 100%;>
+    <\expand: 100%;
+      <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
+      <out: text; color: COLOR_WHITE;>
+      <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
     >
   })) -> return text
 
-  <out: button;>
+  <out: button; expand: 100%;>
 }
 
 void QEDBaseArray_() {
@@ -786,7 +780,7 @@ bool onViewEvent(var viewObj, int event, int posx, int posy, int sizex, int size
 int[] getViewElementRect(var viewObj, String[] path, int[] index, int posx, int posy, int sizex, int sizey, int level, int dLevel) {}
 
 void ViewArray_(QEDBaseArray_[] array, int[] dirs, resizeView *resizeViewFn, getViewSize *getViewSizeFn, paintView *paintViewFn, onViewEvent *onViewEventFn, getViewElementRect *getViewElementRectFn) {
-  float space = /$Main_$this.getAttribute(6)$/
+  float space = /$Main_$this.getAttribute(Main_$this.QED_TAG_SPACING)$/
   int length = array.size()
   var[] views = /$[]$/
   int[][] posSet = /$[]$/
@@ -917,7 +911,7 @@ void Directive_(int direction, int outNumDim, int outType, Attr_[] atts, Directi
   int viewIndex = 0
   bool childrenViewFlag = false
   // 0 - no change
-  // 1 - to repant
+  // 1 - to repaint
   // 2 - to resize
   // 3 - to recreate
   int changeLevel = 0
@@ -925,10 +919,10 @@ void Directive_(int direction, int outNumDim, int outType, Attr_[] atts, Directi
   for (int ndx = 0; ndx < atts.size(); ndx++) {
     Attr_ attr = atts[ndx]
 
-    if (attr.code == 1) // ATTRIBUTE_SIZE
+    if (attr.code == QED_TAG_SIZE)
       sizeAttr = [attr]
 
-    if (attr.code == 0) // ATTRIBUTE_OUT
+    if (attr.code == QED_TAG_OUT)
       outAttr = [attr]
   }
 
@@ -962,7 +956,7 @@ void Directive_(int direction, int outNumDim, int outType, Attr_[] atts, Directi
     Attr_ att = atts[index]
 
     if (!qedEqual(value, att.value)) {
-      changeLevel = max(changeLevel, att.code > 11/*ATTRIBUTE_HERITABLE*/ ? 1 : att.code > 3/*ATTRIBUTE_AREA_HERITABLE*/ ? 2 : 3)
+      changeLevel = max(changeLevel, att.code > QED_TAG_HERITABLE ? 1 : att.code > QED_TAG_AREA_HERITABLE ? 2 : 3)
       atts[index].value = value
     }
   }
@@ -989,18 +983,18 @@ bool hasAreas(Directive_ directive) {
 }
 
 bool isAreaHeritable(int code) {
-  return code > 3/*ATTRIBUTE_AREA_HERITABLE*/ && code < 7/*ATTRIBUTE_AREA_END*/
+  return code > QED_TAG_AREA_HERITABLE && code < QED_TAG_AREA_END
 }
 
 bool isHeritable(int code) {
-  return isAreaHeritable(code) || (code > 11/*ATTRIBUTE_HERITABLE*/ && code < 16/*ATTRIBUTE_END*/);
+  return isAreaHeritable(code) || (code > QED_TAG_HERITABLE && code < QED_TAG_END);
 }
 
 var potentialFocus
 
 void Widget_(Directive_ directive) {
   int[] group = []
-  int[][] expandArray = 2 32 0
+  float[][] expandArray = 2 32 0
   int count = 0
 
   for (int ndx = 0; ndx < directive.atts.size(); ndx++)
@@ -1060,7 +1054,7 @@ void Widget_(Directive_ directive) {
         previous = [sub]
       }
 
-      Attr_[] att = directive.children[index].findAttr(9/*ATTRIBUTE_EXPAND*/)
+      Attr_[] att = directive.children[index].findAttr(QED_TAG_EXPAND)
 
       if (att.size()) {
         for (int dir = 0; dir < 2; dir++)
@@ -1082,7 +1076,7 @@ void Widget_(Directive_ directive) {
       Attr_ att = directive.atts[ndx];
 
       if (isHeritable(att.code))
-        if (att.code == 15) {
+        if (att.code == QED_TAG_ROTATION) {
           // add rotation
           rotate(pos0, pos1, size0, size1, att.value)
           pos0 = -size0 / 2
@@ -1094,42 +1088,38 @@ void Widget_(Directive_ directive) {
 
     int outType = directive.outType
     int subSize = subWidgets.size()
-    int[] pos = [pos0, pos1]
-    int[] size = [size0, size1]
-
-    align(pos, size)
 
     if (directive.outAttr.size())
       if (directive.outNumDim) {
         ViewArray_ viewArray = outWidget[0]
 
-        viewArray.paint(pos[0], pos[1], size[0], size[1]);
+        viewArray.paint(pos0, pos1, size0, size1);
       }
       else
         if (outType == 0) {
           Window_ window = outWidget[0]
 
-          window.paint(pos[0], pos[1], size[0], size[1]);
+          window.paint(pos0, pos1, size0, size1);
         }
         else
           if (outType == 1)
-            displayText(directive.outAttr[0].value, pos[0], pos[1], size[0], size[1])
+            displayText(directive.outAttr[0].value, pos0, pos1, size0, size1)
           else {
             drawFn *fn = directive.outAttr[0].value
 
-            fn(pos[0], pos[1], size[0], size[1])
+            fn(pos0, pos1, size0, size1)
           }
 
     if (subSize) {
-      int[] extraSpace = getExtraSpace(size)
+      int[] extraSpace = getExtraSpace([size0, size1])
 
       if (!directive.outNumDim && outType >= 1)
         saveContext()
 
       for (int index = 0; index < subSize; index++) {
-        int[] rect = getChildArea(index, size[0], size[1], extraSpace)
+        int[] rect = getChildArea(index, size0, size1, extraSpace)
 
-        subWidgets[index].paint(pos[0] + rect[0], pos[1] + rect[1], rect[2], rect[3]);
+        subWidgets[index].paint(pos0 + rect[0], pos1 + rect[1], rect[2], rect[3]);
       }
 
       if (!directive.outNumDim && outType >= 1)
@@ -1138,7 +1128,7 @@ void Widget_(Directive_ directive) {
 
     for (int ndx = directive.atts.size() - 1; ndx >= 0; ndx--)
       if (isHeritable(directive.atts[ndx].code))
-        if (directive.atts[ndx].code == 15)
+        if (directive.atts[ndx].code == QED_TAG_ROTATION)
           restoreContext()
         else
           popAttribute(directive.atts[ndx].code)
@@ -1149,27 +1139,20 @@ void Widget_(Directive_ directive) {
 //      return false
 
     bool flag = false
-    int[] pos = [0, 0]
-    int[] newSize = /$[...size]$/
     bool locationFlag = true
 
-    align(pos, newSize)
-
     for (int dir = 0; locationFlag && dir < 2; dir++)
-      locationFlag = location[dir] >= pos[dir] && location[dir] < pos[dir] + newSize[dir]
+      locationFlag = location[dir] >= 0 && location[dir] < size[dir]
 
     if (locationFlag) {
-      for (int dir = 0; dir < 2; dir++)
-        location[dir] -= pos[dir]
-
       int subSize = subWidgets.size()
 
       if (subSize) {
-        int[] extraSpace = getExtraSpace(newSize)
+        int[] extraSpace = getExtraSpace(size)
         bool parse = true;
 
         for (int index = subSize - 1; !flag && parse && index >= 0; index--) {
-          int[] rect = getChildArea(index, newSize[0], newSize[1], extraSpace)
+          int[] rect = getChildArea(index, size[0], size[1], extraSpace)
 
           flag = subWidgets[index].onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
 
@@ -1188,13 +1171,13 @@ void Widget_(Directive_ directive) {
         if (directive.outNumDim) {
           ViewArray_ viewArray = outWidget[0]
 
-          flag = viewArray.onEvent(event, location[0], location[1], newSize[0], newSize[1])
+          flag = viewArray.onEvent(event, location[0], location[1], size[0], size[1])
         }
         else
           if (directive.outType == 0) {
             Window_ window = outWidget[0]
 
-            flag = window.onEvent(event, location, newSize)
+            flag = window.onEvent(event, location, size)
           }
 
       if (!flag) {
@@ -1214,30 +1197,26 @@ void Widget_(Directive_ directive) {
   }
 
   int[] getBoundsRect(String[] path, int[] index, int pos0, int pos1, int size0, int size1, int level, int dLevel) {
-    Attr_[] tagName = directive.findAttr(2)//ATTRIBUTE_TAG);
-    int[] pos = [pos0, pos1]
-    int[] size = [size0, size1]
-
-    align(pos, size)
+    Attr_[] tagName = directive.findAttr(QED_TAG_TAG)
 
     if (tagName.size())
       if (path[level] == tagName[0].value) {
         level++
 
         if (level == path.size() && dLevel == index.size())
-          return [pos[0], pos[1], size[0], size[1]]
+          return [pos0, pos1, size0, size1]
         else {
           if (directive.outAttr.size())
             if (directive.outNumDim) {
               ViewArray_ viewArray = outWidget[0]
 
-              return viewArray.getBoundsRect(path, index, pos[0], pos[1], size[0], size[1], level, dLevel)
+              return viewArray.getBoundsRect(path, index, pos0, pos1, size0, size1, level, dLevel)
             }
             else
               if (directive.outType == 0) {
                 Window_ window = outWidget[0]
 
-                return window.getBoundsRect(path, index, pos[0], pos[1], size[0], size[1], level, dLevel)
+                return window.getBoundsRect(path, index, pos0, pos1, size0, size1, level, dLevel)
               }
 
           return []
@@ -1247,11 +1226,11 @@ void Widget_(Directive_ directive) {
     int subSize = subWidgets.size()
 
     if (subSize) {
-      int[] extraSpace = getExtraSpace(size)
+      int[] extraSpace = getExtraSpace([size0, size1])
 
       for (int ndx = 0; ndx < subSize; ndx++) {
         int[] rect = getChildArea(ndx, size[0], size[1], extraSpace)
-        int[] bounds = subWidgets[ndx].getBoundsRect(path, index, pos[0] + rect[0], pos[1] + rect[1], rect[2], rect[3], level, dLevel)
+        int[] bounds = subWidgets[ndx].getBoundsRect(path, index, pos0 + rect[0], pos1 + rect[1], rect[2], rect[3], level, dLevel)
 
         if (bounds.size())
           return bounds
@@ -1272,23 +1251,6 @@ void Widget_(Directive_ directive) {
     return -1
   }
 
-  void align(int[] pos, int[] size1) {
-    Attr_[] alignAttr = directive.findAttr(8)//ATTRIBUTE_ALIGN);
-    Attr_[] posAttr = directive.findAttr(10)//ATTRIBUTE_POS);
-    int[] childSize = size
-
-    for (int dir = 0; dir < 2; dir++) {
-      if (alignAttr.size()) {
-        pos[dir] += (size1[dir] - childSize[dir]) * getDirVar(dir, alignAttr[0].value)
-        size1[dir] = childSize[dir]
-      }
-
-      // add pos
-      if (posAttr.size())
-        pos[dir] += getDirVar(dir, posAttr[0].value)
-    }
-  }
-
   int[] getExtraSpace(int[] totalSize) {
     int[] extraSpace = [0, 0]
 
@@ -1304,36 +1266,64 @@ void Widget_(Directive_ directive) {
   }
 
   int[] getChildArea(int index, int size0, int size1, int[] extraSpace) {
-    int[] rect = [0, 0, size0, size1]
-    Widget_ subWidget = subWidgets[index]
-    Attr_[] expandAttr = subWidget.directive.findAttr(9)//ATTRIBUTE_EXPAND);
+    int[] rect = [0, 0]
 
-    for (int dir = 0; dir < 2; dir++) {
+    for (int dir = 0; dir < 2; dir++)
       if ((directive.direction & (1 << dir)) != 0) {
-        rect[2 + dir] = subWidget.group[dir]
-
-        if (index) { // +
-          rect[dir] = subWidgets[index - 1].group[dir];
-          rect[2 + dir] -= rect[dir];
-        }
-
-        if (expandAttr.size())
-          rect[2 + dir] += extraSpace[dir] * getDirVar(dir, expandAttr[0].value)
-
         // add previous units expansion
         int ndx = -1
 
         for (int count = 0; count < index; count++)
-          if (subWidgets[count].directive.findAttr(9/*ATTRIBUTE_EXPAND*/).size())
+          if (subWidgets[count].directive.findAttr(QED_TAG_EXPAND).size())
             ndx++
 
         if (ndx >= 0)
-          rect[dir] += expandArray[dir][ndx] * extraSpace[dir]
+          rect[dir] = expandArray[dir][ndx] * extraSpace[dir]
       }
+
+    return getChildArea2(subWidgets, directive.direction, index, rect[0], rect[1], size0, size1, extraSpace)
+  }
+}
+
+int[] getChildArea2(Widget_[] subWidgets, int direction, int index, int pos0, int pos1, int size0, int size1, int[] extraSpace) {
+  int[] rect = [pos0, pos1, size0, size1]
+  Widget_ subWidget = subWidgets[index]
+  Attr_[] expandAttr = subWidget.directive.findAttr(QED_TAG_EXPAND)
+  Attr_[] alignAttr = subWidget.directive.findAttr(QED_TAG_ALIGN);
+  Attr_[] posAttr = subWidget.directive.findAttr(QED_TAG_POS);
+
+  for (int dir = 0; dir < 2; dir++) {
+    if ((direction & (1 << dir)) != 0) {
+      rect[2 + dir] = subWidget.group[dir]
+
+      if (index) { // +
+        int diff = subWidgets[index - 1].group[dir]
+
+        rect[dir] += diff
+        rect[2 + dir] -= diff
+      }
+
+      if (expandAttr.size())
+        rect[2 + dir] += extraSpace[dir] * getDirVar(dir, expandAttr[0].value)
+    }
+    else {
+      float originalSize = rect[2 + dir]
+      float expansion = expandAttr.size() ? min(getDirVar(dir, expandAttr[0].value), 1) : subWidget.directive.findAttr(QED_TAG_SIZE).size() || alignAttr.size() ? 0 : 1
+
+      rect[2 + dir] = subWidget.size[dir]
+
+      if (expansion)
+        rect[2 + dir] += (originalSize - rect[2 + dir]) * expansion
+
+      if (alignAttr.size())
+        rect[dir] += (originalSize - rect[2 + dir]) * getDirVar(dir, alignAttr[0].value)
     }
 
-    return rect
+    if (posAttr.size())
+      rect[dir] += getDirVar(dir, posAttr[0].value)
   }
+
+  return rect
 }
 
 void QEDFocus_(Widget_ widget, int[] rect) {
@@ -1368,7 +1358,7 @@ void onGlobalEvent(int event, int[] location) {
   else {
     potentialFocus = new QEDFocus_(/$null$/, [location[0], location[1], 0, 0]);
     /$if (Main_$this.windows.length)
-      Main_$this.windows[0].onEvent(event, location, [Main_$this.windows[0].size[0], Main_$this.windows[0].size[1]])$/
+      Main_$this.windows[0].onEvent(event, location, [canvas.width, canvas.height])$/
   }
 
   if (/$postHandler$/)
@@ -1400,8 +1390,11 @@ void Window_(Directive_[] ui, Window_[] dialog) {
     size = i::2 max(size[i], dialog[0].size[i])
 
   void paint(int pos0, int pos1, int size0, int size1) {
-    for (int index = 0; index < widgets.size(); index++)
-      widgets[index].paint(pos0, pos1, size0, size1)
+    for (int index = 0; index < widgets.size(); index++) {
+      int[] rect = getChildArea2(widgets, 0, index, pos0, pos1, size0, size1, /$null$/)
+
+      widgets[index].paint(rect[0], rect[1], rect[2], rect[3])
+    }
 
     if (dialog.size())
       dialog[0].paint(pos0, pos1, size0, size1)
@@ -1413,15 +1406,19 @@ void Window_(Directive_[] ui, Window_[] dialog) {
     if (dialog.size())
       flag = dialog[0].onEvent(event, location, size);
 
-    for (int index = widgets.size() - 1; !flag && index >= 0; index--)
-      flag = widgets[index].onEvent(event, location, size)
+    for (int index = widgets.size() - 1; !flag && index >= 0; index--) {
+      int[] rect = getChildArea2(widgets, 0, index, 0, 0, size[0], size[1], /$null$/)
+
+      flag = widgets[index].onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
+    }
 
     return flag
   }
 
   int[] getBoundsRect(String[] path, int[] index, int pos0, int pos1, int size0, int size1, int level, int dLevel) {
     for (int ndx = 0; ndx < widgets.size(); ndx++) {
-      int[] bounds = widgets[ndx].getBoundsRect(path, index, pos0, pos1, size0, size1, level, dLevel)
+      int[] rect = getChildArea2(widgets, 0, ndx, pos0, pos1, size0, size1, /$null$/)
+      int[] bounds = widgets[ndx].getBoundsRect(path, index, rect[0], rect[1], rect[2], rect[3], level, dLevel)
 
       if (bounds.size())
         return bounds;

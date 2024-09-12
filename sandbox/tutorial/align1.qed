@@ -1,3 +1,4 @@
 // Flag of Japan
-<out: rect; color: 0xFFFFFF; size: [300, 200];>
-<out: oval; color: 0xBC002D; size: 120; align: 50%;>
+<out: rect; color: 0xFFFFFF; size: [300, 200];
+  <out: oval; color: 0xBC002D; size: 120; align: 50%;>
+>

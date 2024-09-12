@@ -1,3 +1,2 @@
 <out: rect; color: 0xFF0000; size: 100;>
-<out: rect; color: 0x00FF00; size: 20; pos: [20, 10];
- align: 0;>
+<out: rect; color: 0x00FF00; size: 20; pos: [20, 10];>

@@ -36,6 +36,8 @@ Both lists may contain 0 element.
 There are also extra direction symbols in UI element definition that we'll see later.
 {: .notice--info}
 
+The good news is, with a handful of tags, you can render all sorts of sophisticated user interfaces! But even if they are few, you have to master them to conquer those nifty looks. Let's review them.
+
 ## When is the UI generated at runtime?
 
 The following steps were what was already specified when a QED application is executed:

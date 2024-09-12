@@ -69,18 +69,14 @@ tutorial:
         url: /tutorial/size-tag/
       - title: "Directions"
         url: /tutorial/directions/
-      - title: "Clipping"
-        url: /tutorial/clipping/
 
-  - title: "MANAGING EMPTY SPACE"
-    url: /tutorial/empty-space/
+  - title: "LAYOUT REFINEMENTS"
+    url: /tutorial/layouts/
     children:
       - title: "The \"align\" tag"
         url: /tutorial/alignment/
       - title: "The \"pos\" tag"
         url: /tutorial/position/
-      - title: "Empty space management"
-        url: /tutorial/empty-space2/
       - title: "The \"expand\" tag"
         url: /tutorial/expansion/
 

@@ -13,7 +13,7 @@ Another possibility with pixel-based movement is fine scrolling though. In the e
 
 {% include sandboxframe.html qedsrc="pos2.qed" code="75" gui="100" height="460px" %}
 
-Putting an increasingly negative value in `pos` will scroll up, hence the -vpos value (an increasingly positive value would scroll down).
+Putting an increasingly negative value in `pos` will scroll up, hence the -vpos value. An increasingly positive value would scroll down. Change `-vpos` to `vpos` in the `pos` tag (and re-run) to witness downward scrolling.
 {: .notice--info}
 
 Finally, the `align` and `pos` tags, both positioning UI elements, are not antagonistic. In fact they work hand in hand with each other. When using both tags in a single UI element, the QED layout algorithm first uses the `align` value to calculate the aligned position. Then, it uses the `pos` value to move the UI element by the specified pixel-base coordinate, from the aligned position.

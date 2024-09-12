@@ -28,3 +28,5 @@ The library `Animation` class is a simple wrapper to the Javascript window.refre
 
 Also, the `rand` function is a thin QED wrapper that directly calls the Math.rand() Javascript function (which returns a random float between 0 and 1).
 {: .notice--info}
+
+{% include sandboxframe.html qedsrc="align4.qed" code="65" gui="97" height="200px" %}

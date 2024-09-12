@@ -1,0 +1,8 @@
+<_ out: rect; color: 0xFF0000; size: [200, 100];
+  <out: rect; color: 0x0000FF;
+    <out: "Hello!"; color: 0xFFFFFF;>
+  >
+  <out: rect; color: 0x009F00;
+    <out: "World!!"; color: 0xFFFFFF;>
+  >
+>

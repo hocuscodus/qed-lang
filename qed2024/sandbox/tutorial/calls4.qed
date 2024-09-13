@@ -1,0 +1,10 @@
+int Double(int a) {
+  return 2 * a
+}
+
+// Invoke Double both ways
+// (call and instantiation)
+println("double of 6 = " + Double(6))
+// _ret will contain 14
+new Double(7) -> println("double of 7 = " + _ret)
+println("Done with both!")

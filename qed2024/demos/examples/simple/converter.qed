@@ -1,0 +1,11 @@
+// 7-GUIs Temperature Converter - by Martin Savage
+
+int tc = 0;
+int tf = 0;
+
+{
+  ; @out(tc) @oninput(tf = tc * 9 /5 + 32) @textwidth(8) @bgcol(0xdddfff)
+  ; @out(" Celsius = ")
+  ; @out(tf) @oninput(tc = (tf - 32) * 5 / 9) @textwidth(8) @bgcol(0xdddfff)
+  ; @out(" Fahrenheit")
+} @cdir(1)

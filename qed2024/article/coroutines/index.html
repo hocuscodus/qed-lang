@@ -1,0 +1,1181 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.26.2 by Michael Rose
+  Copyright 2013-2024 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+
+<html lang="en-US" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>A ‘new’, seamless concurrency model (coroutines included) - The QED Programming Language</title>
+<meta name="description" content="">
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="The QED Programming Language">
+<meta property="og:title" content="A ‘new’, seamless concurrency model (coroutines included)">
+<meta property="og:url" content="http://localhost:4000/qed2024/article/coroutines/">
+
+
+  <meta property="og:description" content="">
+
+
+
+
+
+  <meta name="twitter:site" content="@qedlang">
+  <meta name="twitter:title" content="A ‘new’, seamless concurrency model (coroutines included)">
+  <meta name="twitter:description" content="">
+  <meta name="twitter:url" content="http://localhost:4000/qed2024/article/coroutines/">
+
+  
+    <meta name="twitter:card" content="summary">
+    
+  
+
+  
+
+
+
+  <meta property="article:published_time" content="2019-06-27T11:10:47+00:00">
+
+
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/qed2024/article/coroutines/">
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/qed2024/feed.xml" type="application/atom+xml" rel="alternate" title="The QED Programming Language Feed">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="text/javascript">
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+  
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/qed2024/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@latest/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/qed2024/assets/images/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/qed2024/assets/images/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/qed2024/assets/images/favicon-16x16.png">
+<link rel="manifest" href="/qed2024/assets/images/site.webmanifest">
+<link rel="mask-icon" href="/qed2024/assets/images/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="theme-color" content="#ffffff">
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+          <a class="site-logo" href="/qed2024/"><img src="/qed2024/assets/images/logo.png" alt="The QED Programming Language"></a>
+        
+        <a class="site-title" href="/qed2024/">
+          The QED Programming Language
+          <span class="site-subtitle">You might like it actually!</span>
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/tutorial/qed-basics/"
+                
+                
+              >Tutorial</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/qed2024/contact/"
+                
+                
+              >Install</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/qed2024/demos/"
+                
+                
+              >Demos</a>
+            </li><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li></ul>
+        
+        <button class="search__toggle" type="button">
+          <span class="visually-hidden">Toggle search</span>
+          <i class="fas fa-search"></i>
+        </button>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/qed2024/" itemprop="url"></a>
+    </h3>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="A ‘new’, seamless concurrency model (coroutines included)">
+    <meta itemprop="description" content="">
+    <meta itemprop="datePublished" content="2019-06-27T11:10:47+00:00">
+    
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            <a href="http://localhost:4000/qed2024/article/coroutines/" itemprop="url">A ‘new’, seamless concurrency model (coroutines included)
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2019-06-27T11:10:47+00:00">June 27, 2019</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          29 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-fa-bath"></i> Concurrency in QED</h4></header>
+              <ul class="toc__menu"><li><a href="#with-or-without-new">With or without ‘new’</a></li><li><a href="#taming-callback-hell">Taming callback hell</a></li><li><a href="#unleashing-concurrency-in-user-defined-functions">Unleashing concurrency in user-defined functions</a></li><li><a href="#coroutines-the-missing-link">Coroutines: the missing link</a></li><li><a href="#conclusion">Conclusion</a></li></ul>
+            </nav>
+          </aside>
+        
+        <p><img src="/balls2.png" alt="" /></p>
+
+<p>Throughout my professional life as a software developer, I always vowed to never, ever implement concurrency mechanisms. I mean, the mere thought of such mechanisms had always haunted me. Too complex, too cumbersome, too many corner cases. This was the reason for, while designing <a href="https://qed-lang.org">the QED programming language</a>, I bluntly ignored concurrency in the design. The idea of handling threads and company on top of my core concepts was too much a burden.</p>
+
+<p>When I started to showcase QED last August, I opened myself to subjects tantalizing the programming language community. Reading about <a href="http://callbackhell.com/">callback hell</a>, or <a href="http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/">what color is your function</a> sparked my imagination. I realized my programming language, without any thread-related feature, was so close to solving cooperative multitasking elegantly. This is where I finally learned the word coroutine (go ahead, mock me!) and inspected some implementations. Then it happened. The skies opened up, heavenly lights burned into my eyes and a choir of angels began chanting. After this epiphany moment, I urged myself to develop this new concurrency and coroutine vision for QED.</p>
+
+<p>This article is a bit long, although filled with easily digestible code samples instead of dry text, in order to keep reading light. You may want to check out the conclusions in advance with these two online QED programs. The first one is a classic <a href="/demos/?category=longer&amp;name=colist&amp;title=Sample+1">producer/consumer coroutines scenario</a> (inspired from <a href="https://www.chiark.greenend.org.uk/~sgtatham/coroutines.html">Simon Tatham’s “Coroutines in C” paper</a>). The second example is more elaborate and present <a href="/demos/?category=longer&amp;name=bouncing&amp;title=Sample+2">bouncing balls animated with coroutines</a>. The user may add and remove balls on the fly, anytime.</p>
+
+<p>These examples are fun to watch and by looking at their source code, you may intuitively guess how they work. The greatest reward though, in my opinion, is to truly comprehend the underlying concurrency principles lurking in the dark, and allowing such a simple coroutine implementation. So let’s start our journey…</p>
+
+<h2 id="with-or-without-new">With or without ‘new’</h2>
+
+<p>The actual concurrency and coroutine implementations are heavily based on a concept called type/function equivalence, which will be explained now using code written in QED. QED source code syntax is very close to C/Java syntax so I won’t spend time detailing it as it should be intuitive for most readers.</p>
+
+<p>QED has its own VM (as of today), but for the sake of clarity, let’s pretend in this article that the QED compiler generates Java code instead of bytecode. The following QED function</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int Adder(int a, int b) { // A noun as function name? Will tell why later on...
+  return(a + b);
+}
+</code></pre></div></div>
+
+<p>would usually translate to a similar Java method (having the same source code). The QED call</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>println(Adder(2, 3));
+&lt;further lines of code...&gt;
+</code></pre></div></div>
+
+<p>would again do a basic translation to the following Java code.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Adder</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">));</span>
+<span class="o">&lt;</span><span class="n">further</span> <span class="n">lines</span> <span class="n">of</span> <span class="n">translated</span> <span class="n">code</span><span class="o">...&gt;</span>
+</code></pre></div></div>
+
+<p>This is fast, straightforward, efficient… but not the Java code the QED compiler would generate. Please forgive in advance QED’s lack of optimization but Donald Knuth himself warned us that “premature optimization is the root of all evil”. I intend to present a further article on QED optimization but let’s no longer digress. The QED translation of the Adder function to Java would be</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">AdderCallback</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Adder</span> <span class="n">_obj</span><span class="o">,</span> <span class="kt">int</span> <span class="n">_ret</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Adder</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="n">a</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="n">b</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nc">AdderCallback</span> <span class="n">callback</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">Adder</span><span class="o">(</span><span class="kt">int</span> <span class="n">a</span><span class="o">,</span> <span class="kt">int</span> <span class="n">b</span><span class="o">,</span> <span class="nc">AdderCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">a</span> <span class="o">=</span> <span class="n">a</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">b</span> <span class="o">=</span> <span class="n">b</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="nc">Adder</span> <span class="nf">exec</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">callback</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+      <span class="n">callback</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="k">this</span><span class="o">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="o">);</span>
+
+    <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The QED “println(Adder(2, 3));&lt; further lines… &gt;” code seen above would really translate to</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">Adder</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="k">new</span> <span class="nc">AdderCallback</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Adder</span> <span class="n">_obj</span><span class="o">,</span> <span class="kt">int</span> <span class="n">_ret</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">_ret</span><span class="o">);</span>
+    <span class="o">&lt;</span><span class="n">further</span> <span class="n">lines</span> <span class="n">of</span> <span class="n">translated</span> <span class="n">code</span><span class="o">...&gt;</span>
+  <span class="o">}</span>
+<span class="o">}).</span><span class="na">exec</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>That will work too but some of you would immediately ask “So what?”. First, this verbose Java code is generated by the QED compiler so you should not care about it as long as it delivers. More seriously, that translation now enables the following QED code:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Adder adder = new Adder(2, 3); // this is the reason for having used a noun
+println(adder.a + adder.b);
+</code></pre></div></div>
+
+<p>Adder can now be used as an object instantiation type, using the ‘new’ keyword, as well as a function to call (without ‘new’ before). This is what I dubbed the <strong>type/function equivalence (TFE)</strong>. The translated Java code for the above would be:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Adder</span> <span class="n">adder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adder</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="kc">null</span><span class="o">).</span><span class="na">exec</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">adder</span><span class="o">.</span><span class="na">a</span> <span class="o">+</span> <span class="n">adder</span><span class="o">.</span><span class="na">b</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>For those who may ask, when invoked as an object using ‘new’, the Adder actual addition result can still be trapped by the QED ‘-&gt;’ operator followed by a handler anonymous function, after the new declaration. The handler function has complete access to its associated QED object through the _obj parameter and to the return code with the _ret parameter. The QED code</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Adder adder = new Adder(2, 3) -&gt; {
+  println(_obj.a + " + " + _obj.b + " = " + _ret);
+};
+</code></pre></div></div>
+
+<p>would generate the Java code</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">Adder</span> <span class="n">adder</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Adder</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="k">new</span> <span class="nc">AdderCallback</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Adder</span> <span class="n">_obj</span><span class="o">,</span> <span class="kt">int</span> <span class="n">_ret</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">_obj</span><span class="o">.</span><span class="na">a</span> <span class="o">+</span> <span class="s">" + "</span> <span class="o">+</span> <span class="n">_obj</span><span class="o">.</span><span class="na">b</span> <span class="o">+</span> <span class="s">" = "</span> <span class="o">+</span> <span class="n">_ret</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}).</span><span class="na">exec</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>Therefore, any QED function that you define can be invoked as an object (using ‘new’) or as a call (without ‘new’). As an added bonus, as classes can be nested in Java, QED functions can also be nested. Inner functions have complete access to outer functions environment. (EDIT: to delve more into type/function equivalence, <a href="https://humanreadablemag.com/issues/2/articles/dr-function-and-mr-type#">follow this link!</a>)</p>
+
+<p>Perhaps the greatest feature of TFE is the unlocking of basic concurrency. Let’s see how it does…</p>
+
+<h2 id="taming-callback-hell">Taming callback hell</h2>
+
+<p>The TFE principle does not limit to user-defined QED functions. It extends to <strong>asynchronous system functions (ASF)</strong> too! These system functions are of asynchronous nature: task scheduling, REST calls, file retrieval…</p>
+
+<p>A basic example is the ‘void Timer(int millis)’ ASF. Its Java implementation is as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">TimerCallback</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Timer</span> <span class="n">_obj</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Timer</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">int</span> <span class="n">millis</span><span class="o">;</span>
+  <span class="kd">public</span> <span class="nc">TimerCallback</span> <span class="n">callback</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">Timer</span><span class="o">(</span><span class="kt">int</span> <span class="n">millis</span><span class="o">,</span> <span class="nc">TimerCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">millis</span> <span class="o">=</span> <span class="n">millis</span><span class="o">;</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="nc">Timer</span> <span class="nf">exec</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Timer</span> <span class="n">jTimer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Timer</span><span class="o">();</span>
+    <span class="n">jTimer</span><span class="o">.</span><span class="na">schedule</span><span class="o">(</span><span class="k">new</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">TimerTask</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">callback</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+          <span class="n">callback</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="nc">Timer</span><span class="o">.</span><span class="na">this</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">},</span> <span class="n">millis</span><span class="o">);</span>
+
+    <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>So, TFE equally applies to all ASFs like Timer. ASFs are invoked either as calls or as objects!</p>
+
+<p>Writing a Timer call in QED</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>println("Start timer");
+Timer (3000);
+println("Counted 3 seconds");
+</code></pre></div></div>
+
+<p>generates the following Java code</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Start timer"</span><span class="o">);</span>
+<span class="k">new</span> <span class="nf">Timer</span><span class="o">(</span><span class="mi">3000</span><span class="o">,</span> <span class="k">new</span> <span class="nc">TimerCallback</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Timer</span> <span class="n">_obj</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Counted 3 seconds"</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}).</span><span class="na">exec</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>The same console output can be achieved by invoking a Timer object in QED</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new Timer (3000) -&gt; {println("Counted 3 seconds");};
+println("Start timer");
+</code></pre></div></div>
+
+<p>Its Java implementation shows that “Start Timer” is printed before “Counted 3 seconds” (the output would be similar to the one above if println(“Start timer”) was the first line).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">Timer</span> <span class="o">(</span><span class="mi">3000</span><span class="o">,</span> <span class="k">new</span> <span class="nc">TimerCallback</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Timer</span> <span class="n">_obj</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Counted 3 seconds"</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}).</span><span class="na">exec</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Start timer"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>Thus, for all ASFs like Timer, using them as calls makes them sequential.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timer(1000);
+println("After 1 second");
+Timer(1000);
+println("After 2 seconds");
+</code></pre></div></div>
+
+<p>If you want them to run parallel, you may simply write</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new Timer(1000) -&gt; {println("After 1 second");};
+new Timer(2000) -&gt; {println("After 2 seconds");};
+</code></pre></div></div>
+
+<p>Again, both codes generate the same console output.</p>
+
+<p>When ASFs are used sequentially as calls, please not assume they become magically synchronous and blocking. This is really not the case as we’ll soon realize. The sequential QED code</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Timer(1000);
+Timer(2000);
+println("Waited 3 seconds");
+</code></pre></div></div>
+
+<p>is translated to Java this way:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">Timer</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="k">new</span> <span class="nc">TimerCallback</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Timer</span> <span class="n">_obj</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">new</span> <span class="nf">Timer</span><span class="o">(</span><span class="mi">2000</span><span class="o">,</span> <span class="k">new</span> <span class="nc">TimerCallback</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Timer</span> <span class="n">_obj</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Waited 3 seconds"</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}).</span><span class="na">exec</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}).</span><span class="na">exec</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>You know what? Callback hell… is good. It’s just like fire. Running wild, it is an inferno. But when cavemen tamed fire, they used it to their benefit and conquered the world.</p>
+
+<p>This is a nifty way to solve callback hell: to not deny its existence or usefulness but to let the compiler drift it away in the generated code you don’t care about instead of the QED source code you work with! No need in QED for extra async, await, promises… mechanisms that would only clutter the code. Just use the good old ‘new’ or not.</p>
+
+<h2 id="unleashing-concurrency-in-user-defined-functions">Unleashing concurrency in user-defined functions</h2>
+
+<p>Of course, user-defined functions and ASFs do not live in separate worlds. They freely mix together. What to expect from using both? Consider the following function:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// user-defined function
+void HelloBye() {
+  println("Hello");
+  Timer(1000);  // async system function
+  println("Bye");
+  return();
+}
+</code></pre></div></div>
+
+<p>A HelloBye call:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HelloBye();
+println("Done");
+</code></pre></div></div>
+
+<p>prints the expected ouput.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello
+Bye  &lt;after a second&gt;
+Done
+</code></pre></div></div>
+
+<p>However, instantiating a HelloBye instance</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>new HelloBye();
+println("Done");
+</code></pre></div></div>
+
+<p>outputs this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Hello
+Done
+Bye  &lt;after a second&gt;
+</code></pre></div></div>
+
+<p>Guess what? We just implemented concurrent programming. Due to the Timer call in HelloBye, the HelloBye function and its caller code executed concurrently.</p>
+
+<p>To understand why this works, we will refer again to the generated Java code. The HelloBye generated code would be:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HelloByeCallback</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">HelloBye</span> <span class="n">_obj</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloBye</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nc">HelloByeCallback</span> <span class="n">callback</span><span class="o">;</span>
+
+  <span class="kd">public</span> <span class="nf">HelloBye</span><span class="o">(</span><span class="nc">HelloByeCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">this</span><span class="o">.</span><span class="na">callback</span> <span class="o">=</span> <span class="n">callback</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="nc">HelloBye</span> <span class="nf">exec</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">);</span>
+    <span class="k">new</span> <span class="nf">Timer</span><span class="o">(</span><span class="mi">1000</span><span class="o">,</span> <span class="k">new</span> <span class="nc">TimerCallback</span><span class="o">()</span> <span class="o">{</span>
+      <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">Timer</span> <span class="n">_obj</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Bye"</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">callback</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+          <span class="n">callback</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="nc">HelloBye</span><span class="o">.</span><span class="na">this</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}).</span><span class="na">exec</span><span class="o">();</span>
+    <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The HelloBye call code would be this:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">HelloBye</span><span class="o">(</span><span class="k">new</span> <span class="nc">HelloByeCallback</span><span class="o">()</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="nc">HelloBye</span> <span class="n">_obj</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Done"</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}).</span><span class="na">exec</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>It executes as expected because the printing of “Done” is performed in the callback, executed at completion of HelloBye.</p>
+
+<p>The HelloBye object code would be this:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">new</span> <span class="nc">HelloBye</span><span class="o">(</span><span class="kc">null</span><span class="o">).</span><span class="na">exec</span><span class="o">();</span>
+<span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Done"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>This time, it is easy to see that the HelloBye exec function starts the timer but then returns immediately, allowing “Done” to be printed right after “Hello”. The Timer ASF is sequential within HelloBye (“Bye” is always printed a second after “Hello”) but is parallel with respect to the caller code execution (“Done” is printed a second before “Bye”).</p>
+
+<p>This opens up a whole new concurrent world, achieved with just our existing tools, without a separate threading implementation (and new language keywords to digest). You can use ASFs in conjunction with ‘while’. The QED ‘while’ logic would translate as Java code acting like a while loop but handling callback hell correctly. This is used to implement a longer concurrent process:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int count = 0;
+
+void RepeatWord(string word) {
+  while(count &lt; 100) {
+    Timer(2);
+    println(word);
+  }
+}
+
+new RepeatWord("ping");
+new RepeatWord("pong");
+
+println("Printing 100 pings and pongs");
+while (++count &lt;= 100) {
+  Timer(2);
+}
+println("Done");
+return(0);
+</code></pre></div></div>
+
+<p>This code defines two RepeatWord objects, both suspending their initialization upon the Timer(2) line. Then, the console prints “Printing 100 pings and pongs”, 100 pairs of “ping” and “pong” (by resuming Repeat word initialization) lines and finally, “Done”.</p>
+
+<p>Concurrency was implemented but not properly. The use of Timer here has serious drawbacks. We must set the same while count &lt; 100 condition in two spots, we wait 2 milliseconds within each print line and on some implementations, there could be race conditions that would print two or more consecutive “ping” or “pong” strings.</p>
+
+<p>We need a better mechanism to achieve this task.</p>
+
+<h2 id="coroutines-the-missing-link">Coroutines: the missing link</h2>
+
+<p>We covered a lot of ground to get to this point, so it’s payback time! Coroutines are just perfect to solve all problems encountered in the above RepeatWord code. No need for dedicated QED keywords to implement them. A single CoList ASF with a handful of methods will do.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void CoList() {
+  boolean yield();   // always returns true, practical when looping
+  void end();        // yields and ends coroutine, never returns
+  boolean process(); // returns true if yield list non-empty, false otherwise
+  void remove(int index);
+}
+</code></pre></div></div>
+
+<p>With coroutines, the RepeatWord example is much simpler, faster and clearer:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void RepeatWord(CoList coList, string word) {
+  while(coList.yield()) {
+    println(word);
+  }
+}
+
+int count = 0;
+CoList coList = new CoList();
+new RepeatWord(coList, "ping");
+new RepeatWord(coList, "pong");
+
+println("Printing 100 pings and pongs");
+while (++count &lt;= 100) {
+  coList.process();
+}
+println("Done");
+return(0);
+</code></pre></div></div>
+
+<p>The internal CoList implementation (ASF plus yield, end, process and remove members) would resemble this Java code:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CoCallback</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCoCallback</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">_ret</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CoList</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="kt">int</span> <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">CoCallback</span> <span class="n">processCallback</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">CoCallback</span><span class="o">&gt;</span> <span class="n">yieldCallbacks</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">CoCallback</span><span class="o">&gt;();</span>
+
+  <span class="kd">public</span> <span class="nc">CoList</span> <span class="nf">exec</span><span class="o">()</span> <span class="o">{</span><span class="k">return</span> <span class="k">this</span><span class="o">;}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">yield</span><span class="o">(</span><span class="nc">CoCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">processCallback</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>  <span class="c1">// called outside of process() call</span>
+      <span class="n">yieldCallbacks</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">callback</span><span class="o">);</span>
+    <span class="k">else</span> <span class="o">{</span>
+      <span class="n">yieldCallbacks</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">index</span><span class="o">++,</span> <span class="n">callback</span><span class="o">);</span>
+      <span class="n">doNext</span><span class="o">();</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">end</span><span class="o">(</span><span class="nc">CoCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">processCallback</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>  <span class="c1">// called outside of process() call</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"CoList.end cannot be called outside CoList.process call."</span><span class="o">);</span>
+    <span class="k">else</span> <span class="o">{</span>
+      <span class="n">yieldCallbacks</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+      <span class="n">doNext</span><span class="o">();</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">process</span><span class="o">(</span><span class="nc">CoCallback</span> <span class="n">processCallback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">processCallback</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">processCallback</span> <span class="o">=</span> <span class="n">processCallback</span><span class="o">;</span>
+      <span class="n">doNext</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">else</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"CoList.process cannot be called within another CoList.process execution."</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">remove</span><span class="o">(</span><span class="kt">int</span> <span class="n">index</span><span class="o">,</span> <span class="nc">CoCallback</span> <span class="n">callback</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">processCallback</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  <span class="c1">// called outside of process() call</span>
+      <span class="n">yieldCallbacks</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">index</span><span class="o">);</span>
+      <span class="n">callback</span><span class="o">.</span><span class="na">onCoCallback</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">else</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"CoList.remove cannot be called within CoList.process call."</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">doNext</span><span class="o">()</span> <span class="o">{}</span>
+      <span class="k">if</span> <span class="o">(</span><span class="n">index</span> <span class="o">&lt;</span> <span class="n">yieldCallbacks</span><span class="o">.</span><span class="na">size</span><span class="o">())</span> <span class="o">{</span> <span class="c1">// still within list?</span>
+        <span class="n">yieldCallbacks</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">index</span><span class="o">).</span><span class="na">onCoCallback</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+      <span class="o">}</span>
+      <span class="k">else</span> <span class="o">{</span> <span class="c1">// list has complete, return from process()</span>
+        <span class="nc">CoCallback</span> <span class="n">pCallback</span> <span class="o">=</span> <span class="n">processCallback</span><span class="o">;</span>
+
+        <span class="n">index</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">processCallback</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">pCallback</span><span class="o">.</span><span class="na">onCoCallback</span><span class="o">(</span><span class="n">yieldCallbacks</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The CoList function is used this way:</p>
+<ol>
+  <li>
+    <p>declare a new CoList variable (CoList coList = new CoList();)</p>
+  </li>
+  <li>
+    <p>add new object instances (new Foo(coList, …);). The QED objects must have access to the coList variable (for instance, as a parameter).</p>
+  </li>
+  <li>
+    <p>within added object instances code, you must call the yield (or end if already done) method of your CoList variable (void Foo(CoList coList, …) {… coList.yield() …}). The first yield call will be add its callback in the CoList variable callback list and suspend the new QED function instance execution.</p>
+  </li>
+  <li>
+    <p>when all QED function instances are entered, call CoList.process() to resume all yield calls sequentially in the CoList variable callback list until their next call to yield(), or end() to remove the coroutine from the list. The process() call will return when all callbacks in the list are processed.</p>
+  </li>
+  <li>
+    <p>you may call process() anytime to repeat coroutine processes.</p>
+  </li>
+  <li>
+    <p>you may call CoList.remove(int index) any yield call by their index, but it must not be done within a process() call (an exception will be raised if so).</p>
+  </li>
+</ol>
+
+<p>Using these basic rules, usually cumbersome processes like fork-join models are now a breeze to implement (without any fork or join keyword, of course).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void CoFoo(CoList coList, string name, int limit) { // coroutine to fork
+  int count = 0;
+
+  while (coList.yield() &amp;&amp; count++ &lt; limit) {
+    print(name);
+  }
+
+  coList.end();
+}
+
+CoList coList = new CoList();
+new CoFoo(coList, "A", 3);      // fork task A
+new CoFoo(coList, "B", 6);      // fork task B
+new CoFoo(coList, "C", 2);      // fork task C
+
+while (coList.process()) {
+  println("");
+}
+
+println("All done!");   // implicit join at while loop exit
+</code></pre></div></div>
+
+<p>will effectively print</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ABC
+ABC
+AB
+B
+B
+B
+All done!
+</code></pre></div></div>
+
+<p>Coroutines may return values as well. If we want all values to be returned before resuming processing, just move the CoList.end() call into handler functions.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int CoFoo(CoList coList, string name, int limit) {
+  int count = 0;
+
+  while (coList.yield() &amp;&amp; count++ &lt; limit) {
+    print(name);
+  }
+
+  return(limit); // return call instead of end (moved in handler)
+}
+
+int aCount;
+int bCount;
+int cCount;
+CoList co = new CoList();
+new CoFoo(co, "A", 5) -&gt; {aCount = _ret; co.end();}; // CoList.end() at handler function
+new CoFoo(co, "B", 3) -&gt; {bCount = _ret; co.end();};
+new CoFoo(co, "C", 6) -&gt; {cCount = _ret; co.end();};
+
+while (co.process()) {
+  println("");
+}
+
+println("Tasks A, B and C executed " + aCount + ", " + bCount + " and " + cCount + " times respectively.");
+</code></pre></div></div>
+
+<p>will print the expected output</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ABC
+ABC
+ABC
+AC
+AC
+C
+Tasks A, B and C executed 5, 3 and 6 times respectively.
+</code></pre></div></div>
+
+<p>Let’s now refer to the code examples mentioned in the introductory part. The <a href="https://qed-lang.org/demos/?category=longer&amp;name=colist&amp;title=Sample+1">producer/consumer coroutines scenario</a> declares a new CoList instance and adds a new Counter (producer) object and Printer (consumer) object. Each object execution is suspended upon a CoList.yield call. Upon each CoList.process() call, the objects resume from CoList.yield until the next yield call. When resuming, CoList.yield always returns true, which is practical to save one line on a ‘while(true) {…}’ construct. Upon resuming, the producer will generate a new number and store it in num, until it reaches 10 (num will be -1 after). The consumer will print num, unless num is -1. Each CoList.process() is within a while loop that ensures num is not -1. When num is -1, the program ends gracefully.</p>
+
+<p>Since the QED programming language already includes an elaborate UI engine that enables all sorts of animations and GUI programming (that may be the subject of forthcoming articles), and since coroutines are natural allies for developing sprites and characters in games, I implemented a simple <a href="https://qed-lang.org/demos/?category=longer&amp;name=bouncing&amp;title=Sample+2">bouncing balls demo</a> that uses coroutines within Ball objects for animation. This example demonstrates that in between two CoList.process() calls, you may add elements to and remove elements from the CoList internal list. This way, a CoList instance may handle a variable number of coroutines (down to 0). A funny test is to comment out the line “balls.remove(index);” in the removeBall method. A ball removed from the user will no longer disappear from the screen but its associated coroutine will still be removed from the CoList object, so it won’t move anymore. The ball will suddenly freeze on the screen forever.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I hope such an approach may help simplifying and democratizing the use of concurrency and especially coroutines, which deserve much more attention from developers. In the process, I also learned the valuable lesson to never say never in life!</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/qed2024/categories/#article" class="page__taxonomy-item p-category" rel="tag">Article</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2019-06-27T11:10:47+00:00">June 27, 2019</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?via=qedlang&text=A+%27new%27%2C+seamless+concurrency+model+%28coroutines+included%29%20http%3A%2F%2Flocalhost%3A4000%2Fqed2024%2Farticle%2Fcoroutines%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fqed2024%2Farticle%2Fcoroutines%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/qed2024/article/coroutines/" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/qed2024/qed/tooling/update/tooling-update/" class="pagination--pager" title="QED Tooling Update
+">Previous</a>
+    
+    
+      <a href="/qed2024/qed/update/qeded/" class="pagination--pager" title="A first contribution to QED
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    
+<div class="page__related">
+  
+  <h2 class="page__related-title">You may also enjoy</h2>
+  <div class="grid__wrapper">
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/qed2024/qed/update/hrm3/" rel="permalink">Another article on QED + some news
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-07-05T09:10:47+00:00">July 5, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I wrote a second article for Human Readable Magazine, this time on the processing of the ‘return’ statement in a type/function equivalence context. Understan...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/qed2024/qed/update/hrm2/" rel="permalink">An article on QED’s core principle: type/function equivalence
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2020-05-04T09:10:47+00:00">May 4, 2020</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I had the great pleasure of writing a first article on QED in a publication called Human Readable Magazine, a kind of New Yorker for coders.
+</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/qed2024/qed/update/qeded/" rel="permalink">A first contribution to QED
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2019-10-10T02:10:47+00:00">October 10, 2019</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">I am very happy to report that QED reached a major milestone for a nascent language: a first contribution! Mike Parr, who has a wealth of experience in vario...</p>
+  </article>
+</div>
+
+    
+      
+      
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/qed2024/qed/tooling/update/tooling-update/" rel="permalink">QED Tooling Update
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+      
+      <span class="page__meta-date">
+        <i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i>
+        
+        <time datetime="2019-03-31T13:10:47+00:00">March 31, 2019</time>
+      </span>
+    
+
+    <span class="page__meta-sep"></span>
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-fw fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Last month I was geared to get an end-to-end working version of QED, built with Xtext. The Java code generator was working fine and I had to integrate the QE...</p>
+  </article>
+</div>
+
+    
+  </div>
+</div>
+
+  
+  
+</div>
+
+      
+    </div>
+
+    
+      <div class="search-content">
+        <div class="search-content__inner-wrap"><form class="search-content__form" onkeydown="return event.key != 'Enter';" role="search">
+    <label class="sr-only" for="search">
+      Enter your search term...
+    </label>
+    <input type="search" id="search" class="search-input" tabindex="-1" placeholder="Enter your search term..." />
+  </form>
+  <div id="results" class="results"></div></div>
+
+      </div>
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/qed2024/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 <a href="http://localhost:4000">The QED Programming Language</a>. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/jekyll-themes/minimal-mistakes/" rel="nofollow">Minimal Mistakes</a>.</div>
+      </footer>
+    </div>
+
+    
+  <script src="/qed2024/assets/js/main.min.js"></script>
+
+
+
+
+<script src="/qed2024/assets/js/lunr/lunr.min.js"></script>
+<script src="/qed2024/assets/js/lunr/lunr-store.js"></script>
+<script src="/qed2024/assets/js/lunr/lunr-en.js"></script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-124565671-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-124565671-1');
+</script>
+
+
+
+
+
+  </body>
+</html>

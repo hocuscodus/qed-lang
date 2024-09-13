@@ -1,0 +1,14 @@
+int unaryOp(int a) {}
+int binOp(int a, int b) {}
+
+unaryOp* op3(binOp* op) {
+  return (int lambda(int j) {
+    return op(3, j);
+  })
+}
+
+int add(int a, int b) {
+  return a + b
+}
+
+println("3 + 5 = " + op3(add)(5))

@@ -1,0 +1,8 @@
+// The TextButton class is called with "new" for
+// a component, and without "new" for a dialog
+// box (as a blocking class call)
+
+var component = new TextButton("Component") ->
+  println(TextButton("Dialog") + " call done")
+
+<out: component; color: 0x008000;>

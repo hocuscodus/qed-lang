@@ -1,0 +1,9 @@
+10 {
+	{
+		10 {
+			{
+				; @out((&1 + 1) * (&0 + 1)) @size(16) @bgcol(0xDDDDDD)
+			} @out(&0 + 1) @cdir(1) @bgcol(0x0000FF) @textcol(0xFFFFFF) @size(14)
+		} @adir(2) @apack(0)
+	} @out(&0 + 1) @cdir(2) @bgcol(0x0000FF) @textcol(0xFFFFFF) @size(14)
+} @adir(1) @apack(0)

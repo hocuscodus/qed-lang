@@ -1,0 +1,17 @@
+int MyClass() {
+  int getDouble() {}
+}
+
+MyClass buildMyClass(int a) {
+  int MyPrivateClass() {
+    int getDouble() {
+      return 2 * a
+    }
+  }
+
+  return new MyPrivateClass()
+}
+
+MyClass obj= buildMyClass(7)
+
+println("double of 7 = " + new obj.getDouble())

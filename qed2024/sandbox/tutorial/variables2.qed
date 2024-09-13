@@ -1,0 +1,4 @@
+var s = "a string" // s is a string
+
+s = 4 // error, cannot change type
+println(s)

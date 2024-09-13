@@ -1,0 +1,11 @@
+<_ out: rect; color: 0xFF0000; size: [200, 100];
+  <out: rect; color: 0x0000FF; expand: [3, 0];
+    <out: "Hello"; color: 0xFFFFFF; align: 50%;>
+  >
+  <out: rect; color: 0xFF9F00; expand: 0;
+    <out: ", "; color: 0xFFFFFF;>
+  >
+  <out: rect; color: 0x009F00; expand: [2, 0];
+    <out: "World!"; color: 0xFFFFFF; align: 50%;>
+  >
+>

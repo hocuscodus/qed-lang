@@ -1,0 +1,9 @@
+int i
+float f
+String s = "Hello there!"
+bool b = true
+
+println("i = " + i)
+println("f = " + f)
+println("s = " + s)
+println("b = " + b)

@@ -1,0 +1,5 @@
+// minimal business logic
+int num = 5
+
+// "out" with many terms in expression
+<out: 2 * num + 9;>

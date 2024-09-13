@@ -1,0 +1,11 @@
+println("3 + 5 = " + (
+3 +
+5
+))
+int x = 4 // statement stops here since
+- 3       // '-' is on the next line
+          // -3 becomes another statement
+int y = 4 -  // because this line ends with '-',
+3            // the statement ends here
+println("x = " + x)  // so x != y
+println("y = " + y)

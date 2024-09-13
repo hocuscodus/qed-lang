@@ -28,3 +28,5 @@ if (Dialog("Quit application", "Do you want to quit?"))
   println("Cool, bye!")
 else
   println("Well, sorry, quitting anyway...")
+
+return 0

@@ -371,7 +371,7 @@ void GenericButton(ButtonContent *ContentFn) {
   bool[] pressed = [false]
   ButtonContent content = new ContentFn(pressed)
 
-  <out: content; expand: 100%;
+  <out: content;
    onPress: {pressed[0] = true; _captureFocus();}
    onRelease: {pressed[0] = false; _releaseFocus(); return}
   >
@@ -382,19 +382,19 @@ String LinkButton(String text) {
     <out: text; opacity: pressed[0] ? 35% : 100%;>
   })) -> return text
 
-  <out: button; expand: 100%;>
+  <out: button;>
 }
 
 void RectButton(VoidHandler_ *ContentFn) {
   VoidHandler_ content = new ContentFn()
   var button = new GenericButton((void L(bool[] pressed) {
-    <out: roundRect; expand: 100%;
+    <out: roundRect;
       <out: rect; opacity: pressed[0] ? 35% : 0%; color: COLOR_BLACK;>
-      <out: content; expand: 100%;>
+      <out: content;>
     >
   })) -> return
 
-  <out: button; expand: 100%;>
+  <out: button;>
 }
 
 String TextButton(String text) {
@@ -406,7 +406,7 @@ String TextButton(String text) {
     >
   })) -> return text
 
-  <out: button; expand: 100%;>
+  <out: button;>
 }
 
 void QEDBaseArray_() {
@@ -1256,7 +1256,7 @@ void Widget_(Directive_ directive) {
 
     for (int dir = 0; dir < 2; dir++)
       if (directive.direction & (1 << dir)) {
-        extraSpace[dir] = totalSize[dir] - size[dir]
+        extraSpace[dir] = totalSize[dir] - (subWidgets.size() ? subWidgets[subWidgets.size() - 1].group[dir] : 0)
 
         if (directive.children.size() >= 2 && count && expandArray[dir][count - 1] > 1)
           extraSpace[dir] /= expandArray[dir][count - 1]
@@ -1405,12 +1405,12 @@ void Window_(Directive_[] ui, Window_[] dialog) {
 
     if (dialog.size())
       flag = dialog[0].onEvent(event, location, size);
+    else
+      for (int index = widgets.size() - 1; !flag && index >= 0; index--) {
+        int[] rect = getChildArea2(widgets, 0, index, 0, 0, size[0], size[1], /$null$/)
 
-    for (int index = widgets.size() - 1; !flag && index >= 0; index--) {
-      int[] rect = getChildArea2(widgets, 0, index, 0, 0, size[0], size[1], /$null$/)
-
-      flag = widgets[index].onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
-    }
+        flag = widgets[index].onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
+      }
 
     return flag
   }

@@ -1,5 +1,5 @@
 < out: rect; color: 0xFF0000; size: [200, 100];
-  <out: rect; color: 0x0000FF;
+  <out: rect; color: 0x0000FF; expand: 50%;
     <out: "Hello"; color: 0xFFFFFF;>
   >
 >

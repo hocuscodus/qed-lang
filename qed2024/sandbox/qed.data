@@ -28,7 +28,6 @@ var canvas = document.getElementById("canvas");
 let postHandler = null;
 let attributeStacks = [];
 let ctx = canvas.getContext("2d");
-function toColor(color) {return "#" + color.toString(16).padStart(6, '0');}
 const pointerSupported = !!window.PointerEvent
 canvas.addEventListener(pointerSupported ? "pointerdown" : "mouseDown", function(ev) {
   var rect = canvas.getBoundingClientRect();
@@ -76,7 +75,7 @@ canvas.onselectstart = function () { return false; }$/
 }$/
 int QED_TAG_OUT = 0
 int QED_TAG_SIZE = 1
-int QED_TAG_TAG = 2
+int QED_TAG_ID = 2
 int QED_TAG_AREA_HERITABLE = 3
 int QED_TAG_ZOOM = 4
 int QED_TAG_FONTSIZE = 5
@@ -85,9 +84,9 @@ int QED_TAG_AREA_END = 7
 int QED_TAG_ALIGN = 8
 int QED_TAG_EXPAND = 9
 int QED_TAG_POS = 10
-int QED_TAG_WEIGHT = 11
-int QED_TAG_HERITABLE = 12
-int QED_TAG_COLOR = 13
+int QED_TAG_HERITABLE = 11
+int QED_TAG_FILL_STYLE = 12
+int QED_TAG_STROKE_STYLE = 13
 int QED_TAG_OPACITY = 14
 int QED_TAG_RADIUS = 15
 int QED_TAG_ROTATION = 16
@@ -95,7 +94,8 @@ int QED_TAG_END = 17
 
 pushAttribute(QED_TAG_FONTSIZE, 20)
 pushAttribute(QED_TAG_SPACING, 0.0)
-pushAttribute(QED_TAG_COLOR, 0)
+pushAttribute(QED_TAG_FILL_STYLE, "black")
+pushAttribute(QED_TAG_STROKE_STYLE, "black")
 pushAttribute(QED_TAG_OPACITY, 1.0)
 pushAttribute(QED_TAG_RADIUS, 3.0)
 
@@ -106,15 +106,6 @@ void intHandler_(int value) {}
 void floatHandler_(float value) {}
 void boolHandler_(bool value) {}
 void stringHandler_(String value) {}
-var WIDTH = 1;
-var HEIGHT = 2;
-var OBLIQUE = 3;
-int COLOR_RED = 0xFF0000;
-int COLOR_GREEN = 0x00FF00;
-int COLOR_YELLOW = 0xFFFF00;
-int COLOR_BLUE = 0x0000FF;
-int COLOR_BLACK = 0x000000;
-int COLOR_WHITE = 0xFFFFFF;
 
 bool Yield() {
 /$this.yieldHandler = (function() {
@@ -257,21 +248,21 @@ void rotate(int x, int y, int width, int height, float angle) {
 }
 void drawFn(int x, int y, int width, int height) {}
 void oval(int x, int y, int width, int height) {
-/$ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+/$ctx.fillStyle = Main_$this.getAttribute(Main_$this.QED_TAG_FILL_STYLE);
   ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
   ctx.beginPath();
   ctx.ellipse(x + width / 2, y + height / 2, width / 2, height / 2, 0, 0, 2*Math.PI);
   ctx.fill()$/
 }
 void rect(int x, int y, int width, int height) {
-/$ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+/$ctx.fillStyle = Main_$this.getAttribute(Main_$this.QED_TAG_FILL_STYLE);
   ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
   ctx.beginPath();
   ctx.rect(x, y, width, height);
   ctx.fill()$/
 }
 void roundRect(int x, int y, int width, int height) {
-/$ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+/$ctx.fillStyle = Main_$this.getAttribute(Main_$this.QED_TAG_FILL_STYLE);
   ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
   let radius = Main_$this.getAttribute(Main_$this.QED_TAG_RADIUS);/*
   let radiusy = Math.min(radius, height / 2);
@@ -312,6 +303,9 @@ void pushAttribute(int index, int value) {
 void pushAttribute(int index, float value) {
 /$this.pushAttribute(index, value)$/
 }
+void pushAttribute(int index, String value) {
+/$this.pushAttribute(index, value)$/
+}
 void popAttribute(int index) {
 /$attributeStacks[index].pop()$/
 }
@@ -324,7 +318,7 @@ int[] getTextSize(String text) {
 }
 void displayText(String text, int x, int y, int width, int height) {
 /$ctx.font = Main_$this.getAttribute(Main_$this.QED_TAG_FONTSIZE) + "px Arial";
-  ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+  ctx.fillStyle = Main_$this.getAttribute(Main_$this.QED_TAG_FILL_STYLE);
   ctx.globalAlpha = Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
   ctx.textBaseline = "top";
   ctx.fillText(text, x, y)$/
@@ -389,7 +383,7 @@ void RectButton(VoidHandler_ *ContentFn) {
   VoidHandler_ content = new ContentFn()
   var button = new GenericButton((void L(bool[] pressed) {
     <out: roundRect;
-      <out: rect; opacity: pressed[0] ? 35% : 0%; color: COLOR_BLACK;>
+      <out: rect; opacity: pressed[0] ? 35% : 0%; fillStyle: "black";>
       <out: content;>
     >
   })) -> return
@@ -401,7 +395,7 @@ String TextButton(String text) {
   var button = new RectButton((void L() {
     <\expand: 100%;
       <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
-      <out: text; color: COLOR_WHITE;>
+      <out: text; fillStyle: "white";>
       <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
     >
   })) -> return text
@@ -1197,7 +1191,7 @@ void Widget_(Directive_ directive) {
   }
 
   int[] getBoundsRect(String[] path, int[] index, int pos0, int pos1, int size0, int size1, int level, int dLevel) {
-    Attr_[] tagName = directive.findAttr(QED_TAG_TAG)
+    Attr_[] tagName = directive.findAttr(QED_TAG_ID)
 
     if (tagName.size())
       if (path[level] == tagName[0].value) {

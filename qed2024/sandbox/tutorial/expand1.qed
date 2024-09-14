@@ -1,1 +1,1 @@
-<out: rect; color: 0x0000FF;>
+<out: rect; fillStyle: "blue";>

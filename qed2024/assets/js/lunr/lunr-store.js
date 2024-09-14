@@ -101,7 +101,7 @@ var store = [{
         "url": "/qed2024/tutorial/functions/",
         "teaser": null
       },{
-        "title": "Explicit Arrays",
+        "title": "Explicit arrays",
         "excerpt":"Explicit arrays are arrays where elements are defined at initialization, within a pair of brackets after the declaration type ([]). The same bracket operator is used to access individual elements. The size() member function, accessible with the . operator, returns the size of the array. Fallback link for browsers that...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/explicit-arrays/",
@@ -155,14 +155,14 @@ var store = [{
         "url": "/qed2024/tutorial/concurrency/",
         "teaser": null
       },{
-        "title": "Implicit Arrays",
+        "title": "Implicit arrays",
         "excerpt":"We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an array operator. Consider the following: // example As you see, the left expression is the array count and the right expression...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/implicit-arrays/",
         "teaser": null
       },{
         "title": "Coroutines",
-        "excerpt":"« TO BE DONE LATER »  ","categories": [],
+        "excerpt":"« TO BE DONE SOON, STAY TUNED »  ","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/coroutines/",
         "teaser": null
@@ -173,7 +173,7 @@ var store = [{
         "url": "/qed2024/tutorial/qed-ui/",
         "teaser": null
       },{
-        "title": "Elements and Tags",
+        "title": "UI elements",
         "excerpt":"Before diving into live examples, let’s define the syntax first. You can define a user interface at the end of the QED application script. // Main QED script ... classes, functions and business logic script... // User interface &lt;tag: expr; tag: expr;&gt; &lt;tag: expr; // child UI elements defined after...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/elements/",
@@ -227,8 +227,8 @@ var store = [{
         "url": "/qed2024/tutorial/gui-apps/",
         "teaser": null
       },{
-        "title": "UI events",
-        "excerpt":"Before diving into live examples, let’s define the syntax first. You can define a user interface at the end of a class. type ClassName(type parm1, type parm2, ...) { ...class code... // User interface just before class closing brace &lt;tag: expr; tag: expr;&gt; &lt;tag: expr; // child UI elements defined...","categories": [],
+        "title": "User interaction",
+        "excerpt":"Besides all the tags we’ve seen to generate and render a UI, there also is a small set of tags used for user interaction. Beware: it is basic for now and it handles basic needs. It will evolve over a relatively short period. The UI user interaction tags all begin...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/ui-events/",
         "teaser": null
@@ -252,5 +252,8 @@ var store = [{
         "teaser": null
       },{
     "title": "Demos",
-    "excerpt":"Page in construction.  ","url": "http://localhost:4000/qed2024/demos/"
+    "excerpt":"Some demos for now, page will improve.   Increment-decrement buttons                  Fallback link for browsers that don't support iframes            Bouncing balls                  Fallback link for browsers that don't support iframes            Taco hotel                  Fallback link for browsers that don't support iframes            ","url": "http://localhost:4000/qed2024/demos/"
+  },{
+    "title": "Download",
+    "excerpt":"The QED compiler is not ready yet for download. We’re striving for it though. Please check this page from time to time for updates.   In the meantime, here is a sandbox component where you can paste simple code to test.                  Fallback link for browsers that don't support iframes            ","url": "http://localhost:4000/qed2024/download/"
   }]

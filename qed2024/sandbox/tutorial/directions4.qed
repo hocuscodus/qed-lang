@@ -1,5 +1,5 @@
-<\ out: roundRect; color: 0x00FF00; radius: 10;
+<\ out: roundRect; fillStyle: "Lime"; radius: 10;
   <size: 25;>
-  <out: "Content"; color: 0;>
+  <out: "Content"; fillStyle: "black";>
   <size: 25;>
 >

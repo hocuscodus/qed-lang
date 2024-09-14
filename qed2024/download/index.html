@@ -10,33 +10,31 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Interfaces - The QED Programming Language</title>
-<meta name="description" content="Classes are also first-class citizens.">
+<!-- begin _includes/seo.html --><title>Download - The QED Programming Language</title>
+<meta name="description" content="QED facilitates web app development">
 
 
   <meta name="author" content="Martin Savage">
   
-  <meta property="article:author" content="Martin Savage">
-  
 
 
-<meta property="og:type" content="article">
+<meta property="og:type" content="website">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="The QED Programming Language">
-<meta property="og:title" content="Interfaces">
-<meta property="og:url" content="http://localhost:4000/qed2024/tutorial/interfaces/">
+<meta property="og:title" content="Download">
+<meta property="og:url" content="http://localhost:4000/qed2024/download/">
 
 
-  <meta property="og:description" content="Classes are also first-class citizens.">
+  <meta property="og:description" content="QED facilitates web app development">
 
 
 
 
 
   <meta name="twitter:site" content="@qedlang">
-  <meta name="twitter:title" content="Interfaces">
-  <meta name="twitter:description" content="Classes are also first-class citizens.">
-  <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/interfaces/">
+  <meta name="twitter:title" content="Download">
+  <meta name="twitter:description" content="QED facilitates web app development">
+  <meta name="twitter:url" content="http://localhost:4000/qed2024/download/">
 
   
     <meta name="twitter:card" content="summary">
@@ -47,8 +45,6 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-14T22:15:24+00:00">
-
 
 
 
@@ -58,7 +54,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/qed2024/tutorial/interfaces/">
+<link rel="canonical" href="http://localhost:4000/qed2024/download/">
 
 
 
@@ -172,173 +168,19 @@
 
 <div id="main" role="main">
   
-  <div class="sidebar sticky">
-  
-  
-    
-      
-      
-      
-      
-    
-    
-      <nav class="nav__list">
-  
-  <input id="ac-toc" name="accordion-toc" type="checkbox" />
-  <label for="ac-toc">Toggle menu</label>
-  <ul class="nav__items">
-    
-      
-      
-        <li>
-          
-            <a href="/qed2024/tutorial/qed-basics/"><span class="nav__sub-title">QED BASICS</span></a>
-          
-
-          
-          <ul>
-            
-              <li><a href="/qed2024/tutorial/hello-world/">Hello, World!</a></li>
-            
-              <li><a href="/qed2024/tutorial/statements/">Statements</a></li>
-            
-              <li><a href="/qed2024/tutorial/variables/">Variables</a></li>
-            
-              <li><a href="/qed2024/tutorial/control/">Control blocks</a></li>
-            
-              <li><a href="/qed2024/tutorial/functions/">Functions</a></li>
-            
-              <li><a href="/qed2024/tutorial/explicit-arrays/">Explicit arrays</a></li>
-            
-          </ul>
-          
-        </li>
-      
-        <li>
-          
-            <a href="/qed2024/tutorial/classes/"><span class="nav__sub-title">CLASSES</span></a>
-          
-
-          
-          <ul>
-            
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/" class="active">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
-            
-              <li><a href="/qed2024/tutorial/calls/">Class calls</a></li>
-            
-              <li><a href="/qed2024/tutorial/event-handlers/">Event handlers</a></li>
-            
-          </ul>
-          
-        </li>
-      
-        <li>
-          
-            <a href="/qed2024/tutorial/features/"><span class="nav__sub-title">FEATURES</span></a>
-          
-
-          
-          <ul>
-            
-              <li><a href="/qed2024/tutorial/concurrency/">Concurrency</a></li>
-            
-              <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
-            
-              <li><a href="/qed2024/tutorial/coroutines/">Coroutines</a></li>
-            
-          </ul>
-          
-        </li>
-      
-        <li>
-          
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
-          
-
-          
-          <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/">UI elements</a></li>
-            
-              <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
-            
-              <li><a href="/qed2024/tutorial/size-tag/">The "size" tag</a></li>
-            
-              <li><a href="/qed2024/tutorial/directions/">Directions</a></li>
-            
-          </ul>
-          
-        </li>
-      
-        <li>
-          
-            <a href="/qed2024/tutorial/layouts/"><span class="nav__sub-title">LAYOUT REFINEMENTS</span></a>
-          
-
-          
-          <ul>
-            
-              <li><a href="/qed2024/tutorial/alignment/">The "align" tag</a></li>
-            
-              <li><a href="/qed2024/tutorial/position/">The "pos" tag</a></li>
-            
-              <li><a href="/qed2024/tutorial/expansion/">The "expand" tag</a></li>
-            
-          </ul>
-          
-        </li>
-      
-        <li>
-          
-            <a href="/qed2024/tutorial/gui-apps/"><span class="nav__sub-title">BUILDING GUI APPS</span></a>
-          
-
-          
-          <ul>
-            
-              <li><a href="/qed2024/tutorial/ui-events/">User interaction</a></li>
-            
-              <li><a href="/qed2024/tutorial/components/">Components</a></li>
-            
-              <li><a href="/qed2024/tutorial/forms/">Forms</a></li>
-            
-          </ul>
-          
-        </li>
-      
-        <li>
-          
-            <a href="/qed2024/tutorial/whats-next/"><span class="nav__sub-title">WHAT'S NEXT</span></a>
-          
-
-          
-        </li>
-      
-    
-  </ul>
-</nav>
-
-    
-  
-  </div>
-
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Interfaces">
-    <meta itemprop="description" content="Classes are also first-class citizens.">
-    <meta itemprop="datePublished" content="2024-09-14T22:15:24+00:00">
+    <meta itemprop="headline" content="Download">
+    
+    
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title" itemprop="headline">
-            <a href="http://localhost:4000/qed2024/tutorial/interfaces/" itemprop="url">Interfaces
+            <a href="http://localhost:4000/qed2024/download/" itemprop="url">Download
 </a>
           </h1>
           
@@ -349,11 +191,11 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>Classes are also first-class citizens.</p>
+        <p>The QED compiler is not ready yet for download. We’re striving for it though. Please check this page from time to time for updates.</p>
 
-<p>A class interface can be created like a function interface. It can also be used with the <code class="language-plaintext highlighter-rouge">*</code> symbol to refer to a class pointer. The class can be instantiated and an instance object (without <code class="language-plaintext highlighter-rouge">*</code>) is returned.</p>
+<p>In the meantime, here is a sandbox component where you can paste simple code to test.</p>
 
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/classes2.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="410px">
+<iframe src="/qed2024/sandbox/sandbox.html?&amp;code=60&amp;gui=50" style="border:1px solid #000; margin:0; padding:0" width="100%" height="400px">
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -372,24 +214,11 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-14T22:15:24+00:00">September 14, 2024</time></p>
-
       </footer>
 
       
 
       
-  <nav class="pagination">
-    
-      <a href="/qed2024/tutorial/instantiations/" class="pagination--pager" title="Class instantiation
-">Previous</a>
-    
-    
-      <a href="/qed2024/tutorial/private-members/" class="pagination--pager" title="Private members
-">Next</a>
-    
-  </nav>
-
     </div>
 
     

@@ -2,7 +2,7 @@
 <|
   <out: "My painting!"; align: 50%;>
   <size: [250, 350];
-    <out: rect; color: 0x00C0FF;>
-    <out: oval; color: 0x007000;>
+    <out: rect; fillStyle: "#00C0FF";>
+    <out: oval; fillStyle: "#007000";>
   >
 >

@@ -15,7 +15,7 @@ while(true) {
 void drawStripes(int x, int y, int width, int height) {
 /$ctx.lineWidth = 50 / Math.sqrt(2);
   for (let index = -3; index < 5; index++) {
-    ctx.strokeStyle = index % 2 ? '#FF0000' : '#0000FF';
+    ctx.strokeStyle = index % 2 ? 'red' : 'blue';
     ctx.beginPath();
     ctx.moveTo(x + width + 20, y + index * 100 - 20 + 25);
     ctx.lineTo(x - 20, y + width + 20 + index * 100 + 25);
@@ -23,6 +23,6 @@ void drawStripes(int x, int y, int width, int height) {
   }$/
 }
 
-<out: rect; size: [85, 300]; color: 0xF0F0F0;
+<out: rect; size: [85, 300]; fillStyle: "#F0F0F0";
   <out: drawStripes; pos: [0, -vpos];>
 >

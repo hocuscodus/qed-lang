@@ -14,21 +14,21 @@ while(true) { // Animation logic
 }
 
 // Window UI
-<out: rect; size:[600, 800]; color: 0xC0FFEE;
+<out: rect; size:[600, 800]; fillStyle: "#C0FFEE";
   <size:[300, 100]; pos: 10; expand: scaling * 80%;
-  <| out: rect; color: 0x0090C0
+  <| out: rect; fillStyle: "#0090C0"
     // title
-    <out: "My Window"; color: 0xFFFFFF; align: 50%;>
+    <out: "My Window"; fillStyle: "white"; align: 50%;>
     // client rect
     <\ expand: 100%;
       <size: [5, 0];>
-      <_ expand: 100%; out: rect; color: 0x808080;
-        <out: rect; size: [60, 0]; color: 0xD0D0D0; expand: [20%, 100%];>
+      <_ expand: 100%; out: rect; fillStyle: "#808080";
+        <out: rect; size: [60, 0]; fillStyle: "#D0D0D0"; expand: [20%, 100%];>
         <size: 5;>
         <| expand: [80%, 100%];
-          <out: rect; color: 0xF0F0F0; expand: 100%;>
+          <out: rect; fillStyle: "#F0F0F0"; expand: 100%;>
           <size: 5;>
-          <_ align: 100%; color: 0x40C040;
+          <_ align: 100%; fillStyle: "#40C040";
             <out: rect; size: [40, 20];>
             <size: 10;>
             <out: rect; size: [40, 20];>

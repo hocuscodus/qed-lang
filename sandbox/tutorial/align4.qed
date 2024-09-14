@@ -3,7 +3,7 @@
 // only), "<|" (horizontal alignment only) and "<\"
 // (no alignment applies)
 <
-  <out: rect; color: 0xFF0000; size: 60;>
-  <out: rect; color: 0x00FF00; size: 40; align: 50%;>
-  <out: rect; color: 0x0000FF; size: 20; align: 100%;>
+  <out: rect; fillStyle: "red"; size: 60;>
+  <out: rect; fillStyle: "Lime"; size: 40; align: 50%;>
+  <out: rect; fillStyle: "blue"; size: 20; align: 100%;>
 >

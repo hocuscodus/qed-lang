@@ -15,6 +15,6 @@ float getVAlign() {
   return downFlag ? distance : 1 - distance
 }
 
-<out: rect; color: 0x80B8DC; size: [150, 500];>
-<out: oval; color: 0xB2D4EA; size: [125, 105 + 5 * rand()];
+<out: rect; fillStyle: "#80B8DC"; size: [150, 500];>
+<out: oval; fillStyle: "#B2D4EA"; size: [125, 105 + 5 * rand()];
  align: [0.4 + rand() / 5, getVAlign()];>

@@ -2,24 +2,24 @@ bool Dialog(String title, String question) {
   var yesButton = new TextButton("Yes") -> return true
   var noButton = new TextButton("No") -> return false
 
-  <| out: roundRect; color: 0xD0D0D0; radius: 10;
-    <out: rect; color: 0x0090C0;
+  <| out: roundRect; fillStyle: "#D0D0D0"; radius: 10;
+    <out: rect; fillStyle: "#0090C0";
       <|
         <size: 10;>
-        <out: title; color: 0xFFFFFF;
+        <out: title; fillStyle: "white";
          align: 50%;>
         <size: 5;>
       >
     >
-    <\ color: 0x000000; fontSize: 17;
+    <\ fillStyle: "black"; fontSize: 17;
       <size: [30, 20];>
       <out: question; align: 50%; >
       <size: 30;>
     >
     <_ align: 100%; pos: -10; radius: 5;
-      <out: yesButton; color: 0x40C040;>
+      <out: yesButton; fillStyle: "#40C040";>
       <size: 10;>
-      <out: noButton; color: 0xC04040;>
+      <out: noButton; fillStyle: "#C04040";>
     >
   >
 }

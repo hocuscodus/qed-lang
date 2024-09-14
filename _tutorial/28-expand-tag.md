@@ -19,7 +19,7 @@ The first example defines one UI element (a blue rectangle).
 
 When you run it, nothing happens. It did not mean the code failed though. The rectangle not having any `size` indication, its default size is [0, 0] and thus it is not visible.
 
-Replace the above code with `<out: rect; color: 0x0000FF; size: [100, 50];>` if you want to see it.
+Replace the above code with `<out: rect; fillStyle: "blue"; size: [100, 50];>` if you want to see it.
 {: .notice--info}
 
 We'll now put inside a white text child element.

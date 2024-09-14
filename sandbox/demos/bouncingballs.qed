@@ -10,7 +10,7 @@ void Ball() {
     }
   }
 
-  int color = trunc(rand() * 0xFFFFFF)
+  String color = "#" + /$((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0")$/
   int size = rand() * 35 + 35
   Vector[] vectors = 2 new Vector(rand(), ((rand() * 1%) + 0.025%) * (rand() > 0.5 ? 1 : -1))
 
@@ -19,7 +19,7 @@ void Ball() {
     vectors[1].move();
   }
 
-  <out: oval; color: color; size: size; align: [vectors[0].pos, vectors[1].pos];>
+  <out: oval; fillStyle: color; size: size; align: [vectors[0].pos, vectors[1].pos];>
 }
 
 Ball[] balls = 30 new Ball()
@@ -35,8 +35,8 @@ void CounterWidget() {
   Button incButton = new Button("+") -> balls++
   Button decButton = new Button("-") -> {if (balls.size() > 0) balls--}
 
-  <out: roundRect; color: 0xFFFFFF; radius: 20; opacity: 80%;
-    <_ color: COLOR_BLACK;
+  <out: roundRect; fillStyle: "white"; radius: 20; opacity: 80%;
+    <_ fillStyle: "black";
       <out: decButton;>
       <size: [120, 90];
         <out: balls.size(); opacity: 50%; align: 50%; fontSize: 60;>
@@ -51,9 +51,8 @@ CounterWidget counter = new CounterWidget()
 while (Animation())
   process(balls);
 
-
-<out:rect; color: 0x404040; size: [800, 480];>
-<out:"Bouncing"; fontSize:130; color: 0xFFFFFF; opacity: 9/16; align: [50%, 10%];>
-<out:"Balls!!"; fontSize:160; color: 0xFFFFFF; opacity: 3/4; align: [50%, 70%];>
+<out:rect; fillStyle: "#404040"; size: [800, 480];>
+<out:"Bouncing"; fontSize:130; fillStyle: "white"; opacity: 9/16; align: [50%, 10%];>
+<out:"Balls!!"; fontSize:160; fillStyle: "white"; opacity: 3/4; align: [50%, 70%];>
 <out:balls;>
 <out:counter; align: 100%; pos: -20;>

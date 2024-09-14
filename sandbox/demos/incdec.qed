@@ -11,10 +11,10 @@ int count = 0
 var decButton = new Button("-") -> count--
 var incButton = new Button("+") -> count++
 
-<_ out: oval; color: count > 0 ? COLOR_GREEN : count < 0 ? COLOR_RED : COLOR_YELLOW;
-    <out: decButton; color: COLOR_BLACK;>
-    <size: [100, 80]; color: COLOR_BLACK;
+<_ out: oval; fillStyle: count > 0 ? "Lime" : count < 0 ? "red" : "yellow";
+    <out: decButton; fillStyle: "black";>
+    <size: [100, 80]; fillStyle: "black";
       <out: count; opacity: 70%; align: 50%; fontSize: 50;>
     >
-    <out: incButton; color: COLOR_BLACK;>
+    <out: incButton; fillStyle: "black";>
 >

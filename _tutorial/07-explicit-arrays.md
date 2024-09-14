@@ -5,7 +5,7 @@ permalink: /tutorial/explicit-arrays/
 
 Explicit arrays are arrays where elements are defined at initialization, within a pair of brackets after the declaration type (`[]`). The same bracket operator is used to access individual elements. The size() member function, accessible with the `.` operator, returns the size of the array.
 
-{% include sandboxframe.html qedsrc="explicit1.qed" gui="0" height="230px" %}
+{% include sandboxframe.html qedsrc="tutorial/explicit1.qed" gui="0" height="230px" %}
 
 {% capture notice-1 %}
 #### The next steps
@@ -17,9 +17,9 @@ Based on what we've seen, we almost have a full-fledged language. Even if types 
 <!--
 This will be a tutorial...
 
-{% include sandboxframe.html qedsrc="taco.qed" code="50" gui="80" height="300px" %}
+{% include sandboxframe.html qedsrc="tutorial/taco.qed" code="50" gui="80" height="300px" %}
 
 Another example...
 
-{% include sandboxframe.html qedsrc="bouncingballs.qed" gui="70" height="300px" autorun="" %}
+{% include sandboxframe.html qedsrc="tutorial/bouncingballs.qed" gui="70" height="300px" autorun="" %}
 -->

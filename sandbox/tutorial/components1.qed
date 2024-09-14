@@ -16,6 +16,6 @@ void MyButton() { // very same script inside!
   >
 }
 
-MyButton[] buttons = 3 new MyButton();
+MyButton[] buttons = :|3 new MyButton();
 
-<| out: buttons; spacing: 10;>
+<out: buttons; spacing: 10;>

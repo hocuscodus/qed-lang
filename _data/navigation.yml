@@ -83,7 +83,7 @@ tutorial:
   - title: "BUILDING GUI APPS"
     url: /tutorial/gui-apps/
     children:
-      - title: "UI events"
+      - title: "User interaction"
         url: /tutorial/ui-events/
       - title: "Components"
         url: /tutorial/components/

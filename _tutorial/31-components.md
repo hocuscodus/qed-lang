@@ -5,13 +5,13 @@ permalink: /tutorial/components/
 
 Ok, we just defined a button component with UI elements. Let's put it back here as a refresher.
 
-{% include sandboxframe.html qedsrc="ui-events4.qed" code="70" gui="50" height="250px" %}
+{% include sandboxframe.html qedsrc="tutorial/ui-events4.qed" code="70" gui="50" height="250px" %}
 
 This is a good start for a very simple UI but building a complex one would generate a lot of boilerplate code if we write all components on the same script.
 
 You may doubt there is an easier way to avoid boilerplate code. As a matter of fact, it is very simple. Just wrap your script into a class. Then, in the main script, you may create multiple instances and show them using `out`.
 
-{% include sandboxframe.html qedsrc="components1.qed" code="70" gui="50" height="400px" %}
+{% include sandboxframe.html qedsrc="tutorial/components1.qed" code="70" gui="50" height="400px" %}
 
 Therefore, in QED, a UI component is an instantiation of a class having UI elements.
 {: .notice--info}
@@ -28,13 +28,13 @@ You can use class features for that. In the case of a button:
 
 Using this, you really have a button component that can be used in a variety of situations.
 
-{% include sandboxframe.html qedsrc="components2.qed" code="70" gui="50" height="450px" %}
+{% include sandboxframe.html qedsrc="tutorial/components2.qed" code="70" gui="50" height="450px" %}
 
 So with classes, you can define many components. QED has a set of native basic components (buttons, ...) to simplify development but nothing holds you to tailor your own the way you want using classes.
 
 Let's use the native TextButton class to avoir ourselves defining a button. The code will be much simpler.
 
-{% include sandboxframe.html qedsrc="components3.qed" code="70" gui="50" height="200px" %}
+{% include sandboxframe.html qedsrc="tutorial/components3.qed" code="70" gui="50" height="200px" %}
 
 That said, a single form is often not enough for a complete app. Other forms such as dialog boxes or other windows are necessary in most cases. Let's see how we can do it...
 

@@ -1,8 +1,8 @@
 // Taco Hotel app - by Martin Savage
 
 void displaySlider(int x, int y, int width, int height) {
-/$ctx.fillStyle = toColor(Main_$this.getAttribute(12));
-  ctx.globalAlpha = Main_$this.getAttribute(13);
+/$ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+  ctx.globalAlpha = Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
   const radius = 15;
   const radiusy = Math.min(radius, height / 2);
 
@@ -31,15 +31,15 @@ void displayTacos(int x, int y, int width, int height, int count) {
 
   function renderTaco(y) {
     ctx.save();
-    ctx.fillStyle = toColor(Main_$this.getAttribute(12));
-    ctx.globalAlpha = Main_$this.getAttribute(13);
+    ctx.fillStyle = toColor(Main_$this.getAttribute(Main_$this.QED_TAG_COLOR));
+    ctx.globalAlpha = Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
     ctx.beginPath();
     ctx.arc(50, 50 + y, 50, 190/360 * 2 * Math.PI, -10/360 * 2 * Math.PI);
     ctx.fill();
 
     if (y < 60) {
-      ctx.fillStyle = toColor(attributeStacks[12][attributeStacks[12].length - 2]);
-//      ctx.globalAlpha = Main_$this.getAttribute(attributeStacks[13][attributeStacks[13].length - 2]);
+      ctx.fillStyle = toColor(attributeStacks[Main_$this.QED_TAG_COLOR][attributeStacks[Main_$this.QED_TAG_COLOR].length - 2]);
+//      ctx.globalAlpha = Main_$this.getAttribute(attributeStacks[Main_$this.QED_TAG_OPACITY][attributeStacks[Main_$this.QED_TAG_OPACITY].length - 2]);
       ctx.beginPath();
       ctx.arc(50, 70 + y, 53, 190/360 * 2 * Math.PI, -10/360 * 2 * Math.PI);
       ctx.fill();
@@ -59,7 +59,7 @@ void showTwoTacos(int x, int y, int width, int height) {displayTacos(x, y, width
 // Generic widgets
 
 void ObjectOverTextButton(drawFn *drawObject, String text) {
-  var button = new RectButton((void L_() {
+  var button = new RectButton((void L() {
     <| align: 50%
       <out: drawObject; size: [240, 160]; align: 50%; color: COLOR_WHITE; pos: [0, -40];>
       <size: 10;>
@@ -72,7 +72,7 @@ void ObjectOverTextButton(drawFn *drawObject, String text) {
 }
 
 void ObjectBeforeTextButton(drawFn *drawObject, String text) {
-  var button = new RectButton((void L_() {
+  var button = new RectButton((void L() {
     <_ align: [0, 50%]; color: COLOR_WHITE
       <size: 30;>
       <out: drawObject; size: 60; align: 50%;>
@@ -88,8 +88,8 @@ void ObjectBeforeTextButton(drawFn *drawObject, String text) {
 String KeyButton(String text) {
   var button = new TextButton(text) -> return text
 
-  <size: ((int) getAttribute(5)) * (int) 1.5;>
-  <out: button; fontSize: (int) (((int) getAttribute(5)) * (((int) /$text.length$/) > 1 ? 0.5 : 1));>
+  <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * (int) 1.5;>
+  <out: button; fontSize: (int) (((int) getAttribute(QED_TAG_FONTSIZE)) * (((int) /$text.length$/) > 1 ? 0.5 : 1));>
 }
 
 String NumericKeyboardWidget() {
@@ -160,13 +160,6 @@ void SpinnerWidget() {
   >
 }
 
-String LargerButton(String text) {
-  var button = new TextButton("   " + text + "   ") -> return text
-
-  <size: [0, ((int) getAttribute(5)) * (int) 2.5]; expand: 100%;>
-  <out: button;>
-}
-
 String getTimestamp() {
 /$const date = new Date()$/
   int minutes = /$date.getMinutes()$/
@@ -214,31 +207,28 @@ int NumTacosWidget() {
 String RoomNumberWidget() {
   String phoneNumber = ""
   NumericKeyboardWidget numericKeyboard = new NumericKeyboardWidget() -> (phoneNumber = _ret)
-  var nextButton = new LargerButton("Next") -> return phoneNumber
+  var nextButton = new TextButton("Next") -> return phoneNumber
 
-  <|
-    <size: 25;>
-    <_
-      <size: [400, 300]; expand: 100%
-        <| align: [50%, 0%]; expand: 100%
-          <out: "Type your room number"; align: 50%;>
-          <out: roundRect; size: [300, 40]; color: 0xddd1e7; radius: 20; align: 0%
-            <out: phoneNumber; fontSize: 30; color: 0x58535c; align: 50%;>
-          >
+  <_
+    <size: 0; expand: [50%, 100%]
+      <| align: [90%, 30%]
+        <out: "Type your room number"; align: 50%;>
+        <out: roundRect; size: [300, 40]; color: 0xddd1e7; radius: 20; align: 50%
+          <out: phoneNumber; fontSize: 30; color: 0x58535c; align: 50%;>
         >
       >
-      <size: [400, 300]; expand: 100%
-        <out: numericKeyboard; fontSize: 40; spacing: 10; radius: 20; color: 0xAB8EC4; align: 0%; expand: 100%;>
-      >
+    >
+    <size: 0; expand: [50%, 100%];
+      <out: numericKeyboard; fontSize: 40; spacing: 10; radius: 20; color: 0xAB8EC4; align: [10%, 30%];>
     >
   >
-  <out: nextButton; fontSize: 25; color: 0x98c694; align: 100%; pos: -25;>
+  <out: nextButton; fontSize: 25; color: 0x98c694; align: 100%; pos: -25; expand: 5%;>
 }
 
 String GuestNameWidget() {
   String zipCode = ""
   AlphaKeyboardWidget alphaKeyboard = new AlphaKeyboardWidget() -> (zipCode = _ret)
-  var nextButton = new LargerButton("Next") -> return zipCode
+  var nextButton = new TextButton("Next") -> return zipCode
 
   <|
     <size: 25;>
@@ -248,7 +238,7 @@ String GuestNameWidget() {
     <size: 25;>
     <out: alphaKeyboard; fontSize: 30; spacing: 10; radius: 6; color: 0x7d90af;>
   >
-  <out: nextButton; fontSize: 25; color: 0x98c694; align: 100%; pos: -25;>
+  <out: nextButton; fontSize: 25; color: 0x98c694; align: 100%; pos: -25; expand: 5%;>
 }
 
 Yield[] exitHandler = []
@@ -267,7 +257,7 @@ void TransactionEntry() {
 }
 
 void SummaryWidget(TransactionEntry entry) {
-  var nextButton = new LargerButton("Confirm") -> return
+  var nextButton = new TextButton("Confirm") -> return
 
   <_ align: 50%; fontSize: 30; color: COLOR_WHITE
     <
@@ -291,7 +281,7 @@ void SummaryWidget(TransactionEntry entry) {
       >
     >
   >
-  <out: nextButton; fontSize: 25; color: 0x98c694; align: 100%; pos: -25;>
+  <out: nextButton; fontSize: 25; color: 0x98c694; align: 100%; pos: -25; expand: 5%;>
 }
 
 bool GetTransactionEntry(TransactionEntry entry) {
@@ -304,8 +294,7 @@ bool GetTransactionEntry(TransactionEntry entry) {
   exitHandler[0] = triggerExit;
 
   void Pane(String title, Widget widget) {
-    <size: [800, 400]; expand: [0, 100%];>
-    <out: widget; expand: 100%; onPress: 0; onRelease: 0;>
+    <out: widget;>
   }
 
   Pane[] panes = [
@@ -316,7 +305,7 @@ bool GetTransactionEntry(TransactionEntry entry) {
   ]
   void TabLabel(int pane) {
     var text = "    " + (pane + 1) + "." + panes[pane].title + "    "
-    var button = new GenericButton((void L_(bool[] pressed) {
+    var button = new GenericButton((void L(bool[] pressed) {
       <out: text; opacity: pane > maxIndex ? 50% : pressed[0] ? 35% : 100%;>
     })) -> {if (pane <= maxIndex) return}
 
@@ -344,7 +333,7 @@ bool GetTransactionEntry(TransactionEntry entry) {
   // Transaction UI
   <out:displaySlider; pos:[bounds[0], -1]; size:[bounds[2], bounds[3] + 1]; color:0xbeb8b0; align:0;>
   <|
-    <out: titles; expand:[100%, 0]; color: 0x77736e; fontSize:20; tag:"titles";>
+    <out: titles; color: 0x77736e; fontSize:20; tag:"titles";>
     <out: panes[paneIndex]; expand: 100%;>
   >
 }
@@ -381,7 +370,7 @@ int MainScreen() {
 
   <\ color: 0x7cb0c7
     < size: 15;>
-    <_  expand: 100%; radius: 10
+    <_ expand: 100%; radius: 10
       <| fontSize:20; expand: 100%;
         < out: roomServiceButton; expand: 100%;>
         < size: 15;>
@@ -423,14 +412,14 @@ void Application() {
 TextButton exit = new TextButton("Exit") -> process(exitHandler[0])
 var application = new Application()
 
-<|
-  <out:rect; size:[800, 60]; color: 0xbeb8b0; align: 0
-    <out:getTimestamp(); fontSize:30; color:0x77736e; align: [5%, 50%];>
-    <out:"Taco Hotel"; fontSize:35; color: 0x77736e; align: 50%; expand: [0, 50%];>
-    <out:exitHandler.size() ? exit : emptyWidget; color: 0x973543; align: [95%, 50%]; expand: [0, 50%];>
+<| size: [800, 480];
+  <out:rect; size:[0, 60]; color: 0xbeb8b0; expand: [100%, 0]
+    <out:getTimestamp(); fontSize:30; color:0x77736e; align: [0%, 50%]; pos: [15, 0];>
+    <out:"Taco Hotel"; fontSize:35; color: 0x77736e; align: 50%;>
+    <out:exitHandler.size() ? exit : emptyWidget; color: 0x973543; align: [100%, 50%]; pos: [-15, 0]; expand: [10%, 50%];>
   >
-  <
-    <out:rect; size:[800, 420]; color:0xeee6dd;>
-    <out:application; tag:"application"; expand: 100%; color: 0x5f5c58;>
+  <expand: 100%
+    <out:rect; color:0xeee6dd;>
+    <out:application; tag:"application"; color: 0x5f5c58;>
   >
 >

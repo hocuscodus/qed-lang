@@ -26,4 +26,4 @@ void Popup(String title, String question, String exitLabel, int margin) {
 }
 
 Popup("Window", "Create popup?", "Exit", 50)
-return 0 // Exit app with code 0
+return 0

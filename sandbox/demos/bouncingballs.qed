@@ -51,7 +51,8 @@ CounterWidget counter = new CounterWidget()
 while (Animation())
   process(balls);
 
-<out:rect; size:[800, 480]; color: 0x404040;>
+
+<out:rect; color: 0x404040; size: [800, 480];>
 <out:"Bouncing"; fontSize:130; color: 0xFFFFFF; opacity: 9/16; align: [50%, 10%];>
 <out:"Balls!!"; fontSize:160; color: 0xFFFFFF; opacity: 3/4; align: [50%, 70%];>
 <out:balls;>

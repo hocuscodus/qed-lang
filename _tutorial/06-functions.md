@@ -11,7 +11,7 @@ type name(type parm1, type parm2, ...) {
 ```
 Unlike C though, nested functions are allowed and closures are fully supported.
 
-{% include sandboxframe.html qedsrc="functions1.qed" gui="0" height="250px" %}
+{% include sandboxframe.html qedsrc="tutorial/functions1.qed" gui="0" height="250px" %}
 
 Functions are first-class citizens in QED. Functions types can be defined with any function, leaving their body empty with `{}`. Then you can use them as function types if followed by a star (the semantic of `*` is different from C in QED).
 

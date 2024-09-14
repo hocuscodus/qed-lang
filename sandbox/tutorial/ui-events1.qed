@@ -1,0 +1,6 @@
+<out: rect; color: 0x88CAFC; size: [150, 50];
+  <out: "Click Me"; align: 50%; color: 0;
+   onPress: println("Text pressed!");
+   onRelease: println("Text released!");
+  >
+>

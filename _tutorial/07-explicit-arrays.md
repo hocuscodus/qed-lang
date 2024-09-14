@@ -1,5 +1,5 @@
 ---
-title: "Explicit Arrays"
+title: "Explicit arrays"
 permalink: /tutorial/explicit-arrays/
 ---
 

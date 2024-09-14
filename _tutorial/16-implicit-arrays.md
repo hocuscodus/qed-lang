@@ -1,5 +1,5 @@
 ---
-title: "Implicit Arrays"
+title: "Implicit arrays"
 permalink: /tutorial/implicit-arrays/
 ---
 

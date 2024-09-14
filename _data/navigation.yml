@@ -2,12 +2,10 @@
 main:
   - title: "Tutorial"
     url: /tutorial/qed-basics/
-  - title: "Install"
-    url: /contact/
   - title: "Demos"
     url: /demos/
-  - title: "FAQ"
-    url: /faq/
+  - title: "Download"
+    url: /download/
   # - title: "About"
   #   url: https://mmistakes.github.io/minimal-mistakes/about/
   # - title: "Sample Posts"
@@ -27,11 +25,11 @@ tutorial:
         url: /tutorial/statements/
       - title: "Variables"
         url: /tutorial/variables/
-      - title: "Control Blocks"
+      - title: "Control blocks"
         url: /tutorial/control/
       - title: "Functions"
         url: /tutorial/functions/
-      - title: "Explicit Arrays"
+      - title: "Explicit arrays"
         url: /tutorial/explicit-arrays/
 
   - title: CLASSES
@@ -41,11 +39,11 @@ tutorial:
         url: /tutorial/instantiations/
       - title: "Interfaces"
         url: /tutorial/interfaces/
-      - title: "Private Members"
+      - title: "Private members"
         url: /tutorial/private-members/
       - title: "Class calls"
         url: /tutorial/calls/
-      - title: "Event Handlers"
+      - title: "Event handlers"
         url: /tutorial/event-handlers/
 
   - title: FEATURES
@@ -53,7 +51,7 @@ tutorial:
     children:
       - title: "Concurrency"
         url: /tutorial/concurrency/
-      - title: "Implicit Arrays"
+      - title: "Implicit arrays"
         url: /tutorial/implicit-arrays/
       - title: "Coroutines"
         url: /tutorial/coroutines/
@@ -61,7 +59,7 @@ tutorial:
   - title: UI BASICS
     url: /tutorial/qed-ui/
     children:
-      - title: "Elements and Tags"
+      - title: "UI elements"
         url: /tutorial/elements/
       - title: "The \"out\" tag"
         url: /tutorial/out-tag/

@@ -16,8 +16,10 @@ void MyButton(String text) {
   >
 }
 
-MyButton button1 = new MyButton("Previous")
-MyButton button2 = new MyButton("Next")
+MyButton button1 = new MyButton("Previous") ->
+  println("'Previous' clicked.")
+MyButton button2 = new MyButton("Next") ->
+  println("'Next' clicked.")
 
 <_
   <out: button1;>

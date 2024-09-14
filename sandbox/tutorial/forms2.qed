@@ -29,4 +29,4 @@ if (Dialog("Quit application", "Do you want to quit?"))
 else
   println("Well, sorry, quitting anyway...")
 
-return 0 // Exit app with code 0
+return 0

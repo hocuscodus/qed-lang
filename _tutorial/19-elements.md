@@ -1,5 +1,5 @@
 ---
-title: "Elements and Tags"
+title: "UI elements"
 permalink: /tutorial/elements/
 ---
 

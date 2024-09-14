@@ -1,5 +1,7 @@
-var button1 = new TextButton("Previous")
-var button2 = new TextButton("Next")
+var button1 = new TextButton("Previous") ->
+  println("'Previous' clicked.")
+var button2 = new TextButton("Next") ->
+  println("'Next' clicked.")
 
 <_
   <out: button1; color: 0x006080; radius: 10;>

@@ -9,7 +9,7 @@ Whereas class instantiation creates asynchronous objects (which UI components ar
 
 Any UI class (a class with UI elements) can be a component or a form depending on the way we invoke it. We used class instantiation to create components. We can use class calls to create forms.
 
-Let's try it using two simple buttons (one for a component and one for a dialog box) as a first example.
+Let's try it using two simple buttons (one for a component and one for a dialog box) as a first example. Click the "Component" button to open the dialog box. Click the "Dialog" button to go back to the "Component" main form.
 
 {% include sandboxframe.html qedsrc="tutorial/forms1.qed" code="70" gui="30" height="200px" %}
 

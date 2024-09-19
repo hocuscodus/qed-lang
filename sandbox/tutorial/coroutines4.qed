@@ -4,13 +4,13 @@ bool CountToTen() {
   cancelHandler = new QedYield() -> return false
 
   for (int count = 0; count < 10; count++) {
-    Timer(1000)
+    QedTimer(1000)
     println("" + (count + 1))
   }
 
   return true;
 }
 
-new Timer(5500) -> qedResume(cancelHandler)
+new QedTimer(5500) -> qedResume(cancelHandler)
 println("Starting count up to 10")
 println("Count " + (CountToTen() ? "done" : "cancelled."))

@@ -1,0 +1,4 @@
+int[] zeroes = 5 0
+
+for (int i = 0; i < zeroes.size(); i++)
+  println("" + zeroes[i])

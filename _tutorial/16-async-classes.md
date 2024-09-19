@@ -5,24 +5,24 @@ permalink: /tutorial/async-classes/
 
 QED has native functions such as `println()` but also has native classes too. Most of these classes are of asynchronous nature.
 
-The `Timer(millis)` async class suspends the current class execution for a number of milliseconds (defined by `millis`). Then it returns.
+The `QedTimer(millis)` async class suspends the current class execution for a number of milliseconds (defined by `millis`). Then it returns.
 
-The `Timer` class can be instantiated. Upon return the event handler if any will be invoked.
+The `QedTimer` class can be instantiated. Upon return the event handler if any will be invoked.
 
 {% include sandboxframe.html qedsrc="tutorial/async1.qed" code="67" gui="0" height="110px" %}
 
-As seen before, "Program done" is printed first, but the event loop is still lurking and processes the `Timer` return event a second later.
+As seen before, "Program done" is printed first, but the event loop is still lurking and processes the `QedTimer` return event a second later.
 {: .notice--info}
 
 Like any QED class, it can be invoked as a call as well.
 
 {% include sandboxframe.html qedsrc="tutorial/async2.qed" code="67" gui="0" height="110px" %}
 
-While waiting, any incoming event is still processed. Let's extend the wait to two seconds for the call. Before making this call though, let's create a `Timer` instance that lasts one second. The event handler of the `Timer` object will be invoked *during* the wait of the `Timer` call.
+While waiting, any incoming event is still processed. Let's extend the wait to two seconds for the call. Before making this call though, let's create a `QedTimer` instance that lasts one second. The event handler of the `QedTimer` object will be invoked *during* the wait of the `QedTimer` call.
 
 {% include sandboxframe.html qedsrc="tutorial/async3.qed" code="67" gui="0" height="110px" %}
 
-The `Timer` class is a prime example of a class invoked as an object or as a call. Asynchronously or synchronously. In other words, the design of QED classes *enables concurrency for free*!
+The `QedTimer` class is a prime example of a class invoked as an object or as a call. Asynchronously or synchronously. In other words, the design of QED classes *enables concurrency for free*!
 
 As QED is being release, other native async classes will become available, to load a file or an image, make REST calls, etc.
 {: .notice--info}
@@ -31,14 +31,17 @@ Invoking many async classes as instances will make them run concurrently.To spaw
 
 {% include sandboxframe.html qedsrc="tutorial/async4.qed" code="67" gui="0" height="110px" %}
 
-This works but directly using a native async class is limited output-wise. To achieve a more effective result, define a custom wrapper class on top of a `Timer` *call*. Embedding at least one async class into wrapper *as a call* makes it asynchronous too! Let's rewrite the previous example with such a wrapper async class to provide a much better output.
+See how an implicit array of class instantiations looks nice and readable.
+{: .notice--info}
+
+This works but directly using a native async class is limited output-wise. To achieve a more effective result, define a custom wrapper class on top of a `QedTimer` *call*. Embedding at least one async class into wrapper *as a call* makes it asynchronous too! Let's rewrite the previous example with such a wrapper async class to provide a much better output.
 
 {% include sandboxframe.html qedsrc="tutorial/async5.qed" code="67" gui="0" height="140px" %}
 
 You can embed your own wrapper into any number of enclosing wrapper classes as calls. The sync/async rules will still apply.
 {: .notice--info}
 
-Let's say you want to pick the first timer result and cancel the others. To do so, wrap your multiple timer logic into a `GetFirstResult` class and use `return` in the timer event handler. A `GetFirstResult` class call would then return upon the first `Timer` handling. Upon return, all other timers will be automatically cancelled.
+Let's say you want to pick the first timer result and cancel the others. To do so, wrap your multiple timer logic into a `GetFirstResult` class and use `return` in the timer event handler. A `GetFirstResult` class call would then return upon the first `QedTimer` handling. Upon return, all other timers will be automatically cancelled.
 
 {% include sandboxframe.html qedsrc="tutorial/async6.qed" code="67" gui="0" height="230px" %}
 

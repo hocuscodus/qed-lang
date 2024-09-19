@@ -1,0 +1,4 @@
+int[][] multTable = i::10 j::10 (i * j)
+
+println("5 * 2 = " + multTable[5][2])
+println("9 * 9 = " + multTable[9][9])

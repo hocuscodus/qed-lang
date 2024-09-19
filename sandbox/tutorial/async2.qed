@@ -1,5 +1,5 @@
-// A Timer call
-println("Invoking Timer")
-Timer(1000)
-println("Timer ended after a second")
+// A QedTimer call
+println("Invoking QedTimer")
+QedTimer(1000)
+println("QedTimer ended after a second")
 println("Program done")

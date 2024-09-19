@@ -330,10 +330,10 @@ void displayText(String text, int x, int y, int width, int height) {
   ctx.fillText(text, x, y)$/
 }
 
-bool Timer(int timeoutMillis) {
+bool QedTimer(int timeoutMillis) {
 /$setTimeout(function() {
-    if (Timer$this._HandlerFn_) {
-      Timer$this._HandlerFn_(true);
+    if (QedTimer$this._HandlerFn_) {
+      QedTimer$this._HandlerFn_(true);
       Main_$this.executeEvents_();
     }
   }, timeoutMillis)$/

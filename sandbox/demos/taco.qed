@@ -312,7 +312,7 @@ bool GetTransactionEntry(TransactionEntry entry) {
   TabLabel[] titles = pane:_ panes.size() (new TabLabel(pane)) -> SetPane(/$_index$/)
 
   exitHandler[0] = new QedYield() -> {exitHandler--; return false}
-  Timer(1)   // trigger refresh for slider to get the right bounds
+  QedTimer(1)   // trigger refresh for slider to get the right bounds
   SetPane(0) // initialize pane with well-dimensioned slider
 
   void NextPane() {
@@ -339,7 +339,7 @@ bool GetTransactionEntry(TransactionEntry entry) {
 bool OrderTacos(TransactionEntry transactionEntry) {
   SpinnerWidget spinner = new SpinnerWidget()
 
-  Timer(5000) // fake time for the transaction to complete
+  QedTimer(5000) // fake time for the transaction to complete
   spinner.stopped = true
   return true
 
@@ -351,7 +351,7 @@ bool OrderTacos(TransactionEntry transactionEntry) {
 }
 
 void DisplaySuccess(String total) {
-  Timer(5000)
+  QedTimer(5000)
   return
 
   <| fillStyle: "black"; opacity: 60%; align: 50%

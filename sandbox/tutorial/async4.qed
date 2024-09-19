@@ -1,1 +1,1 @@
-10 new Timer((int) (rand() * 5000)) -> println("Timer ended")
+10 new QedTimer((int) (rand() * 5000)) -> println("QedTimer ended")

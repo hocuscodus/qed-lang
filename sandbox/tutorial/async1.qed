@@ -1,0 +1,4 @@
+// A Timer object
+println("Invoking Timer")
+new Timer(1000) -> println("Timer ended after a second")
+println("Program done")

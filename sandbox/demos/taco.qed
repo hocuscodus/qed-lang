@@ -153,7 +153,7 @@ void SpinnerWidget() {
   Circle[] circles = index::numCircles new Circle(index)
 
   while (!stopped)
-    angle = Animation() / 2000 * 2 * 3.14159265
+    angle = QedAnimation() / 2000 * 2 * 3.14159265
 
   <size: 100; align: 50%
     <out: circles;>
@@ -241,7 +241,7 @@ String GuestNameWidget() {
   <out: nextButton; fontSize: 25; fillStyle: "#98C694"; align: 100%; pos: -25; expand: 5%;>
 }
 
-Yield[] exitHandler = []
+QedYield[] exitHandler = []
 var Widget() {<out: "";>}
 var emptyWidget = new Widget();
 
@@ -289,9 +289,6 @@ bool GetTransactionEntry(TransactionEntry entry) {
   int paneIndex = 0
   int maxIndex = paneIndex;
   int[] bounds = [0, 0, 0, 0]
-  Yield triggerExit = new Yield() -> {exitHandler--; return false}
-
-  exitHandler[0] = triggerExit;
 
   void Pane(String title, Widget widget) {
     <out: widget;>
@@ -314,6 +311,7 @@ bool GetTransactionEntry(TransactionEntry entry) {
 
   TabLabel[] titles = pane:_ panes.size() (new TabLabel(pane)) -> SetPane(/$_index$/)
 
+  exitHandler[0] = new QedYield() -> {exitHandler--; return false}
   Timer(1)   // trigger refresh for slider to get the right bounds
   SetPane(0) // initialize pane with well-dimensioned slider
 
@@ -409,10 +407,10 @@ void Application() {
   <out: ""; expand: 100%; onPress: 0; onRelease: 0;>
 }
 
-TextButton exit = new TextButton("Exit") -> process(exitHandler[0])
+TextButton exit = new TextButton("Exit") -> qedResume(exitHandler[0])
 var application = new Application()
 
-<| size: [800, 480];
+<|
   <out:rect; size:[0, 60]; fillStyle: "#BEB8B0"; expand: [100%, 0]
     <out:getTimestamp(); fontSize:30; fillStyle: "#77736E"; align: [0%, 50%]; pos: [15, 0];>
     <out:"Taco Hotel"; fontSize:35; fillStyle: "#77736E"; align: 50%;>

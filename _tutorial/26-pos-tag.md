@@ -9,7 +9,7 @@ The `pos` tag specifies, **in pixels**, the position of the UI element. This is 
 
 Just like the `align` tag, you can use the `pos` tag with expression values containing variables, which allows various pixel-based movement in games for instance, using code similar to the one of the previous section (just replace `align` with `tag` and use pixel coordinates instead of percentages).
 
-Another possibility with pixel-based movement is fine scrolling though. In the example below, the drawStripes function is a UI render function that uses Javascript to draw stripes. It is used in the last defined UI element at the end of the code, along with the `pos` tag which vertical value repeatedly goes down from 0 to -200 (because of the while loop calling the `Animation` class). This value is applied to the `y` parameter of the `drawStripes` function call and redraws the same image from a different offset causing the infinite scrolling illusion.
+Another possibility with pixel-based movement is fine scrolling though. In the example below, the drawStripes function is a UI render function that uses Javascript to draw stripes. It is used in the last defined UI element at the end of the code, along with the `pos` tag which vertical value repeatedly goes down from 0 to -200 (because of the while loop calling the `QedAnimation` class). This value is applied to the `y` parameter of the `drawStripes` function call and redraws the same image from a different offset causing the infinite scrolling illusion.
 
 {% include sandboxframe.html qedsrc="tutorial/pos2.qed" code="75" gui="100" height="460px" %}
 

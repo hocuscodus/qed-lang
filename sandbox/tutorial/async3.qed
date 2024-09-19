@@ -1,0 +1,5 @@
+println("Invoking Timer as instance and call")
+new Timer(1000) -> println("After one second")
+Timer(2000)
+// While waiting two seconds, the first timer ends
+println("After two seconds")

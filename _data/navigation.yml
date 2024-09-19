@@ -31,6 +31,8 @@ tutorial:
         url: /tutorial/functions/
       - title: "Explicit arrays"
         url: /tutorial/explicit-arrays/
+      - title: "Implicit arrays"
+        url: /tutorial/implicit-arrays/
 
   - title: CLASSES
     url: /tutorial/classes/
@@ -46,13 +48,11 @@ tutorial:
       - title: "Event handlers"
         url: /tutorial/event-handlers/
 
-  - title: FEATURES
-    url: /tutorial/features/
+  - title: CONCURRENCY
+    url: /tutorial/concurrency/
     children:
-      - title: "Concurrency"
-        url: /tutorial/concurrency/
-      - title: "Implicit arrays"
-        url: /tutorial/implicit-arrays/
+      - title: "Async classes"
+        url: /tutorial/async-classes/
       - title: "Coroutines"
         url: /tutorial/coroutines/
 

@@ -4,8 +4,8 @@ float pos = 0
 int start = -1
 float speed = 50/1000 // 50% per 1000ms
 
-while(true) { // Animation logic
-  int end = Animation()
+while(true) { // QedAnimation logic
+  int end = QedAnimation()
   float elapsedTimeMs = start == -1 ? 0 : end - start
 
   pos = (pos + elapsedTimeMs * speed) % 200

@@ -1,0 +1,5 @@
+// A Timer call
+println("Invoking Timer")
+Timer(1000)
+println("Timer ended after a second")
+println("Program done")

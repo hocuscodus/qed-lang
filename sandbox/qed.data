@@ -107,27 +107,33 @@ void floatHandler_(float value) {}
 void boolHandler_(bool value) {}
 void stringHandler_(String value) {}
 
-bool Yield() {
-/$this.yieldHandler = (function() {
-    if (Yield$this._HandlerFn_)
-      Yield$this._HandlerFn_(true);
-  })$/
+bool QedYield() {
+  voidHandler_ processFn = (void l() {
+    /$QedYield$this.processFn = null;
+    if (QedYield$this._HandlerFn_)
+      QedYield$this._HandlerFn_(true)$/
+  })
 }
-bool Yield(var obj) {
-/$obj.yieldHandler = (function() {
-    if (Yield$this._HandlerFn_)
-      Yield$this._HandlerFn_(true);
-  })$/
-}
-void process(var obj) {
+bool qedResume(var obj) {
 /$if (obj instanceof Array) {
     let size = obj.size();
+    let oneItem = false;
 
     for (let index = 0; index < size; index++)
-      this.process(obj[index]);
+      oneItem |= this.qedResume(obj[index]);
+
+    return oneItem;
   }
   else
-    obj.yieldHandler()$/
+    if (obj.blocking__Call)
+      return this.qedResume(obj.blocking__Call)
+    else
+      if (obj.processFn) {
+        obj.processFn();
+        return true;
+      }
+      else
+        return false;$/
 }
 void println(String str) {
 /$console.log(str)$/
@@ -350,10 +356,10 @@ void time(voidHandler_ *func) {
   func();
   console.timeEnd("time")$/
 }
-int Animation() {
+int QedAnimation() {
 /$requestAnimationFrame((timeStampMs) => {
-    if (Animation$this._HandlerFn_) {
-      Animation$this._HandlerFn_(timeStampMs);
+    if (QedAnimation$this._HandlerFn_) {
+      QedAnimation$this._HandlerFn_(timeStampMs);
       Main_$this.executeEvents_();
     }
   })$/

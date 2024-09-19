@@ -2,7 +2,7 @@
 int elapsedMs
 
 while (true)
-  elapsedMs = Animation()
+  elapsedMs = QedAnimation()
 
 float getVAlign() {
   float millis = elapsedMs % 4000

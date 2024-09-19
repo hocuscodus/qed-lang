@@ -30,7 +30,11 @@ Using this, you really have a button component that can be used in a variety of 
 
 {% include sandboxframe.html qedsrc="tutorial/components2.qed" code="70" gui="50" height="450px" %}
 
-So with classes, you can define many components. QED has a set of native basic components (buttons, ...) to simplify development but nothing holds you to tailor your own the way you want using classes.
+As an aside, components do not have to be windowing elements. They can for instance be moving objects within a playfield too for gaming. If so, there may be many similar instances battling together. The best way to implement this is by using coroutines. Define a coroutine to a class having UI elements, then build many instances using an implicit array. This kind of coroutine with UI elements has a more familiar name: *a sprite*.
+
+{% include sandboxframe.html qedsrc="tutorial/components4.qed" code="70" gui="97" height="535px" %}
+
+Let's get back to windowing elements. So with classes, you can define many components. QED will offer a set of native basic components (buttons, checkboxes, lists ...) to simplify development but nothing holds you to tailor your own the way you want using classes.
 
 Let's use the native TextButton class to avoir ourselves defining a button. The code will be much simpler.
 

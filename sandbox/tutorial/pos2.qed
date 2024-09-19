@@ -4,7 +4,7 @@ int start = -1
 float speed = 100/1000 // 100 pixels per second (1000ms)
 
 while(true) {
-  int end = Animation()
+  int end = QedAnimation()
   float elapsedTimeMs = start == -1 ? 0 : end - start
 
   start = end

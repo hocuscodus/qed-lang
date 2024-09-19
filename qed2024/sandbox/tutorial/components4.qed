@@ -1,0 +1,29 @@
+// Ball sprites
+void Ball() {
+  void Vector(float pos, float delta) {
+    void move() {
+      pos += delta
+
+      if (pos > 1 || pos < 0) {
+        pos = delta > 0 ? 2 - pos : -pos
+        delta = -delta
+      }
+    }
+  }
+
+  String color = "#" + /$((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0")$/
+  Vector[] vectors = 2 new Vector(rand(), ((rand() * 1%) + 0.025%) * (rand() > 0.5 ? 1 : -1))
+
+  while (QedYield())
+    i::2 vectors[i].move()
+
+  <out: oval; fillStyle: color; size: 50; align: [vectors[0].pos, vectors[1].pos];>
+}
+
+Ball[] balls = 100 new Ball()
+
+while (QedAnimation())
+  qedResume(balls);
+
+<out: rect; fillStyle: "#404040"; size: [800, 480];>
+<out: balls;>

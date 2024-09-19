@@ -1,0 +1,5 @@
+println("Invoking QedTimer as instance and call")
+new QedTimer(1000) -> println("After one second")
+QedTimer(2000)
+// While waiting two seconds, the first timer ends
+println("After two seconds")

@@ -1,0 +1,11 @@
+String Wrapper(int id, int millis) {
+  QedTimer(millis)
+  return "QedTimer " + id + ": " +
+     /$Math.floor(millis)$/ + "ms."
+}
+
+String GetFirstResult() {
+  n::10 new Wrapper(n + 1, (int) (rand() * 5000)) -> return _ret
+}
+
+println(GetFirstResult() + " Done!")

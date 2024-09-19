@@ -14,10 +14,8 @@ void Ball() {
   int size = rand() * 35 + 35
   Vector[] vectors = 2 new Vector(rand(), ((rand() * 1%) + 0.025%) * (rand() > 0.5 ? 1 : -1))
 
-  while (Yield(/$Ball$this$/)) {
-    vectors[0].move();
-    vectors[1].move();
-  }
+  while (QedYield())
+    i::2 vectors[i].move();
 
   <out: oval; fillStyle: color; size: size; align: [vectors[0].pos, vectors[1].pos];>
 }
@@ -48,10 +46,10 @@ void CounterWidget() {
 
 CounterWidget counter = new CounterWidget()
 
-while (Animation())
-  process(balls);
+while (QedAnimation())
+  qedResume(balls);
 
-<out:rect; fillStyle: "#404040"; size: [800, 480];>
+<out:rect; fillStyle: "#404040";>
 <out:"Bouncing"; fontSize:130; fillStyle: "white"; opacity: 9/16; align: [50%, 10%];>
 <out:"Balls!!"; fontSize:160; fillStyle: "white"; opacity: 3/4; align: [50%, 70%];>
 <out:balls;>

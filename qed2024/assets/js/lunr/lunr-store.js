@@ -66,7 +66,7 @@ var store = [{
         "teaser": null
       },{
         "title": "QED Basics",
-        "excerpt":"This section describes the basic syntax of the QED language to the encode business logic. If you really want to jump straight to the gist of QED, you may very well skip this section. Just bear in mind that QED syntax is mostly inspired by C. You may come back...","categories": [],
+        "excerpt":"This section describes the basic syntax of the QED language to the encode business logic. If you really want to jump straight to the gist of QED, you may very well skip to the far end of this section. Just bear in mind that QED syntax is mostly inspired by...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/qed-basics/",
         "teaser": null
@@ -107,6 +107,12 @@ var store = [{
         "url": "/qed2024/tutorial/explicit-arrays/",
         "teaser": null
       },{
+        "title": "Implicit arrays",
+        "excerpt":"We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an array operator. Consider the following: Fallback link for browsers that don't support iframes As you see in the implicit array 5...","categories": [],
+        "tags": [],
+        "url": "/qed2024/tutorial/implicit-arrays/",
+        "teaser": null
+      },{
         "title": "Classes",
         "excerpt":"QED has classes just like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Their functionality is expanded in some nifty way, as we’ll see in this section. There is no reserved keyword (like class) to declare a QED...","categories": [],
         "tags": [],
@@ -143,26 +149,20 @@ var store = [{
         "url": "/qed2024/tutorial/event-handlers/",
         "teaser": null
       },{
-        "title": "QED features",
-        "excerpt":"So QED classes have been designed to be be invoked as types (with the new operator, and -&gt; to handle return events if need be) or as calls (without new). In the previous examples though, we’ve seen classes that are either designed as pure object (with no return call to...","categories": [],
-        "tags": [],
-        "url": "/qed2024/tutorial/features/",
-        "teaser": null
-      },{
         "title": "Concurrency",
-        "excerpt":"QED has native functions such as println() but also has native classes too. The Timer(millis) class stops the current code execution for a number of milliseconds (the parameter) before resuming it. Other tasks may run during the suspension period so the application is not hung. If the millis argument is...","categories": [],
+        "excerpt":"So QED classes have been designed to be be invoked as types (with the new operator, and -&gt; to handle return events if need be) or as calls (without new). In the previous examples though, we’ve seen classes that are either designed as pure object (with no return call to...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/concurrency/",
         "teaser": null
       },{
-        "title": "Implicit arrays",
-        "excerpt":"We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an array operator. Consider the following: // example As you see, the left expression is the array count and the right expression...","categories": [],
+        "title": "Async classes",
+        "excerpt":"QED has native functions such as println() but also has native classes too. Most of these classes are of asynchronous nature. The QedTimer(millis) async class suspends the current class execution for a number of milliseconds (defined by millis). Then it returns. The QedTimer class can be instantiated. Upon return the...","categories": [],
         "tags": [],
-        "url": "/qed2024/tutorial/implicit-arrays/",
+        "url": "/qed2024/tutorial/async-classes/",
         "teaser": null
       },{
         "title": "Coroutines",
-        "excerpt":"« TO BE DONE SOON, STAY TUNED »  ","categories": [],
+        "excerpt":"QED has no thread support but rather implements coroutines in the form of async classes where you define suspension points. Within a class body, calling the QedYield class returns directly to the first caller that invoked it with new. To resume the execution of the code following the QedYield call,...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/coroutines/",
         "teaser": null
@@ -180,7 +180,7 @@ var store = [{
         "teaser": null
       },{
         "title": "The `out` tag",
-        "excerpt":"The out tag is fundamental because it outputs all UI elements. Fallback link for browsers that don't support iframes The expression value can be any valid expression and may use business logic variable within the main script/class scope. Fallback link for browsers that don't support iframes Try changing the num...","categories": [],
+        "excerpt":"The out tag is fundamental because it outputs all UI elements. Fallback link for browsers that don't support iframes The expression value can be any valid expression and may use business logic variable within its scope. Fallback link for browsers that don't support iframes Try changing the num variable before...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/out-tag/",
         "teaser": null

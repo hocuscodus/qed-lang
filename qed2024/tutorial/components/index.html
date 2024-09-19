@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-14T22:15:24+00:00">
+  <meta property="article:published_time" content="2024-09-19T07:26:51+00:00">
 
 
 
@@ -210,6 +210,8 @@
             
               <li><a href="/qed2024/tutorial/explicit-arrays/">Explicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
+            
           </ul>
           
         </li>
@@ -238,15 +240,13 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/features/"><span class="nav__sub-title">FEATURES</span></a>
+            <a href="/qed2024/tutorial/concurrency/"><span class="nav__sub-title">CONCURRENCY</span></a>
           
 
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/concurrency/">Concurrency</a></li>
-            
-              <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
+              <li><a href="/qed2024/tutorial/async-classes/">Async classes</a></li>
             
               <li><a href="/qed2024/tutorial/coroutines/">Coroutines</a></li>
             
@@ -331,7 +331,7 @@
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Components">
     <meta itemprop="description" content="Ok, we just defined a button component with UI elements. Let’s put it back here as a refresher.">
-    <meta itemprop="datePublished" content="2024-09-14T22:15:24+00:00">
+    <meta itemprop="datePublished" content="2024-09-19T07:26:51+00:00">
     
 
     <div class="page__inner-wrap">
@@ -394,7 +394,17 @@
   </p>
 </iframe>
 
-<p>So with classes, you can define many components. QED has a set of native basic components (buttons, …) to simplify development but nothing holds you to tailor your own the way you want using classes.</p>
+<p>As an aside, components do not have to be windowing elements. They can for instance be moving objects within a playfield too for gaming. If so, there may be many similar instances battling together. The best way to implement this is by using coroutines. Define a coroutine to a class having UI elements, then build many instances using an implicit array. This kind of coroutine with UI elements has a more familiar name: <em>a sprite</em>.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/components4.qed&amp;code=70&amp;gui=97" style="border:1px solid #000; margin:0; padding:0" width="100%" height="535px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p>Let’s get back to windowing elements. So with classes, you can define many components. QED will offer a set of native basic components (buttons, checkboxes, lists …) to simplify development but nothing holds you to tailor your own the way you want using classes.</p>
 
 <p>Let’s use the native TextButton class to avoir ourselves defining a button. The code will be much simpler.</p>
 
@@ -421,7 +431,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-14T22:15:24+00:00">September 14, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-19T07:26:51+00:00">September 19, 2024</time></p>
 
       </footer>
 

@@ -1,0 +1,7 @@
+String TimerWrapper(int id, int millis) {
+  QedTimer(millis)
+  return "QedTimer " + id + ": " + millis + "ms"
+}
+
+n::10 new TimerWrapper(n, (int) (rand() * 5000)) ->
+  println(_ret)

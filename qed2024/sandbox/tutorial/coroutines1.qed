@@ -1,0 +1,17 @@
+void Coroutine() {
+  println("Yielding to main script")
+  QedYield()
+  println("Yielding again")
+  QedYield()
+  println("Returning...")
+  return
+}
+
+println("Starting coroutine")
+
+Coroutine coroutine = new Coroutine() ->
+  println("Coroutine done")
+
+println("Resuming coroutine")
+while (qedResume(coroutine))
+  println("Resuming again")

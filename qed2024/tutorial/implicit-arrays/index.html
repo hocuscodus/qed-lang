@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-14T22:15:24+00:00">
+  <meta property="article:published_time" content="2024-09-19T07:26:51+00:00">
 
 
 
@@ -210,6 +210,8 @@
             
               <li><a href="/qed2024/tutorial/explicit-arrays/">Explicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/implicit-arrays/" class="active">Implicit arrays</a></li>
+            
           </ul>
           
         </li>
@@ -238,15 +240,13 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/features/"><span class="nav__sub-title">FEATURES</span></a>
+            <a href="/qed2024/tutorial/concurrency/"><span class="nav__sub-title">CONCURRENCY</span></a>
           
 
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/concurrency/">Concurrency</a></li>
-            
-              <li><a href="/qed2024/tutorial/implicit-arrays/" class="active">Implicit arrays</a></li>
+              <li><a href="/qed2024/tutorial/async-classes/">Async classes</a></li>
             
               <li><a href="/qed2024/tutorial/coroutines/">Coroutines</a></li>
             
@@ -331,7 +331,7 @@
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Implicit arrays">
     <meta itemprop="description" content="We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an array operator. Consider the following:">
-    <meta itemprop="datePublished" content="2024-09-14T22:15:24+00:00">
+    <meta itemprop="datePublished" content="2024-09-19T07:26:51+00:00">
     
 
     <div class="page__inner-wrap">
@@ -351,19 +351,51 @@
         
         <p>We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an <strong>array operator</strong>. Consider the following:</p>
 
-<p>// example</p>
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit1.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="120px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
 
-<p>As you see, the left expression is the array count and the right expression is the array element expression. You can prefix the array count expression by <code class="language-plaintext highlighter-rouge">indexVarName::</code> to define an array index for this expression, then use it in the element expression.</p>
+<p>As you see in the implicit array <code class="language-plaintext highlighter-rouge">5 0</code>, the left expression <code class="language-plaintext highlighter-rouge">5</code> is the array count and the right expression <code class="language-plaintext highlighter-rouge">0</code> is the array element initializer expression. You can prefix the array count expression by an index name, followed by <code class="language-plaintext highlighter-rouge">::</code> to define an array index for this expression, then use it in the element expression.</p>
 
-<p>// another example</p>
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit2.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="180px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p class="notice--info">The implicit array spacing operator has the highest precedence, hence initializer expressions which are not unary must be within parentheses.</p>
+
+<p class="notice--info">An index expression prefixed by <code class="language-plaintext highlighter-rouge">::</code> without an index name is fine too, and may be more readable in some circumstances.</p>
 
 <p>You can also define multiple dimensions by using more than one array count expressions. The rightmost expression will always be the element expression.</p>
 
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit3.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="120px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
 <p>The return type of the array expression is an array of elements. If the element expression type is void (or the element expression is a block using braces <code class="language-plaintext highlighter-rouge">{}</code>), there is no return type, that is, it acts like a <code class="language-plaintext highlighter-rouge">for</code> loop and cannot be stored in a variable.</p>
 
-<p>You can also invoke classes in the array expressions (counts or element), either synchronously or asynchronously.</p>
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit4.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="230px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
 
-<p>We can see that when created using implicit arrays, asynchronous tasks run concurrently!</p>
+<p>A cool thing with implicit arrays is they support postfix <code class="language-plaintext highlighter-rouge">++</code> and <code class="language-plaintext highlighter-rouge">--</code>, which dynamically add one more element or remove the last element. This is used in the “Bouncing balls” demo from the demo page to dynamically add or remove balls on the display.</p>
+
+<p class="notice--info">Implicit arrays will become very useful for arrays of class instances, as we’ll see soon.</p>
 
         
       </section>
@@ -375,7 +407,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-14T22:15:24+00:00">September 14, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-19T07:26:51+00:00">September 19, 2024</time></p>
 
       </footer>
 
@@ -384,11 +416,11 @@
       
   <nav class="pagination">
     
-      <a href="/qed2024/tutorial/concurrency/" class="pagination--pager" title="Concurrency
+      <a href="/qed2024/tutorial/explicit-arrays/" class="pagination--pager" title="Explicit arrays
 ">Previous</a>
     
     
-      <a href="/qed2024/tutorial/coroutines/" class="pagination--pager" title="Coroutines
+      <a href="/qed2024/tutorial/classes/" class="pagination--pager" title="Classes
 ">Next</a>
     
   </nav>

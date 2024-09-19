@@ -11,7 +11,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Concurrency - The QED Programming Language</title>
-<meta name="description" content="QED has native functions such as println() but also has native classes too.">
+<meta name="description" content="So QED classes have been designed to be be invoked as types (with the new operator, and -&gt; to handle return events if need be) or as calls (without new). In the previous examples though, we’ve seen classes that are either designed as pure object (with no return call to generate events) or calls (with one return call done and pointless calling it with new to keep the object). And implementing these calls as plain lowercase-first-letter functions would have been more efficient.">
 
 
   <meta name="author" content="Martin Savage">
@@ -27,7 +27,7 @@
 <meta property="og:url" content="http://localhost:4000/qed2024/tutorial/concurrency/">
 
 
-  <meta property="og:description" content="QED has native functions such as println() but also has native classes too.">
+  <meta property="og:description" content="So QED classes have been designed to be be invoked as types (with the new operator, and -&gt; to handle return events if need be) or as calls (without new). In the previous examples though, we’ve seen classes that are either designed as pure object (with no return call to generate events) or calls (with one return call done and pointless calling it with new to keep the object). And implementing these calls as plain lowercase-first-letter functions would have been more efficient.">
 
 
 
@@ -35,7 +35,7 @@
 
   <meta name="twitter:site" content="@qedlang">
   <meta name="twitter:title" content="Concurrency">
-  <meta name="twitter:description" content="QED has native functions such as println() but also has native classes too.">
+  <meta name="twitter:description" content="So QED classes have been designed to be be invoked as types (with the new operator, and -&gt; to handle return events if need be) or as calls (without new). In the previous examples though, we’ve seen classes that are either designed as pure object (with no return call to generate events) or calls (with one return call done and pointless calling it with new to keep the object). And implementing these calls as plain lowercase-first-letter functions would have been more efficient.">
   <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/concurrency/">
 
   
@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-14T22:15:24+00:00">
+  <meta property="article:published_time" content="2024-09-19T07:26:51+00:00">
 
 
 
@@ -210,6 +210,8 @@
             
               <li><a href="/qed2024/tutorial/explicit-arrays/">Explicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
+            
           </ul>
           
         </li>
@@ -238,15 +240,13 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/features/"><span class="nav__sub-title">FEATURES</span></a>
+            <a href="/qed2024/tutorial/concurrency/"><span class="nav__sub-title">CONCURRENCY</span></a>
           
 
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/concurrency/" class="active">Concurrency</a></li>
-            
-              <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
+              <li><a href="/qed2024/tutorial/async-classes/">Async classes</a></li>
             
               <li><a href="/qed2024/tutorial/coroutines/">Coroutines</a></li>
             
@@ -330,8 +330,8 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Concurrency">
-    <meta itemprop="description" content="QED has native functions such as println() but also has native classes too.">
-    <meta itemprop="datePublished" content="2024-09-14T22:15:24+00:00">
+    <meta itemprop="description" content="So QED classes have been designed to be be invoked as types (with the new operator, and -&gt; to handle return events if need be) or as calls (without new). In the previous examples though, we’ve seen classes that are either designed as pure object (with no return call to generate events) or calls (with one return call done and pointless calling it with new to keep the object). And implementing these calls as plain lowercase-first-letter functions would have been more efficient.">
+    <meta itemprop="datePublished" content="2024-09-19T07:26:51+00:00">
     
 
     <div class="page__inner-wrap">
@@ -349,31 +349,13 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>QED has native functions such as <code class="language-plaintext highlighter-rouge">println()</code> but also has native classes too.</p>
+        <p>So QED classes have been designed to be be invoked as types (with the <code class="language-plaintext highlighter-rouge">new</code> operator, and <code class="language-plaintext highlighter-rouge">-&gt;</code> to handle return events if need be) or as calls (without <code class="language-plaintext highlighter-rouge">new</code>). In the previous examples though, we’ve seen classes that are either designed as pure object (with no <code class="language-plaintext highlighter-rouge">return</code> call to generate events) or calls (with one <code class="language-plaintext highlighter-rouge">return</code> call done and pointless calling it with <code class="language-plaintext highlighter-rouge">new</code> to keep the object). And implementing these calls as plain lowercase-first-letter functions would have been more efficient.</p>
 
-<p>The <code class="language-plaintext highlighter-rouge">Timer(millis)</code> class stops the current code execution for a number of milliseconds (the parameter) before resuming it. Other tasks may run during the suspension period so the application is not hung. If the <code class="language-plaintext highlighter-rouge">millis</code> argument is 0, the application is still suspended but resumes whenever it processes the event loop.</p>
+<p>Yet, QED classes were designed this way, because <em>there are</em> use cases where classes fit perfectly being invoked both ways!</p>
 
-<p>This class can be called as object type or function.</p>
+<p>(Venn diagram)</p>
 
-<p>// as call</p>
-
-<p>// as object</p>
-
-<p>Both do not provide the same output. When invoked as a call, the <code class="language-plaintext highlighter-rouge">Timer()</code> class stops execution and resumes it after 1 second, printing <code class="language-plaintext highlighter-rouge">Timer ends</code> and <code class="language-plaintext highlighter-rouge">Program Done</code> afterwards. However, both printouts are reversed in the object version. How come?</p>
-
-<p>As we know, the <code class="language-plaintext highlighter-rouge">Timer</code> object is returned its execution is suspended, so, in this case, just after having scheduled when it resumes. The main program execution then resumes when it has the object, therefore it immediately prints <code class="language-plaintext highlighter-rouge">Program Done</code>. Even when this code is done, QED enters the event loop and waits 1 second for the upcoming <code class="language-plaintext highlighter-rouge">Timer ends</code> event.</p>
-
-<p>The <code class="language-plaintext highlighter-rouge">Timer</code> class is a prime example of a class invoked as an object or as a call. Asyncbronously or synchronously. In other words, the design of QED classes <em>enables concurrency for free</em>!</p>
-
-<p class="notice--info">Other native classes include …..</p>
-
-<p>If you embed a native class into your own class <em>as a call</em>, your class can now be called synchronously or asynchronously. Using it <em>as an object</em> will provide it when the native class <em>call</em> is made.</p>
-
-<p class="notice--info">Never forget to call <code class="language-plaintext highlighter-rouge">return</code> in your wrapper classes else invoking them as calls will suspend forever at the end of their execution.</p>
-
-<p>You can use your class as a call to if you want a synchronous process.</p>
-
-<p class="notice--info">You can embed your own wrapper into any number of enclosing wrapper classes as calls. The sync/async rules will still apply.</p>
+<p>We’ll take the time to discover these mysterious classes through the rest of this tutorial.</p>
 
         
       </section>
@@ -385,7 +367,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-14T22:15:24+00:00">September 14, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-19T07:26:51+00:00">September 19, 2024</time></p>
 
       </footer>
 
@@ -394,11 +376,11 @@
       
   <nav class="pagination">
     
-      <a href="/qed2024/tutorial/features/" class="pagination--pager" title="QED features
+      <a href="/qed2024/tutorial/event-handlers/" class="pagination--pager" title="Event Handlers
 ">Previous</a>
     
     
-      <a href="/qed2024/tutorial/implicit-arrays/" class="pagination--pager" title="Implicit arrays
+      <a href="/qed2024/tutorial/async-classes/" class="pagination--pager" title="Async classes
 ">Next</a>
     
   </nav>

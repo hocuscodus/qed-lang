@@ -11,7 +11,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Coroutines - The QED Programming Language</title>
-<meta name="description" content="« TO BE DONE SOON, STAY TUNED »">
+<meta name="description" content="QED has no thread support but rather implements coroutines in the form of async classes where you define suspension points.">
 
 
   <meta name="author" content="Martin Savage">
@@ -27,7 +27,7 @@
 <meta property="og:url" content="http://localhost:4000/qed2024/tutorial/coroutines/">
 
 
-  <meta property="og:description" content="« TO BE DONE SOON, STAY TUNED »">
+  <meta property="og:description" content="QED has no thread support but rather implements coroutines in the form of async classes where you define suspension points.">
 
 
 
@@ -35,7 +35,7 @@
 
   <meta name="twitter:site" content="@qedlang">
   <meta name="twitter:title" content="Coroutines">
-  <meta name="twitter:description" content="« TO BE DONE SOON, STAY TUNED »">
+  <meta name="twitter:description" content="QED has no thread support but rather implements coroutines in the form of async classes where you define suspension points.">
   <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/coroutines/">
 
   
@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-14T22:15:24+00:00">
+  <meta property="article:published_time" content="2024-09-19T07:26:51+00:00">
 
 
 
@@ -210,6 +210,8 @@
             
               <li><a href="/qed2024/tutorial/explicit-arrays/">Explicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
+            
           </ul>
           
         </li>
@@ -238,15 +240,13 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/features/"><span class="nav__sub-title">FEATURES</span></a>
+            <a href="/qed2024/tutorial/concurrency/"><span class="nav__sub-title">CONCURRENCY</span></a>
           
 
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/concurrency/">Concurrency</a></li>
-            
-              <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
+              <li><a href="/qed2024/tutorial/async-classes/">Async classes</a></li>
             
               <li><a href="/qed2024/tutorial/coroutines/" class="active">Coroutines</a></li>
             
@@ -330,8 +330,8 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Coroutines">
-    <meta itemprop="description" content="« TO BE DONE SOON, STAY TUNED »">
-    <meta itemprop="datePublished" content="2024-09-14T22:15:24+00:00">
+    <meta itemprop="description" content="QED has no thread support but rather implements coroutines in the form of async classes where you define suspension points.">
+    <meta itemprop="datePublished" content="2024-09-19T07:26:51+00:00">
     
 
     <div class="page__inner-wrap">
@@ -349,7 +349,54 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>« TO BE DONE SOON, STAY TUNED »</p>
+        <p>QED has no thread support but rather implements coroutines in the form of async classes where you define suspension points.</p>
+
+<p>Within a class body, calling the <code class="language-plaintext highlighter-rouge">QedYield</code> class returns directly to the first caller that invoked it with <code class="language-plaintext highlighter-rouge">new</code>. To resume the execution of the code following the <code class="language-plaintext highlighter-rouge">QedYield</code> call, call <code class="language-plaintext highlighter-rouge">qedResume(object)</code>. The first example shows the main script and an object where execution switches from one to the other using <code class="language-plaintext highlighter-rouge">QedYield()</code> (from the <code class="language-plaintext highlighter-rouge">coroutine</code> object) and <code class="language-plaintext highlighter-rouge">qedResume(coroutine)</code> (from the main script).</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/coroutines1.qed&amp;code=57&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="300px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p>You may have remarked that <code class="language-plaintext highlighter-rouge">qedResume(coroutine)</code> is under a while loop. This function returns true if the object was stopped using <code class="language-plaintext highlighter-rouge">QedYield</code> and false if not (like the <code class="language-plaintext highlighter-rouge">return</code> call at the end). This is why the while loop exits at the end of the <code class="language-plaintext highlighter-rouge">coroutine</code> execution.</p>
+
+<p>The coroutine functionality can also be used to create generators. The next example shows a Fibonacci series generator, used to list the first fifteen numbers. This time, the <code class="language-plaintext highlighter-rouge">QedYield()</code> call is under the while loop, as it is normal for a generator class. <code class="language-plaintext highlighter-rouge">QedYield</code> always returns true, which makes it ideal to embed under a <code class="language-plaintext highlighter-rouge">while</code> loop, as it is a common use case.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/coroutines2.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="300px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p>Another common use case is many coroutines coexisting together, each doing its particular job. In this case, gather them in an array and use <code class="language-plaintext highlighter-rouge">qedResume(array)</code> to resume execution <em>on each</em> coroutine in the array with one call. Calling <code class="language-plaintext highlighter-rouge">qedResume</code> on an array returns true if one element was suspended at <code class="language-plaintext highlighter-rouge">QedYield()</code>, false otherwise. The following example is an unusual implementation of the popular <a href="https://en.wikipedia.org/wiki/Fizz_buzz">fizz-buzz</a> problem, using coroutines for the “Fizz” signal on numbers divisible by 3 and the “Buzz” signal on numbers divisible by 5.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/coroutines3.qed&amp;code=80&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="360px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p class="notice--info">In this example, an explicit array is used. It works equally well for implicit arrays as well. The “Bouncing balls” in the demo page uses an implicit array to create 30 ball coroutines.</p>
+
+<p>Since <code class="language-plaintext highlighter-rouge">QedYield</code> is a class, should it be instantiated with <code class="language-plaintext highlighter-rouge">new</code>? So far we only used <code class="language-plaintext highlighter-rouge">QedYield</code> calls, right? Yet there are some use cases where <code class="language-plaintext highlighter-rouge">new QedYield()</code> is very useful. For instance, imagine you are invoking a class having potentially lengthy async calls and you want to cancel it after a given delay. To do so, in the main script, declare a cancel handler <code class="language-plaintext highlighter-rouge">QedYield</code> object. This object will be initialized at the start of the lengthy class code as a <code class="language-plaintext highlighter-rouge">new QedYield()</code> with an event handler. The <code class="language-plaintext highlighter-rouge">new QedYield()</code> will stop its execution without invoking its handler, so the lengthy code starts. Upon reaching the delay (implemented as a <code class="language-plaintext highlighter-rouge">new QedTimer(delay)</code> in the main script), the <code class="language-plaintext highlighter-rouge">qedResume(cancelHandler)</code> call is made, triggering the <code class="language-plaintext highlighter-rouge">new QedYield()</code> code to return and invoke its handler, which makes the lengthy call return without finishing.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/coroutines4.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="290px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p class="notice--info">This technique is used in the Taco Hotel code from the demo page, where there is an <code class="language-plaintext highlighter-rouge">Exit</code> button that the user triggers to cancel a <code class="language-plaintext highlighter-rouge">GetTransaction</code> class call.</p>
+
 
         
       </section>
@@ -361,7 +408,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-14T22:15:24+00:00">September 14, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-19T07:26:51+00:00">September 19, 2024</time></p>
 
       </footer>
 
@@ -370,7 +417,7 @@
       
   <nav class="pagination">
     
-      <a href="/qed2024/tutorial/implicit-arrays/" class="pagination--pager" title="Implicit arrays
+      <a href="/qed2024/tutorial/async-classes/" class="pagination--pager" title="Async classes
 ">Previous</a>
     
     

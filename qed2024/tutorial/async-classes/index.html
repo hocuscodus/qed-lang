@@ -10,8 +10,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>The size tag - The QED Programming Language</title>
-<meta name="description" content="The size of the user interface area is determined by the UI elements. It is the minimal area where all UI elements fit in. Some UI elements do not have a determined size though, the ones with the out tag having a function pointer as value expression such as rect, oval, roundRect. These elements use sibling elements to determine their size.">
+<!-- begin _includes/seo.html --><title>Async classes - The QED Programming Language</title>
+<meta name="description" content="QED has native functions such as println() but also has native classes too. Most of these classes are of asynchronous nature.">
 
 
   <meta name="author" content="Martin Savage">
@@ -23,20 +23,20 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="The QED Programming Language">
-<meta property="og:title" content="The size tag">
-<meta property="og:url" content="http://localhost:4000/qed2024/tutorial/size-tag/">
+<meta property="og:title" content="Async classes">
+<meta property="og:url" content="http://localhost:4000/qed2024/tutorial/async-classes/">
 
 
-  <meta property="og:description" content="The size of the user interface area is determined by the UI elements. It is the minimal area where all UI elements fit in. Some UI elements do not have a determined size though, the ones with the out tag having a function pointer as value expression such as rect, oval, roundRect. These elements use sibling elements to determine their size.">
+  <meta property="og:description" content="QED has native functions such as println() but also has native classes too. Most of these classes are of asynchronous nature.">
 
 
 
 
 
   <meta name="twitter:site" content="@qedlang">
-  <meta name="twitter:title" content="The size tag">
-  <meta name="twitter:description" content="The size of the user interface area is determined by the UI elements. It is the minimal area where all UI elements fit in. Some UI elements do not have a determined size though, the ones with the out tag having a function pointer as value expression such as rect, oval, roundRect. These elements use sibling elements to determine their size.">
-  <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/size-tag/">
+  <meta name="twitter:title" content="Async classes">
+  <meta name="twitter:description" content="QED has native functions such as println() but also has native classes too. Most of these classes are of asynchronous nature.">
+  <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/async-classes/">
 
   
     <meta name="twitter:card" content="summary">
@@ -58,7 +58,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/qed2024/tutorial/size-tag/">
+<link rel="canonical" href="http://localhost:4000/qed2024/tutorial/async-classes/">
 
 
 
@@ -246,7 +246,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/async-classes/">Async classes</a></li>
+              <li><a href="/qed2024/tutorial/async-classes/" class="active">Async classes</a></li>
             
               <li><a href="/qed2024/tutorial/coroutines/">Coroutines</a></li>
             
@@ -266,7 +266,7 @@
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
-              <li><a href="/qed2024/tutorial/size-tag/" class="active">The "size" tag</a></li>
+              <li><a href="/qed2024/tutorial/size-tag/">The "size" tag</a></li>
             
               <li><a href="/qed2024/tutorial/directions/">Directions</a></li>
             
@@ -329,8 +329,8 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="The size tag">
-    <meta itemprop="description" content="The size of the user interface area is determined by the UI elements. It is the minimal area where all UI elements fit in. Some UI elements do not have a determined size though, the ones with the out tag having a function pointer as value expression such as rect, oval, roundRect. These elements use sibling elements to determine their size.">
+    <meta itemprop="headline" content="Async classes">
+    <meta itemprop="description" content="QED has native functions such as println() but also has native classes too. Most of these classes are of asynchronous nature.">
     <meta itemprop="datePublished" content="2024-09-19T07:26:51+00:00">
     
 
@@ -338,7 +338,7 @@
       
         <header>
           <h1 id="page-title" class="page__title" itemprop="headline">
-            <a href="http://localhost:4000/qed2024/tutorial/size-tag/" itemprop="url">The <code class="language-plaintext highlighter-rouge">size</code> tag
+            <a href="http://localhost:4000/qed2024/tutorial/async-classes/" itemprop="url">Async classes
 </a>
           </h1>
           
@@ -349,9 +349,13 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>The size of the user interface area is determined by the UI elements. It is the minimal area where all UI elements fit in. Some UI elements do not have a determined size though, the ones with the <code class="language-plaintext highlighter-rouge">out</code> tag having a function pointer as value expression such as <code class="language-plaintext highlighter-rouge">rect</code>, <code class="language-plaintext highlighter-rouge">oval</code>, <code class="language-plaintext highlighter-rouge">roundRect</code>. These elements use sibling elements to determine their size.</p>
+        <p>QED has native functions such as <code class="language-plaintext highlighter-rouge">println()</code> but also has native classes too. Most of these classes are of asynchronous nature.</p>
 
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/size1.qed&amp;code=60&amp;gui=100" style="border:1px solid #000; margin:0; padding:0" width="100%" height="200px">
+<p>The <code class="language-plaintext highlighter-rouge">QedTimer(millis)</code> async class suspends the current class execution for a number of milliseconds (defined by <code class="language-plaintext highlighter-rouge">millis</code>). Then it returns.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">QedTimer</code> class can be instantiated. Upon return the event handler if any will be invoked.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async1.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="110px">
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -359,11 +363,11 @@
   </p>
 </iframe>
 
-<p class="notice--info">The <code class="language-plaintext highlighter-rouge">radius: 8;</code> tag specifies the corner radius for round rects (only applies to <code class="language-plaintext highlighter-rouge">out: roundRect;</code> tags).</p>
+<p class="notice--info">As seen before, “Program done” is printed first, but the event loop is still lurking and processes the <code class="language-plaintext highlighter-rouge">QedTimer</code> return event a second later.</p>
 
-<p>Most of the times though, you want to specify the size of drawing elements in pixels. The <code class="language-plaintext highlighter-rouge">size</code> tag does so, with an explicit array of two numbers.</p>
+<p>Like any QED class, it can be invoked as a call as well.</p>
 
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/size2.qed&amp;code=60&amp;gui=100" style="border:1px solid #000; margin:0; padding:0" width="100%" height="200px">
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async2.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="110px">
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -371,11 +375,9 @@
   </p>
 </iframe>
 
-<h2 id="clipping">Clipping</h2>
+<p>While waiting, any incoming event is still processed. Let’s extend the wait to two seconds for the call. Before making this call though, let’s create a <code class="language-plaintext highlighter-rouge">QedTimer</code> instance that lasts one second. The event handler of the <code class="language-plaintext highlighter-rouge">QedTimer</code> object will be invoked <em>during</em> the wait of the <code class="language-plaintext highlighter-rouge">QedTimer</code> call.</p>
 
-<p>It often happens that you want a square as the size of an element. In this case, you may shorten the explicit array notation by using a single number. In this example, a 100x100 oval (a circle in fact) is shown.</p>
-
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/size3.qed&amp;code=60&amp;gui=100" style="border:1px solid #000; margin:0; padding:0" width="100%" height="200px">
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async3.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="110px">
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -383,11 +385,13 @@
   </p>
 </iframe>
 
-<p class="notice--info">This rule also applies to the other tags taking a pair of numbers as we’ll see.</p>
+<p>The <code class="language-plaintext highlighter-rouge">QedTimer</code> class is a prime example of a class invoked as an object or as a call. Asynchronously or synchronously. In other words, the design of QED classes <em>enables concurrency for free</em>!</p>
 
-<p>The <code class="language-plaintext highlighter-rouge">size</code> tag also applies for sizeable outputs, such as text. In this case, it supercedes the sizeable output size, clipping the output if the latter is too large.</p>
+<p class="notice--info">As QED is being release, other native async classes will become available, to load a file or an image, make REST calls, etc.</p>
 
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/size4.qed&amp;code=65&amp;gui=100" style="border:1px solid #000; margin:0; padding:0" width="100%" height="200px">
+<p>Invoking many async classes as instances will make them run concurrently.To spawn a number of similar async class instances - let’s call them tasks from now on, it is best to use an implicit array. Let’s spawn 10 random timers that last up to five seconds.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async4.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="110px">
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -395,6 +399,41 @@
   </p>
 </iframe>
 
+<p class="notice--info">See how an implicit array of class instantiations looks nice and readable.</p>
+
+<p>This works but directly using a native async class is limited output-wise. To achieve a more effective result, define a custom wrapper class on top of a <code class="language-plaintext highlighter-rouge">QedTimer</code> <em>call</em>. Embedding at least one async class into wrapper <em>as a call</em> makes it asynchronous too! Let’s rewrite the previous example with such a wrapper async class to provide a much better output.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async5.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="140px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p class="notice--info">You can embed your own wrapper into any number of enclosing wrapper classes as calls. The sync/async rules will still apply.</p>
+
+<p>Let’s say you want to pick the first timer result and cancel the others. To do so, wrap your multiple timer logic into a <code class="language-plaintext highlighter-rouge">GetFirstResult</code> class and use <code class="language-plaintext highlighter-rouge">return</code> in the timer event handler. A <code class="language-plaintext highlighter-rouge">GetFirstResult</code> class call would then return upon the first <code class="language-plaintext highlighter-rouge">QedTimer</code> handling. Upon return, all other timers will be automatically cancelled.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async6.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="230px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p>A more common scenario is to do continue processing after finishing a set of async tasks. To achieve it, a special TaskSet class…</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async7.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="230px">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p class="notice--info">Never forget to call <code class="language-plaintext highlighter-rouge">return</code> in your wrapper classes else invoking them as calls will suspend forever at the end of their execution.</p>
 
         
       </section>
@@ -415,11 +454,11 @@
       
   <nav class="pagination">
     
-      <a href="/qed2024/tutorial/out-tag/" class="pagination--pager" title="The out tag
+      <a href="/qed2024/tutorial/concurrency/" class="pagination--pager" title="Concurrency
 ">Previous</a>
     
     
-      <a href="/qed2024/tutorial/directions/" class="pagination--pager" title="Directions
+      <a href="/qed2024/tutorial/coroutines/" class="pagination--pager" title="Coroutines
 ">Next</a>
     
   </nav>

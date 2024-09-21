@@ -252,8 +252,8 @@ var store = [{
         "teaser": null
       },{
     "title": "Demos",
-    "excerpt":"Some demos for now, page will improve.   Increment-decrement buttons                  Fallback link for browsers that don't support iframes            Bouncing balls                  Fallback link for browsers that don't support iframes            Taco hotel                  Fallback link for browsers that don't support iframes            ","url": "http://localhost:4000/qed2024/demos/"
+    "excerpt":"Some demos for now, page will improve.   Increment-decrement buttons                  Fallback link for browsers that don't support iframes            Bouncing balls                  Fallback link for browsers that don't support iframes            Taco hotel                  Fallback link for browsers that don't support iframes            ","url": "https://qed-lang.org/qed2024/demos/"
   },{
     "title": "Download",
-    "excerpt":"The QED compiler is not ready yet for download. We’re striving for it though. Please check this page from time to time for updates.   In the meantime, here is a sandbox component where you can paste simple code to test.                  Fallback link for browsers that don't support iframes            ","url": "http://localhost:4000/qed2024/download/"
+    "excerpt":"The QED compiler is not ready yet for download. We’re striving for it though. Please check this page from time to time for updates.   In the meantime, here is a sandbox component where you can paste simple code to test.                  Fallback link for browsers that don't support iframes            ","url": "https://qed-lang.org/qed2024/download/"
   }]

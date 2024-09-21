@@ -1,1 +1,1 @@
-Sitemap: http://localhost:4000/qed2024/sitemap.xml
+Sitemap: https://qed-lang.org/qed2024/sitemap.xml

@@ -27,7 +27,7 @@ The `QedTimer` class is a prime example of a class invoked as an object or as a 
 As QED is being release, other native async classes will become available, to load a file or an image, make REST calls, etc.
 {: .notice--info}
 
-Invoking many async classes as instances will make them run concurrently.To spawn a number of similar async class instances - let's call them tasks from now on, it is best to use an implicit array. Let's spawn 10 random timers that last up to five seconds.
+Invoking many async classes as instances will make them run concurrently. To spawn a number of similar async class instances - let's call them tasks from now on, it is best to use an implicit array. Let's start 10 random timers that last up to five seconds.
 
 {% include sandboxframe.html qedsrc="tutorial/async4.qed" code="67" gui="0" height="110px" %}
 

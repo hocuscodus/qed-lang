@@ -132,6 +132,7 @@
       const autoRun = params.get("run");
       const root = document.querySelector(':root');
       const consoleLog = window.console.log;
+      let mainObj = null;
 
       if (codePercent)
         root.style.setProperty('--code-percent', codePercent + '%');
@@ -164,7 +165,11 @@
 
         window.console.log = Module['print'];
         js.apply(obj);
-        obj.start_([], function(_ret) {
+
+        if (mainObj)
+          mainObj._qedKill();
+
+          mainObj = obj.start_([], function(_ret) {
           window.console.log("Demo exited with code " + _ret);
           window.console.log = oldConsoleLog;
         });

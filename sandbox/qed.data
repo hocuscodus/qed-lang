@@ -1,13 +1,36 @@
 /$class QEDObject {
   blocking__Call = null;
+  active = true;
+
+  constructor(context__Call) {
+    this.context__Call = context__Call;
+  }
+
+  _qedKill() {
+    if (this.active) {
+      this.active = false;
+      this._qedEndCall();
+    }
+  }
+
+  _qedEndCall() {
+    if (this.blocking__Call) {
+      this.blocking__Call._qedKill();
+      this.blocking__Call = null;
+    }
+  }
+
+  _isActive() {
+    return this.active && (!this.context__Call || this.context__Call._isActive());
+  }
 
   _refreshModels() {
     let level = this.refresh_Model_ ? this.refresh_Model_() : 0;
 
     if (this.blocking__Call)
-      level = Math.max(level, this.blocking__Call._refreshModels())
+      level = Math.max(level, this.blocking__Call._refreshModels());
 
-    return level
+    return level;
   }
 }
 class QEDBasicArray extends Array {
@@ -100,7 +123,7 @@ pushAttribute(QED_TAG_OPACITY, 1.0)
 pushAttribute(QED_TAG_RADIUS, 3.0)
 
 void voidHandler_() {}
-void VoidHandler_() {<out: "";>}
+void VoidHandler_() {}
 void anyHandler_(var value) {}
 void intHandler_(int value) {}
 void floatHandler_(float value) {}
@@ -1434,12 +1457,13 @@ Window_[] _refreshViews(var obj) {
   return /$obj.qedModel$/ ? [new Window_(/$obj.qedModel$/, dialog)] : dialog
 }
 
-void start_(var[] args, intHandler_ returnFn) {
-  /$this.MainObj = _bindHandler(new this.Main(args), (function Lambda_(_ret) {
+var start_(var[] args, intHandler_ returnFn) {
+  /$this.MainObj = _bindHandler(new this.Main(args, null), (function Lambda_(_ret) {
     this.MainObj = null;
 
     if (returnFn)
       returnFn(_ret);
   }))$/
   executeEvents_()
+  return /$this.MainObj$/
 }

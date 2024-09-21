@@ -49,7 +49,7 @@ CounterWidget counter = new CounterWidget()
 while (QedAnimation())
   qedResume(balls);
 
-<out:rect; fillStyle: "#404040";>
+<out:rect; fillStyle: "#404040"; size: [800, 480];>
 <out:"Bouncing"; fontSize:130; fillStyle: "white"; opacity: 9/16; align: [50%, 10%];>
 <out:"Balls!!"; fontSize:160; fillStyle: "white"; opacity: 3/4; align: [50%, 70%];>
 <out:balls;>

@@ -45,7 +45,7 @@ Let's say you want to pick the first timer result and cancel the others. To do s
 
 {% include sandboxframe.html qedsrc="tutorial/async6.qed" code="67" gui="0" height="230px" %}
 
-A more common scenario is to do continue processing after finishing a set of async tasks. To achieve it, a special TaskSet class...
+A more common scenario is to do continue processing after finishing a set of async tasks. To achieve it requires another native class, `QedWaitValues`. A call to this class, with an array of new async instances in parameter, will return upon completion of all instances. Its return value is another array, containing the returned values of the instances.
 
 {% include sandboxframe.html qedsrc="tutorial/async7.qed" code="67" gui="0" height="230px" %}
 

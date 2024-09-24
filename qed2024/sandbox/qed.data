@@ -234,7 +234,10 @@ void executeEvents_() {
       handler();
     }
 
-  _refresh(this.MainObj, 0, 0, canvas.width, canvas.height)$/
+  if (this.MainObj)
+    _refresh(this.MainObj, 0, 0, canvas.width, canvas.height);
+  else
+    ctx.clearRect(0, 0, canvas.width, canvas.height);$/
 }
 bool qedEqual(var value1, var value2) {
   bool equal = value1 == value2
@@ -682,7 +685,8 @@ var QEDArray(int[] limits, sInitFn *init, int[] dirs, Qui_ *Ui_) {
       for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + size[level]$/; /$pp[level]++$/) {
         int index = /$pp[level]$/
         /$array[pp[level]]$/ = init(pp, (void Lxyz_(var _ret) {
-          /$QEDArray$this._HandlerFn_(index, _ret)$/
+          /$if (QEDArray$this._HandlerFn_)
+            QEDArray$this._HandlerFn_(index, _ret)$/
         }))
       }
     }
@@ -1370,6 +1374,9 @@ void _releaseFocus() {
 }
 
 void onGlobalEvent(int event, int[] location) {
+  if (/$!this.MainObj$/)
+    return;
+
   if (qedFocus.size()) {
     int eventIndex = qedFocus[0].widget.getEventIndex(event);
 
@@ -1457,13 +1464,56 @@ Window_[] _refreshViews(var obj) {
   return /$obj.qedModel$/ ? [new Window_(/$obj.qedModel$/, dialog)] : dialog
 }
 
+void QedWait(var[] array) {
+  int count = array.size()
+
+  for (int index = 0; index < count; index++) {
+    Window_ obj = array[index]
+    var oldHandler = /$obj._HandlerFn_$/
+
+    obj -> {
+      if (oldHandler)
+        /$oldHandler()$/
+
+      if (--count == 0)
+        return
+    }
+  }
+}
+
+var[] QedWaitValues(var[] array) {
+  int count = array.size()
+
+  if (!count)
+    return []
+
+  var[] outputs = count 0;
+
+  for (int index = 0; index < count; index++) {
+    int ndx = index;
+    SQEDArray obj = array[index]
+    var oldHandler = /$obj._HandlerFn_$/
+
+    obj -> {
+      outputs[ndx] = _ret
+
+      if (oldHandler)
+        /$oldHandler(_ret)$/
+
+      if (--count == 0)
+        return outputs
+    }
+  }
+}
+
 var start_(var[] args, intHandler_ returnFn) {
-  /$this.MainObj = _bindHandler(new this.Main(args, null), (function Lambda_(_ret) {
-    this.MainObj = null;
+  /$Main_$this.MainObj = _bindHandler(new this.Main(args, null), (function Lambda_(_ret) {
+    Main_$this.MainObj._qedKill();
+    Main_$this.MainObj = null;
 
     if (returnFn)
       returnFn(_ret);
   }))$/
   executeEvents_()
-  return /$this.MainObj$/
+  return /$Main_$this.MainObj$/
 }

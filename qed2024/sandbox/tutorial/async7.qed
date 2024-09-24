@@ -4,8 +4,10 @@ String Wrapper(int id, int millis) {
      /$Math.floor(millis)$/ + "ms."
 }
 
-String GetFirstResult() {
-  n::10 new Wrapper(n + 1, (int) (rand() * 5000)) -> return _ret
-}
+Wrapper[] wrappers = n::10 new Wrapper(n + 1, (int) (rand() * 2000))
 
-println(GetFirstResult() + " Done!")
+println("Timers started, please wait...")
+
+String[] outputs = QedWaitValues(wrappers)
+
+index::outputs.size() println(outputs[index])

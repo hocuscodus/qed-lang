@@ -410,7 +410,7 @@ void Application() {
 TextButton exit = new TextButton("Exit") -> qedResume(exitHandler[0])
 var application = new Application()
 
-<|
+<| size: [800, 480]
   <out:rect; size:[0, 60]; fillStyle: "#BEB8B0"; expand: [100%, 0]
     <out:getTimestamp(); fontSize:30; fillStyle: "#77736E"; align: [0%, 50%]; pos: [15, 0];>
     <out:"Taco Hotel"; fontSize:35; fillStyle: "#77736E"; align: 50%;>

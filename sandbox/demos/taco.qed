@@ -59,7 +59,7 @@ void showTwoTacos(int x, int y, int width, int height) {displayTacos(x, y, width
 // Generic widgets
 
 void ObjectOverTextButton(drawFn *drawObject, String text) {
-  var button = new RectButton((void L() {
+  var button = new QedRectButton((void L() {
     <| align: 50%
       <out: drawObject; size: [240, 160]; align: 50%; fillStyle: "white"; pos: [0, -40];>
       <size: 10;>
@@ -72,7 +72,7 @@ void ObjectOverTextButton(drawFn *drawObject, String text) {
 }
 
 void ObjectBeforeTextButton(drawFn *drawObject, String text) {
-  var button = new RectButton((void L() {
+  var button = new QedRectButton((void L() {
     <_ align: [0, 50%]; fillStyle: "white"
       <size: 30;>
       <out: drawObject; size: 60; align: 50%;>
@@ -86,7 +86,7 @@ void ObjectBeforeTextButton(drawFn *drawObject, String text) {
 }
 
 String KeyButton(String text) {
-  var button = new TextButton(text) -> return text
+  var button = new QedTextButton(text) -> return text
 
   <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * (int) 1.5;>
   <out: button; fontSize: (int) (((int) getAttribute(QED_TAG_FONTSIZE)) * (((int) /$text.length$/) > 1 ? 0.5 : 1));>
@@ -128,7 +128,7 @@ String AlphaKeyboardWidget() {
   void SpaceFunc() {<size: [200, 1];>}
   var lastRow = [
     new KeyButton("Clear") -> {typedText = ""; return typedText},
-    new RectButton(SpaceFunc) -> {typedText += " "; return typedText},
+    new QedRectButton(SpaceFunc) -> {typedText += " "; return typedText},
     new KeyButton("Del") -> {typedText = /$AlphaKeyboardWidget$this.typedText.slice(0, -1)$/; return typedText}
   ]
 
@@ -178,7 +178,7 @@ String formatMoney(float amount) {
 int NumTacosWidget() {
   int NumButton(int num) {
     void showTacos(int x, int y, int width, int height) {displayTacos(x, y, width, height, num);}
-    var button = new RectButton((void L() {
+    var button = new QedRectButton((void L() {
       <|
         <size: 15;>
         <
@@ -207,7 +207,7 @@ int NumTacosWidget() {
 String RoomNumberWidget() {
   String phoneNumber = ""
   NumericKeyboardWidget numericKeyboard = new NumericKeyboardWidget() -> (phoneNumber = _ret)
-  var nextButton = new TextButton("Next") -> return phoneNumber
+  var nextButton = new QedTextButton("Next") -> return phoneNumber
 
   <_
     <size: 0; expand: [50%, 100%]
@@ -228,7 +228,7 @@ String RoomNumberWidget() {
 String GuestNameWidget() {
   String zipCode = ""
   AlphaKeyboardWidget alphaKeyboard = new AlphaKeyboardWidget() -> (zipCode = _ret)
-  var nextButton = new TextButton("Next") -> return zipCode
+  var nextButton = new QedTextButton("Next") -> return zipCode
 
   <|
     <size: 25;>
@@ -257,7 +257,7 @@ void TransactionEntry() {
 }
 
 void SummaryWidget(TransactionEntry entry) {
-  var nextButton = new TextButton("Confirm") -> return
+  var nextButton = new QedTextButton("Confirm") -> return
 
   <_ align: 50%; fontSize: 30; fillStyle: "white"
     <
@@ -302,7 +302,7 @@ bool GetTransactionEntry(TransactionEntry entry) {
   ]
   void TabLabel(int pane) {
     var text = "    " + (pane + 1) + "." + panes[pane].title + "    "
-    var button = new GenericButton((void L(bool[] pressed) {
+    var button = new QedGenericButton((void L(bool[] pressed) {
       <out: text; opacity: pane > maxIndex ? 50% : pressed[0] ? 35% : 100%;>
     })) -> {if (pane <= maxIndex) return}
 
@@ -407,7 +407,7 @@ void Application() {
   <out: ""; expand: 100%; onPress: 0; onRelease: 0;>
 }
 
-TextButton exit = new TextButton("Exit") -> qedResume(exitHandler[0])
+QedTextButton exit = new QedTextButton("Exit") -> qedResume(exitHandler[0])
 var application = new Application()
 
 <| size: [800, 480]

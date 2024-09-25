@@ -1,6 +1,6 @@
 bool Dialog(String title, String question) {
-  var yesButton = new TextButton("Yes") -> return true
-  var noButton = new TextButton("No") -> return false
+  var yesButton = new QedTextButton("Yes") -> return true
+  var noButton = new QedTextButton("No") -> return false
 
   <| out: roundRect; fillStyle: "#D0D0D0"; radius: 10;
     <out: rect; fillStyle: "#0090C0";

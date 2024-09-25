@@ -391,11 +391,11 @@ int QedAnimation() {
   })$/
 }
 
-void ButtonContent(bool[] pressed) {<out:"";>}
+void QedButtonContent(bool[] pressed) {<out:"";>}
 
-void GenericButton(ButtonContent *ContentFn) {
+void QedGenericButton(QedButtonContent *ContentFn) {
   bool[] pressed = [false]
-  ButtonContent content = new ContentFn(pressed)
+  QedButtonContent content = new ContentFn(pressed)
 
   <out: content;
    onPress: {pressed[0] = true; _captureFocus();}
@@ -403,17 +403,17 @@ void GenericButton(ButtonContent *ContentFn) {
   >
 }
 
-String LinkButton(String text) {
-  var button = new GenericButton((void L(bool[] pressed) {
+String QedLinkButton(String text) {
+  var button = new QedGenericButton((void L(bool[] pressed) {
     <out: text; opacity: pressed[0] ? 35% : 100%;>
   })) -> return text
 
   <out: button;>
 }
 
-void RectButton(VoidHandler_ *ContentFn) {
+void QedRectButton(VoidHandler_ *ContentFn) {
   VoidHandler_ content = new ContentFn()
-  var button = new GenericButton((void L(bool[] pressed) {
+  var button = new QedGenericButton((void L(bool[] pressed) {
     <out: roundRect;
       <out: rect; opacity: pressed[0] ? 35% : 0%; fillStyle: "black";>
       <out: content;>
@@ -423,11 +423,19 @@ void RectButton(VoidHandler_ *ContentFn) {
   <out: button;>
 }
 
-String TextButton(String text) {
-  var button = new RectButton((void L() {
+String QedTextButton(String text) {
+  String _textStyle = "white"
+  int _fontSize = 20
+  float _textOpacity = 1;
+
+  QedTextButton textStyle(String style) {_textStyle = style; return /$this$/;}
+  QedTextButton textOpacity(float opacity) {_textOpacity = opacity; return /$this$/;}
+  QedTextButton textFontSize(int size) {_fontSize = size; return /$this$/;}
+
+  var button = new QedRectButton((void L() {
     <\expand: 100%;
       <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
-      <out: text; fillStyle: "white";>
+      <out: text; fillStyle: _textStyle; fontSize: _fontSize; opacity: _textOpacity;>
       <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
     >
   })) -> return text
@@ -1032,36 +1040,36 @@ void Widget_(Directive_ directive) {
   int[] size = subWidgets.size() ? subWidgets[subWidgets.size() - 1].group : [0, 0]
   var[] outWidget = []
 
-  if (directive.sizeAttr.size())
-    size = i::2 getDirVar(i, directive.sizeAttr[0].value)
-  else
-    if (directive.outType >= 0)
-      if (directive.outNumDim) {
-        if (directive.outType == 0) {
-          var[] array = directive.outAttr[0].value
-          ViewArray_ viewArray = new ViewArray_(array, array.getDirs(directive.direction), resizeViewObj, getViewSizeObj, paintViewObj, onViewEventObj, getViewElementRectObj)
+  if (directive.outType >= 0)
+    if (directive.outNumDim) {
+      if (directive.outType == 0) {
+        var[] array = directive.outAttr[0].value
+        ViewArray_ viewArray = new ViewArray_(array, array.getDirs(directive.direction), resizeViewObj, getViewSizeObj, paintViewObj, onViewEventObj, getViewElementRectObj)
+
+        outWidget = [viewArray]
+        size = viewArray.size
+      }
+      else
+        if (directive.outType == 1) {
+          ViewArray_ viewArray = new ViewArray_(directive.outAttr[0].value, [directive.direction & 1, directive.direction & 2 ? 1 : 0], resizeViewString, getViewSizeString, paintViewString, onViewEventString, getViewElementRectString)
 
           outWidget = [viewArray]
           size = viewArray.size
         }
-        else
-          if (directive.outType == 1) {
-            ViewArray_ viewArray = new ViewArray_(directive.outAttr[0].value, [directive.direction & 1, directive.direction & 2 ? 1 : 0], resizeViewString, getViewSizeString, paintViewString, onViewEventString, getViewElementRectString)
+    }
+    else
+      if (directive.outType == 0) {
+        Window_[] window = _refreshViews(directive.outAttr[0].value)
 
-            outWidget = [viewArray]
-            size = viewArray.size
-          }
+        outWidget = window
+        size = window.size() ? /$window[0].size$/ : [0, 0]
       }
       else
-        if (directive.outType == 0) {
-          Window_[] window = _refreshViews(directive.outAttr[0].value)
+        if (directive.outType == 1)
+          size = getTextSize(directive.outAttr[0].value)
 
-          outWidget = window
-          size = window.size() ? /$window[0].size$/ : [0, 0]
-        }
-        else
-          if (directive.outType == 1)
-            size = getTextSize(directive.outAttr[0].value)
+  if (directive.sizeAttr.size())
+    size = i::2 getDirVar(i, directive.sizeAttr[0].value)
 
   for (int ndx = directive.atts.size() - 1; ndx >= 0; ndx--)
     if (isAreaHeritable(directive.atts[ndx].code))

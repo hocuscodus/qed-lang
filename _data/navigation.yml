@@ -37,12 +37,8 @@ tutorial:
   - title: CLASSES
     url: /tutorial/classes/
     children:
-      - title: "Class instantiations"
-        url: /tutorial/instantiations/
-      - title: "Interfaces"
-        url: /tutorial/interfaces/
-      - title: "Private members"
-        url: /tutorial/private-members/
+      - title: "Class instances"
+        url: /tutorial/instances/
       - title: "Class calls"
         url: /tutorial/calls/
       - title: "Event handlers"
@@ -57,10 +53,8 @@ tutorial:
         url: /tutorial/coroutines/
 
   - title: UI BASICS
-    url: /tutorial/qed-ui/
+    url: /tutorial/ui-basics/
     children:
-      - title: "UI elements"
-        url: /tutorial/elements/
       - title: "The \"out\" tag"
         url: /tutorial/out-tag/
       - title: "The \"size\" tag"

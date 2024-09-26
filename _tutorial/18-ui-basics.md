@@ -48,15 +48,19 @@ The good news is, with a handful of tags, you can render all sorts of sophistica
 
 The following steps were what was already specified when a QED application is executed:
 
-* business logic is run
-* pending events are processed
-* event loop is entered to process future system events
+1. run business logic until first class call (or end of main script)
+2. process pending events
+3. enter event loop to wait for any system event
+4. go back to step 2 unless return is called in the main script
+5. application ends with integer return code
 
 The one thing that was kept secret until now is the UI (if any) is generated, from the UI elements, right in between having processed queued events and entering the event loop. So here is the *real* process:
 
-* business logic is run
-* pending events are processed
-* ***New!* If UI elements are defined, UI is generated**
-* event loop is entered to process future system **and UI** events
+1. run business logic until first class call (or end of main script)
+2. process pending events
+3. ***New!* Regenerate UI if UI elements are defined**
+4. enter event loop to wait for any system **or UI** event
+5. go back to step 2 unless return is called in the main script
+6. application ends with integer return code
 
 Whenever the application is about to re-enter the event loop after processing events (UI-based or others), the UI is regenerated to reflect the potential changes.

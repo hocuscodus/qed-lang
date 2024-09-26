@@ -21,12 +21,3 @@ As an aside, nouns are by convention used for class names whereas verbs are used
 {: .notice--info}
 
 You may have plenty of questions at this point already, such as "Why a return type for classes?" All I can tell at this point is, please bear with me, it will all fall into place as you continue reading.
-
-All class members (fields and methods) are declared public. Private members can be embedded a wrapper plain builder function (which first letter is lowercase to not make it a class):
-
-{% include sandboxframe.html qedsrc="tutorial/classes3.qed" gui="0" height="280px" %}
-
-For pure class instantiation, it is better to use the `void` return type when declaring its class, since the object will never return anything. Which leads to a class return type becoming useful... read on.
-{: .notice--info}
-
-We only scratched the surface as to what QED classes can do. We're about to expand their functionality!

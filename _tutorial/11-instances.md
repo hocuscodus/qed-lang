@@ -11,8 +11,6 @@ The well-known `new` operator is used in QED to instantiate objects. The equally
 
 Here the class declaration is the constructor, the `a` parameter and `double` local variable are fields and the nested function `printDouble()` is a method. Upon instantating the class, the `obj` instance contains both fields and the method, reachable by the `.` operator.
 
-QED does not support null instance pointers. Use an explicit array with one or zero element to emulate the null case.
-
 Classes are also first-class citizens.
 
 A class interface can be created like a function interface. It can also be used with the `*` symbol to refer to a class pointer. The class can be instantiated and an instance object (without `*`) is returned.

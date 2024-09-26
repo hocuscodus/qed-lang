@@ -33,6 +33,8 @@ tutorial:
         url: /tutorial/explicit-arrays/
       - title: "Implicit arrays"
         url: /tutorial/implicit-arrays/
+      - title: "Integration with Javascript"
+        url: /tutorial/js-integration/
 
   - title: CLASSES
     url: /tutorial/classes/

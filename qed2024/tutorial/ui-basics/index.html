@@ -10,8 +10,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>Interfaces - The QED Programming Language</title>
-<meta name="description" content="Classes are also first-class citizens.">
+<!-- begin _includes/seo.html --><title>UI basics - The QED Programming Language</title>
+<meta name="description" content="Starting with this section, we’ll explain how to code a UI in QED.">
 
 
   <meta name="author" content="Martin Savage">
@@ -23,20 +23,20 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="The QED Programming Language">
-<meta property="og:title" content="Interfaces">
-<meta property="og:url" content="http://localhost:4000/qed2024/tutorial/interfaces/">
+<meta property="og:title" content="UI basics">
+<meta property="og:url" content="http://localhost:4000/qed2024/tutorial/ui-basics/">
 
 
-  <meta property="og:description" content="Classes are also first-class citizens.">
+  <meta property="og:description" content="Starting with this section, we’ll explain how to code a UI in QED.">
 
 
 
 
 
   <meta name="twitter:site" content="@qedlang">
-  <meta name="twitter:title" content="Interfaces">
-  <meta name="twitter:description" content="Classes are also first-class citizens.">
-  <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/interfaces/">
+  <meta name="twitter:title" content="UI basics">
+  <meta name="twitter:description" content="Starting with this section, we’ll explain how to code a UI in QED.">
+  <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/ui-basics/">
 
   
     <meta name="twitter:card" content="summary">
@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-24T00:31:42+00:00">
+  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
 
 
 
@@ -58,7 +58,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/qed2024/tutorial/interfaces/">
+<link rel="canonical" href="http://localhost:4000/qed2024/tutorial/ui-basics/">
 
 
 
@@ -128,6 +128,12 @@
           <span class="site-subtitle">Simple. Elegant. Powerful.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li><li class="masthead__menu-item">
               <a
                 href="/qed2024/tutorial/qed-basics/"
                 
@@ -212,6 +218,8 @@
             
               <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/js-integration/">Integration with JS</a></li>
+            
           </ul>
           
         </li>
@@ -224,11 +232,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/" class="active">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
+              <li><a href="/qed2024/tutorial/instances/">Class instances</a></li>
             
               <li><a href="/qed2024/tutorial/calls/">Class calls</a></li>
             
@@ -256,13 +260,11 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
+            <a href="/qed2024/tutorial/ui-basics/"><span class="nav__sub-title">UI BASICS</span></a>
           
 
           
           <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/">UI elements</a></li>
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
@@ -329,16 +331,16 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="Interfaces">
-    <meta itemprop="description" content="Classes are also first-class citizens.">
-    <meta itemprop="datePublished" content="2024-09-24T00:31:42+00:00">
+    <meta itemprop="headline" content="UI basics">
+    <meta itemprop="description" content="Starting with this section, we’ll explain how to code a UI in QED.">
+    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title" itemprop="headline">
-            <a href="http://localhost:4000/qed2024/tutorial/interfaces/" itemprop="url">Interfaces
+            <a href="http://localhost:4000/qed2024/tutorial/ui-basics/" itemprop="url">UI basics
 </a>
           </h1>
           
@@ -349,18 +351,67 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>Classes are also first-class citizens.</p>
+        <p>Starting with this section, we’ll explain how to code a UI in QED.</p>
 
-<p>A class interface can be created like a function interface. It can also be used with the <code class="language-plaintext highlighter-rouge">*</code> symbol to refer to a class pointer. The class can be instantiated and an instance object (without <code class="language-plaintext highlighter-rouge">*</code>) is returned.</p>
+<p>QED has a built-in mechanism that greatly facilitates the encoding of user interfaces. To achieve such power, besides the C-like syntax used for business logic, QED implements a different but simple, complementary syntax for UI encoding.</p>
 
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/classes2.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="410px">
-  <p>
-    <a href="/en-US/docs/Glossary">
-      Fallback link for browsers that don't support iframes
-    </a>
-  </p>
-</iframe>
+<p>This alternative syntax, better adapted for UI design, is more akin to markup languages such as HTML so while it is different, it won’t sound like an alien dialect. In fact, it will rather look familiar in many aspects. It works hand in hand with the business logic syntax and the internal event handling system to truly enhance the GUI development process.</p>
 
+<p>Before diving into live examples, let’s define the syntax first.</p>
+
+<p>You can define a user interface at the end of the QED application script.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Main QED script
+
+... classes, functions and business logic script...
+
+// User interface
+&lt;tag: expr; tag: expr;&gt;
+&lt;tag: expr;
+  // child UI elements defined after all tags
+  &lt;tag: expr;&gt;
+  &lt;tag: expr; tag: expr;&gt;
+&gt;
+&lt;tag: expr;&gt;
+</code></pre></div></div>
+
+<p>So after the QED program, there is a list of 0 to n UI elements. A UI element is a list of tag/expression value pairs, delimited by angle brackets (<code class="language-plaintext highlighter-rouge">&lt;&gt;</code>). Each tag/expression value pair consists of a tag identifier, followed by a colon (<code class="language-plaintext highlighter-rouge">:</code>) character, then an expression value associated to the tag, ending with a semicolon separator (<code class="language-plaintext highlighter-rouge">;</code>).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tagName: expressionValue;
+</code></pre></div></div>
+<p>Each UI element may also contain child UI elements, defined as a list located after the tag/expression value pairs and before the parent element closing angle bracket. So a UI element is the following, enclosed under angle brackets.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;tag-value-pair-list child-UI-element-list&gt;
+</code></pre></div></div>
+<p>Both lists may contain 0 element.</p>
+
+<p class="notice--info">There are also extra direction symbols in UI element definition that we’ll see later.</p>
+
+<p>The good news is, with a handful of tags, you can render all sorts of sophisticated user interfaces! But even if they are few, you have to master them to conquer those nifty looks. Let’s review them.</p>
+
+<h2 id="when-is-the-ui-generated-at-runtime">When is the UI generated at runtime?</h2>
+
+<p>The following steps were what was already specified when a QED application is executed:</p>
+
+<ol>
+  <li>run business logic until first class call (or end of main script)</li>
+  <li>process pending events</li>
+  <li>enter event loop to wait for any system event</li>
+  <li>go back to step 2 unless return is called in the main script</li>
+  <li>application ends with integer return code</li>
+</ol>
+
+<p>The one thing that was kept secret until now is the UI (if any) is generated, from the UI elements, right in between having processed queued events and entering the event loop. So here is the <em>real</em> process:</p>
+
+<ol>
+  <li>run business logic until first class call (or end of main script)</li>
+  <li>process pending events</li>
+  <li><strong><em>New!</em> Regenerate UI if UI elements are defined</strong></li>
+  <li>enter event loop to wait for any system <strong>or UI</strong> event</li>
+  <li>go back to step 2 unless return is called in the main script</li>
+  <li>application ends with integer return code</li>
+</ol>
+
+<p>Whenever the application is about to re-enter the event loop after processing events (UI-based or others), the UI is regenerated to reflect the potential changes.</p>
 
         
       </section>
@@ -372,7 +423,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-24T00:31:42+00:00">September 24, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
 
       </footer>
 
@@ -381,11 +432,11 @@
       
   <nav class="pagination">
     
-      <a href="/qed2024/tutorial/instantiations/" class="pagination--pager" title="Class instantiation
+      <a href="/qed2024/tutorial/coroutines/" class="pagination--pager" title="Coroutines
 ">Previous</a>
     
     
-      <a href="/qed2024/tutorial/private-members/" class="pagination--pager" title="Private members
+      <a href="/qed2024/tutorial/out-tag/" class="pagination--pager" title="The out tag
 ">Next</a>
     
   </nav>

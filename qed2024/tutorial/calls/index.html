@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-24T00:31:42+00:00">
+  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
 
 
 
@@ -128,6 +128,12 @@
           <span class="site-subtitle">Simple. Elegant. Powerful.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li><li class="masthead__menu-item">
               <a
                 href="/qed2024/tutorial/qed-basics/"
                 
@@ -212,6 +218,8 @@
             
               <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/js-integration/">Integration with JS</a></li>
+            
           </ul>
           
         </li>
@@ -224,11 +232,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
+              <li><a href="/qed2024/tutorial/instances/">Class instances</a></li>
             
               <li><a href="/qed2024/tutorial/calls/" class="active">Class calls</a></li>
             
@@ -256,13 +260,11 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
+            <a href="/qed2024/tutorial/ui-basics/"><span class="nav__sub-title">UI BASICS</span></a>
           
 
           
           <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/">UI elements</a></li>
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
@@ -331,7 +333,7 @@
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Class Calls">
     <meta itemprop="description" content="Ok, we’re at that point now where QED is parting ways with most other languages. Apart from instantiating objects, there is a second use case for QED classes. Since classes are declared as functions, they could be used like function calls by invoking them without the new operator.">
-    <meta itemprop="datePublished" content="2024-09-24T00:31:42+00:00">
+    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
     
 
     <div class="page__inner-wrap">
@@ -352,6 +354,7 @@
         <p>Ok, we’re at that point now where QED is parting ways with most other languages. Apart from instantiating objects, there is a <strong><em>second</em></strong> use case for QED classes. Since classes are declared as functions, <em>they could be used like function calls</em> by invoking them without the <code class="language-plaintext highlighter-rouge">new</code> operator.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/calls1.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="200px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -361,11 +364,20 @@
 
 <p class="notice--info">I can hear some of you asking “Why?” as plain lowercase-first-letter functions handle calls already. Well, class calls are implemented differently and, above all, <em>do have unique advantages</em>, as we’ll realize soon.</p>
 
-<p>So classes can act like functions for calls but the internal process is different. What happens under the hood is, a temporary internal object is created and executed. Upon reaching the <code class="language-plaintext highlighter-rouge">return</code> call, the execution is stopped and the return value (if the class return type is not <code class="language-plaintext highlighter-rouge">void</code>) is returned to the caller, which resumes its own execution with it.</p>
+<p>So classes can act like functions for calls but the internal process is different. What happens under the hood is:</p>
+
+<ul>
+  <li>a temporary <code class="language-plaintext highlighter-rouge">Double</code> object is created and executed</li>
+  <li>upon reaching the <code class="language-plaintext highlighter-rouge">return</code> call, the execution is stopped</li>
+  <li>the return value (if the class return type is not <code class="language-plaintext highlighter-rouge">void</code>) is returned to the caller</li>
+  <li>the caller resumes its own execution using the return value if provided</li>
+  <li>the temporary <code class="language-plaintext highlighter-rouge">Double</code> object, no longer in use, is silently dismissed.</li>
+</ul>
 
 <p>A corollary of this rule, and a key difference between function and class calls is, if <code class="language-plaintext highlighter-rouge">return</code> is never called during the object execution, the application simply hangs.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/calls2.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="350px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -375,9 +387,10 @@
 
 <p class="notice--warning">While this may first look as a fundamental flaw, it truly is a blessing in disguise, as we’ll see later.</p>
 
-<p>The novelty here is not class calls by themselves, functions do it well. It’s more than classes now have a dual nature and can be invoked both ways in the same code. That brings another caveat, which is how class instantiation deal with return values now present in classes?</p>
+<p>The novelty here is not class calls by themselves, functions do it well. It’s more about classes now having <em>a dual nature</em>, which means the possibility to be invoked with or without <code class="language-plaintext highlighter-rouge">new</code> in the same code. Let’s show it and also present another caveat in the process, which is how class <strong>instances</strong> (not calls) deal with return values now present in classes?</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/calls3.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="200px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -385,7 +398,7 @@
   </p>
 </iframe>
 
-<p>The return value is lost for the object version. Let’s solve it right away…</p>
+<p>The return value is used in the class call but lost in the instantiation. Let’s solve it right away…</p>
 
         
       </section>
@@ -397,7 +410,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-24T00:31:42+00:00">September 24, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
 
       </footer>
 
@@ -406,7 +419,7 @@
       
   <nav class="pagination">
     
-      <a href="/qed2024/tutorial/private-members/" class="pagination--pager" title="Private members
+      <a href="/qed2024/tutorial/instances/" class="pagination--pager" title="Class instances
 ">Previous</a>
     
     

@@ -95,7 +95,14 @@ canvas.onselectstart = function () { return false; }$/
 /$function _bindHandler(obj, handler) {
   obj._HandlerFn_ = handler;
   return obj;
+}
+function _qedCallback(obj, value) {
+  if (obj._HandlerFn_) {
+    obj._HandlerFn_(value);
+    Main_$this.executeEvents_();
+  }
 }$/
+
 int QED_TAG_OUT = 0
 int QED_TAG_SIZE = 1
 int QED_TAG_ID = 2
@@ -356,12 +363,20 @@ void displayText(String text, int x, int y, int width, int height) {
   ctx.fillText(text, x, y)$/
 }
 
+void QedImage() {
+  var img = /$new Image()$/
+}
+int[] getImageSize(QedImage image) {
+/$return [image.img.naturalWidth, image.img.naturalHeight]$/
+}
+void displayImage(QedImage image, int x, int y, int width, int height) {
+/$if (image.img.complete && image.img.naturalWidth > 0)
+  ctx.drawImage(image.img, x, y)$/
+}
+
 bool QedTimer(int timeoutMillis) {
 /$setTimeout(function() {
-    if (QedTimer$this._HandlerFn_) {
-      QedTimer$this._HandlerFn_(true);
-      Main_$this.executeEvents_();
-    }
+    _qedCallback(QedTimer$this, true);
   }, timeoutMillis)$/
 
   void reset() {}
@@ -370,11 +385,7 @@ void Time(voidHandler_ *Func) {
 /$console.time("Time");
   new Func(() => {
     console.timeEnd("Time");
-
-    if (Time$this._HandlerFn_) {
-      Time$this._HandlerFn_();
-      Main_$this.executeEvents_();
-    }
+    _qedCallback(Time$this, null);
   })$/
 }
 void time(voidHandler_ *func) {
@@ -384,18 +395,15 @@ void time(voidHandler_ *func) {
 }
 int QedAnimation() {
 /$requestAnimationFrame((timeStampMs) => {
-    if (QedAnimation$this._HandlerFn_) {
-      QedAnimation$this._HandlerFn_(timeStampMs);
-      Main_$this.executeEvents_();
-    }
+    _qedCallback(QedAnimation$this, timeStampMs);
   })$/
 }
 
-void ButtonContent(bool[] pressed) {<out:"";>}
+void QedButtonContent(bool[] pressed) {<out:"";>}
 
-void GenericButton(ButtonContent *ContentFn) {
+void QedGenericButton(QedButtonContent *ContentFn) {
   bool[] pressed = [false]
-  ButtonContent content = new ContentFn(pressed)
+  QedButtonContent content = new ContentFn(pressed)
 
   <out: content;
    onPress: {pressed[0] = true; _captureFocus();}
@@ -403,17 +411,17 @@ void GenericButton(ButtonContent *ContentFn) {
   >
 }
 
-String LinkButton(String text) {
-  var button = new GenericButton((void L(bool[] pressed) {
+String QedLinkButton(String text) {
+  var button = new QedGenericButton((void L(bool[] pressed) {
     <out: text; opacity: pressed[0] ? 35% : 100%;>
   })) -> return text
 
   <out: button;>
 }
 
-void RectButton(VoidHandler_ *ContentFn) {
+void QedRectButton(VoidHandler_ *ContentFn) {
   VoidHandler_ content = new ContentFn()
-  var button = new GenericButton((void L(bool[] pressed) {
+  var button = new QedGenericButton((void L(bool[] pressed) {
     <out: roundRect;
       <out: rect; opacity: pressed[0] ? 35% : 0%; fillStyle: "black";>
       <out: content;>
@@ -423,11 +431,17 @@ void RectButton(VoidHandler_ *ContentFn) {
   <out: button;>
 }
 
-String TextButton(String text) {
-  var button = new RectButton((void L() {
+String QedTextButton(String text) {
+  String _textStyle = "white"
+  float _textOpacity = 1;
+
+  QedTextButton textStyle(String style) {_textStyle = style; return /$this$/;}
+  QedTextButton textOpacity(float opacity) {_textOpacity = opacity; return /$this$/;}
+
+  var button = new QedRectButton((void L() {
     <\expand: 100%;
       <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
-      <out: text; fillStyle: "white";>
+      <out: text; fillStyle: _textStyle; opacity: _textOpacity;>
       <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
     >
   })) -> return text
@@ -439,11 +453,11 @@ void QEDBaseArray_() {
   int getNumDirs() {return 0;}
   int[] getDirs(int childDir) {return [0, 0];}
   int size() {return 0;}
-  void insert(int[] pos, int[] size) {}
-  void Insert(int[] pos, int[] size) {}
-  void push() {}
-  void Push() {}
-  void pop() {}
+  var insert(int[] pos, int[] size) {}
+  var Insert(int[] pos, int[] size) {}
+  var push() {}
+  var Push() {}
+  var pop() {}
   var get(int[] pos) {}
   void set(int[] pos, var value) {}
   var get(int index) {}
@@ -454,10 +468,10 @@ void QEDBaseArray_() {
 }
 
 var InitFn(int[] pos) {}
+void Qui_(var array, int[] dims) {}
 
-var SQEDArray(int[] limits, InitFn *Init) {
-  /$this.dims = new Array(this.limits.length).fill(0)$/
-  Insert(/$new Array(this.limits.length).fill(0)$/, limits)
+var SQEDArray(InitFn *Init, int numDim, int[] dirs, Qui_ *Ui_) {
+  /$this.dims = new Array(numDim).fill(0)$/
   return /$SQEDArray$this$/
 
   int size() {
@@ -469,11 +483,12 @@ var SQEDArray(int[] limits, InitFn *Init) {
     return s
   }
 
-  void insert(int[] pos, int[] size) {
+  var insert(int[] pos, int[] size) {
     // runtime error
+    return /$null$/
   }
 
-  void Insert(int[] pos, int[] size) {
+  var Insert(int[] pos, int[] size) {
     int[] newSize = /$[...this.size]$/
 
     for (int index = /$SQEDArray$this.dims.length - 1$/; index >= 0; index--)
@@ -481,10 +496,10 @@ var SQEDArray(int[] limits, InitFn *Init) {
 
     InsertLevel(/$SQEDArray$this$/, /$SQEDArray$this.dims$/, pos, size, newSize, /$new Array(this.size.length).fill(0)$/, 0)
     /$SQEDArray$this.dims$/ = newSize
-    return
+    return /$this$/
   }
 
-  void remove(int[] pos, int[] size) {
+  var remove(int[] pos, int[] size) {
     int[] newSize = /$[...SQEDArray$this.dims]$/
 
     for (int index = /$SQEDArray$this.dims.length - 1$/; index >= 0; index--)
@@ -492,7 +507,7 @@ var SQEDArray(int[] limits, InitFn *Init) {
 
     removeLevel(/$SQEDArray$this$/, /$SQEDArray$this.dims$/, pos, size, newSize, /$new Array(size.length).fill(0)$/, 0)
     /$SQEDArray$this.dims$/ = newSize
-    return
+    return /$this$/
   }
 
   void InsertLevel(var array, var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
@@ -543,36 +558,36 @@ var SQEDArray(int[] limits, InitFn *Init) {
     return;
   }
 
-  void push() {
+  var push() {
     // runtime error
+    return /$null$/
   }
 
-  void Push() {
+  var Push() {
     int[] pos = /$new Array(SQEDArray$this.dims.length).fill(0)$/
     int[] size = /$new Array(SQEDArray$this.dims.length).fill(0)$/
 
     pos[0] = /$SQEDArray$this.dims[0]$/
     size[0] = 1
     Insert(pos, size)
-    return
+    return /$this$/
   }
 
-  void pop() {
+  var pop() {
     int[] pos = /$new Array(SQEDArray$this.dims.length).fill(0)$/
     int[] size = /$new Array(SQEDArray$this.dims.length).fill(0)$/
 
     pos[0] = /$SQEDArray$this.dims[0] - 1$/
     size[0] = 1
     remove(pos, size)
-    return
+    return /$this$/
   }
 }
 
 void VInitFn(int[] pos) {}
 
-var VSQEDArray(int[] limits, VInitFn *Init) {
-  /$this.dims = new Array(this.limits.length).fill(0)$/
-  Insert(/$new Array(this.limits.length).fill(0)$/, limits)
+var VSQEDArray(VInitFn *Init, int numDim) {
+  /$this.dims = new Array(numDim).fill(0)$/
   return /$VSQEDArray$this$/
 
   int size() {
@@ -584,11 +599,12 @@ var VSQEDArray(int[] limits, VInitFn *Init) {
     return s
   }
 
-  void insert(int[] pos, int[] size) {
+  var insert(int[] pos, int[] size) {
     // runtime error
+    return /$null$/
   }
 
-  void Insert(int[] pos, int[] size) {
+  var Insert(int[] pos, int[] size) {
     int[] newSize = /$[...this.size]$/
 
     for (int index = /$VSQEDArray$this.dims.length - 1$/; index >= 0; index--)
@@ -596,7 +612,7 @@ var VSQEDArray(int[] limits, VInitFn *Init) {
 
     InsertLevel(/$VSQEDArray$this.dims$/, pos, size, newSize, /$new Array(this.size.length).fill(0)$/, 0)
     /$VSQEDArray$this.dims$/ = newSize
-    return
+    return /$this$/
   }
 
   void InsertLevel(var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
@@ -620,14 +636,12 @@ var VSQEDArray(int[] limits, VInitFn *Init) {
   }
 }
 
-var sInitFn(int[] pos, var _HandlerFn_) {}
-void Qui_(var array, int[] dims) {}
+var sInitFn(int[] pos) {}
 
-var QEDArray(int[] limits, sInitFn *init, int[] dirs, Qui_ *Ui_) {
-  int getNumDirs() {return /$this.limits.length$/;}
+var QEDArray(sInitFn *init, int numDim, int[] dirs, Qui_ *Ui_) {
+  int getNumDirs() {return numDim;}
   int[] getDirs(int childDir) {return dirs;}
-  /$this.dims = new Array(this.limits.length).fill(0)$/
-  insert(/$new Array(this.limits.length).fill(0)$/, limits)
+  /$this.dims = new Array(numDim).fill(0)$/
 
   int size() {
     int s = 1
@@ -638,7 +652,7 @@ var QEDArray(int[] limits, sInitFn *init, int[] dirs, Qui_ *Ui_) {
     return s
   }
 
-  void insert(int[] pos, int[] size) {
+  var insert(int[] pos, int[] size) {
     int[] newSize = /$[...size]$/
 
     for (int index = /$QEDArray$this.dims.length - 1$/; index >= 0; index--)
@@ -646,10 +660,10 @@ var QEDArray(int[] limits, sInitFn *init, int[] dirs, Qui_ *Ui_) {
 
     insertLevel(/$QEDArray$this$/, /$QEDArray$this.dims$/, pos, size, newSize, /$new Array(size.length).fill(0)$/, 0)
     /$QEDArray$this.dims$/ = newSize
-    return
+    return /$this$/
   }
 
-  void remove(int[] pos, int[] size) {
+  var remove(int[] pos, int[] size) {
     int[] newSize = /$[...QEDArray$this.dims]$/
 
     for (int index = /$QEDArray$this.dims.length - 1$/; index >= 0; index--)
@@ -657,7 +671,7 @@ var QEDArray(int[] limits, sInitFn *init, int[] dirs, Qui_ *Ui_) {
 
     removeLevel(/$QEDArray$this$/, /$QEDArray$this.dims$/, pos, size, newSize, /$new Array(size.length).fill(0)$/, 0)
     /$QEDArray$this.dims$/ = newSize
-    return
+    return /$this$/
   }
 
   void insertLevel(var array, var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
@@ -684,10 +698,7 @@ var QEDArray(int[] limits, sInitFn *init, int[] dirs, Qui_ *Ui_) {
 
       for (/$pp[level] = pos[level]$/; /$pp[level] < pos[level] + size[level]$/; /$pp[level]++$/) {
         int index = /$pp[level]$/
-        /$array[pp[level]]$/ = init(pp, (void Lxyz_(var _ret) {
-          /$if (QEDArray$this._HandlerFn_)
-            QEDArray$this._HandlerFn_(index, _ret)$/
-        }))
+        /$array[pp[level]]$/ = init(pp)
       }
     }
     return;
@@ -713,37 +724,35 @@ var QEDArray(int[] limits, sInitFn *init, int[] dirs, Qui_ *Ui_) {
     return;
   }
 
-  void push() {
+  var push() {
     int[] pos = /$new Array(QEDArray$this.dims.length).fill(0)$/
     int[] size = /$new Array(QEDArray$this.dims.length).fill(0)$/
 
     pos[0] = /$QEDArray$this.dims[0]$/
     size[0] = 1
     insert(pos, size)
-    return
+    return /$this$/
   }
 
-  void Push() {
-    push()
-    return
+  var Push() {
+    return push()
   }
 
-  void pop() {
+  var pop() {
     int[] pos = /$new Array(QEDArray$this.dims.length).fill(0)$/
     int[] size = /$new Array(QEDArray$this.dims.length).fill(0)$/
 
     pos[0] = /$QEDArray$this.dims[0] - 1$/
     size[0] = 1
     remove(pos, size)
-    return
+    return /$this$/
   }
 }
 
 void vInitFn(int[] pos) {}
 
-void VQEDArray(int[] limits, vInitFn *init) {
-  /$this.dims = new Array(this.limits.length).fill(0)$/
-  insert(/$new Array(this.limits.length).fill(0)$/, limits)
+void VQEDArray(vInitFn *init, int numDim) {
+  /$this.dims = new Array(numDim).fill(0)$/
 
   int size() {
     int s = 1
@@ -754,7 +763,7 @@ void VQEDArray(int[] limits, vInitFn *init) {
     return s
   }
 
-  void insert(int[] pos, int[] size) {
+  var insert(int[] pos, int[] size) {
     int[] newSize = /$[...size]$/
 
     for (int index = /$VQEDArray$this.dims.length - 1$/; index >= 0; index--)
@@ -762,7 +771,7 @@ void VQEDArray(int[] limits, vInitFn *init) {
 
     insertLevel(/$VQEDArray$this.dims$/, pos, size, newSize, /$new Array(size.length).fill(0)$/, 0)
     /$VQEDArray$this.dims$/ = newSize
-    return
+    return /$this$/
   }
 
   void insertLevel(var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
@@ -782,10 +791,6 @@ void VQEDArray(int[] limits, vInitFn *init) {
 
     return;
   }
-}
-
-VQEDArray vqedArray(int[] limits, vInitFn *init) {
-  return new VQEDArray(limits, init);
 }
 
 /$this.QEDExplicitArray = class QEDExplicitArray extends QEDBasicArray {
@@ -925,6 +930,24 @@ int[] getViewElementRectString(var viewObj, String[] path, int[] index, int posx
   return size
 }
 
+var resizeViewImage(var unit) {
+  return getImageSize(unit)
+}
+int[] getViewSizeImage(var viewObj) {
+  return /$viewObj$/
+}
+void paintViewImage(var unit, var viewObj, int posx, int posy, int sizex, int sizey) {
+  int[] size = /$viewObj$/
+  displayImage(unit, posx, posy, sizex, sizey)
+}
+bool onViewEventImage(var viewObj, int event, int posx, int posy, int sizex, int sizey) {
+  return true// viewObj.onEvent(event, posx, posy, sizex, sizey)
+}
+int[] getViewElementRectImage(var viewObj, String[] path, int[] index, int posx, int posy, int sizex, int sizey, int level, int dLevel) {
+  int[] size = /$viewObj$/
+  return size
+}
+
 void Attr_(int code, var value) {
 }
 
@@ -1001,7 +1024,10 @@ void Directive_(int direction, int outNumDim, int outType, Attr_[] atts, Directi
   }
 
   void refreshSubModel() {
-    changeLevel = max(changeLevel, /$Directive_$this.outAttr[0].value._refreshModels()$/)
+    var subModel = outAttr[0].value
+
+    if (subModel)
+      changeLevel = max(changeLevel, /$subModel._refreshModels()$/)
   }
 }
 
@@ -1019,6 +1045,18 @@ bool isHeritable(int code) {
 
 var potentialFocus
 
+QedImage QedImageLoader(String url) {
+  QedImage image = new QedImage();
+
+/$QedImageLoader$this.image.img.onload = function() {
+    _qedCallback(QedImageLoader$this, QedImageLoader$this.image);
+  };
+  QedImageLoader$this.image.img.onerror = function(event){
+    _qedCallback(QedImageLoader$this, QedImageLoader$this.image);
+  }
+  QedImageLoader$this.image.img.src = url$/
+}
+
 void Widget_(Directive_ directive) {
   int[] group = []
   float[][] expandArray = 2 32 0
@@ -1032,13 +1070,13 @@ void Widget_(Directive_ directive) {
   int[] size = subWidgets.size() ? subWidgets[subWidgets.size() - 1].group : [0, 0]
   var[] outWidget = []
 
-  if (directive.sizeAttr.size())
-    size = i::2 getDirVar(i, directive.sizeAttr[0].value)
-  else
-    if (directive.outType >= 0)
+  if (directive.outType >= 0) {
+    var subModel = directive.outAttr[0].value
+
+    if (subModel)
       if (directive.outNumDim) {
         if (directive.outType == 0) {
-          var[] array = directive.outAttr[0].value
+          var[] array = subModel
           ViewArray_ viewArray = new ViewArray_(array, array.getDirs(directive.direction), resizeViewObj, getViewSizeObj, paintViewObj, onViewEventObj, getViewElementRectObj)
 
           outWidget = [viewArray]
@@ -1046,22 +1084,36 @@ void Widget_(Directive_ directive) {
         }
         else
           if (directive.outType == 1) {
-            ViewArray_ viewArray = new ViewArray_(directive.outAttr[0].value, [directive.direction & 1, directive.direction & 2 ? 1 : 0], resizeViewString, getViewSizeString, paintViewString, onViewEventString, getViewElementRectString)
+            ViewArray_ viewArray = new ViewArray_(subModel, [directive.direction & 1, directive.direction & 2 ? 1 : 0], resizeViewString, getViewSizeString, paintViewString, onViewEventString, getViewElementRectString)
 
             outWidget = [viewArray]
             size = viewArray.size
           }
+          else
+            if (directive.outType == 2) {
+              ViewArray_ viewArray = new ViewArray_(subModel, [directive.direction & 1, directive.direction & 2 ? 1 : 0], resizeViewImage, getViewSizeImage, paintViewImage, onViewEventImage, getViewElementRectImage)
+
+              outWidget = [viewArray]
+              size = viewArray.size
+            }
       }
       else
         if (directive.outType == 0) {
-          Window_[] window = _refreshViews(directive.outAttr[0].value)
+          Window_[] window = _refreshViews(subModel)
 
           outWidget = window
           size = window.size() ? /$window[0].size$/ : [0, 0]
         }
         else
           if (directive.outType == 1)
-            size = getTextSize(directive.outAttr[0].value)
+            size = getTextSize(subModel)
+          else
+            if (directive.outType == 2)
+              size = getImageSize(subModel)
+  }
+
+  if (directive.sizeAttr.size())
+    size = i::2 getDirVar(i, directive.sizeAttr[0].value)
 
   for (int ndx = directive.atts.size() - 1; ndx >= 0; ndx--)
     if (isAreaHeritable(directive.atts[ndx].code))
@@ -1116,11 +1168,12 @@ void Widget_(Directive_ directive) {
     int outType = directive.outType
     int subSize = subWidgets.size()
 
-    if (directive.outAttr.size())
+    if (directive.outAttr.size() && directive.outAttr[0].value)
       if (directive.outNumDim) {
         ViewArray_ viewArray = outWidget[0]
 
-        viewArray.paint(pos0, pos1, size0, size1);
+        if (viewArray)
+          viewArray.paint(pos0, pos1, size0, size1);
       }
       else
         if (outType == 0) {
@@ -1131,11 +1184,14 @@ void Widget_(Directive_ directive) {
         else
           if (outType == 1)
             displayText(directive.outAttr[0].value, pos0, pos1, size0, size1)
-          else {
-            drawFn *fn = directive.outAttr[0].value
+          else
+            if (outType == 2)
+              displayImage(directive.outAttr[0].value, pos0, pos1, size0, size1)
+            else {
+              drawFn *fn = directive.outAttr[0].value
 
-            fn(pos0, pos1, size0, size1)
-          }
+              fn(pos0, pos1, size0, size1)
+            }
 
     if (subSize) {
       int[] extraSpace = getExtraSpace([size0, size1])
@@ -1144,9 +1200,13 @@ void Widget_(Directive_ directive) {
         saveContext()
 
       for (int index = 0; index < subSize; index++) {
-        int[] rect = getChildArea(index, size0, size1, extraSpace)
+        Widget_ sub = subWidgets[index]
 
-        subWidgets[index].paint(pos0 + rect[0], pos1 + rect[1], rect[2], rect[3]);
+        if (/$sub && sub.size$/) {
+          int[] rect = getChildArea(index, size0, size1, extraSpace)
+
+          subWidgets[index].paint(pos0 + rect[0], pos1 + rect[1], rect[2], rect[3]);
+        }
       }
 
       if (!directive.outNumDim && outType >= 1)
@@ -1179,17 +1239,21 @@ void Widget_(Directive_ directive) {
         bool parse = true;
 
         for (int index = subSize - 1; !flag && parse && index >= 0; index--) {
-          int[] rect = getChildArea(index, size[0], size[1], extraSpace)
+          Widget_ sub = subWidgets[index]
 
-          flag = subWidgets[index].onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
+          if (/$sub && sub.size$/) {
+            int[] rect = getChildArea(index, size[0], size[1], extraSpace)
 
-          if (!flag && index && directive.direction) {
-            bool inRect = true
+            flag = sub.onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
 
-            for (int dir = 0; inRect && dir < 2; dir++)
-              inRect = location[dir] >= rect[dir] && location[dir] < rect[dir] + rect[2 + dir]
+            if (!flag && index && directive.direction) {
+              bool inRect = true
 
-            parse = !inRect
+              for (int dir = 0; inRect && dir < 2; dir++)
+                inRect = location[dir] >= rect[dir] && location[dir] < rect[dir] + rect[2 + dir]
+
+              parse = !inRect
+            }
           }
         }
       }
@@ -1256,11 +1320,15 @@ void Widget_(Directive_ directive) {
       int[] extraSpace = getExtraSpace([size0, size1])
 
       for (int ndx = 0; ndx < subSize; ndx++) {
-        int[] rect = getChildArea(ndx, size[0], size[1], extraSpace)
-        int[] bounds = subWidgets[ndx].getBoundsRect(path, index, pos0 + rect[0], pos1 + rect[1], rect[2], rect[3], level, dLevel)
+        Widget_ sub = subWidgets[ndx]
 
-        if (bounds.size())
-          return bounds
+        if (/$sub && sub.size$/) {
+          int[] rect = getChildArea(ndx, size[0], size[1], extraSpace)
+          int[] bounds = sub.getBoundsRect(path, index, pos0 + rect[0], pos1 + rect[1], rect[2], rect[3], level, dLevel)
+
+          if (bounds.size())
+            return bounds
+        }
       }
     }
 
@@ -1406,7 +1474,7 @@ void Window_(Directive_[] ui, Window_[] dialog) {
   for (int index = 0; index < widgets.size(); index++) {
     Widget_ sub = widgets[index]
 
-    if (/$sub != null && sub.size$/ && hasAreas(sub.directive)) {
+    if (/$sub && sub.size$/ && hasAreas(sub.directive)) {
       int[] previousSize = previous.size() ? previous[0].group : [0, 0]
 
       sub.group = dir::2 max(previousSize[dir], sub.size[dir])
@@ -1421,9 +1489,13 @@ void Window_(Directive_[] ui, Window_[] dialog) {
 
   void paint(int pos0, int pos1, int size0, int size1) {
     for (int index = 0; index < widgets.size(); index++) {
-      int[] rect = getChildArea2(widgets, 0, index, pos0, pos1, size0, size1, /$null$/)
+      Widget_ sub = widgets[index]
 
-      widgets[index].paint(rect[0], rect[1], rect[2], rect[3])
+      if (/$sub && sub.size$/) {
+        int[] rect = getChildArea2(widgets, 0, index, pos0, pos1, size0, size1, /$null$/)
+
+        sub.paint(rect[0], rect[1], rect[2], rect[3])
+      }
     }
 
     if (dialog.size())
@@ -1437,9 +1509,13 @@ void Window_(Directive_[] ui, Window_[] dialog) {
       flag = dialog[0].onEvent(event, location, size);
     else
       for (int index = widgets.size() - 1; !flag && index >= 0; index--) {
-        int[] rect = getChildArea2(widgets, 0, index, 0, 0, size[0], size[1], /$null$/)
+        Widget_ sub = widgets[index]
 
-        flag = widgets[index].onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
+        if (/$sub && sub.size$/) {
+          int[] rect = getChildArea2(widgets, 0, index, 0, 0, size[0], size[1], /$null$/)
+
+          flag = sub.onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
+        }
       }
 
     return flag
@@ -1447,11 +1523,15 @@ void Window_(Directive_[] ui, Window_[] dialog) {
 
   int[] getBoundsRect(String[] path, int[] index, int pos0, int pos1, int size0, int size1, int level, int dLevel) {
     for (int ndx = 0; ndx < widgets.size(); ndx++) {
-      int[] rect = getChildArea2(widgets, 0, ndx, pos0, pos1, size0, size1, /$null$/)
-      int[] bounds = widgets[ndx].getBoundsRect(path, index, rect[0], rect[1], rect[2], rect[3], level, dLevel)
+      Widget_ sub = widgets[index]
 
-      if (bounds.size())
-        return bounds;
+      if (/$sub && sub.size$/) {
+        int[] rect = getChildArea2(widgets, 0, ndx, pos0, pos1, size0, size1, /$null$/)
+        int[] bounds = sub.getBoundsRect(path, index, rect[0], rect[1], rect[2], rect[3], level, dLevel)
+
+        if (bounds.size())
+          return bounds;
+      }
     }
 
     return dialog.size() ? dialog[0].getBoundsRect(path, index, pos0, pos1, size0, size1, level, dLevel) : []

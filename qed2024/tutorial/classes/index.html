@@ -11,7 +11,7 @@
     <meta charset="utf-8">
 
 <!-- begin _includes/seo.html --><title>Classes - The QED Programming Language</title>
-<meta name="description" content="QED has classes just like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Their functionality is expanded in some nifty way, as we’ll see in this section.">
+<meta name="description" content="QED has classes like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Also, their functionality is expanded in some nifty way, as we’ll see in this the rest of this tutorial.">
 
 
   <meta name="author" content="Martin Savage">
@@ -27,7 +27,7 @@
 <meta property="og:url" content="http://localhost:4000/qed2024/tutorial/classes/">
 
 
-  <meta property="og:description" content="QED has classes just like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Their functionality is expanded in some nifty way, as we’ll see in this section.">
+  <meta property="og:description" content="QED has classes like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Also, their functionality is expanded in some nifty way, as we’ll see in this the rest of this tutorial.">
 
 
 
@@ -35,7 +35,7 @@
 
   <meta name="twitter:site" content="@qedlang">
   <meta name="twitter:title" content="Classes">
-  <meta name="twitter:description" content="QED has classes just like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Their functionality is expanded in some nifty way, as we’ll see in this section.">
+  <meta name="twitter:description" content="QED has classes like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Also, their functionality is expanded in some nifty way, as we’ll see in this the rest of this tutorial.">
   <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/classes/">
 
   
@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-24T00:31:42+00:00">
+  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
 
 
 
@@ -128,6 +128,12 @@
           <span class="site-subtitle">Simple. Elegant. Powerful.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li><li class="masthead__menu-item">
               <a
                 href="/qed2024/tutorial/qed-basics/"
                 
@@ -212,6 +218,8 @@
             
               <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/js-integration/">Integration with JS</a></li>
+            
           </ul>
           
         </li>
@@ -224,11 +232,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
+              <li><a href="/qed2024/tutorial/instances/">Class instances</a></li>
             
               <li><a href="/qed2024/tutorial/calls/">Class calls</a></li>
             
@@ -256,13 +260,11 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
+            <a href="/qed2024/tutorial/ui-basics/"><span class="nav__sub-title">UI BASICS</span></a>
           
 
           
           <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/">UI elements</a></li>
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
@@ -330,8 +332,8 @@
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Classes">
-    <meta itemprop="description" content="QED has classes just like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Their functionality is expanded in some nifty way, as we’ll see in this section.">
-    <meta itemprop="datePublished" content="2024-09-24T00:31:42+00:00">
+    <meta itemprop="description" content="QED has classes like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Also, their functionality is expanded in some nifty way, as we’ll see in this the rest of this tutorial.">
+    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
     
 
     <div class="page__inner-wrap">
@@ -349,11 +351,22 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>QED has classes just like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Their functionality is expanded in some nifty way, as we’ll see in this section.</p>
+        <p>QED has classes like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Also, their functionality is expanded in some nifty way, as we’ll see in this the rest of this tutorial.</p>
 
-<p>There is no reserved keyword (like <code class="language-plaintext highlighter-rouge">class</code>) to declare a QED class. Classes in QED are defined just like functions, with a return type, a name and a set of parameters, using the same syntax. So how does QED differentiate them from plain functions? By looking at the first letter; if the first letter is uppercase, we define a class. If lowercase, as specified before, we declare a function. As an aside, nouns are by convention used for classes whereas verbs are used for plain function names (of course, QED does not check this).</p>
+<p>There is no reserved keyword such as <code class="language-plaintext highlighter-rouge">class</code> to declare a QED class. Classes in QED are defined the same way functions are, with a return type, a name and a set of parameters, using the same syntax. So how does QED differentiate them from plain functions? By looking at the first letter of their name; if it is uppercase, we define a class. If lowercase, as specified before, we declare a function.</p>
 
-<p class="notice--info">You may have plenty of questions at this point already, such as “Why a return type for classes?” Please bear with me and continue reading, it will all fall into place.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int myFunction(String arg1) {
+  /* code */
+}
+
+int MyClass(String arg1) {
+  /* code */
+}
+</code></pre></div></div>
+
+<p class="notice--info">As an aside, nouns are by convention used for class names whereas verbs are used for plain function names (of course, QED does not check this).</p>
+
+<p>You may have plenty of questions at this point already, such as “Why a return type for classes?” All I can tell at this point is, please bear with me, it will all fall into place as you continue reading.</p>
 
         
       </section>
@@ -365,7 +378,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-24T00:31:42+00:00">September 24, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
 
       </footer>
 
@@ -374,11 +387,11 @@
       
   <nav class="pagination">
     
-      <a href="/qed2024/tutorial/implicit-arrays/" class="pagination--pager" title="Implicit arrays
+      <a href="/qed2024/tutorial/js-integration/" class="pagination--pager" title="Integration with Javascript
 ">Previous</a>
     
     
-      <a href="/qed2024/tutorial/instantiations/" class="pagination--pager" title="Class instantiation
+      <a href="/qed2024/tutorial/instances/" class="pagination--pager" title="Class instances
 ">Next</a>
     
   </nav>

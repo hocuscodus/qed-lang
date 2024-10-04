@@ -66,7 +66,7 @@ var store = [{
         "teaser": null
       },{
         "title": "QED Basics",
-        "excerpt":"This section describes the basic syntax of the QED language to the encode business logic. If you really want to jump straight to the gist of QED, you may very well skip to the far end of this section. Just bear in mind that QED syntax is mostly inspired by...","categories": [],
+        "excerpt":"This section describes the basic syntax of the QED language to the encode business logic. If you really want to jump straight to the gist of QED, you may very well skip to the far end of this section. Suffice it to say that QED syntax is mostly inspired by...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/qed-basics/",
         "teaser": null
@@ -78,7 +78,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Statements",
-        "excerpt":"Statements in QED are delimited by a newline character or by a semicolon (which allows multiple statements to share one line). Fallback link for browsers that don't support iframes Depending on your preference, you may add one or more semicolons at the end of a line without any adverse effect....","categories": [],
+        "excerpt":"Statements in QED are delimited by a newline character or by a semicolon (which allows multiple statements to share one line). allow=\"autoplay\" Fallback link for browsers that don't support iframes Depending on your preference, you may add one or more semicolons at the end of a line without any adverse...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/statements/",
         "teaser": null
@@ -90,61 +90,55 @@ var store = [{
         "teaser": null
       },{
         "title": "Control statements and blocks",
-        "excerpt":"The usual if-else, while, for control keywords are available in QED. Fallback link for browsers that don't support iframes As in C or Java, braces {} are used to delimit multiple-line blocks. There is no need for a set of braces when a block consists of a single statement. Also,...","categories": [],
+        "excerpt":"The usual if-else, while, for control keywords are available in QED. allow=\"autoplay\" Fallback link for browsers that don't support iframes As in C or Java, braces {} are used to delimit multiple-line blocks. There is no need for a set of braces when a block consists of a single statement....","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/control/",
         "teaser": null
       },{
         "title": "Functions",
-        "excerpt":"Again, functions are defined the same way as in C. type name(type parm1, type parm2, ...) { &lt;body&gt; } Unlike C though, nested functions are allowed and closures are fully supported. Fallback link for browsers that don't support iframes Functions are first-class citizens in QED. Functions types can be defined...","categories": [],
+        "excerpt":"Again, functions are defined the same way as in C. type name(type parm1, type parm2, ...) { &lt;body&gt; } Unlike C though, nested functions are allowed and closures are fully supported. allow=\"autoplay\" Fallback link for browsers that don't support iframes Functions are first-class citizens in QED. Functions types can be...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/functions/",
         "teaser": null
       },{
         "title": "Explicit arrays",
-        "excerpt":"Explicit arrays are arrays where elements are defined at initialization, within a pair of brackets after the declaration type ([]). The same bracket operator is used to access individual elements. The size() member function, accessible with the . operator, returns the size of the array. Fallback link for browsers that...","categories": [],
+        "excerpt":"Explicit arrays are arrays where elements are defined at initialization, within a pair of brackets after the declaration type ([]). The same bracket operator is used to access individual elements. The size() member function, accessible with the . operator, returns the size of the array. allow=\"autoplay\" Fallback link for browsers...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/explicit-arrays/",
         "teaser": null
       },{
         "title": "Implicit arrays",
-        "excerpt":"We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an array operator. Consider the following: Fallback link for browsers that don't support iframes As you see in the implicit array 5...","categories": [],
+        "excerpt":"We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an array operator. Consider the following: allow=\"autoplay\" Fallback link for browsers that don't support iframes As you see in the example, the...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/implicit-arrays/",
         "teaser": null
       },{
+        "title": "Integration with Javascript",
+        "excerpt":"QED alone would not do much if it could not tap on the huge Javascript libraries. Therefore, it must fully integrate with JS. In any QED code, whatever is under the JS delimiters /$ and $/ is interpreted as embedded JS code and is left untouched in the compiled JS...","categories": [],
+        "tags": [],
+        "url": "/qed2024/tutorial/js-integration/",
+        "teaser": null
+      },{
         "title": "Classes",
-        "excerpt":"QED has classes just like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Their functionality is expanded in some nifty way, as we’ll see in this section. There is no reserved keyword (like class) to declare a QED...","categories": [],
+        "excerpt":"QED has classes like many other languages so why aren’t they part of the basic stuff? First, the way they are defined is different. Also, their functionality is expanded in some nifty way, as we’ll see in this the rest of this tutorial. There is no reserved keyword such as...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/classes/",
         "teaser": null
       },{
-        "title": "Class instantiation",
-        "excerpt":"Classes are of course used to instantiate new objects comprising fields and methods. The well-known new operator is used in QED to instantiate objects. The equally popular . operator allows access to fields and methods. Fallback link for browsers that don't support iframes Here the class declaration is the constructor,...","categories": [],
+        "title": "Class instances",
+        "excerpt":"Classes are of course used to instantiate new objects comprising fields and methods. The well-known new operator is used in QED to instantiate objects. The equally popular . operator allows access to fields and methods. allow=\"autoplay\" Fallback link for browsers that don't support iframes Here the class declaration is the...","categories": [],
         "tags": [],
-        "url": "/qed2024/tutorial/instantiations/",
-        "teaser": null
-      },{
-        "title": "Interfaces",
-        "excerpt":"Classes are also first-class citizens. A class interface can be created like a function interface. It can also be used with the * symbol to refer to a class pointer. The class can be instantiated and an instance object (without *) is returned. Fallback link for browsers that don't support...","categories": [],
-        "tags": [],
-        "url": "/qed2024/tutorial/interfaces/",
-        "teaser": null
-      },{
-        "title": "Private members",
-        "excerpt":"All class members (fields and methods) are declared public. Private members can be embedded a wrapper plain builder function (which first letter is lowercase to not make it a class): Fallback link for browsers that don't support iframes For pure class instantiation, it is better to use the void return...","categories": [],
-        "tags": [],
-        "url": "/qed2024/tutorial/private-members/",
+        "url": "/qed2024/tutorial/instances/",
         "teaser": null
       },{
         "title": "Class Calls",
-        "excerpt":"Ok, we’re at that point now where QED is parting ways with most other languages. Apart from instantiating objects, there is a second use case for QED classes. Since classes are declared as functions, they could be used like function calls by invoking them without the new operator. Fallback link...","categories": [],
+        "excerpt":"Ok, we’re at that point now where QED is parting ways with most other languages. Apart from instantiating objects, there is a second use case for QED classes. Since classes are declared as functions, they could be used like function calls by invoking them without the new operator. allow=\"autoplay\" Fallback...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/calls/",
         "teaser": null
       },{
         "title": "Event Handlers",
-        "excerpt":"To handle return statements in class instantiation, the -&gt; operator can be used to link a class instance with a handler expression (or block). In the handler, the internal _ret parameter holds the return value and is always defined using the right type (taken from the class declaration type). Fallback...","categories": [],
+        "excerpt":"To handle return statements in class instantiation, the -&gt; operator can be used to link a class instance with a handler expression (or block). In the handler, the internal _ret parameter holds the return value and is always defined using the right type (taken from the class declaration type). allow=\"autoplay\"...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/event-handlers/",
         "teaser": null
@@ -170,17 +164,11 @@ var store = [{
         "title": "UI basics",
         "excerpt":"Starting with this section, we’ll explain how to code a UI in QED. QED has a built-in mechanism that greatly facilitates the encoding of user interfaces. To achieve such power, besides the C-like syntax used for business logic, QED implements a different but simple, complementary syntax for UI encoding. This...","categories": [],
         "tags": [],
-        "url": "/qed2024/tutorial/qed-ui/",
-        "teaser": null
-      },{
-        "title": "UI elements",
-        "excerpt":"Before diving into live examples, let’s define the syntax first. You can define a user interface at the end of the QED application script. // Main QED script ... classes, functions and business logic script... // User interface &lt;tag: expr; tag: expr;&gt; &lt;tag: expr; // child UI elements defined after...","categories": [],
-        "tags": [],
-        "url": "/qed2024/tutorial/elements/",
+        "url": "/qed2024/tutorial/ui-basics/",
         "teaser": null
       },{
         "title": "The `out` tag",
-        "excerpt":"The out tag is fundamental because it outputs all UI elements. Fallback link for browsers that don't support iframes The expression value can be any valid expression and may use business logic variable within its scope. Fallback link for browsers that don't support iframes Try changing the num variable before...","categories": [],
+        "excerpt":"The out tag is fundamental because it outputs all UI elements. allow=\"autoplay\" Fallback link for browsers that don't support iframes The expression value can be any valid expression and may use business logic variable within its scope. allow=\"autoplay\" Fallback link for browsers that don't support iframes Try changing the num...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/out-tag/",
         "teaser": null
@@ -234,7 +222,7 @@ var store = [{
         "teaser": null
       },{
         "title": "Components",
-        "excerpt":"Ok, we just defined a button component with UI elements. Let’s put it back here as a refresher. Fallback link for browsers that don't support iframes This is a good start for a very simple UI but building a complex one would generate a lot of boilerplate code if we...","categories": [],
+        "excerpt":"Ok, we just defined a button component with UI elements. Let’s put it back here as a refresher. allow=\"autoplay\" Fallback link for browsers that don't support iframes This is a good start for a very simple UI but building a complex one would generate a lot of boilerplate code if...","categories": [],
         "tags": [],
         "url": "/qed2024/tutorial/components/",
         "teaser": null
@@ -252,8 +240,11 @@ var store = [{
         "teaser": null
       },{
     "title": "Demos",
-    "excerpt":"Some demos for now, page will improve.   Increment-decrement buttons                  Fallback link for browsers that don't support iframes            Bouncing balls                  Fallback link for browsers that don't support iframes            Taco hotel                  Fallback link for browsers that don't support iframes            ","url": "http://localhost:4000/qed2024/demos/"
+    "excerpt":"Some demos for now, page will improve.   Increment-decrement buttons      allow=\"autoplay\"               Fallback link for browsers that don't support iframes            Bouncing balls      allow=\"autoplay\"               Fallback link for browsers that don't support iframes            Taco hotel      allow=\"autoplay\"               Fallback link for browsers that don't support iframes            ","url": "http://localhost:4000/qed2024/demos/"
   },{
     "title": "Download",
-    "excerpt":"The QED compiler is not ready yet for download. We’re striving for it though. Please check this page from time to time for updates.   In the meantime, here is a sandbox component where you can paste simple code to test.                  Fallback link for browsers that don't support iframes            ","url": "http://localhost:4000/qed2024/download/"
+    "excerpt":"The QED compiler is not ready yet for download. We’re striving for it though. Please check this page from time to time for updates.   In the meantime, here is a sandbox component where you can paste simple code to test.      allow=\"autoplay\"               Fallback link for browsers that don't support iframes            ","url": "http://localhost:4000/qed2024/download/"
+  },{
+    "title": "QED FAQ",
+    "excerpt":"What is QED QED is a programming language primarily aimed at developing web applications. It sits on top of Javascript for developing the GUI related parts in shorter, clearer code than JS. From the QED source code, the QED compiler generates the equivalent JS code so your application can be...","url": "http://localhost:4000/qed2024/faq/"
   }]

@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-24T00:31:42+00:00">
+  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
 
 
 
@@ -128,6 +128,12 @@
           <span class="site-subtitle">Simple. Elegant. Powerful.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li><li class="masthead__menu-item">
               <a
                 href="/qed2024/tutorial/qed-basics/"
                 
@@ -212,6 +218,8 @@
             
               <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/js-integration/">Integration with JS</a></li>
+            
           </ul>
           
         </li>
@@ -224,11 +232,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
+              <li><a href="/qed2024/tutorial/instances/">Class instances</a></li>
             
               <li><a href="/qed2024/tutorial/calls/">Class calls</a></li>
             
@@ -256,13 +260,11 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
+            <a href="/qed2024/tutorial/ui-basics/"><span class="nav__sub-title">UI BASICS</span></a>
           
 
           
           <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/">UI elements</a></li>
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
@@ -331,7 +333,7 @@
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Async classes">
     <meta itemprop="description" content="QED has native functions such as println() but also has native classes too. Most of these classes are of asynchronous nature.">
-    <meta itemprop="datePublished" content="2024-09-24T00:31:42+00:00">
+    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
     
 
     <div class="page__inner-wrap">
@@ -356,6 +358,7 @@
 <p>The <code class="language-plaintext highlighter-rouge">QedTimer</code> class can be instantiated. Upon return the event handler if any will be invoked.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async1.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="110px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -368,6 +371,7 @@
 <p>Like any QED class, it can be invoked as a call as well.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async2.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="110px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -378,6 +382,7 @@
 <p>While waiting, any incoming event is still processed. Let’s extend the wait to two seconds for the call. Before making this call though, let’s create a <code class="language-plaintext highlighter-rouge">QedTimer</code> instance that lasts one second. The event handler of the <code class="language-plaintext highlighter-rouge">QedTimer</code> object will be invoked <em>during</em> the wait of the <code class="language-plaintext highlighter-rouge">QedTimer</code> call.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async3.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="110px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -392,6 +397,7 @@
 <p>Invoking many async classes as instances will make them run concurrently. To spawn a number of similar async class instances - let’s call them tasks from now on, it is best to use an implicit array. Let’s start 10 random timers that last up to five seconds.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async4.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="110px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -404,6 +410,7 @@
 <p>This works but directly using a native async class is limited output-wise. To achieve a more effective result, define a custom wrapper class on top of a <code class="language-plaintext highlighter-rouge">QedTimer</code> <em>call</em>. Embedding at least one async class into wrapper <em>as a call</em> makes it asynchronous too! Let’s rewrite the previous example with such a wrapper async class to provide a much better output.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async5.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="140px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -416,6 +423,7 @@
 <p>Let’s say you want to pick the first timer result and cancel the others. To do so, wrap your multiple timer logic into a <code class="language-plaintext highlighter-rouge">GetFirstResult</code> class and use <code class="language-plaintext highlighter-rouge">return</code> in the timer event handler. A <code class="language-plaintext highlighter-rouge">GetFirstResult</code> class call would then return upon the first <code class="language-plaintext highlighter-rouge">QedTimer</code> handling. Upon return, all other timers will be automatically cancelled.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async6.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="230px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -426,6 +434,7 @@
 <p>A more common scenario is to do continue processing after finishing a set of async tasks. To achieve it requires another native class, <code class="language-plaintext highlighter-rouge">QedWaitValues</code>. A call to this class, with an array of new async instances in parameter, will return upon completion of all instances. Its return value is another array, containing the returned values of the instances.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async7.qed&amp;code=67&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="230px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -434,6 +443,18 @@
 </iframe>
 
 <p class="notice--info">Never forget to call <code class="language-plaintext highlighter-rouge">return</code> in your wrapper classes else invoking them as calls will suspend forever at the end of their execution.</p>
+
+<p>If you have a custom asynchronous JS method and want to wrap it into an async class (which can then become a blocking call in QED code), you have to use embedded JS code where the callback calls the inner <code class="language-plaintext highlighter-rouge">_qedCallback(&lt;className&gt;$this, &lt;returnValue&gt;)</code> QED functions to send the returned value (<code class="language-plaintext highlighter-rouge">null</code> if <code class="language-plaintext highlighter-rouge">void</code>) for the QED class object and resume execution. For instance, let’s create a <code class="language-plaintext highlighter-rouge">Sound</code> QED class on top of the native JS <code class="language-plaintext highlighter-rouge">Audio.play</code> call with the <code class="language-plaintext highlighter-rouge">onEnded</code> handler that will resume the QED code execution.</p>
+
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/async8.qed&amp;code=60&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="320px">
+  allow="autoplay"
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
 
         
       </section>
@@ -445,7 +466,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-24T00:31:42+00:00">September 24, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
 
       </footer>
 

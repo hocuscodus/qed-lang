@@ -1,0 +1,10 @@
+void MyClass(int n) {
+  int getDouble() {
+    // embedded JS implementation
+    return /$MyClass$this.n * 2$/
+  }
+}
+
+MyClass obj= new MyClass(7)
+
+println("double of 7 = " + new obj.getDouble())

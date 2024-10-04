@@ -1,9 +1,9 @@
 int popupCount = 1
 
 void Popup(String title, String question, String exitLabel, int margin) {
-  var yesButton = new TextButton("Yes") ->
+  var yesButton = new QedTextButton("Yes") ->
     Popup("Popup " + popupCount++, "One more?", "No", max(margin - 10, 0))
-  var noButton = new TextButton(exitLabel) -> return
+  var noButton = new QedTextButton(exitLabel) -> return
 
   <out: rect; fillStyle: "black"; opacity: 40%;> // black veil behind
   <|out: roundRect; fillStyle: "#E0E0E0"; radius: 9; align: 50%;

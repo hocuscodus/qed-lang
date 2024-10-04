@@ -1,6 +1,6 @@
 String Wrapper(int id, int millis) {
   QedTimer(millis)
-  return "QedTimer " + id + ": " +
+  return "Timer " + id + ": " +
      /$Math.floor(millis)$/ + "ms."
 }
 

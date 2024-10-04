@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-24T00:31:42+00:00">
+  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
 
 
 
@@ -128,6 +128,12 @@
           <span class="site-subtitle">Simple. Elegant. Powerful.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li><li class="masthead__menu-item">
               <a
                 href="/qed2024/tutorial/qed-basics/"
                 
@@ -212,6 +218,8 @@
             
               <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/js-integration/">Integration with JS</a></li>
+            
           </ul>
           
         </li>
@@ -224,11 +232,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
+              <li><a href="/qed2024/tutorial/instances/">Class instances</a></li>
             
               <li><a href="/qed2024/tutorial/calls/">Class calls</a></li>
             
@@ -256,13 +260,11 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
+            <a href="/qed2024/tutorial/ui-basics/"><span class="nav__sub-title">UI BASICS</span></a>
           
 
           
           <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/">UI elements</a></li>
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
@@ -331,7 +333,7 @@
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Explicit arrays">
     <meta itemprop="description" content="Explicit arrays are arrays where elements are defined at initialization, within a pair of brackets after the declaration type ([]). The same bracket operator is used to access individual elements. The size() member function, accessible with the . operator, returns the size of the array.">
-    <meta itemprop="datePublished" content="2024-09-24T00:31:42+00:00">
+    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
     
 
     <div class="page__inner-wrap">
@@ -351,7 +353,8 @@
         
         <p>Explicit arrays are arrays where elements are defined at initialization, within a pair of brackets after the declaration type (<code class="language-plaintext highlighter-rouge">[]</code>). The same bracket operator is used to access individual elements. The size() member function, accessible with the <code class="language-plaintext highlighter-rouge">.</code> operator, returns the size of the array.</p>
 
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/explicit1.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="230px">
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/explicit1.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="100px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -359,19 +362,10 @@
   </p>
 </iframe>
 
-<div class="notice--success">
-<h4 id="the-next-steps">The next steps</h4>
+<p>QED does not support null pointers, as per <a href="https://en.wikipedia.org/wiki/Null_pointer#:~:text=In%202009%2C,last%20forty%20years.">good practice recommendations</a>. I might implement in QED helper keywords such as <code class="language-plaintext highlighter-rouge">None</code> and <code class="language-plaintext highlighter-rouge">Some</code> someday but in the meantime, you may use an explicit array with one or zero element to emulate the null case.</p>
 
-<p>Based on what we’ve seen, we almost have a full-fledged language. Even if types are not defined at this point in the tutorial, closures can be used to emulate them. But QED can do much more, as we’ll see next with new constructs and ultimately, GUI support. We’re now at the moment QED begins to drift away from other languages.</p>
-</div>
-
-<!--
-This will be a tutorial...
-
-<iframe
-  src="/qed2024/sandbox/sandbox.html?file=tutorial/taco.qed&code=50&gui=80"
-  style="border:1px solid #000; margin:0; padding:0"
-  width="100%" height="300px">
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/explicit2.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="340px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -379,21 +373,6 @@ This will be a tutorial...
   </p>
 </iframe>
 
-
-Another example...
-
-<iframe
-  src="/qed2024/sandbox/sandbox.html?file=tutorial/bouncingballs.qed&code=70&gui=70&run=t"
-  style="border:1px solid #000; margin:0; padding:0"
-  width="100%" height="300px">
-  <p>
-    <a href="/en-US/docs/Glossary">
-      Fallback link for browsers that don't support iframes
-    </a>
-  </p>
-</iframe>
-
--->
 
         
       </section>
@@ -405,7 +384,7 @@ Another example...
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-24T00:31:42+00:00">September 24, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
 
       </footer>
 

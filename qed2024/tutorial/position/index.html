@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-24T00:31:42+00:00">
+  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
 
 
 
@@ -128,6 +128,12 @@
           <span class="site-subtitle">Simple. Elegant. Powerful.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li><li class="masthead__menu-item">
               <a
                 href="/qed2024/tutorial/qed-basics/"
                 
@@ -212,6 +218,8 @@
             
               <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/js-integration/">Integration with JS</a></li>
+            
           </ul>
           
         </li>
@@ -224,11 +232,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
+              <li><a href="/qed2024/tutorial/instances/">Class instances</a></li>
             
               <li><a href="/qed2024/tutorial/calls/">Class calls</a></li>
             
@@ -256,13 +260,11 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
+            <a href="/qed2024/tutorial/ui-basics/"><span class="nav__sub-title">UI BASICS</span></a>
           
 
           
           <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/">UI elements</a></li>
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
@@ -331,7 +333,7 @@
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="The “pos” tag">
     <meta itemprop="description" content="The pos tag specifies, in pixels, the position of the UI element. This is different from the align tag, which indicates the alignment of the element (from top-left 0 to bottom-right 100%). The pos tag allows you to specify the precise position of the UI element, in pixels. In this example, a 20x20 green square is located in position (20, 10) over a larger red square, using the pos tag.">
-    <meta itemprop="datePublished" content="2024-09-24T00:31:42+00:00">
+    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
     
 
     <div class="page__inner-wrap">
@@ -352,6 +354,7 @@
         <p>The <code class="language-plaintext highlighter-rouge">pos</code> tag specifies, <strong>in pixels</strong>, the position of the UI element. This is different from the <code class="language-plaintext highlighter-rouge">align</code> tag, which indicates the alignment of the element (from top-left 0 to bottom-right 100%). The <code class="language-plaintext highlighter-rouge">pos</code> tag allows you to specify the precise position of the UI element, in pixels. In this example, a 20x20 green square is located in position (20, 10) over a larger red square, using the <code class="language-plaintext highlighter-rouge">pos</code> tag.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/pos1.qed&amp;code=65&amp;gui=100" style="border:1px solid #000; margin:0; padding:0" width="100%" height="115px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -364,6 +367,7 @@
 <p>Another possibility with pixel-based movement is fine scrolling though. In the example below, the drawStripes function is a UI render function that uses Javascript to draw stripes. It is used in the last defined UI element at the end of the code, along with the <code class="language-plaintext highlighter-rouge">pos</code> tag which vertical value repeatedly goes down from 0 to -200 (because of the while loop calling the <code class="language-plaintext highlighter-rouge">QedAnimation</code> class). This value is applied to the <code class="language-plaintext highlighter-rouge">y</code> parameter of the <code class="language-plaintext highlighter-rouge">drawStripes</code> function call and redraws the same image from a different offset causing the infinite scrolling illusion.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/pos2.qed&amp;code=75&amp;gui=100" style="border:1px solid #000; margin:0; padding:0" width="100%" height="460px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -378,6 +382,7 @@
 <p>Using both tags is therefore practical in many cases to avoid boilerplate, cryptic calculations and rather let he QED layout algorithm take care of it. For instance, in the 150x150 dice example below, I want the horizontal margins for the 35x35 dots to be 20 pixels wide, and the vertical margins to be 10 pixels high. Positioning those dots using a blend of <code class="language-plaintext highlighter-rouge">align</code> and <code class="language-plaintext highlighter-rouge">pos</code> values is ideal. For instance, the bottom-right dot uses <code class="language-plaintext highlighter-rouge">align: 100%;</code> to specify the bottom-right location, but the <code class="language-plaintext highlighter-rouge">pos: [-20, -10];</code> moves the location 20 pixels left and 10 pixels up to set up the desired margins (much clearer than using <code class="language-plaintext highlighter-rouge">pos: [150 - 35 - 20, 150 - 35 - 10];</code> without using the <code class="language-plaintext highlighter-rouge">align</code> tag). The other dots use a similar strategy to easily encode their positioning.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/pos3.qed&amp;code=70&amp;gui=100" style="border:1px solid #000; margin:0; padding:0" width="100%" height="200px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -396,7 +401,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-24T00:31:42+00:00">September 24, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
 
       </footer>
 

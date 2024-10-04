@@ -10,8 +10,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>UI elements - The QED Programming Language</title>
-<meta name="description" content="Before diving into live examples, let’s define the syntax first.">
+<!-- begin _includes/seo.html --><title>Integration with Javascript - The QED Programming Language</title>
+<meta name="description" content="QED alone would not do much if it could not tap on the huge Javascript libraries. Therefore, it must fully integrate with JS.">
 
 
   <meta name="author" content="Martin Savage">
@@ -23,20 +23,20 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="The QED Programming Language">
-<meta property="og:title" content="UI elements">
-<meta property="og:url" content="http://localhost:4000/qed2024/tutorial/elements/">
+<meta property="og:title" content="Integration with Javascript">
+<meta property="og:url" content="http://localhost:4000/qed2024/tutorial/js-integration/">
 
 
-  <meta property="og:description" content="Before diving into live examples, let’s define the syntax first.">
+  <meta property="og:description" content="QED alone would not do much if it could not tap on the huge Javascript libraries. Therefore, it must fully integrate with JS.">
 
 
 
 
 
   <meta name="twitter:site" content="@qedlang">
-  <meta name="twitter:title" content="UI elements">
-  <meta name="twitter:description" content="Before diving into live examples, let’s define the syntax first.">
-  <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/elements/">
+  <meta name="twitter:title" content="Integration with Javascript">
+  <meta name="twitter:description" content="QED alone would not do much if it could not tap on the huge Javascript libraries. Therefore, it must fully integrate with JS.">
+  <meta name="twitter:url" content="http://localhost:4000/qed2024/tutorial/js-integration/">
 
   
     <meta name="twitter:card" content="summary">
@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-24T00:31:42+00:00">
+  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
 
 
 
@@ -58,7 +58,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/qed2024/tutorial/elements/">
+<link rel="canonical" href="http://localhost:4000/qed2024/tutorial/js-integration/">
 
 
 
@@ -128,6 +128,12 @@
           <span class="site-subtitle">Simple. Elegant. Powerful.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li><li class="masthead__menu-item">
               <a
                 href="/qed2024/tutorial/qed-basics/"
                 
@@ -212,6 +218,8 @@
             
               <li><a href="/qed2024/tutorial/implicit-arrays/">Implicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/js-integration/" class="active">Integration with JS</a></li>
+            
           </ul>
           
         </li>
@@ -224,11 +232,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
+              <li><a href="/qed2024/tutorial/instances/">Class instances</a></li>
             
               <li><a href="/qed2024/tutorial/calls/">Class calls</a></li>
             
@@ -256,13 +260,11 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
+            <a href="/qed2024/tutorial/ui-basics/"><span class="nav__sub-title">UI BASICS</span></a>
           
 
           
           <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/" class="active">UI elements</a></li>
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
@@ -329,16 +331,16 @@
 
 
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="UI elements">
-    <meta itemprop="description" content="Before diving into live examples, let’s define the syntax first.">
-    <meta itemprop="datePublished" content="2024-09-24T00:31:42+00:00">
+    <meta itemprop="headline" content="Integration with Javascript">
+    <meta itemprop="description" content="QED alone would not do much if it could not tap on the huge Javascript libraries. Therefore, it must fully integrate with JS.">
+    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
     
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title" itemprop="headline">
-            <a href="http://localhost:4000/qed2024/tutorial/elements/" itemprop="url">UI elements
+            <a href="http://localhost:4000/qed2024/tutorial/js-integration/" itemprop="url">Integration with Javascript
 </a>
           </h1>
           
@@ -349,57 +351,39 @@
 
       <section class="page__content" itemprop="text">
         
-        <p>Before diving into live examples, let’s define the syntax first.</p>
+        <p>QED alone would not do much if it could not tap on the huge Javascript libraries. Therefore, it must fully integrate with JS.</p>
 
-<p>You can define a user interface at the end of the QED application script.</p>
+<p>In any QED code, whatever is under the JS delimiters <code class="language-plaintext highlighter-rouge">/$</code> and <code class="language-plaintext highlighter-rouge">$/</code> is interpreted as embedded JS code and is left untouched in the compiled JS code.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// Main QED script
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/embedded-js1.qed&amp;code=50&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="100">
+  allow="autoplay"
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
 
-... classes, functions and business logic script...
+<p class="notice--info">That may of course lead to errors when running the JS code, undetected by the QED compiler. You will have to debug the full JS code from the integrated browser debugger to find out and correct the problems.</p>
 
-// User interface
-&lt;tag: expr; tag: expr;&gt;
-&lt;tag: expr;
-  // child UI elements defined after all tags
-  &lt;tag: expr;&gt;
-  &lt;tag: expr; tag: expr;&gt;
-&gt;
-&lt;tag: expr;&gt;
-</code></pre></div></div>
+<p>Integrating JS code is mostly useful in QED wrapper functions. The <code class="language-plaintext highlighter-rouge">println</code> function that we’ve used a lot in this tutorial, along with the most popular basic math functions are already integrated in the QED library for convenience.</p>
 
-<p>So after the QED program, there is a list of 0 to n UI elements. A UI element is a list of tag/expression value pairs, delimited by angle brackets (<code class="language-plaintext highlighter-rouge">&lt;&gt;</code>). Each tag/expression value pair consists of a tag identifier, followed by a colon (<code class="language-plaintext highlighter-rouge">:</code>) character, then an expression value associated to the tag, ending with a semicolon separator (<code class="language-plaintext highlighter-rouge">;</code>).</p>
+<p>You are free to implement your own wrappers for non integrated JS functions. For instance, if you want the hypothenuse <code class="language-plaintext highlighter-rouge">c</code> of a right-angled triangle having sides <code class="language-plaintext highlighter-rouge">a</code> and <code class="language-plaintext highlighter-rouge">b</code>, you may use the JS <code class="language-plaintext highlighter-rouge">Math.hypot</code> function. Wrap it under a QED hypothenuse function like this.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tagName: expressionValue;
-</code></pre></div></div>
-<p>Each UI element may also contain child UI elements, defined as a list located after the tag/expression value pairs and before the parent element closing angle bracket. So a UI element is the following, enclosed under angle brackets.</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;tag-value-pair-list child-UI-element-list&gt;
-</code></pre></div></div>
-<p>Both lists may contain 0 element.</p>
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/embedded-js2.qed&amp;code=53&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="220">
+  allow="autoplay"
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
 
-<p class="notice--info">There are also extra direction symbols in UI element definition that we’ll see later.</p>
+<p>Of course, if you have developed your own JS libraries, you can create QED wrappers for their calls using that same method and use them in QED afterwards.</p>
 
-<p>The good news is, with a handful of tags, you can render all sorts of sophisticated user interfaces! But even if they are few, you have to master them to conquer those nifty looks. Let’s review them.</p>
+<p class="notice--warning">It is best to encode embedded JS into global QED wrappers. It might not work under nested QED functions, as the QED compiler may do name mangling on their names when generating JS code and you would have to check the compiled code to retrieve the mangled names.</p>
 
-<h2 id="when-is-the-ui-generated-at-runtime">When is the UI generated at runtime?</h2>
-
-<p>The following steps were what was already specified when a QED application is executed:</p>
-
-<ul>
-  <li>business logic is run</li>
-  <li>pending events are processed</li>
-  <li>event loop is entered to process future system events</li>
-</ul>
-
-<p>The one thing that was kept secret until now is the UI (if any) is generated, from the UI elements, right in between having processed queued events and entering the event loop. So here is the <em>real</em> process:</p>
-
-<ul>
-  <li>business logic is run</li>
-  <li>pending events are processed</li>
-  <li><strong><em>New!</em> If UI elements are defined, UI is generated</strong></li>
-  <li>event loop is entered to process future system <strong>and UI</strong> events</li>
-</ul>
-
-<p>Whenever the application is about to re-enter the event loop after processing events (UI-based or others), the UI is regenerated to reflect the potential changes.</p>
+<p class="notice--info">There are some extra details I have to give for JS integration, when used in QED classes and to wrap asynchronous JS functions. Read on if you’re curious.</p>
 
         
       </section>
@@ -411,7 +395,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-24T00:31:42+00:00">September 24, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
 
       </footer>
 
@@ -420,11 +404,11 @@
       
   <nav class="pagination">
     
-      <a href="/qed2024/tutorial/qed-ui/" class="pagination--pager" title="UI basics
+      <a href="/qed2024/tutorial/implicit-arrays/" class="pagination--pager" title="Implicit arrays
 ">Previous</a>
     
     
-      <a href="/qed2024/tutorial/out-tag/" class="pagination--pager" title="The out tag
+      <a href="/qed2024/tutorial/classes/" class="pagination--pager" title="Classes
 ">Next</a>
     
   </nav>

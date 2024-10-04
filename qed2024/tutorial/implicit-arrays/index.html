@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-09-24T00:31:42+00:00">
+  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
 
 
 
@@ -128,6 +128,12 @@
           <span class="site-subtitle">Simple. Elegant. Powerful.</span>
         </a>
         <ul class="visible-links"><li class="masthead__menu-item">
+              <a
+                href="/qed2024/faq/"
+                
+                
+              >FAQ</a>
+            </li><li class="masthead__menu-item">
               <a
                 href="/qed2024/tutorial/qed-basics/"
                 
@@ -212,6 +218,8 @@
             
               <li><a href="/qed2024/tutorial/implicit-arrays/" class="active">Implicit arrays</a></li>
             
+              <li><a href="/qed2024/tutorial/js-integration/">Integration with JS</a></li>
+            
           </ul>
           
         </li>
@@ -224,11 +232,7 @@
           
           <ul>
             
-              <li><a href="/qed2024/tutorial/instantiations/">Class instantiations</a></li>
-            
-              <li><a href="/qed2024/tutorial/interfaces/">Interfaces</a></li>
-            
-              <li><a href="/qed2024/tutorial/private-members/">Private members</a></li>
+              <li><a href="/qed2024/tutorial/instances/">Class instances</a></li>
             
               <li><a href="/qed2024/tutorial/calls/">Class calls</a></li>
             
@@ -256,13 +260,11 @@
       
         <li>
           
-            <a href="/qed2024/tutorial/qed-ui/"><span class="nav__sub-title">UI BASICS</span></a>
+            <a href="/qed2024/tutorial/ui-basics/"><span class="nav__sub-title">UI BASICS</span></a>
           
 
           
           <ul>
-            
-              <li><a href="/qed2024/tutorial/elements/">UI elements</a></li>
             
               <li><a href="/qed2024/tutorial/out-tag/">The "out" tag</a></li>
             
@@ -331,7 +333,7 @@
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Implicit arrays">
     <meta itemprop="description" content="We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an array operator. Consider the following:">
-    <meta itemprop="datePublished" content="2024-09-24T00:31:42+00:00">
+    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
     
 
     <div class="page__inner-wrap">
@@ -351,7 +353,8 @@
         
         <p>We have explained what explicit arrays were but there is another way to declare an array. In a QED expression, the spacing separator (set of spaces/tabs) is considered an <strong>array operator</strong>. Consider the following:</p>
 
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit1.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="120px">
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit1.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="145px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -359,9 +362,12 @@
   </p>
 </iframe>
 
-<p>As you see in the implicit array <code class="language-plaintext highlighter-rouge">5 0</code>, the left expression <code class="language-plaintext highlighter-rouge">5</code> is the array count and the right expression <code class="language-plaintext highlighter-rouge">0</code> is the array element initializer expression. You can prefix the array count expression by an index name, followed by <code class="language-plaintext highlighter-rouge">::</code> to define an array index for this expression, then use it in the element expression.</p>
+<p>As you see in the example, the implicit array <code class="language-plaintext highlighter-rouge">5 0</code> literally means “five zeroes” and the <code class="language-plaintext highlighter-rouge">3 "Hello"</code> means “three Hello strings”. The left expression is the array size and the right expression is the element initializer.</p>
+
+<p>You can prefix the first expression by the symbol <code class="language-plaintext highlighter-rouge">::</code> to better specify it is an array size and potentially improve readability. If you want, prior to the <code class="language-plaintext highlighter-rouge">::</code> symbol, you may define an array index for this expression. Use it in the element expression to modify the initialization value for each element.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit2.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="180px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -369,13 +375,12 @@
   </p>
 </iframe>
 
-<p class="notice--info">The implicit array spacing operator has the highest precedence, hence initializer expressions which are not unary must be within parentheses.</p>
-
-<p class="notice--info">An index expression prefixed by <code class="language-plaintext highlighter-rouge">::</code> without an index name is fine too, and may be more readable in some circumstances.</p>
+<p class="notice--info">The spacing operator that separates expressions in the implicit array has the highest precedence, hence all its expressions (size and element initializer), if not unary, must be within parentheses.</p>
 
 <p>You can also define multiple dimensions by using more than one array count expressions. The rightmost expression will always be the element expression.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit3.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="120px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -383,9 +388,10 @@
   </p>
 </iframe>
 
-<p>The return type of the array expression is an array of elements. If the element expression type is void (or the element expression is a block using braces <code class="language-plaintext highlighter-rouge">{}</code>), there is no return type, that is, it acts like a <code class="language-plaintext highlighter-rouge">for</code> loop and cannot be stored in a variable.</p>
+<p>The return type of the array expression is an array of element types (int, float, …). If the element type is void (that includes a block of expressions delimited by braces <code class="language-plaintext highlighter-rouge">{}</code>), there is no return type, that is, it acts like a <code class="language-plaintext highlighter-rouge">for</code> loop and cannot be stored in a variable.</p>
 
 <iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit4.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="230px">
+  allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
       Fallback link for browsers that don't support iframes
@@ -393,9 +399,20 @@
   </p>
 </iframe>
 
-<p>A cool thing with implicit arrays is they support postfix <code class="language-plaintext highlighter-rouge">++</code> and <code class="language-plaintext highlighter-rouge">--</code>, which dynamically add one more element or remove the last element. This is used in the “Bouncing balls” demo from the demo page to dynamically add or remove balls on the display.</p>
+<p>A cool thing with implicit arrays is they support postfix <code class="language-plaintext highlighter-rouge">++</code> and <code class="language-plaintext highlighter-rouge">--</code>, which dynamically add one more element or remove the last element.</p>
 
-<p class="notice--info">Implicit arrays will become very useful for arrays of class instances, as we’ll see soon.</p>
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/implicit5.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="150px">
+  allow="autoplay"
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>
+
+<p class="notice--info">This is used in the “Bouncing balls” app from the demo page to dynamically add or remove balls on the display.</p>
+
+<p class="notice--info">Implicit arrays will become very useful for arrays of class instances, as we’ll see soon. From now on, we will use them in many examples so it is good to get familiar with them.</p>
 
         
       </section>
@@ -407,7 +424,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-09-24T00:31:42+00:00">September 24, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
 
       </footer>
 
@@ -420,7 +437,7 @@
 ">Previous</a>
     
     
-      <a href="/qed2024/tutorial/classes/" class="pagination--pager" title="Classes
+      <a href="/qed2024/tutorial/js-integration/" class="pagination--pager" title="Integration with Javascript
 ">Next</a>
     
   </nav>

@@ -1,9 +1,9 @@
-QedYield cancelHandler
+QedYield[] interruptCount = []
 
-bool CountToTen() {
-  cancelHandler = new QedYield() -> return false
+bool Count10() {
+  interruptCount[0] = new QedYield() -> return false
 
-  for (int count = 0; count < 10; count++) {
+  count::10 {
     QedTimer(1000)
     println("" + (count + 1))
   }
@@ -11,6 +11,6 @@ bool CountToTen() {
   return true;
 }
 
-new QedTimer(5500) -> qedResume(cancelHandler)
+new QedTimer(5500) -> qedResume(interruptCount[0])
 println("Starting count up to 10")
-println("Count " + (CountToTen() ? "done" : "cancelled."))
+println("Count " + (Count10() ? "done" : "interrupted."))

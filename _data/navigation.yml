@@ -1,5 +1,7 @@
 # main links
 main:
+  - title: "FAQ"
+    url: /faq/
   - title: "Tutorial"
     url: /tutorial/qed-basics/
   - title: "Demos"
@@ -33,7 +35,7 @@ tutorial:
         url: /tutorial/explicit-arrays/
       - title: "Implicit arrays"
         url: /tutorial/implicit-arrays/
-      - title: "Integration with Javascript"
+      - title: "Integration with JS"
         url: /tutorial/js-integration/
 
   - title: CLASSES

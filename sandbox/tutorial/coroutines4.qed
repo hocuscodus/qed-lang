@@ -3,7 +3,7 @@ QedYield cancelHandler
 bool CountToTen() {
   cancelHandler = new QedYield() -> return false
 
-  for (int count = 0; count < 10; count++) {
+  count::10 {
     QedTimer(1000)
     println("" + (count + 1))
   }

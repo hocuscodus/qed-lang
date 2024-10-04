@@ -1,0 +1,2 @@
+println("Printout from QED")
+/$console.log("Printout from JS");$/

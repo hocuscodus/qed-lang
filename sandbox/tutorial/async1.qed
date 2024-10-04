@@ -1,4 +1,4 @@
 // A QedTimer object
 println("Invoking QedTimer")
-new QedTimer(1000) -> println("QedTimer ended after a second")
+new QedTimer(1000) -> println("Timer ended after a second")
 println("Program done")

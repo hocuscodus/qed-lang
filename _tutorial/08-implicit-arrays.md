@@ -26,10 +26,10 @@ The return type of the array expression is an array of element types (int, float
 
 A cool thing with implicit arrays is they support postfix `++` and `--`, which dynamically add one more element or remove the last element.
 
-{% include sandboxframe.html qedsrc="tutorial/implicit5.qed" gui="0" height="230px" %}
+{% include sandboxframe.html qedsrc="tutorial/implicit5.qed" gui="0" height="150px" %}
 
 This is used in the "Bouncing balls" app from the demo page to dynamically add or remove balls on the display.
 {: .notice--info}
 
-Implicit arrays will become very useful for arrays of class instances, as we'll see soon.
+Implicit arrays will become very useful for arrays of class instances, as we'll see soon. From now on, we will use them in many examples so it is good to get familiar with them.
 {: .notice--info}

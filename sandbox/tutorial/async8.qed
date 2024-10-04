@@ -1,0 +1,19 @@
+void Play(String file) {
+  /$const audioElement = new Audio(Play$this.file);
+
+  audioElement.onended = (event) => {
+    if (Play$this._HandlerFn_) {
+      Play$this._HandlerFn_(null);
+      Main_$this.executeEvents_();
+    }
+  };
+
+  audioElement.play()$/
+}
+
+println("Play blocking sound...")
+Play("old-church-bell.mp3")
+println("Done playing sound.")
+println("Replay it asynchronously.")
+new Play("old-church-bell.mp3")
+println("Program ended")

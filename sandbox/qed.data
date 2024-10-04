@@ -95,7 +95,14 @@ canvas.onselectstart = function () { return false; }$/
 /$function _bindHandler(obj, handler) {
   obj._HandlerFn_ = handler;
   return obj;
+}
+function _qedCallback(obj, value) {
+  if (obj._HandlerFn_) {
+    obj._HandlerFn_(value);
+    Main_$this.executeEvents_();
+  }
 }$/
+
 int QED_TAG_OUT = 0
 int QED_TAG_SIZE = 1
 int QED_TAG_ID = 2
@@ -369,10 +376,7 @@ void displayImage(QedImage image, int x, int y, int width, int height) {
 
 bool QedTimer(int timeoutMillis) {
 /$setTimeout(function() {
-    if (QedTimer$this._HandlerFn_) {
-      QedTimer$this._HandlerFn_(true);
-      Main_$this.executeEvents_();
-    }
+    _qedCallback(QedTimer$this, true);
   }, timeoutMillis)$/
 
   void reset() {}
@@ -381,11 +385,7 @@ void Time(voidHandler_ *Func) {
 /$console.time("Time");
   new Func(() => {
     console.timeEnd("Time");
-
-    if (Time$this._HandlerFn_) {
-      Time$this._HandlerFn_();
-      Main_$this.executeEvents_();
-    }
+    _qedCallback(Time$this, null);
   })$/
 }
 void time(voidHandler_ *func) {
@@ -395,10 +395,7 @@ void time(voidHandler_ *func) {
 }
 int QedAnimation() {
 /$requestAnimationFrame((timeStampMs) => {
-    if (QedAnimation$this._HandlerFn_) {
-      QedAnimation$this._HandlerFn_(timeStampMs);
-      Main_$this.executeEvents_();
-    }
+    _qedCallback(QedAnimation$this, timeStampMs);
   })$/
 }
 
@@ -1052,14 +1049,10 @@ QedImage QedImageLoader(String url) {
   QedImage image = new QedImage();
 
 /$QedImageLoader$this.image.img.onload = function() {
-    if (QedImageLoader$this._HandlerFn_) {
-      QedImageLoader$this._HandlerFn_(QedImageLoader$this.image);
-      Main_$this.executeEvents_();
-    }
+    _qedCallback(QedImageLoader$this, QedImageLoader$this.image);
   };
   QedImageLoader$this.image.img.onerror = function(event){
-      QedImageLoader$this._HandlerFn_(QedImageLoader$this.image);
-      Main_$this.executeEvents_();
+    _qedCallback(QedImageLoader$this, QedImageLoader$this.image);
   }
   QedImageLoader$this.image.img.src = url$/
 }
@@ -1179,7 +1172,8 @@ void Widget_(Directive_ directive) {
       if (directive.outNumDim) {
         ViewArray_ viewArray = outWidget[0]
 
-        viewArray.paint(pos0, pos1, size0, size1);
+        if (viewArray)
+          viewArray.paint(pos0, pos1, size0, size1);
       }
       else
         if (outType == 0) {
@@ -1206,9 +1200,13 @@ void Widget_(Directive_ directive) {
         saveContext()
 
       for (int index = 0; index < subSize; index++) {
-        int[] rect = getChildArea(index, size0, size1, extraSpace)
+        Widget_ sub = subWidgets[index]
 
-        subWidgets[index].paint(pos0 + rect[0], pos1 + rect[1], rect[2], rect[3]);
+        if (/$sub && sub.size$/) {
+          int[] rect = getChildArea(index, size0, size1, extraSpace)
+
+          subWidgets[index].paint(pos0 + rect[0], pos1 + rect[1], rect[2], rect[3]);
+        }
       }
 
       if (!directive.outNumDim && outType >= 1)
@@ -1241,17 +1239,21 @@ void Widget_(Directive_ directive) {
         bool parse = true;
 
         for (int index = subSize - 1; !flag && parse && index >= 0; index--) {
-          int[] rect = getChildArea(index, size[0], size[1], extraSpace)
+          Widget_ sub = subWidgets[index]
 
-          flag = subWidgets[index].onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
+          if (/$sub && sub.size$/) {
+            int[] rect = getChildArea(index, size[0], size[1], extraSpace)
 
-          if (!flag && index && directive.direction) {
-            bool inRect = true
+            flag = sub.onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
 
-            for (int dir = 0; inRect && dir < 2; dir++)
-              inRect = location[dir] >= rect[dir] && location[dir] < rect[dir] + rect[2 + dir]
+            if (!flag && index && directive.direction) {
+              bool inRect = true
 
-            parse = !inRect
+              for (int dir = 0; inRect && dir < 2; dir++)
+                inRect = location[dir] >= rect[dir] && location[dir] < rect[dir] + rect[2 + dir]
+
+              parse = !inRect
+            }
           }
         }
       }
@@ -1318,11 +1320,15 @@ void Widget_(Directive_ directive) {
       int[] extraSpace = getExtraSpace([size0, size1])
 
       for (int ndx = 0; ndx < subSize; ndx++) {
-        int[] rect = getChildArea(ndx, size[0], size[1], extraSpace)
-        int[] bounds = subWidgets[ndx].getBoundsRect(path, index, pos0 + rect[0], pos1 + rect[1], rect[2], rect[3], level, dLevel)
+        Widget_ sub = subWidgets[ndx]
 
-        if (bounds.size())
-          return bounds
+        if (/$sub && sub.size$/) {
+          int[] rect = getChildArea(ndx, size[0], size[1], extraSpace)
+          int[] bounds = sub.getBoundsRect(path, index, pos0 + rect[0], pos1 + rect[1], rect[2], rect[3], level, dLevel)
+
+          if (bounds.size())
+            return bounds
+        }
       }
     }
 
@@ -1468,7 +1474,7 @@ void Window_(Directive_[] ui, Window_[] dialog) {
   for (int index = 0; index < widgets.size(); index++) {
     Widget_ sub = widgets[index]
 
-    if (/$sub != null && sub.size$/ && hasAreas(sub.directive)) {
+    if (/$sub && sub.size$/ && hasAreas(sub.directive)) {
       int[] previousSize = previous.size() ? previous[0].group : [0, 0]
 
       sub.group = dir::2 max(previousSize[dir], sub.size[dir])
@@ -1483,9 +1489,13 @@ void Window_(Directive_[] ui, Window_[] dialog) {
 
   void paint(int pos0, int pos1, int size0, int size1) {
     for (int index = 0; index < widgets.size(); index++) {
-      int[] rect = getChildArea2(widgets, 0, index, pos0, pos1, size0, size1, /$null$/)
+      Widget_ sub = widgets[index]
 
-      widgets[index].paint(rect[0], rect[1], rect[2], rect[3])
+      if (/$sub && sub.size$/) {
+        int[] rect = getChildArea2(widgets, 0, index, pos0, pos1, size0, size1, /$null$/)
+
+        sub.paint(rect[0], rect[1], rect[2], rect[3])
+      }
     }
 
     if (dialog.size())
@@ -1499,9 +1509,13 @@ void Window_(Directive_[] ui, Window_[] dialog) {
       flag = dialog[0].onEvent(event, location, size);
     else
       for (int index = widgets.size() - 1; !flag && index >= 0; index--) {
-        int[] rect = getChildArea2(widgets, 0, index, 0, 0, size[0], size[1], /$null$/)
+        Widget_ sub = widgets[index]
 
-        flag = widgets[index].onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
+        if (/$sub && sub.size$/) {
+          int[] rect = getChildArea2(widgets, 0, index, 0, 0, size[0], size[1], /$null$/)
+
+          flag = sub.onEvent(event, [location[0] - rect[0], location[1] - rect[1]], [rect[2], rect[3]])
+        }
       }
 
     return flag
@@ -1509,11 +1523,15 @@ void Window_(Directive_[] ui, Window_[] dialog) {
 
   int[] getBoundsRect(String[] path, int[] index, int pos0, int pos1, int size0, int size1, int level, int dLevel) {
     for (int ndx = 0; ndx < widgets.size(); ndx++) {
-      int[] rect = getChildArea2(widgets, 0, ndx, pos0, pos1, size0, size1, /$null$/)
-      int[] bounds = widgets[ndx].getBoundsRect(path, index, rect[0], rect[1], rect[2], rect[3], level, dLevel)
+      Widget_ sub = widgets[index]
 
-      if (bounds.size())
-        return bounds;
+      if (/$sub && sub.size$/) {
+        int[] rect = getChildArea2(widgets, 0, ndx, pos0, pos1, size0, size1, /$null$/)
+        int[] bounds = sub.getBoundsRect(path, index, rect[0], rect[1], rect[2], rect[3], level, dLevel)
+
+        if (bounds.size())
+          return bounds;
+      }
     }
 
     return dialog.size() ? dialog[0].getBoundsRect(path, index, pos0, pos1, size0, size1, level, dLevel) : []

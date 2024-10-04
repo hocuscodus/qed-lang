@@ -52,6 +52,6 @@ A more common scenario is to do continue processing after finishing a set of asy
 Never forget to call `return` in your wrapper classes else invoking them as calls will suspend forever at the end of their execution.
 {: .notice--info}
 
-If you have a custom asynchronous JS method and want to wrap it into an async class (which can then become a blocking call in QED code), you have to use embedded JS code where the callback calls the inner `<className>$this._HandlerFn(<returnValue>)` followed by `Main_$this.executeEvents_()` QED functions to send the returned value (`null` if `void` QED class) and resume execution. For instance, let's do it on the native JS `Audio.play` call with the `onEnded` handler that will call the QED code to resume execution.
+If you have a custom asynchronous JS method and want to wrap it into an async class (which can then become a blocking call in QED code), you have to use embedded JS code where the callback calls the inner `_qedCallback(<className>$this, <returnValue>)` QED functions to send the returned value (`null` if `void`) for the QED class object and resume execution. For instance, let's create a `Sound` QED class on top of the native JS `Audio.play` call with the `onEnded` handler that will resume the QED code execution.
 
 {% include sandboxframe.html qedsrc="tutorial/async8.qed" code="60" gui="0" height="320px" %}

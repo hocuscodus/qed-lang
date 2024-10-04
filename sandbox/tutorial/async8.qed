@@ -1,19 +1,17 @@
-void Play(String file) {
-  /$const audioElement = new Audio(Play$this.file);
+void Sound(String file) {
+  /$const audio = new Audio(Sound$this.file);
 
-  audioElement.onended = (event) => {
-    if (Play$this._HandlerFn_) {
-      Play$this._HandlerFn_(null);
-      Main_$this.executeEvents_();
-    }
+  audio.onended = (event) => {
+    _qedCallback(Sound$this, null);
   };
 
-  audioElement.play()$/
+  audio.play()$/
 }
 
-println("Play blocking sound...")
-Play("old-church-bell.mp3")
+println("Play audio with blocking call.")
+Sound("old-church-bell.mp3")
 println("Done playing sound.")
 println("Replay it asynchronously.")
-new Play("old-church-bell.mp3")
+new Sound("old-church-bell.mp3") ->
+  println("Async sound ended.")
 println("Program ended")

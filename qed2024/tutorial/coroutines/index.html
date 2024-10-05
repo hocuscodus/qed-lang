@@ -47,7 +47,7 @@
 
 
 
-  <meta property="article:published_time" content="2024-10-04T21:31:19+00:00">
+  <meta property="article:published_time" content="2024-10-05T13:45:11+00:00">
 
 
 
@@ -333,7 +333,7 @@
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <meta itemprop="headline" content="Coroutines">
     <meta itemprop="description" content="QED has no thread support but rather implements coroutines in the form of async classes where you define suspension points.">
-    <meta itemprop="datePublished" content="2024-10-04T21:31:19+00:00">
+    <meta itemprop="datePublished" content="2024-10-05T13:45:11+00:00">
     
 
     <div class="page__inner-wrap">
@@ -392,7 +392,7 @@
 
 <p>Since <code class="language-plaintext highlighter-rouge">QedYield</code> is a class, should it be instantiated with <code class="language-plaintext highlighter-rouge">new</code>? So far we only used <code class="language-plaintext highlighter-rouge">QedYield</code> calls, right? Yet there are some use cases where <code class="language-plaintext highlighter-rouge">new QedYield()</code> is very useful. For instance, imagine you are invoking a class having potentially lengthy async calls and you want to cancel it after a given delay. To do so, in the main script, declare an <code class="language-plaintext highlighter-rouge">interruptCount</code> object. This object will be initialized at the start of the lengthy class code as a <code class="language-plaintext highlighter-rouge">new QedYield()</code> with an event handler. The <code class="language-plaintext highlighter-rouge">new QedYield()</code> will stop its execution without invoking its handler, so the lengthy code starts. Upon reaching the delay (implemented as a <code class="language-plaintext highlighter-rouge">new QedTimer(delay)</code> in the main script), the <code class="language-plaintext highlighter-rouge">qedResume(interruptCount)</code> call is made, triggering the <code class="language-plaintext highlighter-rouge">new QedYield()</code> code to return and invoke its handler, which makes the lengthy call return without finishing.</p>
 
-<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/coroutines4.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="290px">
+<iframe src="/qed2024/sandbox/sandbox.html?file=tutorial/coroutines4.qed&amp;code=70&amp;gui=0" style="border:1px solid #000; margin:0; padding:0" width="100%" height="310px">
   allow="autoplay"
   <p>
     <a href="/en-US/docs/Glossary">
@@ -414,7 +414,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-04T21:31:19+00:00">October 4, 2024</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-10-05T13:45:11+00:00">October 5, 2024</time></p>
 
       </footer>
 

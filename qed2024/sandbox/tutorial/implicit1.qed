@@ -2,7 +2,7 @@ int[] zeroes = 5 0
 String[] hellos = 3 "Hello"
 
 for (int i = 0; i < zeroes.size(); i++)
-  println("" + zeroes[i])
+  println(zeroes[i])
 
 for (int i = 0; i < hellos.size(); i++)
   println(hellos[i])

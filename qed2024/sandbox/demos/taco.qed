@@ -142,17 +142,16 @@ String AlphaKeyboardWidget() {
 void SpinnerWidget() {
   float angle = 0
   int numCircles = 7
-  bool stopped = false
 
   void Circle(int index) {
     < rotation: (angle + index) * 2 * 3.14159265 / numCircles
-      <out: oval; size: 15; align: [100%, 50%];>
+      <out: oval; size: [30, 15]; align: [100%, 50%];>
     >
   }
 
   Circle[] circles = index::numCircles new Circle(index)
 
-  while (!stopped)
+  while (true)
     angle = QedAnimation() / 2000 * 2 * 3.14159265
 
   <size: 100; align: 50%
@@ -176,7 +175,7 @@ String formatMoney(float amount) {
 // Real app code begins here
 
 int NumTacosWidget() {
-  int NumButton(int num) {
+  void NumButton(int num) {
     void showTacos(int x, int y, int width, int height) {displayTacos(x, y, width, height, num);}
     var button = new QedRectButton((void L() {
       <|
@@ -185,16 +184,16 @@ int NumTacosWidget() {
           <size: [175, 70]; align: 50%;
             <out: showTacos; size: 70; align: 50%; fillStyle: "#D0D6CA"; pos: [0, -20];>
           >
-          <out: "" + num; fontSize:100; align: 50%; fillStyle: "white";>
+          <out: num; fontSize:100; align: 50%; fillStyle: "white";>
         >
         <size: 15;>
       >
-    })) -> return num
+    })) -> return
 
     <out: button;>
   }
 
-  NumButton[] numTacosButtonArray = index :_ 4 new NumButton(index + 1) -> return _ret
+  NumButton[] numTacosButtonArray = index :_ 4 new NumButton(index + 1) -> return index + 1
 
   <| align: [50%, 0]
     <size: 50;>
@@ -309,7 +308,7 @@ bool GetTransactionEntry(TransactionEntry entry) {
     <out: button;>
   }
 
-  TabLabel[] titles = pane:_ panes.size() (new TabLabel(pane)) -> SetPane(/$_index$/)
+  TabLabel[] titles = pane:_ panes.size() (new TabLabel(pane)) -> SetPane(pane)
 
   exitHandler[0] = new QedYield() -> {exitHandler--; return false}
   QedTimer(1)   // trigger refresh for slider to get the right bounds
@@ -340,7 +339,6 @@ bool OrderTacos(TransactionEntry transactionEntry) {
   SpinnerWidget spinner = new SpinnerWidget()
 
   QedTimer(5000) // fake time for the transaction to complete
-  spinner.stopped = true
   return true
 
   <| fillStyle: "black"; opacity: 60%; align: 50%
@@ -410,7 +408,7 @@ void Application() {
 QedTextButton exit = new QedTextButton("Exit") -> qedResume(exitHandler[0])
 var application = new Application()
 
-<| size: [800, 480]
+<| size: [800, 480];
   <out:rect; size:[0, 60]; fillStyle: "#BEB8B0"; expand: [100%, 0]
     <out:getTimestamp(); fontSize:30; fillStyle: "#77736E"; align: [0%, 50%]; pos: [15, 0];>
     <out:"Taco Hotel"; fontSize:35; fillStyle: "#77736E"; align: 50%;>

@@ -5,7 +5,7 @@ bool Count10() {
 
   count::10 {
     QedTimer(1000)
-    println("" + (count + 1))
+    println(count + 1)
   }
 
   return true;

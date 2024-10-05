@@ -15,7 +15,7 @@ WordDiv[] words = [
 
 for (num = 1; num <= 100 && qedResume(words); num++)
   if (str == "")
-    println("" + num)
+    println(num)
   else {
     println(str)
     str = ""

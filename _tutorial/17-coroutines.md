@@ -24,7 +24,7 @@ In this example, an explicit array is used. It works equally well for implicit a
 
 Since `QedYield` is a class, should it be instantiated with `new`? So far we only used `QedYield` calls, right? Yet there are some use cases where `new QedYield()` is very useful. For instance, imagine you are invoking a class having potentially lengthy async calls and you want to cancel it after a given delay. To do so, in the main script, declare an `interruptCount` object. This object will be initialized at the start of the lengthy class code as a `new QedYield()` with an event handler. The `new QedYield()` will stop its execution without invoking its handler, so the lengthy code starts. Upon reaching the delay (implemented as a `new QedTimer(delay)` in the main script), the `qedResume(interruptCount)` call is made, triggering the `new QedYield()` code to return and invoke its handler, which makes the lengthy call return without finishing.
 
-{% include sandboxframe.html qedsrc="tutorial/coroutines4.qed" code="70" gui="0" height="290px" %}
+{% include sandboxframe.html qedsrc="tutorial/coroutines4.qed" code="70" gui="0" height="310px" %}
 
 This technique is used in the Taco Hotel code from the demo page, where there is an `Exit` button that the user triggers to cancel a `GetTransaction` class call.
 {: .notice--info}

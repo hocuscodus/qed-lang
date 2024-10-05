@@ -14,4 +14,4 @@ int count = 15
 var fibGen = new FibGen()
 
 while (count-- && qedResume(fibGen))
-  println("" + fibGen.current)
+  println(fibGen.current)

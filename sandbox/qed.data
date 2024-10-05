@@ -165,7 +165,7 @@ bool qedResume(var obj) {
       else
         return false;$/
 }
-void println(String str) {
+void println(var str) {
 /$console.log(str)$/
 }
 void post_(var obj, var ret) {
@@ -1026,7 +1026,7 @@ void Directive_(int direction, int outNumDim, int outType, Attr_[] atts, Directi
   void refreshSubModel() {
     var subModel = outAttr[0].value
 
-    if (subModel)
+    if (/$subModel != null$/)
       changeLevel = max(changeLevel, /$subModel._refreshModels()$/)
   }
 }
@@ -1073,7 +1073,7 @@ void Widget_(Directive_ directive) {
   if (directive.outType >= 0) {
     var subModel = directive.outAttr[0].value
 
-    if (subModel)
+    if (/$subModel != null$/)
       if (directive.outNumDim) {
         if (directive.outType == 0) {
           var[] array = subModel
@@ -1168,7 +1168,7 @@ void Widget_(Directive_ directive) {
     int outType = directive.outType
     int subSize = subWidgets.size()
 
-    if (directive.outAttr.size() && directive.outAttr[0].value)
+    if (directive.outAttr.size() && /$directive.outAttr[0].value != null$/)
       if (directive.outNumDim) {
         ViewArray_ viewArray = outWidget[0]
 

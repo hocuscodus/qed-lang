@@ -203,7 +203,7 @@ var Module = typeof Module != 'undefined' ? Module : {};
     }
 
     }
-    loadPackage({"files": [{"filename": "/qedlib.qed", "start": 0, "end": 48152}], "remote_package_size": 48152, "package_uuid": "15965a94-ef74-410b-b79c-6336f4161990"});
+    loadPackage({"files": [{"filename": "/qedlib.qed", "start": 0, "end": 49782}], "remote_package_size": 49782, "package_uuid": "fdbfc6c6-73fb-4ff1-9e47-76a0e9d40f02"});
 
   })();
 

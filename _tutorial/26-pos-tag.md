@@ -11,7 +11,7 @@ Just like the `align` tag, you can use the `pos` tag with expression values cont
 
 Another possibility with pixel-based movement is fine scrolling though. In the example below, the drawStripes function is a UI render function that uses Javascript to draw stripes. It is used in the last defined UI element at the end of the code, along with the `pos` tag which vertical value repeatedly goes down from 0 to -200 (because of the while loop calling the `QedAnimation` class). This value is applied to the `y` parameter of the `drawStripes` function call and redraws the same image from a different offset causing the infinite scrolling illusion.
 
-{% include sandboxframe.html qedsrc="tutorial/pos2.qed" code="75" gui="100" height="460px" %}
+{% include sandboxframe.html qedsrc="tutorial/pos2.qed" code="79" gui="100" height="460px" %}
 
 Putting an increasingly negative value in `pos` will scroll up, hence the -vpos value. An increasingly positive value would scroll down. Change `-vpos` to `vpos` in the `pos` tag (and re-run) to witness downward scrolling.
 {: .notice--info}

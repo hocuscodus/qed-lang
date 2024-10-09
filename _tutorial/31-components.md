@@ -32,15 +32,25 @@ Using this, you really have a button component that can be used in a variety of 
 
 As an aside, components do not have to be windowing elements. They can for instance be moving objects within a playfield too for gaming. If so, there may be many similar instances battling together. The best way to implement this is by using coroutines. Define a coroutine to a class having UI elements, then build many instances using an implicit array. This kind of coroutine with UI elements has a more familiar name: *a sprite*.
 
-{% include sandboxframe.html qedsrc="tutorial/components4.qed" code="70" gui="97" height="535px" %}
+{% include sandboxframe.html qedsrc="tutorial/components3.qed" code="70" gui="97" height="535px" %}
 
 Let's get back to windowing elements. So with classes, you can define many components. QED will offer a set of native basic components (buttons, checkboxes, lists ...) to simplify development but nothing holds you to tailor your own the way you want using classes.
 
-Let's use the native QedTextButton class to avoir ourselves defining a button. The code will be much simpler.
+We can use the native QedTextButton class to avoir ourselves defining a button. The code will be much simpler at first glance.
 
-{% include sandboxframe.html qedsrc="tutorial/components3.qed" code="70" gui="50" height="200px" %}
+{% include sandboxframe.html qedsrc="tutorial/components4.qed" code="75" gui="40" height="110px" %}
 
-That said, a single form is often not enough for a complete app. Other forms such as dialog boxes or other windows are necessary in most cases. Let's see how we can do it...
+While it works, we must admit it looks ugly. The good news is, you can add *styling* to components. Parent painting tags (`lineWidth`, `strokeStyle`, `fillStyle`, `font`, `fontSize`, `radius`, ...) are inherited not only by child UI elements. Components also inherit from them as well!
+
+In the next example, we define a single `QedTextButton` instance, viewed multiple times using different painting tags. You can see how QED components 
+
+{% include sandboxframe.html qedsrc="tutorial/components5.qed" code="75" gui="50" height="440px" %}
+
+Let's tweak the `QedTextButton` to match the look of the button we defined at hand. In addition to inherited tags, compoenents also provide other functions to further customize their look or behavior.
+
+{% include sandboxframe.html qedsrc="tutorial/components6.qed" code="75" gui="40" height="150px" %}
+
+By using more components and properly laying them out in our UI element tree, we can define a complete form. That said, a single form is often not enough for a complete app. Other forms such as dialog boxes or other windows are necessary in most cases. Let's see how we can do it...
 
 If you have read the whole tutorial up to this page, you may have guessed already!
 {: .notice--info}

@@ -13,16 +13,17 @@ while(true) {
 
 // JS code to draw the red and blue stripes
 void drawStripes(int x, int y, int width, int height) {
-/$ctx.lineWidth = 50 / Math.sqrt(2);
-  for (let index = -3; index < 5; index++) {
-    ctx.strokeStyle = index % 2 ? 'red' : 'blue';
+/$for (let index = -1.5; index < 2; index++) {
     ctx.beginPath();
-    ctx.moveTo(x + width + 20, y + index * 100 - 20 + 25);
-    ctx.lineTo(x - 20, y + width + 20 + index * 100 + 25);
+    ctx.moveTo(x + width + 20, y + index * 200 - 20 + 25);
+    ctx.lineTo(x - 20, y + width + 20 + index * 200 + 25);
     ctx.stroke();
   }$/
 }
 
 <out: rect; size: [85, 300]; fillStyle: "#F0F0F0";
-  <out: drawStripes; pos: [0, -vpos];>
+  <lineWidth: 35;
+    <out: drawStripes; pos: [0, -vpos]; strokeStyle: "blue";>
+    <out: drawStripes; pos: [0, -vpos + 100]; strokeStyle: "red";>
+  >
 >

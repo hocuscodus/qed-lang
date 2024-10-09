@@ -90,7 +90,15 @@ canvas.onselectstart = function () { return false; }$/
         return padString.slice(0, targetLength) + String(this);
     }
 }
-}$/
+}
+let _currentRadius = 3.0;
+let _strokeFlag = false;
+let _fillFlag = true;
+let _lineFlag = false;
+ctx.font = "20px 'Arial'";
+ctx.fillStyle = "black";
+ctx.strokeStyle = "black";
+ctx.globalAlpha = 1.0;$/
 
 /$function _bindHandler(obj, handler) {
   obj._HandlerFn_ = handler;
@@ -107,8 +115,8 @@ int QED_TAG_OUT = 0
 int QED_TAG_SIZE = 1
 int QED_TAG_ID = 2
 int QED_TAG_AREA_HERITABLE = 3
-int QED_TAG_ZOOM = 4
-int QED_TAG_FONTSIZE = 5
+int QED_TAG_FONT = 4
+int QED_TAG_FONT_SIZE = 5
 int QED_TAG_SPACING = 6
 int QED_TAG_AREA_END = 7
 int QED_TAG_ALIGN = 8
@@ -117,17 +125,14 @@ int QED_TAG_POS = 10
 int QED_TAG_HERITABLE = 11
 int QED_TAG_FILL_STYLE = 12
 int QED_TAG_STROKE_STYLE = 13
-int QED_TAG_OPACITY = 14
-int QED_TAG_RADIUS = 15
-int QED_TAG_ROTATION = 16
-int QED_TAG_END = 17
+int QED_TAG_LINE_WIDTH = 14
+int QED_TAG_OPACITY = 15
+int QED_TAG_RADIUS = 16
+int QED_TAG_ROTATION = 17
+int QED_TAG_END = 18
 
-pushAttribute(QED_TAG_FONTSIZE, 20)
-pushAttribute(QED_TAG_SPACING, 0.0)
-pushAttribute(QED_TAG_FILL_STYLE, "black")
-pushAttribute(QED_TAG_STROKE_STYLE, "black")
-pushAttribute(QED_TAG_OPACITY, 1.0)
-pushAttribute(QED_TAG_RADIUS, 3.0)
+float _spacing = 0.0;
+float _fontSize = 20;
 
 void voidHandler_() {}
 void VoidHandler_() {}
@@ -212,6 +217,10 @@ void _refresh(var obj, int x, int y, int width, int height) {
       canvas.width = width;
       canvas.height = height;
       ctx = canvas.getContext("2d");
+      ctx.font = "20px 'Arial'";
+      ctx.fillStyle = "black";
+      ctx.strokeStyle = "black";
+      ctx.globalAlpha = 1.0;
     }
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -287,23 +296,15 @@ void rotate(int x, int y, int width, int height, float angle) {
 }
 void drawFn(int x, int y, int width, int height) {}
 void oval(int x, int y, int width, int height) {
-/$ctx.fillStyle = Main_$this.getAttribute(Main_$this.QED_TAG_FILL_STYLE);
-  ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
-  ctx.beginPath();
-  ctx.ellipse(x + width / 2, y + height / 2, width / 2, height / 2, 0, 0, 2*Math.PI);
-  ctx.fill()$/
+/$ctx.beginPath();
+  ctx.ellipse(x + width / 2, y + height / 2, width / 2, height / 2, 0, 0, 2*Math.PI)$/
 }
 void rect(int x, int y, int width, int height) {
-/$ctx.fillStyle = Main_$this.getAttribute(Main_$this.QED_TAG_FILL_STYLE);
-  ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
-  ctx.beginPath();
-  ctx.rect(x, y, width, height);
-  ctx.fill()$/
+/$ctx.beginPath();
+  ctx.rect(x, y, width, height)$/
 }
 void roundRect(int x, int y, int width, int height) {
-/$ctx.fillStyle = Main_$this.getAttribute(Main_$this.QED_TAG_FILL_STYLE);
-  ctx.globalAlpha = "" + Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
-  let radius = Main_$this.getAttribute(Main_$this.QED_TAG_RADIUS);/*
+/$let radius = _currentRadius;/*
   let radiusy = Math.min(radius, height / 2);
   ctx.beginPath();
   ctx.moveTo(x + radius, y);
@@ -316,8 +317,7 @@ void roundRect(int x, int y, int width, int height) {
   if (height > 2 * radiusy)
     ctx.lineTo(x + width, y + radiusy);
   ctx.quadraticCurveTo(x + width, y, x + width - radius, y);
-  ctx.lineTo(x + radius, y)
-  ctx.fill();*/
+  ctx.lineTo(x + radius, y);*/
 ctx.beginPath();
 ctx.moveTo(x + radius, y);
 ctx.lineTo(x + width - radius, y);
@@ -327,39 +327,140 @@ ctx.arcTo(x + width, y + height, x + width - radius, y + height, radius);
 ctx.lineTo(x + radius, y + height);
 ctx.arcTo(x, y + height, x, y + height - radius, radius);
 ctx.lineTo(x, y + radius);
-ctx.arcTo(x, y, x + radius, y, radius);
-ctx.fill()$/
+ctx.arcTo(x, y, x + radius, y, radius)$/
 }
 var getAttribute(int index) {
 /$return attributeStacks[index][attributeStacks[index].length - 1]$/
 }
-void pushAttribute(int index, int value) {
-/$if (attributeStacks[index] == undefined)
+void _qedPushAttribute(int index, var value) {
+/$let oldValue;
+
+  switch(index) {
+    case Main_$this.QED_TAG_FONT:
+      oldValue = ctx.font;
+      ctx.font = value;
+      break;
+
+    case Main_$this.QED_TAG_FONT_SIZE:
+      oldValue = [ctx.font, _fontSize];
+      _fontSize = value;
+      ctx.font = value + "px Arial";
+      break;
+
+    case Main_$this.QED_TAG_SPACING:
+      oldValue = _spacing;
+      _spacing = value;
+      break;
+
+    case Main_$this.QED_TAG_FILL_STYLE:
+      oldValue = [_fillFlag, ctx.fillStyle];
+      _fillFlag = value !== "none"
+
+      if (_fillFlag)
+        ctx.fillStyle = value;
+      break;
+
+    case Main_$this.QED_TAG_STROKE_STYLE:
+      oldValue = [_strokeFlag, ctx.strokeStyle];
+      _strokeFlag = value !== "none"
+
+      if (_strokeFlag)
+        ctx.strokeStyle = value;
+      break;
+
+    case Main_$this.QED_TAG_LINE_WIDTH:
+      oldValue = [_lineFlag, ctx.lineWidth];
+      _lineFlag = value !== "none"
+
+      if (_lineFlag)
+        ctx.lineWidth = value;
+      break;
+
+    case Main_$this.QED_TAG_OPACITY:
+      oldValue = ctx.globalAlpha;
+      ctx.globalAlpha = value;
+      break;
+
+    case Main_$this.QED_TAG_RADIUS:
+      oldValue = _currentRadius;
+      _currentRadius = value;
+      break;
+
+    case Main_$this.QED_TAG_ROTATION:
+      break;
+  }
+
+  if (attributeStacks[index] == undefined)
     attributeStacks[index] = [];
 
-  attributeStacks[index].push(value)$/
+  attributeStacks[index].push(oldValue)$/
+}
+void pushAttribute(int index, int value) {
+  _qedPushAttribute(index, value)
 }
 void pushAttribute(int index, float value) {
-/$this.pushAttribute(index, value)$/
+  _qedPushAttribute(index, value)
 }
 void pushAttribute(int index, String value) {
-/$this.pushAttribute(index, value)$/
+  _qedPushAttribute(index, value)
 }
 void popAttribute(int index) {
-/$attributeStacks[index].pop()$/
+/$const value = attributeStacks[index].pop();
+
+  switch(index) {
+    case Main_$this.QED_TAG_FONT:
+      ctx.font = value;
+      break;
+
+    case Main_$this.QED_TAG_FONT_SIZE:
+      _fontSize = value[1];
+      ctx.font = value[0];
+      break;
+
+    case Main_$this.QED_TAG_SPACING:
+      _spacing = value;
+      break;
+
+    case Main_$this.QED_TAG_FILL_STYLE:
+      _fillFlag = value[0];
+
+      if (_fillFlag)
+        ctx.fillStyle = value[1];
+      break;
+
+    case Main_$this.QED_TAG_STROKE_STYLE:
+      _strokeFlag = value[0];
+
+      if (_strokeFlag)
+        ctx.strokeStyle = value[1];
+      break;
+
+    case Main_$this.QED_TAG_LINE_WIDTH:
+      _lineFlag = value[0]
+
+      if (_lineFlag)
+        ctx.lineWidth = value;
+      break;
+
+    case Main_$this.QED_TAG_OPACITY:
+      ctx.globalAlpha = value;
+      break;
+
+    case Main_$this.QED_TAG_RADIUS:
+      _currentRadius = value;
+      break;
+
+    case Main_$this.QED_TAG_ROTATION:
+      break;
+  }$/
 }
 int[] getTextSize(String text) {
-/$ctx.font = Main_$this.getAttribute(Main_$this.QED_TAG_FONTSIZE) + "px Arial";
-
-  const textSize = ctx.measureText(text);
+/$const textSize = ctx.measureText(text);
   const height = textSize.fontBoundingBoxAscent + textSize.fontBoundingBoxDescent;
   return [textSize.width, height]$/
 }
 void displayText(String text, int x, int y, int width, int height) {
-/$ctx.font = Main_$this.getAttribute(Main_$this.QED_TAG_FONTSIZE) + "px Arial";
-  ctx.fillStyle = Main_$this.getAttribute(Main_$this.QED_TAG_FILL_STYLE);
-  ctx.globalAlpha = Main_$this.getAttribute(Main_$this.QED_TAG_OPACITY);
-  ctx.textBaseline = "top";
+/$ctx.textBaseline = "top";
   ctx.fillText(text, x, y)$/
 }
 
@@ -440,9 +541,9 @@ String QedTextButton(String text) {
 
   var button = new QedRectButton((void L() {
     <\expand: 100%;
-      <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
+      <size: ((int) _fontSize) * 0.2; expand: 1;>
       <out: text; fillStyle: _textStyle; opacity: _textOpacity;>
-      <size: ((int) getAttribute(QED_TAG_FONTSIZE)) * 0.2; expand: 1;>
+      <size: ((int) _fontSize) * 0.2; expand: 1;>
     >
   })) -> return text
 
@@ -812,7 +913,7 @@ bool onViewEvent(var viewObj, int event, int posx, int posy, int sizex, int size
 int[] getViewElementRect(var viewObj, String[] path, int[] index, int posx, int posy, int sizex, int sizey, int level, int dLevel) {}
 
 void ViewArray_(QEDBaseArray_[] array, int[] dirs, resizeView *resizeViewFn, getViewSize *getViewSizeFn, paintView *paintViewFn, onViewEvent *onViewEventFn, getViewElementRect *getViewElementRectFn) {
-  float space = /$Main_$this.getAttribute(Main_$this.QED_TAG_SPACING)$/
+  float space = /$_spacing$/
   int length = array.size()
   var[] views = /$[]$/
   int[][] posSet = /$[]$/
@@ -1191,6 +1292,12 @@ void Widget_(Directive_ directive) {
               drawFn *fn = directive.outAttr[0].value
 
               fn(pos0, pos1, size0, size1)
+
+              if (/$_fillFlag$/)
+                /$ctx.fill()$/
+
+              if (/$_strokeFlag$/ && /$_lineFlag$/)
+                /$ctx.stroke()$/
             }
 
     if (subSize) {
@@ -1523,7 +1630,7 @@ void Window_(Directive_[] ui, Window_[] dialog) {
 
   int[] getBoundsRect(String[] path, int[] index, int pos0, int pos1, int size0, int size1, int level, int dLevel) {
     for (int ndx = 0; ndx < widgets.size(); ndx++) {
-      Widget_ sub = widgets[index]
+      Widget_ sub = widgets[ndx]
 
       if (/$sub && sub.size$/) {
         int[] rect = getChildArea2(widgets, 0, ndx, pos0, pos1, size0, size1, /$null$/)

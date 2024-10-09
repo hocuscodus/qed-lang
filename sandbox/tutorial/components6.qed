@@ -1,0 +1,10 @@
+var button1 = new QedTextButton("Previous") ->
+  println("'Previous' clicked.")
+var button2 = new QedTextButton("Next") ->
+  println("'Next' clicked.")
+
+<_ fillStyle: "#006080"; radius: 10;
+  <out: button1;>
+  <size: 10;>
+  <out: button2;>
+>

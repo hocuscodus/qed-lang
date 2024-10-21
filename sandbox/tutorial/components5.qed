@@ -5,22 +5,23 @@ var button = new QedTextButton("Click!") ->
 /$var grd;$/
 
 void grad(int x, int y, int width, int height) {
-/$grd=ctx.createLinearGradient(x, y, x, y + height);
-grd.addColorStop(0, "yellow");
-grd.addColorStop(0.5, "purple");
-grd.addColorStop(1, "lightblue");$/
+  /$grd=ctx.createLinearGradient(x, y, x, y + height);
+  grd.addColorStop(0, "yellow");
+  grd.addColorStop(0.5, "purple");
+  grd.addColorStop(1, "lightblue");$/
 }
 
-<| out: rect; fillStyle: "lightgreen";
+<| out: rect; fillStyle: "lightgray"; expand: 0;
   <out: button;>
   <size: 10;>
-  <out: button; fillStyle: "#806000"; radius: 10;>
+  <out: button; fillStyle: "orange"; radius: 10;>
   <size: 10;>
-  <out: button; strokeStyle: "#006080"; lineWidth: 5;
-   fillStyle: "black"; radius: 10;>
+  <out: button; strokeStyle: "#006080"; lineWidth: 2;
+   fillStyle: "lightblue"; radius: 4;>
   <size: 10;>
-  <out: grad; fillStyle: "none";
-    <out: button; fillStyle: /$grd$/; radius: 20;
-     font: "italic bold 30px Times New Roman";>
+  <
+    <out: grad;>
+    <out: button; fillStyle: (var l() {return /$grd$/});
+     radius: 20; font: "italic bold 30px Times New Roman";>
   >
 >

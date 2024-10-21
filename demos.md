@@ -17,3 +17,7 @@ Some demos for now, page will improve.
 
 {% include sandboxframe.html qedsrc="demos/taco.qed" code="65" gui="97" height="400px" %}
 
+## QED fan
+
+{% include sandboxframe.html qedsrc="demos/logo.qed" code="55" gui="97" height="400px" %}
+

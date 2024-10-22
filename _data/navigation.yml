@@ -21,18 +21,8 @@ tutorial:
   - title: QED BASICS
     url: /tutorial/qed-basics/
     children:
-      - title: "Hello, World!"
-        url: /tutorial/hello-world/
-      - title: "Statements"
-        url: /tutorial/statements/
-      - title: "Variables"
-        url: /tutorial/variables/
-      - title: "Control blocks"
-        url: /tutorial/control/
-      - title: "Functions"
-        url: /tutorial/functions/
-      - title: "Explicit arrays"
-        url: /tutorial/explicit-arrays/
+      - title: "Base syntax"
+        url: /tutorial/syntax/
       - title: "Implicit arrays"
         url: /tutorial/implicit-arrays/
       - title: "Integration with JS"

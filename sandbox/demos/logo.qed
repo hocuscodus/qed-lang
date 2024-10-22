@@ -34,7 +34,7 @@ void Animation() {
   float start
   float delta = 0
 
-  speed = 1
+  speed = acc
   start = QedAnimation()
 
   while (speed > 0) {
@@ -55,8 +55,7 @@ QedImage image = QedImageLoader("biglogo.png")
 QedTextButton button
 
 button = new QedTextButton("  Turn on fan  ").textStyle("#7f6921") -> {
-//  if (!isOn || Dialog("Turn off fan", "Are you sure?")) {
-  if (Dialog(isOn ? "Turn off fan" : "Turn on fan", "Are you sure?")) {
+  if (!isOn || Dialog("Turn off fan", "Are you sure?")) {
     isOn = !isOn
     acc = isOn ? 2 : -2
     button.text = isOn ? "  Turn off fan  " : "  Turn on fan  "
@@ -66,7 +65,7 @@ button = new QedTextButton("  Turn on fan  ").textStyle("#7f6921") -> {
   }
 }
 
-<rotation: angle * 2 * 3.14159265
+<rotation: angle * 2 * 3.14159265; size: 700;
   <out: image; align: 50%;>
 >
 <out: button; align: 1; pos: -25; fillStyle: "#d4af37";>

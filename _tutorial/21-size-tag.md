@@ -1,6 +1,8 @@
 ---
 title: "The `size` tag"
 permalink: /tutorial/size-tag/
+toc: true
+toc_label: "Contents"
 ---
 
 The size of the user interface area is determined by the UI elements. It is the minimal area where all UI elements fit in. Some UI elements do not have a determined size though, the ones with the `out` tag having a drawing function pointer as value expression such as `rect`, `oval`, `roundRect`. These elements use sibling elements to determine their size.

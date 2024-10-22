@@ -1,6 +1,8 @@
 ---
 title: "The \"expand\" tag"
 permalink: /tutorial/expansion/
+toc: true
+toc_label: "Contents"
 ---
 
 The `expand` tag customizes proper scaling on UI elements, and is key to nice looking user interfaces. It could also be considered the final boss among tags, being tougher than the others to master. Some patience and practice is needed here.

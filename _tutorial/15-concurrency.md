@@ -7,6 +7,4 @@ So QED classes have been designed to be be invoked as types (with the `new` oper
 
 Yet, QED classes were designed this way, because *there are* use cases where classes fit perfectly being invoked both ways!
 
-(Venn diagram)
-
 We'll take the time to discover these mysterious classes through the rest of this tutorial. 

@@ -54,11 +54,11 @@ void Animation() {
 QedImage image = QedImageLoader("biglogo.png")
 QedTextButton button
 
-button = new QedTextButton("  Turn on fan  ").textStyle("#7f6921") -> {
-  if (!isOn || Dialog("Turn off fan", "Are you sure?")) {
+button = new QedTextButton("  Turn on  ").textStyle("#7f6921") -> {
+  if (!isOn || Dialog("Turn fan off", "Are you sure?")) {
     isOn = !isOn
     acc = isOn ? 2 : -2
-    button.text = isOn ? "  Turn off fan  " : "  Turn on fan  "
+    button.text = isOn ? "  Turn off  " : "  Turn on  "
 
     if (speed == 0)
       new Animation()

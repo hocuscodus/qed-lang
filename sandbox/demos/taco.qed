@@ -16,6 +16,7 @@ void displaySlider(int x, int y, int width, int height) {
     ctx.lineTo(x + width, y + radiusy);
   ctx.quadraticCurveTo(x + width, y, x + width + radius, y);
   ctx.lineTo(x - radius, y)$/
+  qedDraw()
 }
 
 void displayTacos(int x, int y, int width, int height, int count) {

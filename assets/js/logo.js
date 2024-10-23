@@ -2467,13 +2467,13 @@ this.Main = class Main extends QEDObject {
       Main$this._qedEndCall();
       Main$this.image = _ret;
       Main$this.button = null;
-      Main$this.button = _bindHandler(new Main_$this.QedTextButton("  Turn on fan  ", Main$this).textStyle("#7f6921"), (function Lambda_ (_ret) {
+      Main$this.button = _bindHandler(new Main_$this.QedTextButton("  Turn on  ", Main$this).textStyle("#7f6921"), (function Lambda_ (_ret) {
         if (!Main$this._isActive())
           return;
         new (function W134$_ (i128$_) {
           this.i128$_ = i128$_;
           if (!!Main$this.isOn)
-            Main$this._qedSetBlockingCall(_bindHandler(new Main$this.Dialog("Turn off fan", "Are you sure?", Main$this.context__Call), (function Lambda_ (_ret) {
+            Main$this._qedSetBlockingCall(_bindHandler(new Main$this.Dialog("Turn fan off", "Are you sure?", Main$this.context__Call), (function Lambda_ (_ret) {
               if (!Main$this._isActive())
                 return;
               Main$this._qedEndCall();
@@ -2485,7 +2485,7 @@ this.Main = class Main extends QEDObject {
           if (arg) {
             Main$this.isOn = !Main$this.isOn;
             Main$this.acc = (Main$this.isOn ? 2 : -2);
-            Main$this.button.text = (Main$this.isOn ? "  Turn off fan  " : "  Turn on fan  ");
+            Main$this.button.text = (Main$this.isOn ? "  Turn off  " : "  Turn on  ");
             if (Main$this.speed === 0)
               new Main$this.Animation(Main$this);
           }

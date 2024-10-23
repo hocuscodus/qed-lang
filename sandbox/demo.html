@@ -15,7 +15,7 @@
         padding:0;
       }
       div.sample-code {
-        position: relative;
+        position: default;
       }
       div.sample-code textarea {
         border-right: 1px solid #000;
@@ -24,31 +24,20 @@
       }
       div.sample-code textarea.editor {
         box-sizing: border-box;
-        width: var(--code-percent);
+        width: 100%;
         resize: vertical;
-        height: 100vh;
+        height: 300px;
       }
       div.sample-code textarea.output {
-        position: absolute;
-        right: 0;
-        bottom: 0;
         box-sizing: border-box;
-        width: calc(100% - var(--code-percent));
+        width: 100%;
         height: calc(100% - var(--gui-percent));
         resize: none;
       }
       div.sample-code .canvas-location {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: calc(100% - var(--code-percent));
-        height: var(--gui-percent);
         touch-action:none;
       }
       div.sample-code .canvas {
-        position: absolute;
-        top: 0;
-        left: 0;
         max-width: 100%;
         max-height: 100%;
       }
@@ -104,11 +93,12 @@
   </head>
   <body>
     <div class="sample-code" height: 100%>
-      <textarea class="editor" id="editor" spellcheck="false"></textarea>
       <div class="canvas-location">
         <canvas id="canvas" class="canvas" width="0px" height="0px"></canvas>
       </div>
-      <textarea class="output" id="output" rows="8" spellcheck="false"></textarea>
+      <div>
+        <textarea class="editor" id="editor" spellcheck="false"></textarea>
+      </div>
       <input type="button" class="run-button" value="Run" onclick="runQED()">
       <div class="initjs" id="initjs">
         <div class="spinner" id="spinner"></div>

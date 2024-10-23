@@ -4,6 +4,7 @@ void drawTriangle(int x, int y, int width, int height) {
   ctx.lineTo(x, y + height);
   ctx.lineTo(x + width, y + height);
   ctx.lineTo(x + width / 2, y)$/
+  qedDraw()
 }
 
 <out: drawTriangle;

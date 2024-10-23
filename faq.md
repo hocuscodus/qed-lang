@@ -12,7 +12,7 @@ QED is a programming language primarily aimed at developing web applications. It
 
 No, not at all! QED is rather a complement to JS for writing the GUI part of a web application (you can freely use JS for the rest). QED fully relies on JS speed, power and huge libraries.
 
-## What are QED advantages over plain HTML/CSS/JS code for GUI development?
+## What are QED advantages over HTML/CSS/JS code for web development?
 
 QED is focused on the web app so all the UI/styling/logic is kept in the same code (although the separation between these is still clear). Within the same code, the scoping rules are used for all three layers. For instance, the UI code has full access to the business logic declared variables, from any environment scope within the code.
 
@@ -22,7 +22,13 @@ Finally, the GUI rules in QED are specifically targeted to GUI development, comp
 
 ## How to integrate a QED application in my web page?
 
-When done with the QED code (let's call the file myprog.qed), use the compiler to generate the JS equivalent (myprog.js). Then, in your HTML body, add a canvas with id "canvas" and the myprog.qed script to run the web app.
+When you are done developing the QED code in a file (let's call the file myprog.qed), use the compiler to generate the JS equivalent (myprog.js).
+
+```
+qed myprog.qed > myprog.js
+```
+
+Then, in your HTML body, add a canvas with id "canvas" and the myprog.qed script. Invoke it via the this.start_() function.
 
 ```
 <!doctype html>
@@ -32,6 +38,11 @@ When done with the QED code (let's call the file myprog.qed), use the compiler t
     Your browser does not support the HTML5 canvas tag.
   </canvas>
   <script src="./myprog.js"></script>
+  <script>
+    this.start_([], function(_ret) {
+      <process _ret return value>
+    });
+  </script>
 
   ... your HTML code ...
 </html>

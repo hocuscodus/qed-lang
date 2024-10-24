@@ -4,7 +4,7 @@ title: Demos
 permalink: /demos/
 ---
 
-Some demos for now, page will improve.
+Some demos for now. More later...
 
 ## Increment-decrement buttons
 

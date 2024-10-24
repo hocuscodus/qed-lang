@@ -1,20 +1,5 @@
-// Moving bubble in tube
-int elapsedMs
-
-while (true)
-  elapsedMs = QedAnimation()
-
-float getVAlign() {
-  float millis = elapsedMs % 4000
-  bool downFlag = millis < 3000
-  float distance = millis - (downFlag ? 0 : 3000)
-
-  // convert to 0 <= distance < 1
-  distance /= downFlag ? 3000 : 1000
-
-  return downFlag ? distance : 1 - distance
-}
-
-<out: rect; fillStyle: "#80B8DC"; size: [150, 500];>
-<out: oval; fillStyle: "#B2D4EA"; size: [125, 105 + 5 * rand()];
- align: [0.4 + rand() / 5, getVAlign()];>
+< // change this line with '<_', '<|' and '<\' and rerun
+  <out: rect; fillStyle: "red"; size: 60;>
+  <out: rect; fillStyle: "Lime"; size: 40; align: 50%;>
+  <out: rect; fillStyle: "blue"; size: 20; align: 100%;>
+>

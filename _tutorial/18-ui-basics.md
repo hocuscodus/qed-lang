@@ -5,7 +5,7 @@ permalink: /tutorial/ui-basics/
 
 Starting with this section, we'll explain how to code a UI in QED.
 
-QED has a built-in mechanism that greatly facilitates the encoding of user interfaces. To achieve such power, besides the C-like syntax used for business logic, QED implements a different but simple, complementary syntax for UI encoding.
+QED has a built-in mechanism that greatly facilitates the encoding of user interfaces. To achieve such power, besides the C-like syntax used for business logic, QED implements a different but simple complementary syntax for UI encoding.
 
 This alternative syntax, better adapted for UI design, is more akin to markup languages such as HTML so while it is different, it won't sound like an alien dialect. In fact, it will rather look familiar in many aspects. It works hand in hand with the business logic syntax and the internal event handling system to truly enhance the GUI development process.
 
@@ -51,7 +51,7 @@ The following steps were what was already specified when a QED application is ex
 1. run business logic until first class call (or end of main script)
 2. process pending events
 3. enter event loop to wait for any system event
-4. go back to step 2 unless return is called in the main script
+4. go back to step 2 unless `return` is called in the main script
 5. application ends with integer return code
 
 The one thing that was kept secret until now is the UI (if any) is generated, from the UI elements, right in between having processed queued events and entering the event loop. So here is the *real* process:
@@ -60,7 +60,7 @@ The one thing that was kept secret until now is the UI (if any) is generated, fr
 2. process pending events
 3. ***New!* Regenerate UI if UI elements are defined**
 4. enter event loop to wait for any system **or UI** event
-5. go back to step 2 unless return is called in the main script
+5. go back to step 2 unless `return` is called in the main script
 6. application ends with integer return code
 
 Whenever the application is about to re-enter the event loop after processing events (UI-based or others), the UI is regenerated to reflect the potential changes.

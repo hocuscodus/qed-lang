@@ -19,10 +19,10 @@ Another common use case is many coroutines coexisting together, each doing its p
 
 {% include sandboxframe.html qedsrc="tutorial/coroutines3.qed" code="80" gui="0" height="360px" %}
 
-In this example, an explicit array is used. It works equally well for implicit arrays as well. The "Bouncing balls" in the demo page uses an implicit array to create 30 ball coroutines.
+In this example, an explicit array is used. It works equally well for implicit arrays as well. The "Bouncing balls" in the demo page uses an implicit array to create 30 `Ball` coroutines.
 {: .notice--info}
 
-Since `QedYield` is a class, should it be instantiated with `new`? So far we only used `QedYield` calls, right? Yet there are some use cases where `new QedYield()` is very useful. For instance, imagine you are invoking a class having potentially lengthy async calls and you want to cancel it after a given delay. To do so, in the main script, declare an `interruptCount` object. This object will be initialized at the start of the lengthy class code as a `new QedYield()` with an event handler. The `new QedYield()` will stop its execution without invoking its handler, so the lengthy code starts. Upon reaching the delay (implemented as a `new QedTimer(delay)` in the main script), the `qedResume(interruptCount)` call is made, triggering the `new QedYield()` code to return and invoke its handler, which makes the lengthy call return without finishing.
+Since `QedYield` is a class, should it be instantiated with `new`? So far we only used `QedYield` calls, right? Yet there are some use cases where `new QedYield()` is very useful. For instance, imagine you are calling a class having potentially lengthy async calls and you want to cancel it after a given delay. To do so, in the main script, declare an `interruptCount` object. This object will be initialized at the start of the lengthy class code as a `new QedYield()` with an event handler. The `new QedYield()` will stop its execution without invoking its handler, so the lengthy code can start safely. Upon reaching the delay (implemented as a `new QedTimer(delay)` in the main script), the `qedResume(interruptCount)` call is made, triggering the `new QedYield()` event handler which forces the lengthy call to return without completing.
 
 {% include sandboxframe.html qedsrc="tutorial/coroutines4.qed" code="70" gui="0" height="310px" %}
 

@@ -9,7 +9,7 @@ Right after the UI element opening angle bracket `<`, you can insert a symbol th
 
 | Symbol        | Children direction |
 | ------------: | --------- |
-| Dot (`.`) | Overlapping from first to last (default) |
+| No symbol | Overlapping from first to last (default) |
 | Underscore (`_`) | From left to right |
 | Vertical line (`|`) | From top to botton |
 | Backslash (`\`) | From top-left to bottom-right |
@@ -30,4 +30,4 @@ In a few cases though, it can be useful. For instance, to create 25x25px top-lef
 
 {% include sandboxframe.html qedsrc="tutorial/directions4.qed" code="65" gui="100" height="200px" %}
 
-The dot symbol `.` can be used to explicitly specify UI elements overlapping but this is the default behavior so having no direction symbol implies using the `.` symbol.
+<!-- The dot symbol `.` can be used to explicitly specify UI elements overlapping but this is the default behavior so having no direction symbol implies using the `.` symbol. -->

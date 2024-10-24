@@ -38,7 +38,9 @@ Variables in QED are almost similar to their C/Java counterparts. A variable def
 
 There is another keyword to introduce: `var`. A variable declared as `var` will infer its type based on its initialization value type. Its type cannot change afterwards.
 
-{% include sandboxframe.html qedsrc="tutorial/variables2.qed" code="50" gui="0" height="160px" %}
+<!--
+todo: insert {% include sandboxframe.html qedsrc="tutorial/variables2.qed" code="50" gui="0" height="160px" %}
+-->
 
 However a `var` variable with no initialization value can hold any value from any type (a bit like a `void*` in C).
 

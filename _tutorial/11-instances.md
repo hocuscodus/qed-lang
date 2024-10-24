@@ -17,10 +17,12 @@ A class interface can be created like a function interface. It can also be used 
 
 {% include sandboxframe.html qedsrc="tutorial/classes2.qed" gui="0" height="410px" %}
 
-All class members (fields and methods) are declared public. Private members can be embedded a wrapper plain builder function (which first letter is lowercase to not make it a class):
+All class members (fields and methods) are declared public as of now. When QED evolves, we will introduce a way to declare private members as well.
+
+<!-- Private members can be embedded a wrapper plain builder function (which first letter is lowercase to not make it a class):
 
 {% include sandboxframe.html qedsrc="tutorial/classes3.qed" gui="0" height="280px" %}
-
+-->
 For pure class instantiation purposes, it is better to use the `void` return type when declaring its class, since the object will never return anything.
 {: .notice--info}
 
@@ -28,4 +30,4 @@ A word of caution here. QED classes, when compiled into JS code, generate Javasc
 
 {% include sandboxframe.html qedsrc="tutorial/classes4.qed" gui="0" height="200px" %}
 
-We only scratched the surface as to what QED classes can do. We're just about to expand their functionality!
+We only scratched the surface as to what QED classes can do. The time has come to expand their functionality!

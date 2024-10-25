@@ -1,0 +1,5 @@
+< // change this line with '<_', '<|' and '<\' and rerun
+  <out: rect; fillStyle: "red"; size: 60;>
+  <out: rect; fillStyle: "Lime"; size: 40; align: 50%;>
+  <out: rect; fillStyle: "blue"; size: 20; align: 100%;>
+>

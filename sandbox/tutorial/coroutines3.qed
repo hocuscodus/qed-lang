@@ -1,0 +1,23 @@
+// FizzBuzz with coroutines
+int num
+String str = ""
+
+void WordDiv(String word, int div) {
+  while (QedYield())
+    if (num % div == 0)
+      str += word
+}
+
+WordDiv[] words = [
+  new WordDiv("Fizz", 3),
+  new WordDiv("Buzz", 5)
+]
+
+for (num = 1; num <= 100 && qedResume(words); num++)
+  if (str == "")
+    println(num)
+  else {
+    println(str)
+    str = ""
+  }
+  

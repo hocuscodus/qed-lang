@@ -1,0 +1,21 @@
+void MyButton() { // very same script inside!
+  bool pressed = false
+
+  <out: roundRect; fillStyle: "#006080"; radius: 10;
+    <out: rect;
+     opacity: pressed ? 35% : 0%;
+     fillStyle: "black";>
+    <\
+      onPress: pressed = true;
+      onRelease: {pressed = false; println("Clicked")}
+
+      <size: [25, 10];>
+      <out: "Click"; fillStyle: "white";>
+      <size: [25, 10];>
+    >
+  >
+}
+
+MyButton[] buttons = :|3 new MyButton();
+
+<out: buttons; spacing: 10;>

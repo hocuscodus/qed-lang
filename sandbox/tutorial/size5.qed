@@ -1,0 +1,16 @@
+void drawTriangle(int x, int y, int width, int height) {
+/$ctx.beginPath();
+  ctx.moveTo(x + width / 2, y);
+  ctx.lineTo(x, y + height);
+  ctx.lineTo(x + width, y + height);
+  ctx.lineTo(x + width / 2, y)$/
+  qedDraw()
+}
+
+<out: drawTriangle;
+ fillStyle: "yellow";
+ strokeStyle: "green";
+ lineWidth: 5;
+ size: 200;
+  <out: oval; fillStyle: "red"; strokeStyle: "none";>
+>

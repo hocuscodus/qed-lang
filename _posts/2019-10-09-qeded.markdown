@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "A first contribution to QED"
 date:   2019-10-09 22:10:47 -0400
 author: "Martin Savage"

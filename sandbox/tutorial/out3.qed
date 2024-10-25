@@ -1,0 +1,9 @@
+// Small countdown app!
+
+// Declare num here so the UI has access
+int num
+
+for (num = 5; num > 0; num--)
+  QedTimer(1000)
+
+<out: num ? "" + num : "GO!"; fontSize: 100;>

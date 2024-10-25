@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Tooling QED"
 date:   2018-09-29 08:00:47 -0400
 categories: QED

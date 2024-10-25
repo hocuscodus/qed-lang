@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>QED sandbox</title>
+    <style>
+      :root {
+        --code-percent: 50%;
+        --gui-percent: 50%;
+      }
+      body {
+        border:none;
+        margin:0;
+        padding:0;
+      }
+      div.sample-code {
+        position: default;
+      }
+      div.sample-code textarea {
+        border-right: 1px solid #000;
+        font-family: "Ubuntu Mono", "Andale Mono", monospace;
+        display: block;
+      }
+      div.sample-code textarea.editor {
+        box-sizing: border-box;
+        width: 100%;
+        resize: vertical;
+        height: 300px;
+      }
+      div.sample-code textarea.output {
+        box-sizing: border-box;
+        width: 100%;
+        height: calc(100% - var(--gui-percent));
+        resize: none;
+      }
+      div.sample-code .canvas-location {
+        touch-action:none;
+      }
+      div.sample-code .canvas {
+        max-width: 100%;
+        max-height: 100%;
+      }
+      div.sample-code .run-button {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        opacity: 0.5;
+        transition-duration: 0.3s;
+      }
+      div.sample-code .run-button:hover {
+        opacity: 1;
+      }
+      div.sample-code .spinner {
+        height: 50px;
+        width: 50px;
+        margin: 0px auto;
+        -webkit-animation: rotation .8s linear infinite;
+        -moz-animation: rotation .8s linear infinite;
+        -o-animation: rotation .8s linear infinite;
+        animation: rotation .8s linear infinite;
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid transparent;
+        border-top: 10px solid rgb(100,0,200);
+        border-radius: 100%;
+      }
+      div.sample-code .initjs {
+        position: absolute;
+        top: 40%;
+        left: 40%;
+      }
+      .initjslogic { padding-right: 0; margin-left: auto; margin-right: auto; }
+      div.initjslogic { text-align: center; border: none; }
+      /* the canvas *must not* have any border or padding, or mouse coords will be wrong */
+      @-webkit-keyframes rotation {
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(360deg);}
+      }
+      @-moz-keyframes rotation {
+        from {-moz-transform: rotate(0deg);}
+        to {-moz-transform: rotate(360deg);}
+      }
+      @-o-keyframes rotation {
+        from {-o-transform: rotate(0deg);}
+        to {-o-transform: rotate(360deg);}
+      }
+      @keyframes rotation {
+        from {transform: rotate(0deg);}
+        to {transform: rotate(360deg);}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sample-code" height: 100%>
+      <div class="canvas-location">
+        <canvas id="canvas" class="canvas" width="0px" height="0px"></canvas>
+      </div>
+      <div>
+        <textarea class="editor" id="editor" spellcheck="false"></textarea>
+      </div>
+      <input type="button" id="runButton" class="run-button" value="Run" disabled="true" onclick="runQED()">
+      <div class="initjs" id="initjs">
+        <div class="spinner" id="spinner"></div>
+        <div class="initjslogic" id="status">Downloading...</div>
+        <div class="initjslogic">
+          <progress value="0" max="100" id="progress" hidden=1></progress>  
+        </div>
+      </div>
+    </div>
+    <script type='text/javascript'>
+      var editor = document.getElementById('editor');
+      var outputElement = document.getElementById('output');
+      var initjsElement = document.getElementById('initjs');
+      var statusElement = document.getElementById('status');
+      var progressElement = document.getElementById('progress');
+      var spinnerElement = document.getElementById('spinner');
+      var buttonElement = document.getElementById('runButton');
+      var canvas = document.getElementById('canvas');
+      const params = new URLSearchParams(document.location.search);
+      const filename = params.get("file");
+      const codePercent = params.get("code");
+      const guiPercent = params.get("gui");
+      const autoRun = params.get("run");
+      const root = document.querySelector(':root');
+      const consoleLog = window.console.log;
+      let mainObj = null;
+
+      if (codePercent)
+        root.style.setProperty('--code-percent', codePercent + '%');
+
+      if (guiPercent)
+        root.style.setProperty('--gui-percent', guiPercent + '%');
+
+      if (filename)
+        fetch(filename)
+          .then((res) => {
+            if (!res.ok)
+              throw new Error(`Response status: ${res.status}`);
+            else
+              res.text().then((text) => editor.value = text)
+          })
+          .catch((e) => console.error(e));
+      function runQED() {
+        if (outputElement) outputElement.value = ''; // clear browser cache
+        if (canvas) {
+          canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+          canvas.width = canvas.height = 0;
+        }
+
+        let codeStr = Module.ccall('runSource', null, ['string'], [editor.value]);
+//        Module['runSource'](editor.value);
+        let str = UTF8ToString(codeStr);
+        let js = new Function(str);
+        let obj = new Object();
+        const oldConsoleLog = window.console.log;
+
+        window.console.log = Module['print'];
+        js.apply(obj);
+
+        if (mainObj)
+          mainObj._qedKill();
+
+          mainObj = obj.start_([], function(_ret) {
+          window.console.log("Demo exited with code " + _ret);
+          window.console.log = oldConsoleLog;
+        });
+      }
+      function logFn(text) {
+        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+        // These replacements are necessary if you render to raw HTML
+        //text = text.replace(/&/g, "&amp;");
+        //text = text.replace(/</g, "&lt;");
+        //text = text.replace(/>/g, "&gt;");
+        //text = text.replace('\n', '<br>', 'g');
+        consoleLog(text);
+        if (outputElement) {
+          outputElement.value += text + "\n";
+          outputElement.scrollTop = outputElement.scrollHeight; // focus on bottom
+        }
+      }
+      var Module = {
+        preRun: [],
+        arguments: ['incdec.qed'],
+        postRun: [],
+        print: logFn,
+        printErr: logFn,
+        onRuntimeInitialized: () => {
+          buttonElement.disabled = false;
+          if (autoRun)
+            runQED();
+        },
+        setStatus: function(text) {
+          if (!Module.setStatus.last) Module.setStatus.last = { time: Date.now(), text: '' };
+          if (text === Module.setStatus.last.text) return;
+          var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+          var now = Date.now();
+          if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
+          Module.setStatus.last.time = now;
+          Module.setStatus.last.text = text;
+          if (m) {
+            text = m[1];
+            progressElement.value = parseInt(m[2])*100;
+            progressElement.max = parseInt(m[4])*100;
+            initjsElement.hidden = false;
+          } else {
+            progressElement.value = null;
+            progressElement.max = null;
+            initjsElement.hidden = true;
+          }
+          statusElement.innerHTML = text;
+        },
+        totalDependencies: 0,
+        monitorRunDependencies: function(left) {
+          this.totalDependencies = Math.max(this.totalDependencies, left);
+          Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies-left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+        }
+      };
+      Module.setStatus('Downloading...');
+      window.onerror = function() {
+        Module.setStatus('Exception thrown, see JavaScript console');
+        spinnerElement.style.display = 'none';
+        Module.setStatus = function(text) {
+          if (text) console.error('[post-exception status] ' + text);
+        };
+      };
+    </script>
+    <script async type="text/javascript" src="qed.js">
+    </script>
+  </body>
+</html>

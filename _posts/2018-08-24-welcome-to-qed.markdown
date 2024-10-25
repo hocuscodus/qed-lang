@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "qed-lang.org now opened!"
 date:   2018-08-24 09:10:47 -0400
 categories: QED update

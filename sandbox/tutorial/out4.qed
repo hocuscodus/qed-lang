@@ -1,0 +1,4 @@
+// Three UI elements
+<out: oval; fillStyle: "#00ffff";>
+<out:"A rather small text";>
+<out:"Big"; fontSize: 70; fillStyle: "red";>

@@ -1,0 +1,13 @@
+String Wrapper(int id, int millis) {
+  QedTimer(millis)
+  return "Timer " + id + ": " +
+     /$Math.floor(millis)$/ + "ms."
+}
+
+Wrapper[] wrappers = n::10 new Wrapper(n + 1, (int) (rand() * 2000))
+
+println("Timers started, please wait...")
+
+String[] outputs = QedWaitValues(wrappers)
+
+index::outputs.size() println(outputs[index])

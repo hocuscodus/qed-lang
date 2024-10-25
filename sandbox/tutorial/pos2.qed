@@ -1,0 +1,29 @@
+// Barber's pole
+float vpos = 0
+int start = -1
+float speed = 100/1000 // 100 pixels per second (1000ms)
+
+while(true) {
+  int end = QedAnimation()
+  float elapsedTimeMs = start == -1 ? 0 : end - start
+
+  start = end
+  vpos = (vpos + elapsedTimeMs * speed) % 200
+}
+
+// JS code to draw the red and blue stripes
+void drawStripes(int x, int y, int width, int height) {
+/$for (let index = -1.5; index < 2; index++) {
+    ctx.beginPath();
+    ctx.moveTo(x + width + 50, y + index * 200 - 50 + 25);
+    ctx.lineTo(x - 50, y + width + 50 + index * 200 + 25);
+    ctx.stroke();
+  }$/
+}
+
+<out: rect; size: [85, 300]; fillStyle: "#F0F0F0";
+  <lineWidth: 35;
+    <out: drawStripes; pos: [0, -vpos]; strokeStyle: "blue";>
+    <out: drawStripes; pos: [0, -vpos + 100]; strokeStyle: "red";>
+  >
+>

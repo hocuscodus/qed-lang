@@ -1,0 +1,21 @@
+void printHello() {
+  println("Hello from function")
+}
+
+void PrintHello() {
+  println("Hello from class")
+  // uncomment next line and rerun to see the diff
+  //return 
+}
+
+println("Before function call")
+// function call
+printHello()
+println("After function call")
+
+println("Before class call")
+// class call, WILL SUSPEND since no explicit
+// return statement in PrintHello
+PrintHello()
+// WILL NEVER EXECUTE THIS LINE...
+println("After class call")

@@ -1,0 +1,5 @@
+<out: rect; fillStyle: "#88CAFC"; size: [150, 50];
+ onPress: println("Pressed!");
+ onRelease: println("Released!");
+  <out: "Click Me"; align: 50%; fillStyle: "black";>
+>

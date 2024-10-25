@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "An article on QED's core principle: type/function equivalence"
 date:   2020-05-04 05:10:47 -0400
 author: "Martin Savage"

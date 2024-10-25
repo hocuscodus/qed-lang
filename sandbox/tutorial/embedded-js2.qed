@@ -1,0 +1,13 @@
+int hypothenuse(int a, int b) {
+  return /$Math.round(Math.hypot(a, b))$/
+}
+
+void printHypot(int a, int b) {
+  println("a: "+ a + ", b: " + b +
+          ", c: " + hypothenuse(a, b))
+}
+
+printHypot(3, 4)
+printHypot(5, 12)
+printHypot(7, 24)
+printHypot(9999, 49999000)

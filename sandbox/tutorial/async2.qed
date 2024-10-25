@@ -1,0 +1,5 @@
+// A QedTimer call
+println("Invoking QedTimer")
+QedTimer(1000)
+println("Timer ended after a second")
+println("Program done")

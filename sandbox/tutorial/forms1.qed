@@ -1,0 +1,8 @@
+// The QedTextButton class is called with "new" for
+// a component, and without "new" for a dialog
+// box (as a blocking class call)
+
+var component = new QedTextButton("Component") ->
+  println(QedTextButton("Dialog") + " call done")
+
+<out: component; fillStyle: "#008000";>

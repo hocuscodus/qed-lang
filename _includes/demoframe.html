@@ -1,0 +1,12 @@
+<iframe
+  src="{{ site.baseurl }}/sandbox/demo.html?{% if include.qedsrc %}file={{include.qedsrc}}{% endif %}&code={% if include.code %}{{include.code}}{% else %}70{% endif %}{% if include.gui %}&gui={{include.gui}}{% endif %}{% if include.autorun %}&run=t{% endif %}"
+  style="border:1px solid #000; margin:0; padding:0"
+  scrolling="no"
+  width="100%"
+  allow="autoplay">
+  <p>
+    <a href="/en-US/docs/Glossary">
+      Fallback link for browsers that don't support iframes
+    </a>
+  </p>
+</iframe>

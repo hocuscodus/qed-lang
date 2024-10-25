@@ -1,0 +1,58 @@
+void Ball() {
+  void Vector(float pos, float delta) {
+    void move() {
+      pos += delta
+
+      if (pos > 1 || pos < 0) {
+        pos = delta > 0 ? 2 - pos : -pos
+        delta = -delta
+      }
+    }
+  }
+
+  String color = "#" + /$((1 << 24) * Math.random() | 0).toString(16).padStart(6, "0")$/
+  int size = rand() * 35 + 35
+  Vector[] vectors = 2 new Vector(rand(), ((rand() * 1%) + 0.025%) * (rand() > 0.5 ? 1 : -1))
+
+  while (QedYield())
+    i::2 vectors[i].move();
+
+  <out: oval; fillStyle: color; size: size; align: [vectors[0].pos, vectors[1].pos];>
+}
+
+Ball[] balls = 30 new Ball()
+
+void CounterWidget() {
+  void Button(String text) {
+    var button = new QedTextButton(text).
+      textStyle("black").
+      textOpacity(60%) -> return
+
+    <out: button; fillStyle: "black"; opacity: 20%;
+     size: [40, 0]; expand: 100%; radius: 0; fontSize: 40;>
+  }
+
+  Button incButton = new Button("+") -> balls++
+  Button decButton = new Button("-") -> {if (balls.size() > 0) balls--}
+
+  <out: roundRect; fillStyle: "white"; radius: 20; opacity: 80%;
+    <_ fillStyle: "black";
+      <out: decButton;>
+      <size: [120, 90];
+        <out: balls.size(); opacity: 50%; align: 50%; fontSize: 60;>
+      >
+      <out: incButton;>
+    >
+  >
+}
+
+CounterWidget counter = new CounterWidget()
+
+while (QedAnimation())
+  qedResume(balls);
+
+<out:rect; fillStyle: "#404040"; size: [800, 480];>
+<out:"Bouncing"; fontSize:130; fillStyle: "white"; opacity: 9/16; align: [50%, 10%];>
+<out:"Balls!!"; fontSize:160; fillStyle: "white"; opacity: 3/4; align: [50%, 70%];>
+<out:balls;>
+<out:counter; align: 100%; pos: -20;>

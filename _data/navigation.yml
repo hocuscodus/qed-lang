@@ -1,0 +1,80 @@
+# main links
+main:
+  - title: "FAQ"
+    url: /faq/
+  - title: "Tutorial"
+    url: /tutorial/qed-basics/
+  - title: "Demos"
+    url: /demos/
+  - title: "Download"
+    url: /download/
+  # - title: "About"
+  #   url: https://mmistakes.github.io/minimal-mistakes/about/
+  # - title: "Sample Posts"
+  #   url: /year-archive/
+  # - title: "Sample Collections"
+  #   url: /collection-archive/
+  # - title: "Sitemap"
+  #   url: /sitemap/
+
+tutorial:
+  - title: QED BASICS
+    url: /tutorial/qed-basics/
+    children:
+      - title: "Base syntax"
+        url: /tutorial/syntax/
+      - title: "Implicit arrays"
+        url: /tutorial/implicit-arrays/
+      - title: "Integration with JS"
+        url: /tutorial/js-integration/
+
+  - title: CLASSES
+    url: /tutorial/classes/
+    children:
+      - title: "Class instances"
+        url: /tutorial/instances/
+      - title: "Class calls"
+        url: /tutorial/calls/
+      - title: "Event handlers"
+        url: /tutorial/event-handlers/
+
+  - title: CONCURRENCY
+    url: /tutorial/concurrency/
+    children:
+      - title: "Async classes"
+        url: /tutorial/async-classes/
+      - title: "Coroutines"
+        url: /tutorial/coroutines/
+
+  - title: UI BASICS
+    url: /tutorial/ui-basics/
+    children:
+      - title: "The \"out\" tag"
+        url: /tutorial/out-tag/
+      - title: "The \"size\" tag"
+        url: /tutorial/size-tag/
+      - title: "Directions"
+        url: /tutorial/directions/
+
+  - title: "LAYOUT REFINEMENTS"
+    url: /tutorial/layouts/
+    children:
+      - title: "The \"align\" tag"
+        url: /tutorial/alignment/
+      - title: "The \"pos\" tag"
+        url: /tutorial/position/
+      - title: "The \"expand\" tag"
+        url: /tutorial/expansion/
+
+  - title: "BUILDING GUI APPS"
+    url: /tutorial/gui-apps/
+    children:
+      - title: "User interaction"
+        url: /tutorial/ui-events/
+      - title: "Components"
+        url: /tutorial/components/
+      - title: "Forms"
+        url: /tutorial/forms/
+
+  - title: "WHAT'S NEXT"
+    url: /tutorial/whats-next/

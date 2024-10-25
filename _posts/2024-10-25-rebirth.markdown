@@ -1,0 +1,12 @@
+---
+title:  "A new QED language"
+date:   2024-10-25 00:00:00 -0400
+author: "Martin Savage"
+categories: QED Update
+---
+
+Finally, QED has completely changed! Not only the language but this website, which now - at last - contains a complete tutorial, loaded with runnable demos!
+
+It is still the QED programming language because the core principles are the same. However, it was flawed at many levels: array management, readability, VM usage, etc. Since 2020, the language has been redesigned many times to fix all these defects. I think I got it right now, well enough to warrant the extended tutorial and confident that this version will handle upcoming features and future tooling well.
+
+So welcome again to QED!.

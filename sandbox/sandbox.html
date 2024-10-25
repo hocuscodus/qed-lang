@@ -104,12 +104,12 @@
   </head>
   <body>
     <div class="sample-code" height: 100%>
-      <textarea class="editor" id="editor"></textarea>
+      <textarea class="editor" id="editor" spellcheck="false"></textarea>
       <div class="canvas-location">
         <canvas id="canvas" class="canvas" width="0px" height="0px"></canvas>
       </div>
-      <textarea class="output" id="output" rows="8"></textarea>
-      <input type="button" class="run-button" value="Run" onclick="runQED()">
+      <textarea class="output" id="output" rows="8" spellcheck="false"></textarea>
+      <input type="button" id="runButton" class="run-button" value="Run" disabled="true" onclick="runQED()">
       <div class="initjs" id="initjs">
         <div class="spinner" id="spinner"></div>
         <div class="initjslogic" id="status">Downloading...</div>
@@ -117,6 +117,7 @@
           <progress value="0" max="100" id="progress" hidden=1></progress>  
         </div>
       </div>
+    </div>
     <script type='text/javascript'>
       var editor = document.getElementById('editor');
       var outputElement = document.getElementById('output');
@@ -124,6 +125,7 @@
       var statusElement = document.getElementById('status');
       var progressElement = document.getElementById('progress');
       var spinnerElement = document.getElementById('spinner');
+      var buttonElement = document.getElementById('runButton');
       var canvas = document.getElementById('canvas');
       const params = new URLSearchParams(document.location.search);
       const filename = params.get("file");
@@ -132,6 +134,7 @@
       const autoRun = params.get("run");
       const root = document.querySelector(':root');
       const consoleLog = window.console.log;
+      let mainObj = null;
 
       if (codePercent)
         root.style.setProperty('--code-percent', codePercent + '%');
@@ -164,7 +167,14 @@
 
         window.console.log = Module['print'];
         js.apply(obj);
-        window.console.log = oldConsoleLog;
+
+        if (mainObj)
+          mainObj._qedKill();
+
+          mainObj = obj.start_([], function(_ret) {
+          window.console.log("Demo exited with code " + _ret);
+          window.console.log = oldConsoleLog;
+        });
       }
       function logFn(text) {
         if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
@@ -186,6 +196,7 @@
         print: logFn,
         printErr: logFn,
         onRuntimeInitialized: () => {
+          buttonElement.disabled = false;
           if (autoRun)
             runQED();
         },

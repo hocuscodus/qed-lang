@@ -25,5 +25,5 @@ Academically, the goal of QED is to illustrate how simple concepts such as funct
 
 You may take a look at the [demos]({{ site.baseurl }}/demos) or, if you want to dig further to discover how it works, the [tutorial]({{ site.baseurl }}/tutorial/qed-basics). There's also a [FAQ]({{ site.baseurl }}/faq) that will grow over time.
 
-If you have a specific question on QED, please inquire at qedlang@gmail.com.
+If you have a more specific question on QED, please inquire at qedlang@gmail.com.
 {: .notice--info}

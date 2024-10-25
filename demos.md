@@ -22,7 +22,6 @@ Some demos for now. More later...
 
 {% include demoframe.html qedsrc="demos/logo.qed" code="55" gui="97" height="400px" %}
 
-
 <script type="application/javascript">
 function resizeIFrameToFitContent( iFrame ) {
     if (iFrame.height != iFrame.contentWindow.document.body.scrollHeight)
@@ -42,4 +41,3 @@ window.addEventListener('DOMContentLoaded', function(e) {
   });
 });
 </script>
-

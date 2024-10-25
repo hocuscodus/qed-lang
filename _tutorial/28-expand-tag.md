@@ -39,7 +39,7 @@ As you can see the blue rectangle completely covers its parent red rectangle. By
 I'll tell you how to override this in the next notice, so read on.
 {: .notice--info}
 
-What happens though if there are more than one element displayed on a given direction? Let's add an orange rectangle (containing ", ") and a green one (with "World!" insize) beside the blue rectangle.
+What happens though if there are more than one element displayed on a given direction? Let's add an orange rectangle (containing ", ") and a green one (with "World!" inside) beside the blue rectangle.
 
 {% include sandboxframe.html qedsrc="tutorial/expand4.qed" code="65" gui="97" height="170px" %}
 
@@ -70,7 +70,7 @@ So this is it with the default expansion. There is no predefined default value l
 
 ## Using the `expand` tag
 
-When default expansion is no longer convenient to your needs, you must specify the `expand` tag explicitly. The good news is, once you know how default expansion works, the `expand` tag usage is rather easy.
+When the default expansion is no longer convenient to your needs, you must specify the `expand` tag explicitly. The good news is, once you know how default expansion works, the `expand` tag usage is rather easy.
 
 Let's start with the previous example (recopied here to facilitate comparison with the next one), where the blue rectangle, by default, completely covers the red rectangle.
 
@@ -91,7 +91,7 @@ You may rather want to cover exactly 50% of the red rectangle size, regardless o
 
 {% include sandboxframe.html qedsrc="tutorial/expand10.qed" code="65" gui="97" height="150px" %}
 
-This time, adding characters to the "Hello" has no effect on the blue rectangle size. It really takes into account both text and red rectangle sizes.
+This time, adding characters to the "Hello" has no effect on the blue rectangle size. The blue rectangle dimensions is only based on the red rectangle size.
 {: .notice--info}
 
 For cases where the `out` tag does not specify the size (e.g. `out: rect`) and the UI element has no sizeable child, you don't have to specify the `size: 0` tag. It will assume it.
@@ -112,7 +112,7 @@ Ok, now, let's say we want to control the expansion in the empty red area. The e
 
 {% include sandboxframe.html qedsrc="tutorial/expand12.qed" code="65" gui="97" height="170px" %}
 
-If you intend to use 100% of one dimension, you are not obligated to define percentages in the UI elements where the total is 100%. You may have a greater total. QED will convert them into percentages. That allows for "weights" or "parts" (which you may have seen in other technologies) to be used instead of percentages. Let's say you want three "parts" of the empty space for the "Hello" rectangle and two for the "World!" rectangle. Just use these numbers in the right dimension (horizontal in this case). This time the vertical expansion will be nullified (which now requires an `expand: 0` tag in the ", " rectangle). Let's also center "Hello" and "World!" to make it look better.
+If you intend to use 100% of one dimension, you are not obligated to define percentages in the UI elements where the total is 100%. You may have a greater total. QED will convert them into percentages. That allows for "weights" or "parts" (which you may have seen in other languages) to be used instead of percentages. Let's say you want three "parts" of the empty space for the "Hello" rectangle and two for the "World!" rectangle. Just use these numbers in the right dimension (horizontal in this case). This time the vertical expansion will be nullified (which now requires an `expand: 0` tag in the ", " rectangle). Let's also center "Hello" and "World!" to make it look better.
 
 {% include sandboxframe.html qedsrc="tutorial/expand13.qed" code="65" gui="97" height="170px" %}
 

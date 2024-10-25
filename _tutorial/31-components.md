@@ -46,7 +46,7 @@ In the next example, we define a single `QedTextButton` instance, viewed multipl
 
 {% include sandboxframe.html qedsrc="tutorial/components5.qed" code="75" gui="50" height="440px" %}
 
-Let's tweak the `QedTextButton` to match the look of the button we defined at hand. In addition to inherited tags, compoenents also provide other functions to further customize their look or behavior.
+Let's tweak the `QedTextButton` to match the look of the button we defined at hand. In addition to inherited tags, components also provide other functions to further customize their look or behavior.
 
 {% include sandboxframe.html qedsrc="tutorial/components6.qed" code="75" gui="40" height="150px" %}
 

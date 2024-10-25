@@ -71,4 +71,4 @@ The QED library will be open source, under the AGPL license, as QED is not ready
 
 ## This looks interesting. May I contribute?
 
-Contributors are welcome! There are still lots of things to do on many aspects: compiler, library, QED modules, UI component templates, debugger with QED source code, documentation, etc. Please DM me through email (qedlang@gmail.com), [X](https://x.com/qedlang) or [reddit](https://www.reddit.com/r/qedlang). If enough people are interested, I'll set up something like, for instance, a Discord community.
+Contributors are welcome! There are still lots of things to do on many aspects: compiler, library, QED modules, UI component templates, better tooling, documentation, etc. Please DM me through email (qedlang@gmail.com), [X](https://x.com/qedlang) or [reddit](https://www.reddit.com/r/qedlang). If enough people are interested, I'll set up something like, for instance, a Discord community.

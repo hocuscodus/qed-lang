@@ -6,7 +6,9 @@ permalink: /faq/
 
 ## What is QED
 
-QED is a programming language primarily aimed at developing web applications. It sits on top of Javascript for developing the GUI related parts in shorter, clearer code than JS. From the QED source code, the QED compiler generates the equivalent JS code so your application can be run by existing browser engines without needing any extension. There is no QED interpreter/virtual machine, only a compiler to generate plain JS code.
+Whiie many people consider the GUI a solved problem, some don't tend to think so. The QED programming language attempts to sort it out by fully integrating GUI core principles inside its fundamental design.
+
+At a practical level, QED today is primarily aimed at developing web applications. It sits on top of Javascript for developing the GUI related parts in shorter, clearer code than JS. From the QED source code, the QED compiler generates the equivalent JS code so your application can be run by existing browser engines without needing any extension. There is no QED interpreter/virtual machine, only a compiler to generate plain JS code.
 
 ## Is QED intended to replace JS?
 

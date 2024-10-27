@@ -4,7 +4,7 @@ title: Quick tour of QED
 permalink: /tour/
 ---
 
-The QED programming language is a take on the age-old GUI problem, for those like me who still consider it unsolved.
+The QED programming language is a take on the age-old GUI problem, for those who still consider it unsolved.
 
 To sort it out means, to me, being able to encode a GUI application as easily as a text-based app, with about the same number of lines.
 

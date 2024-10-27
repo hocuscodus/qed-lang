@@ -1,0 +1,11 @@
+// Small countdown GUI
+
+// Model definition
+int num
+
+// Business logic
+for (num = 3; num > 0; num--)
+  QedTimer(1000)
+
+// UI definition
+<out: num ? "" + num : "GO!"; fontSize: 100;>

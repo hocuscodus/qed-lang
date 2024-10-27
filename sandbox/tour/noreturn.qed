@@ -1,0 +1,15 @@
+void MyClass() {
+  println("In MyClass()... no return call here.")
+
+  // Enter event loop inside MyClass() call, to prevent,
+  // uncomment next line and rerun to see the diff
+  //return
+}
+
+println("Calling MyClass()")
+
+MyClass()
+
+// WILL NEVER EXECUTE THESE LINES...
+println("After MyClass() call, 'return' was met!")
+println("End of script, entering event loop...")

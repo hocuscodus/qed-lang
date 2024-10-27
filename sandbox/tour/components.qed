@@ -1,0 +1,25 @@
+// Small countdown component
+
+void Countdown(int count) {
+  // Model definition
+  int num
+
+  // Business logic
+  for (num = count; num > 0; num--)
+    QedTimer(1000)
+
+  return
+
+  // UI definition
+  <out: num ? "" + num : "GO!";>
+}
+
+// Main business logic
+Countdown count5 = new Countdown(5) -> println("Red countdown done.")
+Countdown count3 = new Countdown(3) -> println("Blue countdown done.")
+
+// Main UI
+<| fontSize: 70;
+  <out: count5; fillStyle: "red";>
+  <out: count3; fillStyle: "blue";>
+>

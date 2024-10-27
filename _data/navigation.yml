@@ -1,5 +1,7 @@
 # main links
 main:
+  - title: "Quick tour"
+    url: /tour/
   - title: "FAQ"
     url: /faq/
   - title: "Tutorial"

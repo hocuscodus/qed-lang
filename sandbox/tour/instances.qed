@@ -1,0 +1,13 @@
+void MyClass(int a) {
+  int double = a * 2
+
+  void printDouble() {
+    println("double of " + a + " = " + double)
+  }
+}
+
+MyClass obj= new MyClass(5)
+
+obj.printDouble()
+println("obj.a = " + obj.a)
+println("obj.double = " + obj.double)

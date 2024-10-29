@@ -8,7 +8,7 @@ The QED programming language is a take on the age-old GUI problem, for those who
 
 To sort it out means, to me, being able to encode a GUI application as easily as a text-based app, with about the same number of lines.
 
-The only way I can think of to reach that goal is to design a language that perfectly integrates GUI core principles in its intrinsic design.
+The only way I could think of to reach that goal was to design a language that perfectly integrates GUI core principles in its intrinsic design.
 
 Without further ado, here is how these GUI concepts get gradually infused within the QED language.
 
@@ -52,4 +52,8 @@ To create various forms, just like for components, encapsulate their business lo
 
 You can have any number of overlapping dialogs, as they are directly linked to the class call stack.
 
-That's all! As you see, armed with such a language design fully integrating GUI concepts, you can easily build any sophisticated GUI apps!
+Here's hoping this overview gave you a clearer idea of QED. By fully integrating GUI concepts, QED enables the smoother development of sophisticated GUI web apps!
+
+For a more detailed description and other cool features of QED, please see the the [tutorial]({{ site.baseurl }}/tutorial/qed-basics).
+{: .notice--info}
+

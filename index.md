@@ -23,7 +23,7 @@ QED is a programming language for web app development. It sits on top of Javascr
 
 Take the [quick tour]({{ site.baseurl }}/tour) for an overview of how QED works! You may also take a look at the [demos]({{ site.baseurl }}/demos) or, if you want to dig further to discover how it works, the [tutorial]({{ site.baseurl }}/tutorial/qed-basics). There's also a [FAQ]({{ site.baseurl }}/faq) that will grow over time.
 
-Academically, the goal of QED is to illustrate how simple concepts such as function call and class instantiation can lead up to more sophisticated topics such as concurrency and GUI design, hence the QED name (Q.E.D. means "quod erat demonstrandum" or "that which was to be demonstrated" - not related to type theory in our context). Practically though, the real goal is to simplify your life as a software developer by providing more power to your lines of code (or the same power for *less* lines of code).
+Academically, QED tackles the well-known GUI problem by illustrating how simple concepts such as function call and class instantiation naturally lead up to sophisticated topics such as concurrency and UI design, hence the QED name (Q.E.D. means "quod erat demonstrandum" or "that which was to be demonstrated" - not related to type theory in our context). Practically though, the real goal is to simplify your life as a software developer by providing more power to your lines of code (or the same power for *less* lines of code).
 {: .notice--info}
 
 If you have a more specific question on QED, please inquire at qedlang@gmail.com.

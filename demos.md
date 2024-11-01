@@ -24,22 +24,25 @@ Some demos for now. More later...
 
 <script type="application/javascript">
 function resizeIFrameToFitContent( iFrame ) {
-//    if (iFrame.height != iFrame.contentWindow.document.body.scrollHeight)
+    if (iFrame.height != iFrame.contentWindow.document.body.scrollHeight)
       iFrame.height = iFrame.contentWindow.document.body.scrollHeight;
 }
 window.addEventListener('DOMContentLoaded', function(e) {
   // or, to resize all iframes:
   var iframes = document.querySelectorAll("iframe");
 
+  console.log("Resizing " + iframes.length + " iframes");
+
   for( var i = 0; i < iframes.length; i++)
     iframes[i].width = iframes[i].contentWindow.document.body.scrollWidth;
 
-  setInterval(() => {
-    var iframes = document.querySelectorAll("iframe");
+  (function refresh() {
+      setTimeout(function() {
+          for( var i = 0; i < iframes.length; i++)
+            resizeIFrameToFitContent( iframes[i] );
 
-    for( var i = 0; i < iframes.length; i++) {
-      resizeIFrameToFitContent( iframes[i] );
-    }
-  });
+          refresh();
+      }, 100);
+  })();
 });
 </script>

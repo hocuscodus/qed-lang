@@ -27,22 +27,30 @@ function resizeIFrameToFitContent( iFrame ) {
     if (iFrame.height != iFrame.contentWindow.document.body.scrollHeight)
       iFrame.height = iFrame.contentWindow.document.body.scrollHeight;
 }
-window.addEventListener('DOMContentLoaded', function(e) {
-  // or, to resize all iframes:
-  var iframes = document.querySelectorAll("iframe");
+window.addEventListener('DOMContentLoaded', function listen(event) {
+  try {
+    // or, to resize all iframes:
+    var iframes = document.querySelectorAll("iframe");
 
-  console.log("Resizing " + iframes.length + " iframes");
+    try {
+      for( var i = 0; i < iframes.length; i++)
+        iframes[i].width = iframes[i].contentWindow.document.body.scrollWidth;
+    } catch (e) {
+      console.log(e.name + "-> " + e.message);
+    }
 
-  for( var i = 0; i < iframes.length; i++)
-    iframes[i].width = iframes[i].contentWindow.document.body.scrollWidth;
-
-  (function refresh() {
-      setTimeout(function() {
-          for( var i = 0; i < iframes.length; i++)
-            resizeIFrameToFitContent( iframes[i] );
-
-          refresh();
-      }, 100);
-  })();
+    setInterval(() => {
+      try {
+        for( var i = 0; i < iframes.length; i++) {
+          resizeIFrameToFitContent( iframes[i] );
+        }
+      } catch (e) {
+        console.log(e.name + ": " + e.message);
+      }
+    });
+  } catch (f) {
+    console.log(f.name + ": " + f.message);
+    listen(event)
+  }
 });
 </script>

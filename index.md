@@ -23,7 +23,7 @@ QED is a programming language for web app development. It sits on top of Javascr
 
 Here is a trivial example of QED brevity and power.
 
-{% include sandboxframe.html qedsrc="counter.qed" code="50" gui="97" height="115px" autorun=true %}
+{% include sandboxframe.html qedsrc="counter.qed" code="60" gui="97" height="115px" autorun=true %}
 
 Take the [quick tour]({{ site.baseurl }}/tour) for an overview of how QED works! You may also take a look at the [demos]({{ site.baseurl }}/demos) or, if you want a deeper understanding, the [tutorial]({{ site.baseurl }}/tutorial/qed-basics). There's also a [FAQ]({{ site.baseurl }}/faq) that will grow over time.
 

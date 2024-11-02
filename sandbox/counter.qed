@@ -1,0 +1,6 @@
+int num = 0
+
+while (QedTimer(1000))
+  num++
+
+<out: "Count value is " + num;>

@@ -1,5 +1,0 @@
-var s
-
-s = "a string" // s is a string
-s = 4          // s is now an int
-println(s)

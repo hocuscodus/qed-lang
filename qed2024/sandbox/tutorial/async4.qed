@@ -1,1 +1,0 @@
-10 new QedTimer((int) (rand() * 5000)) -> println("Timer ended")

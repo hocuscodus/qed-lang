@@ -1,15 +1,69 @@
 // Flappy bird - QED adaptation by Martin Savage
-// Port from the original JS code (https://github.com/aaarafat/JS-Flappy-Bird/blob/master/game.js)
-int RAD = ((int) /$Math.PI$/) / 180
-var bgImage = QedImageLoader("img/BG.png")
-var groundImage = QedImageLoader("img/ground.png")
-var pipeTopImage = QedImageLoader("img/toppipe.png")
-var pipeBottomImage = QedImageLoader("img/botpipe.png")
-var gameOverImage = QedImageLoader("img/go.png")
-var getReadyImage = QedImageLoader("img/getready.png")
+// Port from https://github.com/aaarafat/JS-Flappy-Bird/blob/master/game.js
+
+// Tap images and component
 QedImage[] tapImages = []
 tapImages[0] = QedImageLoader("img/tap/t0.png")
 tapImages[1] = QedImageLoader("img/tap/t1.png")
+
+void TapSprite() {
+  int frame = 0
+  int frames = 0
+
+  while (QedYield())
+    if (frames++ % 10 == 0)
+      frame = 1 - frame
+
+  <out: tapImages[frame];>
+}
+
+// Ground image and component
+var groundImage = QedImageLoader("img/ground.png")
+
+void GroundSprite(int dx) {
+  int x = 0
+
+  while (QedYield())
+    x = (x - dx) % (getImageSize(groundImage)[0] / 2)
+
+  <out: groundImage; pos: [x, 0];>
+}
+
+// Pipe images and component
+var pipeTopImage = QedImageLoader("img/toppipe.png")
+var pipeBottomImage = QedImageLoader("img/botpipe.png")
+
+void PipeSprite(int dx) {
+  int x = 276 - dx
+  int y = -210 * min((int) rand() + 1, (int) 1.8)
+  int gap = 85
+  bool moved = false
+  int[] size = getImageSize(pipeTopImage)
+  int roof = y + size[1]
+  int floor = roof + gap
+
+  while (QedYield())
+    x -= dx
+
+  bool collisioned(int birdX, int birdY, int birdSize) {
+    return birdX + birdSize >= x && birdX + birdSize < x + size[0] &&
+             (birdY - birdSize <= roof || birdY + birdSize >= floor)
+  }
+
+  bool hasMoved(int birdX) {
+    if (!moved && birdX >= x + size[0]) {
+      moved = true
+      return true
+    }
+
+    return false
+  }
+
+  <out: pipeTopImage; pos: [x, y];>
+  <out: pipeBottomImage; pos: [x, y + getImageSize(pipeTopImage)[1] + gap];>
+}
+
+// Bird images, sounds and component
 QedImage[] birdImages = []
 birdImages[0] = QedImageLoader("img/bird/b0.png")
 birdImages[1] = QedImageLoader("img/bird/b1.png")
@@ -17,20 +71,86 @@ birdImages[2] = QedImageLoader("img/bird/b2.png")
 birdImages[3] = QedImageLoader("img/bird/b0.png")
 VoidFn *SfxStart = QedAudioLoader("sfx/start.wav")
 VoidFn *SfxFlap = QedAudioLoader("sfx/flap.wav")
-VoidFn *SfxScore = QedAudioLoader("sfx/score.wav")
-VoidFn *SfxHit = QedAudioLoader("sfx/hit.wav")
 VoidFn *SfxDie = QedAudioLoader("sfx/die.wav")
-GroundSprite ground = new GroundSprite()
-BirdSprite bird = new BirdSprite()
-PipeSprite[] pipes = 0 new PipeSprite()
-TapSprite tap = new TapSprite()
-UserTrigger onUserTrigger = new UserTrigger()
-QedInterval onUpdate = new QedInterval(20)
-int currentScore = 0
-int bestScore = 0
-int frames = 0;
-int dx = 2;
 
+void BirdSprite(int groundY) {
+  int RAD = ((int) /$Math.PI$/) / 180
+  int frames = 0
+  int rotation = 0
+  int speed = 0
+  int gravity = 0.25 // was 0.125 in original
+  int thrust = 3.6
+  int frame = 0
+  bool waiting = true
+  bool alive = true
+  int[] size = getImageSize(birdImages[0])
+  int x = 50 - size[0] / 2
+  int y = 100 - size[0] / 2
+
+  // waiting
+  while (QedYield() && alive && waiting) {
+    y += frames % 10 == 0 ? sin(frames * RAD) : 0
+    frame += frames++ % 10 == 0 ? 1 : 0
+    frame = frame % birdImages.size()
+  }
+
+  new SfxStart()
+
+  // playing
+  while (alive) {
+    setRotation()
+    frame = (frame + (frames++ % 5 == 0 ? 1 : 0)) % birdImages.size()
+    QedYield()
+  }
+
+  frame = 1
+
+  // falling
+  while (y + size[0] < groundY) {
+    setRotation()
+    speed += gravity
+    QedYield()
+  }
+
+  // dead
+  new SfxDie()
+  speed = 0
+  y = groundY - size[0]
+  rotation = 90
+  return
+
+  void start() {
+    waiting = false
+  }
+
+  void flap() {
+    if (y > 0) {
+      new SfxFlap()
+      speed = -thrust
+    }
+  }
+
+  void die() {
+    alive = false
+  }
+
+  void setRotation() {
+    if (speed <= 0)
+      rotation = max(-25, (int) (-25 * speed) / (-1 * thrust))
+    else
+      rotation = min(90, (int) (90 * speed) / (thrust * 2))
+
+    y += speed
+    speed += gravity
+  }
+
+  <size:size[0]; pos: [x, y];
+    <out: birdImages[frame]; rotation: rotation * RAD;>
+  >
+}
+
+// Update and user click event generators
+QedInterval onUpdate = new QedInterval(20)
 void UserTrigger() {
   QedYield trigger
 
@@ -43,6 +163,7 @@ void UserTrigger() {
 
   waitUserTrigger_()
 }
+UserTrigger onUserTrigger = new UserTrigger()
 /$
 canvas.addEventListener("click", () => {
   Main_$this.qedResume(Main$this.onUserTrigger.trigger);
@@ -53,187 +174,98 @@ canvas.onkeydown = function keyDown(e) {
     Main_$this.qedResume(Main$this.onUserTrigger.trigger);
 };
 $/
-void TapSprite() {
-  int frame = 0
 
-  while (QedYield())
-    if (frames % 10 == 0)
-      frame = 1 - frame
+// Game images, sounds and component
+var bgImage = QedImageLoader("img/BG.png")
+var getReadyImage = QedImageLoader("img/getready.png")
+var gameOverImage = QedImageLoader("img/go.png")
+VoidFn *SfxScore = QedAudioLoader("sfx/score.wav")
+VoidFn *SfxHit = QedAudioLoader("sfx/hit.wav")
 
-  <out: tapImages[frame];>
-}
+int FlappyBirdGame(int bestScore) {
+  int dx = 2
+  GroundSprite ground = new GroundSprite(dx)
+  BirdSprite bird = new BirdSprite(414 - getImageSize(groundImage)[1])
+  PipeSprite[] pipes = 0 new PipeSprite(dx)
+  TapSprite tap = new TapSprite()
 
-void GroundSprite() {
-  int x = 0
-  int y = 0
-
-  while (QedYield())
-    x = (x - dx) % (getImageSize(groundImage)[0] / 2)
-
-  <out: groundImage; pos: [x, 0];>
-  <out: (void l(int x, int y1, int w, int h) {y = y1});>
-}
-
-void PipeSprite() {
-  int x = 276 - dx
-  int y = -210 * min((int) rand() + 1, (int) 1.8)
-  int gap = 85
-  bool moved = false
-  int[] size = getImageSize(pipeTopImage)
-
-  while (QedYield())
-    x -= dx
-
-  bool collisioned(int birdX, int birdY, int birdSize) {
-    int roof = y + size[1]
-    int floor = roof + gap;
-
-    if (birdX + birdSize >= x)
-      if (birdX + birdSize < x + size[0]) {
-        if (birdY - birdSize <= roof || birdY + birdSize >= floor) {
-          new SfxHit()
-          return true
-        }
-      }
-      else
-        if (!moved) {
-          currentScore++;
-          new SfxScore();
-          moved = true;
-        }
-
-    return false
-  }
-
-  <out: pipeTopImage; pos: [x, y];>
-  <out: pipeBottomImage; pos: [x, y + getImageSize(pipeTopImage)[1] + gap];>
-}
-
-void BirdSprite() {
-  int rotation = 0
-  int speed = 0
-  int gravity = 0.125
-  int thrust = 3.6
-  int frame = 0
-  bool alive = true
-  int[] size = getImageSize(birdImages[0])
-  int x = 50 - size[0] / 2
-  int y = 100 - size[0] / 2
-
-  // playing
-  while (alive && QedYield()) {
-    setRotation();
-    frame = (frame + (frames % 5 == 0 ? 1 : 0)) % birdImages.size()
-    alive = y + size[0] < ground.y && !collisioned()
-  }
-
-  // falling
-  while (QedYield() && y + size[0] < ground.y) {
-    setRotation();
-    speed += gravity;
-  }
-
-  // dead
-  new SfxDie();
-  speed = 0;
-  y = ground.y - size[0];
-  rotation = 90;
-
-  void animBeforeStart() {
-    y += frames % 10 == 0 ? sin(frames * RAD) : 0;
-    frame += frames % 10 == 0 ? 1 : 0;
-    frame = frame % birdImages.size();
-  }
-
-  void flap() {
-    if (y > 0) {
-      new SfxFlap()
-      speed = -thrust;
-    }
-  }
-
-  void setRotation() {
-    if (speed <= 0)
-      rotation = max(-25, (int) (-25 * speed) / (-1 * thrust))
-    else
-      rotation = min(90, (int) (90 * speed) / (thrust * 2))
-
-    y += speed;
-    speed += gravity;
-  }
-
-  bool collisioned() {
-    return pipes.size() && pipes[0].collisioned(x + size[0] / 2, y + size[1] / 2, size[1] / 4 + size[0] / 4)
-  }
-
-  <size:size[0]; pos: [x, y];
-    <out: birdImages[alive ? frame : 1]; rotation: rotation * RAD;>
-  >
-}
-
-void GetReady() {
-  onUpdate -> {
-    bird.animBeforeStart();
-    qedResume(tap)
-    frames++
-  }
-  onUserTrigger -> return
-
-  <out: getReadyImage; align: 50%;
-    <out: tap; align: [50%, 100%];>
-  >
-}
-
-void Play() {
-  new SfxStart()
-  onUpdate -> {
-    qedResume([bird, pipes, ground])
-
-    if (!bird.alive)
-      return
-
-    if (frames++ % 100 == 0)
-      pipes++
-
-    if (pipes.size() && pipes[0].x < -getImageSize(pipeTopImage)[0])
-      pipes.remove([0], [1])
-  }
-  onUserTrigger -> bird.flap()
-
-  <out: currentScore; align: [50%, 0]; pos: [0, 20]; font: "35px Squada One";
-   fillStyle: "#FFFFFF"; strokeStyle: "#000000"; lineWidth: 2;>
-}
-
-void GameOver() {
-  bestScore = max(currentScore, bestScore)
-
-  onUpdate -> {
-    qedResume([bird, tap])
-    frames++
-  }
-  onUserTrigger -> return
-
-  <out: gameOverImage; align: 50%;
-    <out: tap; align: [50%, 100%];>
-  >
-  <lineWidth: 2; font: "40px Squada One"; fillStyle: "white"; strokeStyle: "black";
-    <out: "SCORE  :     " + currentScore; pos: [58, 175];>
-    <out: "BEST  :     " + bestScore; pos: [58, 205];>
-  >
-}
-
-while (true) {
   GetReady()
-  Play()
+  int currentScore = Play()
   GameOver()
-  currentScore = 0
-  bird = new BirdSprite()
-  while (pipes.size()) pipes--
+  return bestScore
+
+  void GetReady() {
+    onUserTrigger -> return
+    onUpdate -> qedResume([bird, tap])
+
+    <out: getReadyImage; align: 50%;
+      <out: tap; align: [50%, 100%];>
+    >
+  }
+
+  int Play() {
+    int score = 0
+    int frames = 0
+    int birdSize = bird.size[1] / 4 + bird.size[0] / 4
+
+    bird.start()
+
+    onUserTrigger -> bird.flap()
+    onUpdate -> {
+      qedResume([bird, ground, pipes])
+
+      if (frames++ % 100 == 0)
+        pipes++
+
+      if (bird.y + bird.size[0] >= bird.groundY)
+        return score
+
+      if (pipes.size())
+        if (pipes[0].collisioned(bird.x + bird.size[0] / 2, bird.y + bird.size[1] / 2, birdSize)) {
+          new SfxHit()
+          return score
+        }
+        else
+          if (pipes[0].hasMoved(bird.x + bird.size[0] / 2 + birdSize)) {
+            new SfxScore()
+            score++
+          }
+          else
+            if (pipes[0].x < -getImageSize(pipeTopImage)[0])
+              pipes.remove([0], [1])
+    }
+
+    <out: score; align: [50%, 0]; pos: [0, 20]; font: "35px Squada One";
+    fillStyle: "#FFFFFF"; strokeStyle: "#000000"; lineWidth: 2;>
+  }
+
+  void GameOver() {
+    bird.die()
+    bestScore = max(currentScore, bestScore)
+
+    onUserTrigger -> return
+    onUpdate -> qedResume([bird, tap])
+
+    <out: gameOverImage; align: 50%;
+      <out: tap; align: [50%, 100%];>
+    >
+    <lineWidth: 2; font: "40px Squada One"; fillStyle: "white"; strokeStyle: "black";
+      <out: "SCORE  :     " + currentScore; pos: [58, 175];>
+      <out: "BEST  :     " + bestScore; pos: [58, 205];>
+    >
+  }
+
+  <out: rect; size: [276, 414]; fillStyle: "#30c0df";
+    <out: bgImage; align: 100%;>
+    <out: pipes;>
+    <out: bird;>
+    <out: ground; align: [0, 100%];>
+  >
 }
 
-<out: rect; size: [276, 414]; fillStyle: "#30c0df";
-  <out: bgImage; align: 100%;>
-  <out: pipes;>
-  <out: bird;>
-  <out: ground; align: [0, 100%];>
->
+int bestScore = 0
+
+while (true)
+  bestScore = FlappyBirdGame(bestScore)
+
+<out: "Loading...";>

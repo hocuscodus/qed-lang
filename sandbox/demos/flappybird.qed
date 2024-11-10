@@ -2,17 +2,14 @@
 // Port from https://github.com/aaarafat/JS-Flappy-Bird/blob/master/game.js
 
 // Tap images and component
-QedImage[] tapImages = []
-tapImages[0] = QedImageLoader("img/tap/t0.png")
-tapImages[1] = QedImageLoader("img/tap/t1.png")
+QedImage[] tapImages = [QedImageLoader("img/tap/t0.png"), QedImageLoader("img/tap/t1.png")]
 
 void TapSprite() {
   int frame = 0
   int frames = 0
 
   while (QedYield())
-    if (frames++ % 10 == 0)
-      frame = 1 - frame
+    frame = (frame + (frames++ % 10 == 0 ? 1 : 0)) % tapImages.size()
 
   <out: tapImages[frame];>
 }
@@ -64,11 +61,8 @@ void PipeSprite(int dx) {
 }
 
 // Bird images, sounds and component
-QedImage[] birdImages = []
-birdImages[0] = QedImageLoader("img/bird/b0.png")
-birdImages[1] = QedImageLoader("img/bird/b1.png")
-birdImages[2] = QedImageLoader("img/bird/b2.png")
-birdImages[3] = QedImageLoader("img/bird/b0.png")
+String[] birdImageLabels = ["img/bird/b0.png", "img/bird/b1.png", "img/bird/b2.png", "img/bird/b0.png"]
+QedImage[] birdImages = i::birdImageLabels.size() QedImageLoader(birdImageLabels[i])
 VoidFn *SfxStart = QedAudioLoader("sfx/start.wav")
 VoidFn *SfxFlap = QedAudioLoader("sfx/flap.wav")
 VoidFn *SfxDie = QedAudioLoader("sfx/die.wav")
@@ -90,8 +84,7 @@ void BirdSprite(int groundY) {
   // waiting
   while (QedYield() && alive && waiting) {
     y += frames % 10 == 0 ? sin(frames * RAD) : 0
-    frame += frames++ % 10 == 0 ? 1 : 0
-    frame = frame % birdImages.size()
+    frame = (frame + (frames++ % 10 == 0 ? 1 : 0)) % birdImages.size()
   }
 
   new SfxStart()
@@ -184,13 +177,14 @@ VoidFn *SfxHit = QedAudioLoader("sfx/hit.wav")
 
 int FlappyBirdGame(int bestScore) {
   int dx = 2
+  int currentScore = 0
   GroundSprite ground = new GroundSprite(dx)
   BirdSprite bird = new BirdSprite(414 - getImageSize(groundImage)[1])
   PipeSprite[] pipes = 0 new PipeSprite(dx)
   TapSprite tap = new TapSprite()
 
   GetReady()
-  int currentScore = Play()
+  Play()
   GameOver()
   return bestScore
 
@@ -203,8 +197,7 @@ int FlappyBirdGame(int bestScore) {
     >
   }
 
-  int Play() {
-    int score = 0
+  void Play() {
     int frames = 0
     int birdSize = bird.size[1] / 4 + bird.size[0] / 4
 
@@ -218,24 +211,24 @@ int FlappyBirdGame(int bestScore) {
         pipes++
 
       if (bird.y + bird.size[0] >= bird.groundY)
-        return score
+        return
 
       if (pipes.size())
         if (pipes[0].collisioned(bird.x + bird.size[0] / 2, bird.y + bird.size[1] / 2, birdSize)) {
           new SfxHit()
-          return score
+          return
         }
         else
           if (pipes[0].hasMoved(bird.x + bird.size[0] / 2 + birdSize)) {
             new SfxScore()
-            score++
+            currentScore++
           }
           else
             if (pipes[0].x < -getImageSize(pipeTopImage)[0])
               pipes.remove([0], [1])
     }
 
-    <out: score; align: [50%, 0]; pos: [0, 20]; font: "35px Squada One";
+    <out: currentScore; align: [50%, 0]; pos: [0, 20]; font: "35px Squada One";
     fillStyle: "#FFFFFF"; strokeStyle: "#000000"; lineWidth: 2;>
   }
 

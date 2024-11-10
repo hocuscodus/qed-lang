@@ -655,7 +655,7 @@ var SQEDArray(InitFn *Init, int numDim, int[] dirs, Qui_ *Ui_) {
 
     InsertLevel(/$SQEDArray$this$/, /$SQEDArray$this.dims$/, pos, size, newSize, /$new Array(this.size.length).fill(0)$/, 0)
     /$SQEDArray$this.dims$/ = newSize
-    return /$this$/
+    return /$SQEDArray$this$/
   }
 
   var remove(int[] pos, int[] size) {
@@ -666,7 +666,7 @@ var SQEDArray(InitFn *Init, int numDim, int[] dirs, Qui_ *Ui_) {
 
     removeLevel(/$SQEDArray$this$/, /$SQEDArray$this.dims$/, pos, size, newSize, /$new Array(size.length).fill(0)$/, 0)
     /$SQEDArray$this.dims$/ = newSize
-    return /$this$/
+    return /$SQEDArray$this$/
   }
 
   void InsertLevel(var array, var dims, int[] pos, int[] size, int[] newSize, var pp, int level) {
@@ -729,7 +729,7 @@ var SQEDArray(InitFn *Init, int numDim, int[] dirs, Qui_ *Ui_) {
     pos[0] = /$SQEDArray$this.dims[0]$/
     size[0] = 1
     Insert(pos, size)
-    return /$this$/
+    return /$SQEDArray$this$/
   }
 
   var pop() {
@@ -739,7 +739,7 @@ var SQEDArray(InitFn *Init, int numDim, int[] dirs, Qui_ *Ui_) {
     pos[0] = /$SQEDArray$this.dims[0] - 1$/
     size[0] = 1
     remove(pos, size)
-    return /$this$/
+    return /$SQEDArray$this$/
   }
 }
 

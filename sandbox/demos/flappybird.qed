@@ -175,7 +175,7 @@ int FlappyBirdGame(int bestScore) {
     onUserTrigger -> {if (isKeyOk(_ret)) return}
     onUpdate -> qedResume([bird, tap])
 
-    <onRelease: return;>
+    <onClick: return;>
     <out: getReadyImage; align: 50%;
       <out: tap; align: [50%, 100%];>
     >
@@ -212,7 +212,7 @@ int FlappyBirdGame(int bestScore) {
               pipes.remove([0], [1])
     }
 
-    <onPress: bird.flap();>
+    <onClick: bird.flap();>
     <out: currentScore; align: [50%, 0]; pos: [0, 20]; font: "35px Squada One";
     fillStyle: "#FFFFFF"; strokeStyle: "#000000"; lineWidth: 2;>
   }
@@ -224,7 +224,7 @@ int FlappyBirdGame(int bestScore) {
     onUserTrigger -> {if (isKeyOk(_ret)) return}
     onUpdate -> qedResume([bird, tap])
 
-    <onRelease: return;>
+    <onClick: return;>
     <out: gameOverImage; align: 50%;
       <out: tap; align: [50%, 100%];>
     >

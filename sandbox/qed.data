@@ -117,6 +117,15 @@ canvas.addEventListener(pointerSupported ? "pointerup" : "mouseUp", function(ev)
 
   Main_$this.onGlobalEvent(1, [canvasX, canvasY]);
 });
+canvas.addEventListener("click", function(ev) {
+  var rect = canvas.getBoundingClientRect();
+  const mouseX = event.clientX - rect.left;
+  const mouseY = event.clientY - rect.top;
+  const canvasX = mouseX * canvas.width / canvas.clientWidth;
+  const canvasY = mouseY * canvas.height / canvas.clientHeight;
+
+  Main_$this.onGlobalEvent(2, [canvasX, canvasY]);
+});
 if (pointerSupported)
   canvas.addEventListener("pointercancel", function(ev) {
     var rect = canvas.getBoundingClientRect();

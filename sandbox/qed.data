@@ -1863,17 +1863,17 @@ var start_(var[] args, intHandler_ returnFn) {
 }
 void VoidFn() {}
 VoidFn QedAudioLoader(String url) {
-  /$const audio = new Audio(url)$/
+  var audio = /$new Audio(url)$/
 
   void Aud() {
-    /$audio.play();
-    audio.onended = function(event) {
+    /$QedAudioLoader$this.audio.play();
+    QedAudioLoader$this.audio.onended = function(event) {
       _qedCallback(Aud$this, null);
     }$/
   }
 
-  /$audio.addEventListener("canplaythrough", function audioListener(event) {
-    audio.removeEventListener("canplaythrough", audioListener);
+  /$QedAudioLoader$this.audio.addEventListener("canplaythrough", function audioListener(event) {
+    QedAudioLoader$this.audio.removeEventListener("canplaythrough", audioListener);
     _qedCallback(QedAudioLoader$this, QedAudioLoader$this.Aud)
   })$/
 }
@@ -1884,3 +1884,26 @@ void QedInterval(int timeoutMillis) {
     _qedCallback(QedInterval$this, null);
   }, timeoutMillis)$/
 }
+int QedKeyEvent() {
+  int keyCode
+  QedYield trigger
+
+  void waitUserTrigger_() {
+    trigger = new QedYield() -> {
+      waitUserTrigger_()
+      return keyCode
+    }
+  }
+
+  void fetchKeyCode(int code) {
+    keyCode = code
+    qedResume(trigger)
+  }
+
+  /$canvas.tabIndex = 1;
+  canvas.onkeydown = function keyDown(e) {
+    QedKeyEvent$this.fetchKeyCode(e.keyCode);
+  }$/
+  waitUserTrigger_()
+}
+ 

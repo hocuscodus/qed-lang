@@ -19,9 +19,10 @@ var groundImage = QedImageLoader("img/ground.png")
 
 void GroundSprite(int dx) {
   int x = 0
+  int[] size = getImageSize(groundImage)
 
   while (QedYield())
-    x = (x - dx) % (getImageSize(groundImage)[0] / 2)
+    x = (x - dx) % (size[0] / 2)
 
   <out: groundImage; pos: [x, 0];>
 }
@@ -57,7 +58,7 @@ void PipeSprite(int dx) {
   }
 
   <out: pipeTopImage; pos: [x, y];>
-  <out: pipeBottomImage; pos: [x, y + getImageSize(pipeTopImage)[1] + gap];>
+  <out: pipeBottomImage; pos: [x, floor];>
 }
 
 // Bird images, sounds and component
@@ -91,7 +92,7 @@ void BirdSprite(int groundY) {
 
   // playing
   while (alive) {
-    setRotation()
+    setMovement()
     frame = (frame + (frames++ % 5 == 0 ? 1 : 0)) % birdImages.size()
     QedYield()
   }
@@ -100,7 +101,7 @@ void BirdSprite(int groundY) {
 
   // falling
   while (y + size[0] < groundY) {
-    setRotation()
+    setMovement()
     speed += gravity
     QedYield()
   }
@@ -127,7 +128,7 @@ void BirdSprite(int groundY) {
     alive = false
   }
 
-  void setRotation() {
+  void setMovement() {
     if (speed <= 0)
       rotation = max(-25, (int) (-25 * speed) / (-1 * thrust))
     else
@@ -142,33 +143,9 @@ void BirdSprite(int groundY) {
   >
 }
 
-// Update and user click event generators
+// Game event handlers, images, sounds and component
 QedInterval onUpdate = new QedInterval(20)
-void UserTrigger() {
-  QedYield trigger
-
-  void waitUserTrigger_() {
-    trigger = new QedYield() -> {
-      waitUserTrigger_()
-      return
-    }
-  }
-
-  waitUserTrigger_()
-}
-UserTrigger onUserTrigger = new UserTrigger()
-/$
-canvas.addEventListener("click", () => {
-  Main_$this.qedResume(Main$this.onUserTrigger.trigger);
-});
-canvas.tabIndex = 1;
-canvas.onkeydown = function keyDown(e) {
-  if (e.keyCode == 32 || e.keyCode == 87 || e.keyCode == 38)
-    Main_$this.qedResume(Main$this.onUserTrigger.trigger);
-};
-$/
-
-// Game images, sounds and component
+QedKeyEvent onUserTrigger = new QedKeyEvent()
 var bgImage = QedImageLoader("img/BG.png")
 var getReadyImage = QedImageLoader("img/getready.png")
 var gameOverImage = QedImageLoader("img/go.png")
@@ -176,10 +153,11 @@ VoidFn *SfxScore = QedAudioLoader("sfx/score.wav")
 VoidFn *SfxHit = QedAudioLoader("sfx/hit.wav")
 
 int FlappyBirdGame(int bestScore) {
+  int[] screenSize = [276, 414]
   int dx = 2
   int currentScore = 0
   GroundSprite ground = new GroundSprite(dx)
-  BirdSprite bird = new BirdSprite(414 - getImageSize(groundImage)[1])
+  BirdSprite bird = new BirdSprite(screenSize[1] - ground.size[1])
   PipeSprite[] pipes = 0 new PipeSprite(dx)
   TapSprite tap = new TapSprite()
 
@@ -188,10 +166,16 @@ int FlappyBirdGame(int bestScore) {
   GameOver()
   return bestScore
 
+  // Accepted keys are space, W and Arrow Up
+  bool isKeyOk(int keyCode) {
+    return keyCode == 32 || keyCode == 87 || keyCode == 38
+  }
+
   void GetReady() {
-    onUserTrigger -> return
+    onUserTrigger -> {if (isKeyOk(_ret)) return}
     onUpdate -> qedResume([bird, tap])
 
+    <onRelease: return;>
     <out: getReadyImage; align: 50%;
       <out: tap; align: [50%, 100%];>
     >
@@ -203,7 +187,7 @@ int FlappyBirdGame(int bestScore) {
 
     bird.start()
 
-    onUserTrigger -> bird.flap()
+    onUserTrigger -> {if (isKeyOk(_ret)) bird.flap()}
     onUpdate -> {
       qedResume([bird, ground, pipes])
 
@@ -228,6 +212,7 @@ int FlappyBirdGame(int bestScore) {
               pipes.remove([0], [1])
     }
 
+    <onPress: bird.flap();>
     <out: currentScore; align: [50%, 0]; pos: [0, 20]; font: "35px Squada One";
     fillStyle: "#FFFFFF"; strokeStyle: "#000000"; lineWidth: 2;>
   }
@@ -236,9 +221,10 @@ int FlappyBirdGame(int bestScore) {
     bird.die()
     bestScore = max(currentScore, bestScore)
 
-    onUserTrigger -> return
+    onUserTrigger -> {if (isKeyOk(_ret)) return}
     onUpdate -> qedResume([bird, tap])
 
+    <onRelease: return;>
     <out: gameOverImage; align: 50%;
       <out: tap; align: [50%, 100%];>
     >
@@ -248,7 +234,7 @@ int FlappyBirdGame(int bestScore) {
     >
   }
 
-  <out: rect; size: [276, 414]; fillStyle: "#30c0df";
+  <out: rect; size: screenSize; fillStyle: "#30c0df";
     <out: bgImage; align: 100%;>
     <out: pipes;>
     <out: bird;>

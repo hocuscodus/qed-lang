@@ -12,7 +12,7 @@ The peculiarity of this implementation is that there is no state (getReady-play-
 
 It is basically a while loop (line 157) on GetReady(), Play(), GameOver() calls (lines 164-166). The various components are coroutines, so they execute in their own environment. For instance, the bird has two while loops: waiting to play and falling/flapping (then its fields are set for death). All objects are cleanly encapsulated.
 
-As a bonus, there is 33% less code than the original JS version.
+As a bonus, there is 43% less code than the original JS version.
 
 I know this OO strategy is against good practices when it comes to maxing game performance but for such a simple game, it still runs flawlessly while being easier to maintain and expand.
 

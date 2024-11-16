@@ -235,6 +235,8 @@ bool autoResize = true
 bool autoInit = false
 Window_[] windows;
 var MainObj;
+void QedRect(int x, int y, int width, int height) {}
+QedRect newQedRect(int width, int height) {return new QedRect(0, 0, width, height);}
 void _refresh(var obj, int x, int y, int width, int height) {
 /$let level = obj._refreshModels();
   if (Main_$this.fast)
@@ -282,26 +284,29 @@ int[] getBounds(String[] path, int[] index) {
 /$return Main_$this.windows.length ? Main_$this.windows[0].getBoundsRect(path, index, 0, 0, canvas.width, canvas.height, 0, 0) : []$/
 }
 void executeEvents_() {
-/$while (postHandler != null)
+/$let mainObjActive = Main_$this.MainObj && Main_$this.MainObj.active;
+
+  while (Main_$this.MainObj && Main_$this.MainObj.active && postHandler != null)
     if (postHandler instanceof Array) {
       const obj = postHandler[0];
       const ret = postHandler[1];
-    
+
       postHandler = null;
 
       if (obj._HandlerFn_)
         obj._HandlerFn_(ret);
     } else {
       const handler = postHandler;
-    
+
       postHandler = null;
       handler();
     }
 
-  if (this.MainObj)
+  if (Main_$this.MainObj && Main_$this.MainObj.active)
     _refresh(this.MainObj, 0, 0, canvas.width, canvas.height);
   else
-    ctx.clearRect(0, 0, canvas.width, canvas.height);$/
+    if (mainObjActive)
+      ctx.clearRect(0, 0, canvas.width, canvas.height);$/
 }
 bool qedEqual(var value1, var value2) {
   bool equal = value1 == value2

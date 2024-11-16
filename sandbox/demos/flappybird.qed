@@ -31,8 +31,7 @@ void GroundSprite(int dx) {
 var pipeTopImage = QedImageLoader("img/toppipe.png")
 var pipeBottomImage = QedImageLoader("img/botpipe.png")
 
-void PipeSprite(int dx) {
-  int x = 276 - dx
+void PipeSprite(int x, int dx) {
   int y = -210 * min((int) rand() + 1, (int) 1.8)
   int gap = 85
   bool moved = false
@@ -91,22 +90,23 @@ void BirdSprite(int groundY) {
   new SfxStart()
 
   // playing
-  while (alive) {
-    setMovement()
-    frame = (frame + (frames++ % 5 == 0 ? 1 : 0)) % birdImages.size()
-    QedYield()
-  }
-
-  frame = 1
-
-  // falling
   while (y + size[0] < groundY) {
-    setMovement()
-    speed += gravity
+    y += speed
+    speed += alive ? gravity : gravity * 2
+
+    if (alive)
+      frame = (frame + (frames++ % 5 == 0 ? 1 : 0)) % birdImages.size()
+
+    if (speed <= 0)
+      rotation = max(-25, (int) (-25 * speed) / (-1 * thrust))
+    else
+      rotation = min(90, (int) (90 * speed) / (thrust * 2))
+
     QedYield()
   }
 
   // dead
+  die()
   new SfxDie()
   speed = 0
   y = groundY - size[0]
@@ -116,7 +116,7 @@ void BirdSprite(int groundY) {
   void start() {
     waiting = false
   }
-
+ 
   void flap() {
     if (y > 0) {
       new SfxFlap()
@@ -126,24 +126,20 @@ void BirdSprite(int groundY) {
 
   void die() {
     alive = false
+    frame = 1
   }
 
-  void setMovement() {
-    if (speed <= 0)
-      rotation = max(-25, (int) (-25 * speed) / (-1 * thrust))
-    else
-      rotation = min(90, (int) (90 * speed) / (thrust * 2))
-
-    y += speed
-    speed += gravity
-  }
-
-  <size:size[0]; pos: [x, y];
+  <pos: [x, y]; size:size[0];
     <out: birdImages[frame]; rotation: rotation * RAD;>
   >
 }
 
-// Game event handlers, images, sounds and component
+// Accepted keys are space, W and Arrow Up
+bool isKeyOk(int keyCode) {
+  return keyCode == 32 || keyCode == 87 || keyCode == 38
+}
+
+// Game event handlers, images and sounds
 QedInterval onUpdate = new QedInterval(20)
 QedKeyEvent onUserTrigger = new QedKeyEvent()
 var bgImage = QedImageLoader("img/BG.png")
@@ -151,25 +147,23 @@ var getReadyImage = QedImageLoader("img/getready.png")
 var gameOverImage = QedImageLoader("img/go.png")
 VoidFn *SfxScore = QedAudioLoader("sfx/score.wav")
 VoidFn *SfxHit = QedAudioLoader("sfx/hit.wav")
+int dx = 2
+int[] screenSize = [276, 414]
+GroundSprite ground = new GroundSprite(dx)
+BirdSprite bird
+PipeSprite[] pipes = []
+int bestScore = 0
 
-int FlappyBirdGame(int bestScore) {
-  int[] screenSize = [276, 414]
-  int dx = 2
+while (true) {
   int currentScore = 0
-  GroundSprite ground = new GroundSprite(dx)
-  BirdSprite bird = new BirdSprite(screenSize[1] - ground.size[1])
-  PipeSprite[] pipes = 0 new PipeSprite(dx)
   TapSprite tap = new TapSprite()
+
+  bird = new BirdSprite(screenSize[1] - ground.size[1])
+  pipes = 0 new PipeSprite(screenSize[0], dx)
 
   GetReady()
   Play()
   GameOver()
-  return bestScore
-
-  // Accepted keys are space, W and Arrow Up
-  bool isKeyOk(int keyCode) {
-    return keyCode == 32 || keyCode == 87 || keyCode == 38
-  }
 
   void GetReady() {
     onUserTrigger -> {if (isKeyOk(_ret)) return}
@@ -194,12 +188,13 @@ int FlappyBirdGame(int bestScore) {
       if (frames++ % 100 == 0)
         pipes++
 
-      if (bird.y + bird.size[0] >= bird.groundY)
+      if (!bird.alive)
         return
 
       if (pipes.size())
         if (pipes[0].collisioned(bird.x + bird.size[0] / 2, bird.y + bird.size[1] / 2, birdSize)) {
           new SfxHit()
+          bird.die()
           return
         }
         else
@@ -218,7 +213,6 @@ int FlappyBirdGame(int bestScore) {
   }
 
   void GameOver() {
-    bird.die()
     bestScore = max(currentScore, bestScore)
 
     onUserTrigger -> {if (isKeyOk(_ret)) return}
@@ -233,18 +227,11 @@ int FlappyBirdGame(int bestScore) {
       <out: "BEST  :     " + bestScore; pos: [58, 205];>
     >
   }
-
-  <out: rect; size: screenSize; fillStyle: "#30c0df";
-    <out: bgImage; align: 100%;>
-    <out: pipes;>
-    <out: bird;>
-    <out: ground; align: [0, 100%];>
-  >
 }
 
-int bestScore = 0
-
-while (true)
-  bestScore = FlappyBirdGame(bestScore)
-
-<out: "Loading...";>
+<out: rect; size: screenSize; fillStyle: "#30c0df";
+  <out: bgImage; align: [0, 100%];>
+  <out: pipes;>
+  <out: bird;>
+  <out: ground; align: [0, 100%];>
+>

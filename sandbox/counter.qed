@@ -1,6 +1,5 @@
-var num = 0
+var n = 0
 
-while (QedTimer(1000))
-  num++
+new QedInterval(1000) -> n++
 
-<out: "Count: " + num;>
+<out: "Count: " + n;>

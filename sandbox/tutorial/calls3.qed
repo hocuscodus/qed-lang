@@ -1,0 +1,8 @@
+int Double(int a) {
+  return 2 * a
+}
+
+// Invoke Double both ways (call and instantiation)
+println("double of 6 = " + Double(6))
+new Double(7) // How to catch the result 14?
+println("Done, but where is 14?")

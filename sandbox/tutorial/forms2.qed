@@ -1,0 +1,32 @@
+bool Dialog(String title, String question) {
+  var yesButton = new QedTextButton("Yes") -> return true
+  var noButton = new QedTextButton("No") -> return false
+
+  <| out: roundRect; fillStyle: "#D0D0D0"; radius: 10;
+    <out: rect; fillStyle: "#0090C0";
+      <|
+        <size: 10;>
+        <out: title; fillStyle: "white";
+         align: 50%;>
+        <size: 5;>
+      >
+    >
+    <\ fillStyle: "black"; fontSize: 17;
+      <size: [30, 20];>
+      <out: question; align: 50%; >
+      <size: 30;>
+    >
+    <_ align: 100%; pos: -10; radius: 5;
+      <out: yesButton; fillStyle: "#40C040";>
+      <size: 10;>
+      <out: noButton; fillStyle: "#C04040";>
+    >
+  >
+}
+
+if (Dialog("Quit application", "Do you want to quit?"))
+  println("Cool, bye!")
+else
+  println("Well, sorry, quitting anyway...")
+
+return 0

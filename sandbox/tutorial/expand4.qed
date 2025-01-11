@@ -1,0 +1,11 @@
+<_ out: rect; fillStyle: "red"; size: [200, 100];
+  <out: rect; fillStyle: "blue";
+    <out: "Hello"; fillStyle: "white";>
+  >
+  <out: rect; fillStyle: "#FF9F00";
+    <out: ", "; fillStyle: "white";>
+  >
+  <out: rect; fillStyle: "#009F00";
+    <out: "World!"; fillStyle: "white";>
+  >
+>

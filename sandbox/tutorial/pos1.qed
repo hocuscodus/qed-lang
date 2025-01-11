@@ -1,0 +1,2 @@
+<out: rect; fillStyle: "red"; size: 100;>
+<out: rect; fillStyle: "Lime"; size: 20; pos: [20, 10];>

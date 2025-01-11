@@ -1,0 +1,10 @@
+println("Invoking QedTimer as 5 second instance")
+new QedTimer(5000) -> println("QedTimer instance done")
+
+println("")
+println("Invoking QedTimer as a 2 second call")
+QedTimer(2000)
+println("QedTimer call done")
+
+println("Entering event loop after script")
+println("")

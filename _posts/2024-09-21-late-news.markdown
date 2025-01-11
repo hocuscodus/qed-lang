@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "Hello again? Some news coming in"
+date:   2024-09-21 10:42:47 -0400
+author: "Martin Savage"
+categories: QED Update
+---
+
+Well, it's been some time.
+
+If you read this note, and are interested about what how QED has evolved to this day, check out this site once in a while in the next few weeks...
+
+See you soon then.

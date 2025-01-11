@@ -1,0 +1,5 @@
+<out: rect; fillStyle: "red"; size: [200, 100];
+  <out: rect; fillStyle: "blue"; size: [30, 60];
+    <out: "Hello"; fillStyle: "white";>
+  >
+>

@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "Precisions on QED documentation"
 date:   2018-10-16 20:00:47 -0400
 categories: QED

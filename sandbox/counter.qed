@@ -1,0 +1,5 @@
+var n = 0
+
+new QedInterval(1000) -> n++
+
+<out: "Count: " + n;>

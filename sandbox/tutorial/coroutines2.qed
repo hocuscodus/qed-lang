@@ -1,0 +1,17 @@
+void FibGen() {
+  int current = 0
+  int next = 1
+
+  while (QedYield()) {
+    int tmp = current
+
+    current = next
+    next += tmp
+  }
+}
+
+int count = 15
+var fibGen = new FibGen()
+
+while (count-- && qedResume(fibGen))
+  println(fibGen.current)

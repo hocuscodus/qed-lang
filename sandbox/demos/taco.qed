@@ -1,0 +1,416 @@
+// Taco Hotel app - by Martin Savage
+
+void displaySlider(int x, int y, int width, int height) {
+/$const radius = 15;
+  const radiusy = Math.min(radius, height / 2);
+
+  ctx.beginPath();
+  ctx.moveTo(x - radius, y);
+  ctx.quadraticCurveTo(x, y, x, y + radiusy);
+  if (height > 2 * radius)
+    ctx.lineTo(x, y + height - radiusy)
+  ctx.quadraticCurveTo(x, y + height, x + radius, y + height);
+  ctx.lineTo(x + width - radius, y + height)
+  ctx.quadraticCurveTo(x + width, y + height, x + width, y + height - radiusy);
+  if (height > 2 * radius)
+    ctx.lineTo(x + width, y + radiusy);
+  ctx.quadraticCurveTo(x + width, y, x + width + radius, y);
+  ctx.lineTo(x - radius, y)$/
+  qedDraw()
+}
+
+void displayTacos(int x, int y, int width, int height, int count) {
+/$const scale = height / 80;
+  const pos = (width - height * 1.25) / 2;
+
+  // Scaled rectangle
+  ctx.translate(x + pos, y);
+  ctx.scale(scale, scale);
+
+  function renderTaco(y) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(50, 50 + y, 50, 190/360 * 2 * Math.PI, -10/360 * 2 * Math.PI);
+    ctx.fill();
+
+    if (y < 60) {
+      ctx.fillStyle = attributeStacks[Main_$this.QED_TAG_FILL_STYLE][attributeStacks[Main_$this.QED_TAG_FILL_STYLE].length - 1][1];
+      ctx.beginPath();
+      ctx.arc(50, 70 + y, 53, 190/360 * 2 * Math.PI, -10/360 * 2 * Math.PI);
+      ctx.fill();
+    }
+
+    ctx.restore();
+  }
+
+  for (let i = 4 - count; i < 4; i++)
+    renderTaco(i * 20)
+
+  ctx.setTransform(1, 0, 0, 1, 0, 0)$/
+}
+
+void showTwoTacos(int x, int y, int width, int height) {displayTacos(x, y, width, height, 2);}
+
+// Generic widgets
+
+void ObjectOverTextButton(drawFn *drawObject, String text) {
+  var button = new QedRectButton((void L() {
+    <| align: 50%
+      <out: drawObject; size: [240, 160]; fillStyle: "none"; align: 50%; fillStyle: "white"; pos: [0, -40];>
+      <size: 10;>
+      <size: [300, 50]
+        <out: text; align: 50%; fillStyle: "white";>
+      >
+    >
+  })) -> return
+  <out: button;>
+}
+
+void ObjectBeforeTextButton(drawFn *drawObject, String text) {
+  var button = new QedRectButton((void L() {
+    <_ align: [0, 50%]; fillStyle: "white"
+      <size: 30;>
+      <out: drawObject; size: 60; align: 50%;>
+      <size: 20;>
+      <size: [200, 50]
+        <out: text; align: [0, 50%];>
+      >
+    >
+  })) -> return
+  <out: button;>
+}
+
+String KeyButton(String text) {
+  var button = new QedTextButton(text) -> return text
+
+  <size: ((int) _fontSize) * (int) 1.5;>
+  <out: button; fontSize: (int) (((int) _fontSize) * (((int) /$text.length$/) > 1 ? 0.5 : 1));>
+}
+
+String NumericKeyboardWidget() {
+  String typedText = ""
+  String[] numKeyboardRows = ["789", "456", "123"];
+  String Row(int row) {
+    var buttons = index:_ /$NumericKeyboardWidget$this.numKeyboardRows[Row$this.row].length$/ new
+      KeyButton(/$NumericKeyboardWidget$this.numKeyboardRows[Row$this.row].charAt(index)$/) -> return _ret
+
+    <out: buttons; align: 50%;>
+  }
+  var rows = i:|numKeyboardRows.size() new Row(i) ->  {typedText += _ret; return typedText}
+  var lastRow = [
+    new KeyButton("Clear") -> {typedText = ""; return typedText},
+    new KeyButton("0") -> {typedText += "0"; return typedText},
+    new KeyButton("Del") -> {typedText = /$NumericKeyboardWidget$this.typedText.slice(0, -1)$/; return typedText}
+  ]
+
+  <|
+    <out: rows;>
+    <size: 15;>
+    <_ out: lastRow; align: 50%;>
+  >
+}
+
+String AlphaKeyboardWidget() {
+  String typedText = ""
+  String[] alphaKeyboardRows = ["1234567890", "QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
+  String Row(int row) {
+    var buttons = index:_ /$AlphaKeyboardWidget$this.alphaKeyboardRows[Row$this.row].length$/ new
+      KeyButton(/$AlphaKeyboardWidget$this.alphaKeyboardRows[Row$this.row].charAt(index)$/) -> return _ret
+
+    <out: buttons; align: 50%;>
+  }
+  var rows = i:|alphaKeyboardRows.size() new Row(i) ->  {typedText += _ret; return typedText}
+  void SpaceFunc() {<size: [200, 1];>}
+  var lastRow = [
+    new KeyButton("Clear") -> {typedText = ""; return typedText},
+    new QedRectButton(SpaceFunc) -> {typedText += " "; return typedText},
+    new KeyButton("Del") -> {typedText = /$AlphaKeyboardWidget$this.typedText.slice(0, -1)$/; return typedText}
+  ]
+
+  <|
+    <out: rows;>
+    <size: 10;>
+    <_ out: lastRow; align: 50%;>
+  >
+}
+
+void SpinnerWidget() {
+  float angle = 0
+  int numCircles = 7
+
+  void Circle(int index) {
+    < rotation: (angle + index) * 2 * 3.14159265 / numCircles
+      <out: oval; size: [30, 15]; align: [100%, 50%];>
+    >
+  }
+
+  Circle[] circles = index::numCircles new Circle(index)
+
+  while (true)
+    angle = QedAnimation() / 2000 * 2 * 3.14159265
+
+  <size: 100; align: 50%
+    <out: circles;>
+  >
+}
+
+String getTimestamp() {
+/$const date = new Date()$/
+  int minutes = /$date.getMinutes()$/
+  return (/$date.getHours()$/) + ":" + (minutes < 10 ? "0" : "") + minutes
+}
+
+String formatMoney(float amount) {
+  int dollars = /$Math.trunc(amount)$/
+  int cents = /$Math.round((amount - dollars) * 100)$/
+
+  return "$" + dollars + "." + (cents < 10 ? "0" : "") + cents
+}
+
+// Real app code begins here
+
+int NumTacosWidget() {
+  void NumButton(int num) {
+    void showTacos(int x, int y, int width, int height) {displayTacos(x, y, width, height, num);}
+    var button = new QedRectButton((void L() {
+      <|
+        <size: 15;>
+        <
+          <size: [175, 70]; align: 50%;
+            <out: showTacos; size: 70; align: 50%; fillStyle: "#D0D6CA"; pos: [0, -20];>
+          >
+          <out: num; fontSize:100; align: 50%; fillStyle: "white";>
+        >
+        <size: 15;>
+      >
+    })) -> return
+
+    <out: button;>
+  }
+
+  NumButton[] numTacosButtonArray = index :_ 4 new NumButton(index + 1) -> return index + 1
+
+  <| align: [50%, 0]
+    <size: 50;>
+    <out: "How many tacos do you want?"; align: 50%;>
+    <size: 50;>
+    <out: numTacosButtonArray; spacing: 15; radius: 15; fontSize: 15; fillStyle: "#B1BBA8";>
+  >
+}
+
+String RoomNumberWidget() {
+  String phoneNumber = ""
+  NumericKeyboardWidget numericKeyboard = new NumericKeyboardWidget() -> (phoneNumber = _ret)
+  var nextButton = new QedTextButton("Next") -> return phoneNumber
+
+  <_
+    <size: 0; expand: [50%, 100%]
+      <| align: [90%, 30%]
+        <out: "Type your room number"; align: 50%;>
+        <out: roundRect; size: [300, 40]; fillStyle: "#DDD1E7"; radius: 20; align: 50%
+          <out: phoneNumber; fontSize: 30; fillStyle: "#58535C"; align: 50%;>
+        >
+      >
+    >
+    <size: 0; expand: [50%, 100%];
+      <out: numericKeyboard; fontSize: 40; spacing: 10; radius: 20; fillStyle: "#AB8EC4"; align: [10%, 30%];>
+    >
+  >
+  <out: nextButton; fontSize: 25; fillStyle: "#98C694"; align: 100%; pos: -25; expand: 5%;>
+}
+
+String GuestNameWidget() {
+  String zipCode = ""
+  AlphaKeyboardWidget alphaKeyboard = new AlphaKeyboardWidget() -> (zipCode = _ret)
+  var nextButton = new QedTextButton("Next") -> return zipCode
+
+  <|
+    <size: 25;>
+    <out: roundRect; size: [430, 40]; fillStyle: "#B4CFFA"; radius: 20; align: 50%;
+      <out: /$GuestNameWidget$this.zipCode.length$/ ? zipCode : "Enter the guest's family name"; fontSize: 30; fillStyle: "#7D90AF"; align: 50%;>
+    >
+    <size: 25;>
+    <out: alphaKeyboard; fontSize: 30; spacing: 10; radius: 6; fillStyle: "#7D90AF";>
+  >
+  <out: nextButton; fontSize: 25; fillStyle: "#98C694"; align: 100%; pos: -25; expand: 5%;>
+}
+
+QedYield[] exitHandler = []
+var Widget() {<out: "";>}
+var emptyWidget = new Widget();
+
+void TransactionEntry() {
+  // User identification and selections
+  int numTacos = 0
+  float tacoPrice = 3.05
+  String guestName = ""
+  String roomNumber = ""
+
+  String getPrice() {return formatMoney(tacoPrice)}
+  String getTotal() {return formatMoney(numTacos * tacoPrice)}
+}
+
+void SummaryWidget(TransactionEntry entry) {
+  var nextButton = new QedTextButton("Confirm") -> return
+
+  <_ align: 50%; fontSize: 30; fillStyle: "white"
+    <
+      <out: rect; expand: 100%; fillStyle: "#97726F";>
+      <|
+        <out: "Guest: ";>
+        <out: "Room: ";>
+        <out: "Number of tacos: ";>
+        <out: "Taco price: " ;>
+        <out: "Total Price: ";>
+      >
+    >
+    <
+      <out: rect; expand: 100%; fillStyle: "#AC837F";>
+      <|
+        <out: entry.guestName; align: 100%;>
+        <out: entry.roomNumber; align: 100%;>
+        <out: entry.numTacos; align: 100%;>
+        <out: entry.getPrice(); align: 100%;>
+        <out: entry.getTotal(); align: 100%;>
+      >
+    >
+  >
+  <out: nextButton; fontSize: 25; fillStyle: "#98C694"; align: 100%; pos: -25; expand: 5%;>
+}
+
+bool GetTransactionEntry(TransactionEntry entry) {
+  int oldIndex = 0
+  int paneIndex = 0
+  int maxIndex = paneIndex;
+  int[] bounds = [0, 0, 0, 0]
+
+  void Pane(String title, Widget widget) {
+    <out: widget;>
+  }
+
+  Pane[] panes = [
+    new Pane("Count", (new NumTacosWidget() -> {entry.numTacos = _ret; NextPane()})),
+    new Pane("Room", (new RoomNumberWidget() -> {entry.roomNumber = _ret; NextPane()})),
+    new Pane("Guest", (new GuestNameWidget() -> {entry.guestName = _ret; NextPane()})),
+    new Pane("Summary", (new SummaryWidget(entry) -> {exitHandler--; return true}))
+  ]
+  void TabLabel(int pane) {
+    var text = "    " + (pane + 1) + "." + panes[pane].title + "    "
+    var button = new QedGenericButton((void L(bool[] pressed) {
+      <out: text; opacity: pane > maxIndex ? 50% : pressed[0] ? 35% : 100%;>
+    })) -> {if (pane <= maxIndex) return}
+
+    <out: button;>
+  }
+
+  TabLabel[] titles = pane:_ panes.size() (new TabLabel(pane)) -> SetPane(pane)
+
+  exitHandler[0] = new QedYield() -> {exitHandler--; return false}
+  QedTimer(1)   // trigger refresh for slider to get the right bounds
+  SetPane(0) // initialize pane with well-dimensioned slider
+
+  void NextPane() {
+    SetPane(paneIndex + 1)
+    return;
+  }
+
+  // switch to new pane using animation on both sliders and panes
+  void SetPane(int index) {
+    bounds = getBounds(["application", "titles"], [index])
+    paneIndex = index
+    maxIndex = max(maxIndex, paneIndex)
+    return
+  }
+
+  // Transaction UI
+  <out:displaySlider; pos:[bounds[0], -1]; size:[bounds[2], bounds[3] + 1]; fillStyle: "#BEB8B0"; align:0;>
+  <|
+    <out: titles; fillStyle: "#77736E"; fontSize:20; tag:"titles";>
+    <out: panes[paneIndex]; expand: 100%;>
+  >
+}
+
+bool OrderTacos(TransactionEntry transactionEntry) {
+  SpinnerWidget spinner = new SpinnerWidget()
+
+  QedTimer(5000) // fake time for the transaction to complete
+  return true
+
+  <| fillStyle: "black"; opacity: 60%; align: 50%
+    <out: spinner; align: 50%;>
+    <size: 25;>
+    <out: "Ordering tacos... please wait."; align: 50%;>
+  >
+}
+
+void DisplaySuccess(String total) {
+  QedTimer(5000)
+  return
+
+  <| fillStyle: "black"; opacity: 60%; align: 50%
+    <out: "A total of " + total + " has been added to your hotel invoice."; align: 50%;>
+    <size: 25;>
+    <out: "Thank you for choosing the Taco Hotel for your stay."; align: 50%;>
+  >
+}
+
+int MainScreen() {
+  var buyTacosButton = new ObjectOverTextButton(showTwoTacos, "Order tacos!!") -> return 1
+  var roomServiceButton = new ObjectBeforeTextButton(displaySlider, "Room service") -> return 2
+  var moreTowelsButton = new ObjectBeforeTextButton(displaySlider, "Late checkout") -> return 3
+
+  <\ fillStyle: "#7CB0C7"
+    < size: 15;>
+    <_ expand: 100%; radius: 10
+      <| fontSize:20; expand: 100%;
+        < out: roomServiceButton; expand: 100%;>
+        < size: 15;>
+        < out: moreTowelsButton; expand: 100%;>
+      >
+      < size: 15;>
+      < out: buyTacosButton; fontSize:30; expand: 100%;>
+    >
+    < size: 15;>
+  >
+}
+
+void Application() {
+  while (true) {
+    int choice = MainScreen()
+
+    // gotta implement the switch/case statement...
+    if (choice == 1) {
+      TransactionEntry entry = new TransactionEntry()
+
+      if (GetTransactionEntry(entry)) {
+        if (OrderTacos(entry))
+          DisplaySuccess(entry.getTotal())
+        else {
+//          DisplayError()
+        }
+      }
+    }
+    else
+      if (choice == 2) {
+      }
+      else {
+      }
+  }
+
+  <out: ""; expand: 100%; onPress: 0; onRelease: 0;>
+}
+
+QedTextButton exit = new QedTextButton("Exit") -> qedResume(exitHandler[0])
+var application = new Application()
+
+<| size: [800, 480];
+  <out:rect; size:[0, 60]; fillStyle: "#BEB8B0"; expand: [100%, 0]
+    <out:getTimestamp(); fontSize:30; fillStyle: "#77736E"; align: [0%, 50%]; pos: [15, 0];>
+    <out:"Taco Hotel"; fontSize:35; fillStyle: "#77736E"; align: 50%;>
+    <out:exitHandler.size() ? exit : emptyWidget; fillStyle: "#973543"; align: [100%, 50%]; pos: [-15, 0]; expand: [10%, 50%];>
+  >
+  <expand: 100%
+    <out:rect; fillStyle: "#EEE6DD";>
+    <out:application; tag:"application"; fillStyle: "#5F5C58";>
+  >
+>

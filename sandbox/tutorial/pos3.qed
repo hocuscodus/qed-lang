@@ -1,0 +1,12 @@
+// a dice
+<out: roundRect; fillStyle: "#799A57"; size: 150; radius: 10;>
+<fillStyle: "white"; opacity: 85%;
+  // the following child tags all inherit parent color
+  // and opacity; no need to repeat them individually
+  <out: oval; size: 35; pos: [20, 10]; align: 0;>
+  <out: oval; size: 35; pos: [20, 0]; align: [0, 50%];>
+  <out: oval; size: 35; pos: [20, -10]; align: [0, 100%];>
+  <out: oval; size: 35; pos: [-20, 10]; align: [100%, 0];>
+  <out: oval; size: 35; pos: [-20, 0]; align: [100%, 50%];>
+  <out: oval; size: 35; pos: [-20, -10]; align: 100%;>
+>

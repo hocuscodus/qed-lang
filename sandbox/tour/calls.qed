@@ -1,0 +1,5 @@
+int Double(int a) {
+  return 2 * a
+}
+
+println("double of 5 = " + Double(5))

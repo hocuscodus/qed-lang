@@ -1,0 +1,16 @@
+QedYield[] interruptCount = []
+
+bool Count10() {
+  interruptCount[0] = new QedYield() -> return false
+
+  count::10 {
+    QedTimer(1000)
+    println(count + 1)
+  }
+
+  return true;
+}
+
+new QedTimer(5500) -> qedResume(interruptCount[0])
+println("Starting count up to 10")
+println("Count " + (Count10() ? "done" : "interrupted."))

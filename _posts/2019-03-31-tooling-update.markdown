@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "QED Tooling Update"
 date:   2019-03-31 09:10:47 -0400
 categories: QED Tooling update

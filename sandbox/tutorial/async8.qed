@@ -1,0 +1,20 @@
+void Sound(String file) {
+  /$const audio = new Audio(Sound$this.file);
+
+  audio.onended = (event) =>
+    _qedCallback(Sound$this, null);
+
+  audio.play()$/
+}
+
+println("Play sound with blocking call.")
+
+Sound("old-church-bell.mp3")
+
+println("Done playing sound.")
+println("Replay it asynchronously.")
+
+new Sound("old-church-bell.mp3") ->
+  println("Async sound ended.")
+
+println("Program ended")

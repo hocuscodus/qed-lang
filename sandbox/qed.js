@@ -203,7 +203,7 @@ var Module = typeof Module != 'undefined' ? Module : {};
     }
 
     }
-    loadPackage({"files": [{"filename": "/qedlib.qed", "start": 0, "end": 49693}], "remote_package_size": 49693, "package_uuid": "f4533c93-b5b9-402f-bb5e-e25802429385"});
+    loadPackage({"files": [{"filename": "/qedlib.qed", "start": 0, "end": 56392}], "remote_package_size": 56392, "package_uuid": "f64ab58e-1b2d-4f63-9fea-2b526aba8388"});
 
   })();
 
@@ -6044,6 +6044,23 @@ var ASM_CONSTS = {
       return false;
     }
 
+  function _emscripten_run_script_string(ptr) {
+      var s = eval(UTF8ToString(ptr));
+      if (s == null) {
+        return 0;
+      }
+      s += '';
+      var me = _emscripten_run_script_string;
+      var len = lengthBytesUTF8(s);
+      if (!me.bufferSize || me.bufferSize < len+1) {
+        if (me.bufferSize) _emscripten_builtin_free(me.buffer);
+        me.bufferSize = len+1;
+        me.buffer = _emscripten_builtin_malloc(me.bufferSize);
+      }
+      stringToUTF8(s, me.buffer, me.bufferSize);
+      return me.buffer;
+    }
+
   var ENV = {};
   
   function getExecutableName() {
@@ -6838,6 +6855,7 @@ var asmLibraryArg = {
   "abort": _abort,
   "emscripten_memcpy_big": _emscripten_memcpy_big,
   "emscripten_resize_heap": _emscripten_resize_heap,
+  "emscripten_run_script_string": _emscripten_run_script_string,
   "environ_get": _environ_get,
   "environ_sizes_get": _environ_sizes_get,
   "exit": _exit,
@@ -6875,6 +6893,12 @@ var ___errno_location = Module["___errno_location"] = createExportWrapper("__err
 
 /** @type {function(...*):?} */
 var ___stdio_exit = Module["___stdio_exit"] = createExportWrapper("__stdio_exit");
+
+/** @type {function(...*):?} */
+var _emscripten_builtin_malloc = Module["_emscripten_builtin_malloc"] = createExportWrapper("emscripten_builtin_malloc");
+
+/** @type {function(...*):?} */
+var _emscripten_builtin_free = Module["_emscripten_builtin_free"] = createExportWrapper("emscripten_builtin_free");
 
 /** @type {function(...*):?} */
 var _emscripten_stack_init = Module["_emscripten_stack_init"] = function() {

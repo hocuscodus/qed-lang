@@ -1,0 +1,4 @@
+// Flag of Peru
+<out: rect; fillStyle: "#D91023"; size: [300, 200];
+  <out: rect; fillStyle: "#F0F0F0"; align: 50%; expand: [1/3, 100%];>
+>

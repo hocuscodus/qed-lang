@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "My influences"
 date:   2018-09-07 09:10:47 -0400
 categories: QED

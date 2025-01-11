@@ -1,0 +1,5 @@
+<| out: rect; fillStyle: "#ffff00";
+  <out: "First"; fillStyle: "red";>
+  <out: "Second"; fillStyle: "Lime";>
+  <out: "Third"; fillStyle: "blue";>
+>

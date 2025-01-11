@@ -1,0 +1,6 @@
+n::10 {
+  int millis = (int) (rand() * 5000)
+
+  new QedTimer(millis) ->
+    println("Timer " + (n + 1) + ": " + millis + "ms")
+}

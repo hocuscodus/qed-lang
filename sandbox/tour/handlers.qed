@@ -1,0 +1,6 @@
+int Double(int a) {
+  return 2 * a
+}
+
+new Double(7) -> println("double of 7 = " + _ret)
+println("Script done, enter event loop...")

@@ -1,0 +1,29 @@
+int popupCount = 1
+
+void Popup(String title, String question, String exitLabel, int margin) {
+  var yesButton = new QedTextButton("Yes") ->
+    Popup("Popup " + popupCount++, "One more?", "No", max(margin - 10, 0))
+  var noButton = new QedTextButton(exitLabel) -> return
+
+  <out: rect; fillStyle: "black"; opacity: 40%;> // black veil behind
+  <|out: roundRect; fillStyle: "#E0E0E0"; radius: 9; align: 50%;
+    <\out: rect; fillStyle: "#0090C0";
+      <size: 10;>
+      <out: title; fillStyle: "white";>
+      <size: 5;>
+    >
+    <\ fillStyle: "black"; fontSize: 17;
+      <size: [30 + margin, 20 + margin];>
+      <out: question;>
+      <size: 30 + margin;>
+    >
+    <_ align: 100%; pos: -10; radius: 5;
+      <out: yesButton; fillStyle: "#40C040";>
+      <size: 10;>
+      <out: noButton; fillStyle: "#C04040";>
+    >
+  >
+}
+
+Popup("Window", "Create popup?", "Exit", 50)
+return 0

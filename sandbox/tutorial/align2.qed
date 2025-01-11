@@ -1,0 +1,8 @@
+// Work of art?
+<|
+  <out: "My painting!"; align: 50%;>
+  <size: [250, 350];
+    <out: rect; fillStyle: "#00C0FF";>
+    <out: oval; fillStyle: "#007000";>
+  >
+>

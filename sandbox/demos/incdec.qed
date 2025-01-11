@@ -1,0 +1,20 @@
+void OpButton(String text) {
+  var button = new QedTextButton(text).textStyle("black").
+    textOpacity(60%) -> return
+
+  <out: button; fillStyle: "black"; opacity: 20%;
+   size: [35, 0]; expand: 100%; radius: 0;>
+}
+
+int count = 0
+var decButton = new OpButton("-") -> count--
+var incButton = new OpButton("+") -> count++
+
+<_ out: oval; expand: 0;
+   fillStyle: count > 0 ? "Lime" : count < 0 ? "red" : "yellow";
+  <out: decButton; fontSize: 40;>
+  <size: [100, 80]; fillStyle: "black";
+    <out: count; opacity: 70%; align: 50%; fontSize: 50;>
+  >
+  <out: incButton; fontSize: 40;>
+>

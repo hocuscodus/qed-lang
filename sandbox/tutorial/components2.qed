@@ -1,0 +1,28 @@
+void MyButton(String text) {
+  bool pressed = false
+
+  <out: roundRect; fillStyle: "#006080"; radius: 10;
+    <out: rect;
+     opacity: pressed ? 35% : 0%;
+     fillStyle: "black";>
+    <\
+      onPress: pressed = true;
+      onRelease: {pressed = false; return;}
+
+      <size: [25, 10];>
+      <out: text; fillStyle: "white";>
+      <size: [25, 10];>
+    >
+  >
+}
+
+MyButton button1 = new MyButton("Previous") ->
+  println("'Previous' clicked.")
+MyButton button2 = new MyButton("Next") ->
+  println("'Next' clicked.")
+
+<_
+  <out: button1;>
+  <size: 10;>
+  <out: button2;>
+>

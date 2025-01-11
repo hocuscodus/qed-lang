@@ -5,7 +5,11 @@ author_profile: true
 
 Welcome to QED!
 
-QED is a programming language for web app development. It sits on top of Javascript and provides features that simplify application development compared to using native JS. It does not replaces JS at all; it rather enhances JS programming when it comes to developing a GUI and implementing concurrency.
+QED is a programming language for easier web app development. To showcase its simplicity and power, here is how a basic counter (in seconds) is implemented in QED.
+
+{% include sandboxframe.html qedsrc="counter.qed" code="65" gui="97" height="115px" autorun=true %}
+
+QED sits on top of Javascript and provides features that simplify application development compared to using native JS. It does not replaces JS at all; it rather enhances JS programming when it comes to developing a GUI and implementing concurrency.
 
 <div>
   <canvas id="canvas" width="700" height="220" style="top: 0; left: 0; max-width: 100%; max-height: 100%;">
@@ -20,10 +24,6 @@ QED is a programming language for web app development. It sits on top of Javascr
   if (this.start_)
     this.start_([], function(_ret) {});
 </script>
-
-To showcase QED simplicity and power, here is how a basic counter (in seconds) is implemented in QED.
-
-{% include sandboxframe.html qedsrc="counter.qed" code="65" gui="97" height="115px" autorun=true %}
 
 Take the [quick tour]({{ site.baseurl }}/tour) for an overview of how QED works! You may also take a look at the [demos]({{ site.baseurl }}/demos) or, if you want a deeper understanding, the [tutorial]({{ site.baseurl }}/tutorial/qed-basics). There's also a [FAQ]({{ site.baseurl }}/faq) that will grow over time.
 

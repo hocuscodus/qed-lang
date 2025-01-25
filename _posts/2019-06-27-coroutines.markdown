@@ -7,6 +7,7 @@ toc: true
 toc_label: "Concurrency in QED"
 toc_icon: "fa-bath"  # corresponding Font Awesome icon name (without fa prefix)
 toc_sticky: true
+permalink: article/2019/06/27/coroutines.html
 ---
 
 ![](/balls2.png)

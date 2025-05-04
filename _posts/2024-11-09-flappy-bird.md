@@ -6,7 +6,7 @@ categories: Demo
 ---
 I just coded [a first game in QED](https://github.com/hocuscodus/qed-lang/blob/gh-pages/sandbox/demos/flappybird.qed), a port of a javascript Flappy Bird!
 
-To [play online](https://qed-lang.org/demos), go to the last demo and press Run. Click the mouse on the canvas to play. You may also use the Space, W or Up Arrow keys to play.
+To [play online](https://qed-lang.org/demos#flappy-bird), go to the last demo and press Run. Click the mouse on the canvas to play. You may also use the Space, W or Up Arrow keys to play.
 
 The peculiarity of this implementation is that there is no state (getReady-play-gameOver) nor state machine to handle the update-draw code. It is rather strictly procedural, which is uncommon in an event-based browser env.
 

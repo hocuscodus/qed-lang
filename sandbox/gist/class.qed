@@ -1,0 +1,10 @@
+void MyClass(int n) {
+  String unit = ""
+
+  String double() {return "" + n * 2 + unit}
+}
+
+MyClass obj = new MyClass(4)
+
+obj.unit = "g"
+println("Double of " + obj.n + obj.unit + " is " + obj.double())

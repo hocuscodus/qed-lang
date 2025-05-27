@@ -1,0 +1,28 @@
+bool PopUp(String question) {
+  var yes = new QedTextButton("Yes") -> return true
+  var no = new QedTextButton("No") -> return false
+
+  <out: roundRect; fillStyle: "lightgrey"; radius: 10; align: 50%;
+    <\
+      <size: 10;>
+      <|
+        <out: question; fillStyle: "black";>
+        <size: 10;>
+        <_ fillStyle: "green"; radius: 10; align: 50%;
+          <out: yes;>
+          <size: 10;>
+          <out: no;>
+        >
+      >
+      <size: 10;>
+    >
+  >
+}
+
+String color = "red";
+
+QedTimer(500);
+if (PopUp("Blue background?"))
+  color = "blue";
+
+<out: rect; size: 250; fillStyle: color;>

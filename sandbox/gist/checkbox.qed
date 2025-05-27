@@ -1,0 +1,11 @@
+bool CheckBoxWidget(String info) {
+  bool clicked = false
+
+  <out: (clicked ? "☑ " : "☐ ") + info;
+   onPress: {clicked = !clicked; return clicked}>
+}
+
+var checkbox = new CheckBoxWidget("Subscribe!") ->
+  println("Checkbox " + (_ret ? "clicked" : "unclicked"))
+
+<out: checkbox;>

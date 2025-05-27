@@ -1,0 +1,9 @@
+String Fn(int delay) {
+  QedTimer(delay) // wait
+  return "World!"
+}
+
+Fn obj = new Fn(1000)
+
+obj -> println("Hello, " + _ret)
+println("Waiting " + obj.delay + "ms")

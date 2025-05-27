@@ -1,0 +1,20 @@
+void Light(String col, float x, float y) {
+  float delta = 3
+
+  while (QedYield()) {
+    x += delta
+
+    if ((x > 100) || (x < 10))
+      delta = -delta
+  }
+
+  <out: oval; size: 40; fillStyle: col; pos: [x, y];>
+}
+
+String[] cols = ["red", "orange", "lime"]
+Light[] lights = i::3 new Light(cols[i], i * 15 + 10, i * 50 + 5)
+
+new QedInterval(16) -> qedResume(lights)
+
+<out: roundRect; radius: 10; size: 150;>
+<out: lights;>

@@ -1,0 +1,8 @@
+String Fn(int delay) {
+  QedTimer(delay) // wait
+  return "World!"
+}
+
+println("Start")
+println("Hello, " + Fn(1000)) // blocking call
+println("End")

@@ -1,0 +1,17 @@
+void Coroutine(int id) {
+  println("  Begin " + id)
+  QedYield()
+  println("  Middle " + id)
+  QedYield()
+  println("  End " + id)
+}
+
+println("Main script start")
+
+Coroutine[] coArray = i::4 new Coroutine(i + 1)
+
+println("Resuming coroutines")
+while (qedResume(coArray))
+  println("Resuming again")
+
+println("Main script end")

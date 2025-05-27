@@ -1,0 +1,11 @@
+float size
+
+while (true) {
+  for (size = 10; size < 100; size += 0.3)
+    QedAnimation()
+
+  while (size-- > 10)
+    QedAnimation()
+}
+
+<out: oval; size: size; fillStyle: "#600020";>

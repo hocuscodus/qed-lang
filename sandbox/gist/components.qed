@@ -1,0 +1,11 @@
+QedTextButton prev = new QedTextButton("Previous")
+QedTextButton next = new QedTextButton("Next")
+
+prev -> println("Previous clicked")
+next -> println("Next clicked")
+
+<|
+  <out: prev; fillStyle: "blue";>
+  <size: 10;>
+  <out: next; fillStyle: "green"; radius: 10;>
+>

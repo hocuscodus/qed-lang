@@ -1,0 +1,7 @@
+<|
+  <out: "Hello, World!"; align: 50%;>
+  <_
+    <out: oval; size: 75; fillStyle: "red";>
+    <out: rect; size: 75; fillStyle: "blue";>
+  >
+>

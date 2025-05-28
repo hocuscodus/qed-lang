@@ -28,6 +28,8 @@ Some demos for now. More later...
 
 ## Flappy bird
 
+Click on the window once to start the first game. After that you can still use mouse clicks, but also Space, W or Arrow Up to continue playing.
+
 {% include demoframe.html qedsrc="demos/flappybird.qed" code="55" gui="97" height="400px" %}
 
 <script type="application/javascript">

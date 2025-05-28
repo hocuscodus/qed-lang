@@ -1,9 +1,9 @@
 void Coroutine() {
-  println("Yielding to main script")
+  println("  Yielding to main script")
   QedYield()
-  println("Yielding again")
+  println("  Yielding again")
   QedYield()
-  println("Returning...")
+  println("  Returning...")
   return
 }
 

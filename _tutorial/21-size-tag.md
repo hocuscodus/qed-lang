@@ -36,7 +36,7 @@ QED offers basic drawing functions such as `rect`, `oval` and `roundRect` in its
 Your drawing function must start with a lowercase letter (it cannot be a class) and must follow this signature and body.
 
 ```
-void myDrawingFunction(int x, int y, int width, int height) {
+void myDrawingFunction(float x, float y, float width, float height) {
 /$
   <JS drawing code. The constant ctx is available for Context2D access.>
 $/

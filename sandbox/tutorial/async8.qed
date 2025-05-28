@@ -1,8 +1,8 @@
 void Sound(String file) {
-  /$const audio = new Audio(Sound$this.file);
+  /$const audio = new Audio(this.file);
 
   audio.onended = (event) =>
-    _qedCallback(Sound$this, null);
+    _qedCallback(this, null);
 
   audio.play()$/
 }

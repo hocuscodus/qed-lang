@@ -1,4 +1,4 @@
-void drawTriangle(int x, int y, int width, int height) {
+void drawTriangle(float x, float y, float width, float height) {
 /$ctx.beginPath();
   ctx.moveTo(x + width / 2, y);
   ctx.lineTo(x, y + height);

@@ -162,17 +162,17 @@
         let codeStr = Module.ccall('runSource', null, ['string'], [editor.value]);
 //        Module['runSource'](editor.value);
         let str = UTF8ToString(codeStr);
-        let js = new Function(str);
+        let js = new Function(str + "\nreturn start_;");
         let obj = new Object();
         const oldConsoleLog = window.console.log;
 
         window.console.log = Module['print'];
-        js.apply(obj);
+        const startFn = js.apply(obj);
 
         if (mainObj)
           mainObj._qedKill();
 
-          mainObj = obj.start_([], function(_ret) {
+        mainObj = startFn.call(obj, [], function(_ret) {
           window.console.log("Demo exited with code " + _ret);
           window.console.log = oldConsoleLog;
         });

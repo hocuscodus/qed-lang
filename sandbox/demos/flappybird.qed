@@ -5,21 +5,22 @@
 QedImage[] tapImages = [QedImageLoader("img/tap/t0.png"), QedImageLoader("img/tap/t1.png")]
 
 void TapSprite() {
-  int frame = 0
+  int imgIndex = 0
   int frames = 0
 
   while (QedYield())
-    frame = (frame + (frames++ % 10 == 0 ? 1 : 0)) % tapImages.size()
+    if (frames++ % 10 == 0)
+      imgIndex = 1 - imgIndex
 
-  <out: tapImages[frame];>
+  <out: tapImages[imgIndex];>
 }
 
 // Ground image and component
 var groundImage = QedImageLoader("img/ground.png")
 
-void GroundSprite(int dx) {
-  int x = 0
-  int[] size = getImageSize(groundImage)
+void GroundSprite(float dx) {
+  float x = 0
+  float[] size = getImageSize(groundImage)
 
   while (QedYield())
     x = (x - dx) % (size[0] / 2)
@@ -31,23 +32,23 @@ void GroundSprite(int dx) {
 var pipeTopImage = QedImageLoader("img/toppipe.png")
 var pipeBottomImage = QedImageLoader("img/botpipe.png")
 
-void PipeSprite(int x, int dx) {
-  int y = -210 * min((int) rand() + 1, (int) 1.8)
+void PipeSprite(float x, float dx) {
+  float y = -210 * min(rand() + 1, 1.8)
   int gap = 85
   bool moved = false
-  int[] size = getImageSize(pipeTopImage)
-  int roof = y + size[1]
-  int floor = roof + gap
+  float[] size = getImageSize(pipeTopImage)
+  float roof = y + size[1]
+  float floor = roof + gap
 
   while (QedYield())
     x -= dx
 
-  bool collisioned(int birdX, int birdY, int birdSize) {
+  bool collisioned(float birdX, float birdY, float birdSize) {
     return birdX + birdSize >= x && birdX + birdSize < x + size[0] &&
              (birdY - birdSize <= roof || birdY + birdSize >= floor)
   }
 
-  bool hasMoved(int birdX) {
+  bool hasMoved(float birdX) {
     if (!moved && birdX >= x + size[0]) {
       moved = true
       return true
@@ -67,24 +68,24 @@ VoidFn *SfxStart = QedAudioLoader("sfx/start.wav")
 VoidFn *SfxFlap = QedAudioLoader("sfx/flap.wav")
 VoidFn *SfxDie = QedAudioLoader("sfx/die.wav")
 
-void BirdSprite(int groundY) {
-  int DEG2RAD = ((int) /$Math.PI$/) / 180
+void BirdSprite(float groundY) {
+  float DEG2RAD = /$Math.PI / 180$/
   int frames = 0
-  int rotation = 0
-  int speed = 0
-  int gravity = 0.25 // was 0.125 in original
-  int thrust = 3.6
-  int frame = 0
+  float rotation = 0
+  float speed = 0
+  float gravity = 0.25 // was 0.125 in original
+  float thrust = 3.6
+  int imgIndex = 0
   bool waiting = true
   bool alive = true
-  int[] size = getImageSize(birdImages[0])
-  int x = 50 - size[0] / 2
-  int y = 100 - size[0] / 2
+  float[] size = getImageSize(birdImages[0])
+  float x = 50 - size[0] / 2
+  float y = 100 - size[0] / 2
 
   // waiting
   while (QedYield() && alive && waiting) {
-    y += frames % 10 == 0 ? sin(frames * DEG2RAD) : 0
-    frame = (frame + (frames++ % 10 == 0 ? 1 : 0)) % birdImages.size()
+    y += frames % 10 == 0 ? sin(DEG2RAD * frames) : 0
+    imgIndex = (imgIndex + (frames++ % 10 == 0 ? 1 : 0)) % birdImages.size()
   }
 
   new SfxStart()
@@ -92,11 +93,11 @@ void BirdSprite(int groundY) {
   // playing
   while (y + size[0] < groundY) {
     if (alive)
-      frame = (frame + (frames++ % 5 == 0 ? 1 : 0)) % birdImages.size()
+      imgIndex = (imgIndex + (frames++ % 5 == 0 ? 1 : 0)) % birdImages.size()
 
     y += speed
     speed += alive ? gravity : gravity * 2
-    rotation = min(90, 35 * speed / thrust) * DEG2RAD
+    rotation = DEG2RAD * min(90, 35 * speed / thrust)
     QedYield()
   }
 
@@ -121,11 +122,11 @@ void BirdSprite(int groundY) {
 
   void die() {
     alive = false
-    frame = 1
+    imgIndex = 1
   }
 
   <pos: [x, y]; size:size[0];
-    <out: birdImages[frame]; rotation: rotation;>
+    <out: birdImages[imgIndex]; rotation: rotation;>
   >
 }
 
@@ -142,8 +143,8 @@ var getReadyImage = QedImageLoader("img/getready.png")
 var gameOverImage = QedImageLoader("img/go.png")
 VoidFn *SfxScore = QedAudioLoader("sfx/score.wav")
 VoidFn *SfxHit = QedAudioLoader("sfx/hit.wav")
-int dx = 2
-int[] screenSize = [276, 414]
+float dx = 2
+float[] screenSize = [276, 414]
 GroundSprite ground = new GroundSprite(dx)
 TapSprite tap = new TapSprite()
 BirdSprite bird
@@ -151,7 +152,7 @@ PipeSprite[] pipes = 0 new PipeSprite(screenSize[0], dx)
 int bestScore = 0
 
 void GetReady() {
-  onUserTrigger -> {if (isKeyOk(_ret)) return}
+  onUserTrigger -> if (isKeyOk(_ret)) return
   onUpdate -> qedResume([bird, tap])
 
   <onClick: return;>
@@ -163,11 +164,11 @@ void GetReady() {
 int Play() {
   int frames = 0
   int score = 0
-  int birdSize = bird.size[1] / 4 + bird.size[0] / 4
+  float birdSize = bird.size[1] / 4 + bird.size[0] / 4
 
   bird.start()
 
-  onUserTrigger -> {if (isKeyOk(_ret)) bird.flap()}
+  onUserTrigger -> if (isKeyOk(_ret)) bird.flap()
   onUpdate -> {
     qedResume([bird, ground, pipes])
 
@@ -201,7 +202,7 @@ int Play() {
 void GameOver(int currentScore) {
   bestScore = max(currentScore, bestScore)
 
-  onUserTrigger -> {if (isKeyOk(_ret)) return}
+  onUserTrigger -> if (isKeyOk(_ret)) return
   onUpdate -> qedResume([bird, tap])
 
   <onClick: return;>

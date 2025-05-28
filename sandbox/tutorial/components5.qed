@@ -2,13 +2,13 @@ int count = 1
 var button = new QedTextButton("Click!") ->
   println("Clicked " + count++)
 
-/$var grd;$/
+var grd;
 
-void grad(int x, int y, int width, int height) {
-  /$grd=ctx.createLinearGradient(x, y, x, y + height);
-  grd.addColorStop(0, "yellow");
-  grd.addColorStop(0.5, "purple");
-  grd.addColorStop(1, "lightblue");$/
+void grad(float x, float y, float width, float height) {
+  /$this.grd=ctx.createLinearGradient(x, y, x, y + height);
+  this.grd.addColorStop(0, "yellow");
+  this.grd.addColorStop(0.5, "purple");
+  this.grd.addColorStop(1, "lightblue");$/
 }
 
 <| out: rect; fillStyle: "lightgray"; expand: 0;
@@ -21,7 +21,7 @@ void grad(int x, int y, int width, int height) {
   <size: 10;>
   <
     <out: grad;>
-    <out: button; fillStyle: (var l() {return /$grd$/});
+    <out: button; fillStyle: (var l() {return grd});
      radius: 20; font: "italic bold 30px Times New Roman";>
   >
 >

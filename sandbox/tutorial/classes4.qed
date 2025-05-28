@@ -1,7 +1,7 @@
 void MyClass(int n) {
   int getDouble() {
     // embedded JS implementation
-    return /$MyClass$this.n * 2$/
+    return /$this.n * 2$/
   }
 }
 

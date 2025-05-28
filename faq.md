@@ -30,7 +30,7 @@ When you are done developing the QED code in a file (let's call the file myprog.
 qed myprog.qed > myprog.js
 ```
 
-Then, in your HTML body, add a canvas with id "canvas" and the myprog.qed script. Invoke it via the this.start_() function.
+Then, in your HTML body, add a canvas with id "canvas" and the myprog.qed script. Invoke it via the start_() function.
 
 ```
 <!doctype html>
@@ -41,7 +41,7 @@ Then, in your HTML body, add a canvas with id "canvas" and the myprog.qed script
   </canvas>
   <script src="./myprog.js"></script>
   <script>
-    this.start_([], function(_ret) {
+    start_([], function(_ret) {
       <process _ret return value>
     });
   </script>

@@ -32,7 +32,7 @@ The real usefulness of this dual nature (call/instantiation) first applies to QE
 
 {% include sandboxframe.html qedsrc="tour/concurrency.qed" gui="0" height="210px" %}
 
-This introduces another fundamental GUI concept, **parallelism**. GUI components are parallel (asynchronous), whereas forms/dialogs are blocking (synchronous).
+This introduces another fundamental GUI concept, **concurrency**. GUI components are concurrent (asynchronous), whereas forms/dialogs are blocking (synchronous).
 
 We'll present live examples of this soon but first, we need to introduce the last fundamental GUI concept, the **UI definition**.
 

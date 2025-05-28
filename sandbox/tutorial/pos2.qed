@@ -12,7 +12,7 @@ while(true) {
 }
 
 // JS code to draw the red and blue stripes
-void drawStripes(int x, int y, int width, int height) {
+void drawStripes(float x, float y, float width, float height) {
 /$for (let index = -1.5; index < 2; index++) {
     ctx.beginPath();
     ctx.moveTo(x + width + 50, y + index * 200 - 50 + 25);

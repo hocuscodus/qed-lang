@@ -1,6 +1,6 @@
 // Taco Hotel app - by Martin Savage
 
-void displaySlider(int x, int y, int width, int height) {
+void displaySlider(float x, float y, float width, float height) {
 /$const radius = 15;
   const radiusy = Math.min(radius, height / 2);
 
@@ -19,7 +19,7 @@ void displaySlider(int x, int y, int width, int height) {
   qedDraw()
 }
 
-void displayTacos(int x, int y, int width, int height, int count) {
+void displayTacos(float x, float y, float width, float height, int count) {
 /$const scale = height / 80;
   const pos = (width - height * 1.25) / 2;
 
@@ -34,7 +34,7 @@ void displayTacos(int x, int y, int width, int height, int count) {
     ctx.fill();
 
     if (y < 60) {
-      ctx.fillStyle = attributeStacks[Main_$this.QED_TAG_FILL_STYLE][attributeStacks[Main_$this.QED_TAG_FILL_STYLE].length - 1][1];
+      ctx.fillStyle = attributeStacks[QED_TAG_FILL_STYLE][attributeStacks[QED_TAG_FILL_STYLE].length - 1][1];
       ctx.beginPath();
       ctx.arc(50, 70 + y, 53, 190/360 * 2 * Math.PI, -10/360 * 2 * Math.PI);
       ctx.fill();
@@ -49,7 +49,7 @@ void displayTacos(int x, int y, int width, int height, int count) {
   ctx.setTransform(1, 0, 0, 1, 0, 0)$/
 }
 
-void showTwoTacos(int x, int y, int width, int height) {displayTacos(x, y, width, height, 2);}
+void showTwoTacos(float x, float y, float width, float height) {displayTacos(x, y, width, height, 2);}
 
 // Generic widgets
 
@@ -83,16 +83,16 @@ void ObjectBeforeTextButton(drawFn *drawObject, String text) {
 String KeyButton(String text) {
   var button = new QedTextButton(text) -> return text
 
-  <size: ((int) _fontSize) * (int) 1.5;>
-  <out: button; fontSize: (int) (((int) _fontSize) * (((int) /$text.length$/) > 1 ? 0.5 : 1));>
+  <size: _fontSize * 1.5;>
+  <out: button; fontSize: _fontSize * (((int) /$this.text.length$/) > 1 ? 0.5 : 1);>
 }
 
 String NumericKeyboardWidget() {
   String typedText = ""
   String[] numKeyboardRows = ["789", "456", "123"];
   String Row(int row) {
-    var buttons = index:_ /$NumericKeyboardWidget$this.numKeyboardRows[Row$this.row].length$/ new
-      KeyButton(/$NumericKeyboardWidget$this.numKeyboardRows[Row$this.row].charAt(index)$/) -> return _ret
+    var buttons = index:_ /$this.NumericKeyboardWidget$this.numKeyboardRows[this.row].length$/ new
+      KeyButton(/$this.NumericKeyboardWidget$this.numKeyboardRows[this.row].charAt(index)$/) -> return _ret
 
     <out: buttons; align: 50%;>
   }
@@ -100,7 +100,7 @@ String NumericKeyboardWidget() {
   var lastRow = [
     new KeyButton("Clear") -> {typedText = ""; return typedText},
     new KeyButton("0") -> {typedText += "0"; return typedText},
-    new KeyButton("Del") -> {typedText = /$NumericKeyboardWidget$this.typedText.slice(0, -1)$/; return typedText}
+    new KeyButton("Del") -> {typedText = /$this.typedText.slice(0, -1)$/; return typedText}
   ]
 
   <|
@@ -114,8 +114,8 @@ String AlphaKeyboardWidget() {
   String typedText = ""
   String[] alphaKeyboardRows = ["1234567890", "QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
   String Row(int row) {
-    var buttons = index:_ /$AlphaKeyboardWidget$this.alphaKeyboardRows[Row$this.row].length$/ new
-      KeyButton(/$AlphaKeyboardWidget$this.alphaKeyboardRows[Row$this.row].charAt(index)$/) -> return _ret
+    var buttons = index:_ /$this.AlphaKeyboardWidget$this.alphaKeyboardRows[this.row].length$/ new
+      KeyButton(/$this.AlphaKeyboardWidget$this.alphaKeyboardRows[this.row].charAt(index)$/) -> return _ret
 
     <out: buttons; align: 50%;>
   }
@@ -124,7 +124,7 @@ String AlphaKeyboardWidget() {
   var lastRow = [
     new KeyButton("Clear") -> {typedText = ""; return typedText},
     new QedRectButton(SpaceFunc) -> {typedText += " "; return typedText},
-    new KeyButton("Del") -> {typedText = /$AlphaKeyboardWidget$this.typedText.slice(0, -1)$/; return typedText}
+    new KeyButton("Del") -> {typedText = /$this.typedText.slice(0, -1)$/; return typedText}
   ]
 
   <|
@@ -171,7 +171,7 @@ String formatMoney(float amount) {
 
 int NumTacosWidget() {
   void NumButton(int num) {
-    void showTacos(int x, int y, int width, int height) {displayTacos(x, y, width, height, num);}
+    void showTacos(float x, float y, float width, float height) {displayTacos(x, y, width, height, num);}
     var button = new QedRectButton((void L() {
       <|
         <size: 15;>
@@ -199,16 +199,16 @@ int NumTacosWidget() {
 }
 
 String RoomNumberWidget() {
-  String phoneNumber = ""
-  NumericKeyboardWidget numericKeyboard = new NumericKeyboardWidget() -> (phoneNumber = _ret)
-  var nextButton = new QedTextButton("Next") -> return phoneNumber
+  String roomNumber = ""
+  NumericKeyboardWidget numericKeyboard = new NumericKeyboardWidget() -> (roomNumber = _ret)
+  var nextButton = new QedTextButton("Next") -> return roomNumber
 
   <_
     <size: 0; expand: [50%, 100%]
       <| align: [90%, 30%]
         <out: "Type your room number"; align: 50%;>
         <out: roundRect; size: [300, 40]; fillStyle: "#DDD1E7"; radius: 20; align: 50%
-          <out: phoneNumber; fontSize: 30; fillStyle: "#58535C"; align: 50%;>
+          <out: roomNumber; fontSize: 30; fillStyle: "#58535C"; align: 50%;>
         >
       >
     >
@@ -227,7 +227,7 @@ String GuestNameWidget() {
   <|
     <size: 25;>
     <out: roundRect; size: [430, 40]; fillStyle: "#B4CFFA"; radius: 20; align: 50%;
-      <out: /$GuestNameWidget$this.zipCode.length$/ ? zipCode : "Enter the guest's family name"; fontSize: 30; fillStyle: "#7D90AF"; align: 50%;>
+      <out: /$this.zipCode.length$/ ? zipCode : "Enter the guest's family name"; fontSize: 30; fillStyle: "#7D90AF"; align: 50%;>
     >
     <size: 25;>
     <out: alphaKeyboard; fontSize: 30; spacing: 10; radius: 6; fillStyle: "#7D90AF";>
@@ -289,10 +289,10 @@ bool GetTransactionEntry(TransactionEntry entry) {
   }
 
   Pane[] panes = [
-    new Pane("Count", (new NumTacosWidget() -> {entry.numTacos = _ret; NextPane()})),
-    new Pane("Room", (new RoomNumberWidget() -> {entry.roomNumber = _ret; NextPane()})),
-    new Pane("Guest", (new GuestNameWidget() -> {entry.guestName = _ret; NextPane()})),
-    new Pane("Summary", (new SummaryWidget(entry) -> {exitHandler--; return true}))
+    new Pane("Count", new NumTacosWidget() -> {entry.numTacos = _ret; NextPane()}),
+    new Pane("Room", new RoomNumberWidget() -> {entry.roomNumber = _ret; NextPane()}),
+    new Pane("Guest", new GuestNameWidget() -> {entry.guestName = _ret; NextPane()}),
+    new Pane("Summary", new SummaryWidget(entry) -> {exitHandler--; return true})
   ]
   void TabLabel(int pane) {
     var text = "    " + (pane + 1) + "." + panes[pane].title + "    "
@@ -314,7 +314,6 @@ bool GetTransactionEntry(TransactionEntry entry) {
     return;
   }
 
-  // switch to new pane using animation on both sliders and panes
   void SetPane(int index) {
     bounds = getBounds(["application", "titles"], [index])
     paneIndex = index

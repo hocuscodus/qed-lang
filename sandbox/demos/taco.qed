@@ -84,7 +84,7 @@ String KeyButton(String text) {
   var button = new QedTextButton(text) -> return text
 
   <size: _fontSize * 1.5;>
-  <out: button; fontSize: _fontSize * (((int) /$this.text.length$/) > 1 ? 0.5 : 1);>
+  <out: button; fontSize: _fontSize * (/$this.text.length$/ > 1 ? 0.5 : 1);>
 }
 
 String NumericKeyboardWidget() {

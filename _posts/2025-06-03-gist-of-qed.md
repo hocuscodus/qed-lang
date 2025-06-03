@@ -19,7 +19,7 @@ Many languages offer the following seemingly disparate features:
 
 Usually, these features are loosely coupled if not orthogonal.
 
-QED is arguably is the first language to operate *a next-level fusion* of these features, yielding tangible benefits for the developer:
+QED arguably is the first language to operate *a next-level fusion* of these features, yielding tangible benefits for the developer:
 
 - more flattened learning curve
 - noticeably smaller code

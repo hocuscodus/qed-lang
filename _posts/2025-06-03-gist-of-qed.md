@@ -1,6 +1,6 @@
 ---
-title:  "The gist of QED (draft)"
-date:   2025-06-23 00:00:00 -0400
+title:  "The gist of QED (DRAFT)"
+date:   2025-06-03 00:00:00 -0400
 author: "Martin Savage"
 categories: QED article
 permalink: gist.html

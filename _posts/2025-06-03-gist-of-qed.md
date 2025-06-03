@@ -1,6 +1,6 @@
 ---
 title:  "The gist of QED (DRAFT)"
-date:   2025-05-03 00:00:00 -0400
+date:   2025-06-03 00:00:00 -0400
 author: "Martin Savage"
 categories: QED article
 permalink: gist.html
@@ -71,7 +71,7 @@ If the UI component is a coroutine, it can be used as a sprite for game developm
 
 {% include sandboxframe.html qedsrc="gist/lights.qed" gui="97" height="340px" %}
 
-Using sprites allows simple games such as Flappy Bird, with "Get Ready/Play/Game Over" states encoded as blocking calls rather than a state machine, [to be coded in under 200 lines of code](https://qed-lang.org/demos#flappy-bird).
+Using sprites allows simple games such as Flappy Bird, with "Get Ready/Play/Game Over" states encoded as blocking calls rather than a state machine, to be coded [in under 200 lines of code](https://qed-lang.org/demos#flappy-bird).
 
 If the UI component is not a coroutine, then it can be used as a widget. You can define your own widgets such as the simple checkbox shown here. Creating instances is done through non-blocking calls with `new`. The same event mechanism like we've seen before with the `->` operator is reused in the UI context to handle user interaction.
 

@@ -1,5 +1,5 @@
 ---
-title:  "The gist of QED (DRAFT)"
+title:  "The gist of QED (2nd DRAFT)"
 date:   2025-06-03 00:00:00 -0400
 author: "Martin Savage"
 categories: QED article
@@ -25,11 +25,11 @@ QED arguably is the first language to operate *a next-level fusion* of these fea
 - noticeably smaller code
 - enhanced code readability
 
-Let's show how each feature tightly integrates using runnable demos. Starting with concurrency, in QED, there is no reason why an asynchronous function blocking call has to be more explicit than a synchronous function call.
+Let's show how each feature tightly integrates using runnable demos. Starting with concurrency, in QED,  an asynchronous function blocking call is, syntactically, as simple as a synchronous function call.
 
 {% include sandboxframe.html qedsrc="gist/blockingcall.qed" gui="0" height="150px" %}
 
-No need for extra keywords such as async/await that only clutter the code. The sole thing that tells QED function Fn is async is *its uppercase first letter*. Note there is another blocking call inside it to `QedTimer(delayMs)`, another (core library this time) async function.
+No need for extra keywords such as async/await. The sole thing that tells QED function Fn is async is *its uppercase first letter* (more on this later). Note there is another blocking call inside it to `QedTimer(delayMs)`, another (core library this time) async function.
 
 Does this mean a non-blocking call is more complex? Not really. The well-known `new` keyword prefixes a non-blocking call. Handling the `Fn(delay)` return value is managed by the `->` operator, which right operand defines an *event handler*. The `_ret` keyword holds the future return value.
 
@@ -42,6 +42,9 @@ The use of the `new` keyword seems strange since, by convention, it is used for 
 A plain class in QED defines fields and methods. No need to call `return` in the class logic.
 
 {% include sandboxframe.html qedsrc="gist/class.qed" gui="0" height="200px" %}
+
+Since QED uses first letter case sensitivity to distinguish between async functions/classes and synchronous functions, I tend as a convention to use Pascal Case **nouns** for classes (e.g. Animal, FileReader, ...) and Camel Case **verbs** for functions/methods (e.g. printContent, getField, ...). As this is already widely adopted by devs in  most languages, I'll use it from now on. The first letter case sensitivity, noun/verb usage and, eventually, syntax highlighting should be enough to really distinguish async functions/classes from synchronous functions.
+{: .notice--info}
 
 An async function/class can be used as a coroutine too, using native `QedYield()` blocking calls within its code. The main script controlling the coroutine uses `qedResume(coroutine)` calls that return `true` until the coroutine ends.
 
